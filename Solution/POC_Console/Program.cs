@@ -79,13 +79,20 @@ namespace POC_Console
             const int SLIDE_TEMPLATE_4_INDEX = 4;
             context.SlideToGenerateList = new List<SlideToGenerate>
             {
+                new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
                 new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
                 new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
                 new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
 
-                new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
-                new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+                new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
                 new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+                new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+                new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+
+                new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
+                new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+                new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_3_INDEX },
+                new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_4_INDEX },
 
 
                 //new SlideToGenerate { PivotType = 3, SlideIndex = 4 },
@@ -122,7 +129,7 @@ namespace POC_Console
             // Carica il workbook
             Workbook workbook = new Workbook(context.ExcelDataSourceFile);
 
-            const int PIVOT_TYPES_NUMBER = 3;
+            const int PIVOT_TYPES_NUMBER = 4;
 
             context.GeneratedImagesList = new List<GeneratedImages>();
 
