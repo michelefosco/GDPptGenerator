@@ -1,0 +1,32 @@
+-------------------- Descrizione
+Form con
+- 4? caselle di testo per la selezione dei file di input
+- 1  casella di testo per la selezione della cartella di output
+
+
+-------------------- Domande per Francesco
+- Dare un nome ad ogni report
+
+
+-------------------- Info
+Per PowerPoint usata libreria: ShapeCrawler
+-----
+Usare liberie con licenza di tipo "MIT"
+a pagamento
+https://products.aspose.com/cells/net/
+-----
+- File di input: 
+	1) Superdettaglio
+	2) Budget
+	3) Forecast
+	4) Ran Rate
+Ogni file Excel ha un unico foglio
+-----
+Gli elementi da inserire nel PowerPoint devono essere configuratabili
+-----
+Tipo layout:
+- 1 2 o 3 posti
+- Orientamento verticale o orizzontale
+
+ 
+-------------------- Todo
