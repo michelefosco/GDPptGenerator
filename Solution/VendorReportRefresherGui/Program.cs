@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace VendorReportRefresher
+namespace GDPptGeneratorUI
 {
     internal static class Program
     {

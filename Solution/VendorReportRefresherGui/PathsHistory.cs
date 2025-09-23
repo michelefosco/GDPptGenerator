@@ -4,20 +4,30 @@ using System.IO;
 using System.Xml;
 using System.Configuration;
 
-namespace VendorReportRefresher
+namespace GDPptGeneratorUI
 {
     internal class PathsHistory
     {
-        private List<string> _controllerPaths;
-        private List<string> _reportPaths;
-        private List<string> _destFolderPaths;
         private int _maxHistoryLength;
 
-        public List<string> ControllerPaths { get => _controllerPaths; set => _controllerPaths = value; }
-        public List<string> ReportPaths { get => _reportPaths; set => _reportPaths = value; }
-        public List<string> DestFolderPaths { get => _destFolderPaths; set => _destFolderPaths = value; }
+        private List<string> _budgetPaths;
+        private List<string> _forecastPaths;
+        private List<string> _superDettagliPaths;
+        private List<string> _ranRatePaths;
+        private List<string> _destFolderPaths;
+
 
         private string _xmlFilePath;
+
+        public List<string> BudgetPaths { get => _budgetPaths; set => _budgetPaths = value; }
+        public List<string> ForecastPaths { get => _forecastPaths; set => _forecastPaths = value; }
+        public List<string> SuperDettagliPaths { get => _superDettagliPaths; set => _superDettagliPaths = value; }
+        public List<string> RanRatePaths { get => _ranRatePaths; set => _ranRatePaths = value; }
+        public List<string> DestFolderPaths { get => _destFolderPaths; set => _destFolderPaths = value; }
+
+
+        private const string XML_KEY_BUDGET = "BudgetFilePaths";
+
 
         public PathsHistory(string xmlFilePath)
         {
@@ -25,37 +35,54 @@ namespace VendorReportRefresher
 
             if (string.IsNullOrEmpty(maxHistoryLengthStr) || !int.TryParse(maxHistoryLengthStr, out _maxHistoryLength))
             {
-                _maxHistoryLength = 100;
+                _maxHistoryLength = 50;
             }
-
-            _xmlFilePath = xmlFilePath;
-            _controllerPaths = new List<string>();
-            _reportPaths = new List<string>();
 
             XmlDocument doc = LoadXmlDocument(_xmlFilePath);
 
-            var controllerHistoryNodeList = doc.SelectNodes("/FileHistory/Controllers/FilePath");
-            var reportHistoryNodeList = doc.SelectNodes("/FileHistory/Reports/FilePath");
-            var destFolderHistoryNodeList = doc.SelectNodes("/FileHistory/DestFolders/Path");
+            _budgetPaths = fillListFromXmlForHystoryType(doc, XML_KEY_BUDGET);
+            _forecastPaths = fillListFromXmlForHystoryType(doc, "Forecast");
+            _superDettagliPaths = fillListFromXmlForHystoryType(doc, "SuperDettagli");
+            _ranRatePaths = fillListFromXmlForHystoryType(doc, "RanRate");
+            _destFolderPaths = fillListFromXmlForHystoryType(doc, "DestinationFolder");
+            return;
 
-            _controllerPaths = new List<string>();
-            _reportPaths = new List<string>();
+            var budgetHistoryNodeList = doc.SelectNodes("/FileHistory/Budget/FilePath");
+            _budgetPaths = new List<string>();
+            foreach (XmlNode node in budgetHistoryNodeList)
+            { _budgetPaths.Add(node.InnerText); }            
+
+            var forecastHistoryNodeList = doc.SelectNodes("/FileHistory/Forecast/FilePath");
+            _forecastPaths = new List<string>();
+            foreach (XmlNode node in forecastHistoryNodeList)
+            { _forecastPaths.Add(node.InnerText); }
+
+            var superDettagliHistoryNodeList = doc.SelectNodes("/FileHistory/SuperDettagli/FilePath");
+            _superDettagliPaths = new List<string>();
+            foreach (XmlNode node in superDettagliHistoryNodeList)
+            { _superDettagliPaths.Add(node.InnerText); }
+
+            var ranRateHistoryNodeList = doc.SelectNodes("/FileHistory/RanRate/FilePath");
+            _ranRatePaths = new List<string>();
+            foreach (XmlNode node in ranRateHistoryNodeList)
+            { _ranRatePaths.Add(node.InnerText); }
+
+            var destFolderHistoryNodeList = doc.SelectNodes("/FileHistory/DestinationFolder/Path");
             _destFolderPaths = new List<string>();
+            foreach (XmlNode node in destFolderHistoryNodeList)
+            { _destFolderPaths.Add(node.InnerText); }
+        }
 
-            foreach (XmlNode controllerNode in controllerHistoryNodeList)
-            {
-                _controllerPaths.Add(controllerNode.InnerText);
-            }
+        private List<string> fillListFromXmlForHystoryType(XmlDocument doc, string hystoryElementType)
+        {
+            var xmlPath = $"/FileHistory/{hystoryElementType}/FilePath";
+            var historyNodeList = doc.SelectNodes(xmlPath);
 
-            foreach(XmlNode reportNode in reportHistoryNodeList)
-            {
-                _reportPaths.Add(reportNode.InnerText);
-            }
 
-            foreach (XmlNode folderNode in destFolderHistoryNodeList)
-            {
-                _destFolderPaths.Add(folderNode.InnerText);
-            }
+            var hystoryElements = new List<string>();
+            foreach (XmlNode node in historyNodeList)
+            { hystoryElements.Add(node.InnerText); }
+            return hystoryElements;
         }
 
         private XmlDocument LoadXmlDocument(string pXmlFilePath)
@@ -70,98 +97,121 @@ namespace VendorReportRefresher
             return doc;
         }
 
-        public void AddPathsHistory(string controllerPath, string reportPath, string destFolderPath)
+        public void AddPathsHistory(string budgetPath, string forecastPath, string superDettagliPath, string ranRatePath, string destinationFolderPath)
         {
             XmlDocument doc = new XmlDocument();
 
             XmlElement fileHistoryElement = doc.CreateElement("FileHistory");
             doc.AppendChild(fileHistoryElement);
 
-            XmlElement controllersElement = doc.CreateElement("Controllers");
-            fileHistoryElement.AppendChild(controllersElement);
+            fileHistoryElement.AppendChild(updateHystoryItems(doc, budgetPath, _budgetPaths, XML_KEY_BUDGET));
 
-            XmlElement reportsElement = doc.CreateElement("Reports");
-            fileHistoryElement.AppendChild(reportsElement);
+            //XmlElement budgetPathElement = doc.CreateElement(XML_KEY_BUDGET);
+            //fileHistoryElement.AppendChild(budgetPathElement);
+
+            XmlElement forecastPathElement = doc.CreateElement("ForecastPaths");
+            fileHistoryElement.AppendChild(forecastPathElement);
+
+            XmlElement superDettagliPathElement = doc.CreateElement("SuperDettagliPaths");
+            fileHistoryElement.AppendChild(superDettagliPathElement);
+
+            XmlElement ranRatePathElement = doc.CreateElement("RanRatePaths");
+            fileHistoryElement.AppendChild(ranRatePathElement);
 
             XmlElement destFoldersElement = doc.CreateElement("DestFolders");
             fileHistoryElement.AppendChild(destFoldersElement);
 
+
+
+            //if (_maxHistoryLength > 0)
+            //{
+            //    //Controllers
+            //    XmlElement newControllerElement = doc.CreateElement("FilePath");
+            //    newControllerElement.InnerText = controllerPath;
+            //    controllersElement.AppendChild(newControllerElement);
+            //}
+
+            //int itemsCount = 1;
+
+            //foreach (string exsistingControllerPath in _controllerPaths)
+            //{
+            //    if (!exsistingControllerPath.Equals(controllerPath, StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        if (itemsCount >= _maxHistoryLength)
+            //            break;
+
+            //        XmlElement exsistingControllerElement = doc.CreateElement("FilePath");
+            //        exsistingControllerElement.InnerText = exsistingControllerPath;
+            //        controllersElement.AppendChild(exsistingControllerElement);
+
+            //        itemsCount++;
+            //    }
+            //}
+
+
+
+
+
+            //itemsCount = 1;
+
+            //if (_maxHistoryLength > 0)
+            //{
+            //    //Reports
+            //    XmlElement newDestFolderElement = doc.CreateElement("Path");
+            //    newDestFolderElement.InnerText = destinationFolderPath;
+            //    destFoldersElement.AppendChild(newDestFolderElement);
+            //}
+
+            //foreach (string exsistingDestFolders in _destFolderPaths)
+            //{
+            //    if (!exsistingDestFolders.Equals(destinationFolderPath, StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        if (itemsCount >= _maxHistoryLength)
+            //            break;
+
+            //        XmlElement exsistingDestFolderElement = doc.CreateElement("Path");
+            //        exsistingDestFolderElement.InnerText = exsistingDestFolders;
+            //        destFoldersElement.AppendChild(exsistingDestFolderElement);
+
+            //        itemsCount++;
+            //    }
+            //}
+
+
+            doc.Save(_xmlFilePath);
+        }
+
+
+        private XmlElement updateHystoryItems(XmlDocument doc, string firstPostion, List<string> currentItems, string key)
+        {
+            XmlElement currentPathElement = doc.CreateElement(key);
+
             if (_maxHistoryLength > 0)
             {
                 //Controllers
-                XmlElement newControllerElement = doc.CreateElement("FilePath");
-                newControllerElement.InnerText = controllerPath;
-                controllersElement.AppendChild(newControllerElement);
+                XmlElement newItem = doc.CreateElement("FilePath");
+                newItem.InnerText = firstPostion;
+                currentPathElement.AppendChild(newItem);
             }
 
             int itemsCount = 1;
 
-            foreach(string exsistingControllerPath in _controllerPaths)
+            foreach (string exsistingItem in currentItems)
             {
-                if (!exsistingControllerPath.Equals(controllerPath,StringComparison.OrdinalIgnoreCase))
+                if (!exsistingItem.Equals(firstPostion, StringComparison.OrdinalIgnoreCase))
                 {
                     if (itemsCount >= _maxHistoryLength)
                         break;
 
-                    XmlElement exsistingControllerElement = doc.CreateElement("FilePath");
-                    exsistingControllerElement.InnerText = exsistingControllerPath;
-                    controllersElement.AppendChild(exsistingControllerElement);
+                    XmlElement exsistingItmeElementToInsertAgain = doc.CreateElement("FilePath");
+                    exsistingItmeElementToInsertAgain.InnerText = exsistingItem;
+                    currentPathElement.AppendChild(exsistingItmeElementToInsertAgain);
 
                     itemsCount++;
                 }
             }
 
-            itemsCount = 1;
-
-            if (_maxHistoryLength > 0)
-            {
-                //Reports
-                XmlElement newReportElement = doc.CreateElement("FilePath");
-                newReportElement.InnerText = reportPath;
-                reportsElement.AppendChild(newReportElement);
-            }
-
-            foreach (string exsistingReportPath in _reportPaths)
-            {
-                if (!exsistingReportPath.Equals(reportPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    if (itemsCount >= _maxHistoryLength)
-                        break;
-
-                    XmlElement exsistingReportElement = doc.CreateElement("FilePath");
-                    exsistingReportElement.InnerText = exsistingReportPath;
-                    reportsElement.AppendChild(exsistingReportElement);
-                 
-                    itemsCount++;
-                }
-            }
-
-            itemsCount = 1;
-
-            if (_maxHistoryLength > 0)
-            {
-                //Reports
-                XmlElement newDestFolderElement = doc.CreateElement("Path");
-                newDestFolderElement.InnerText = destFolderPath;
-                destFoldersElement.AppendChild(newDestFolderElement);
-            }
-
-            foreach (string exsistingDestFolders in _destFolderPaths)
-            {
-                if (!exsistingDestFolders.Equals(destFolderPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    if (itemsCount >= _maxHistoryLength)
-                        break;
-
-                    XmlElement exsistingDestFolderElement = doc.CreateElement("Path");
-                    exsistingDestFolderElement.InnerText = exsistingDestFolders;
-                    destFoldersElement.AppendChild(exsistingDestFolderElement);
-
-                    itemsCount++;
-                }
-            }
-
-            doc.Save(_xmlFilePath);
+            return currentPathElement;
         }
 
         public void ClearHistory()
@@ -171,14 +221,34 @@ namespace VendorReportRefresher
             XmlElement fileHistoryElement = doc.CreateElement("FileHistory");
             doc.AppendChild(fileHistoryElement);
 
-            XmlElement controllersElement = doc.CreateElement("Controllers");
-            fileHistoryElement.AppendChild(controllersElement);
+            XmlElement budgetPathElement = doc.CreateElement(XML_KEY_BUDGET);
+            fileHistoryElement.AppendChild(budgetPathElement);
 
-            XmlElement reportsElement = doc.CreateElement("Reports");
-            fileHistoryElement.AppendChild(reportsElement);
+            XmlElement forecastPathElement = doc.CreateElement("ForecastPaths");
+            fileHistoryElement.AppendChild(forecastPathElement);
+
+            XmlElement superDettagliPathElement = doc.CreateElement("SuperDettagliPaths");
+            fileHistoryElement.AppendChild(superDettagliPathElement);
+
+            XmlElement ranRatePathElement = doc.CreateElement("RanRatePaths");
+            fileHistoryElement.AppendChild(ranRatePathElement);
 
             XmlElement destFoldersElement = doc.CreateElement("DestFolders");
-            fileHistoryElement.AppendChild(reportsElement);
+            fileHistoryElement.AppendChild(destFoldersElement);
+
+            //XmlDocument doc = new XmlDocument();
+
+            //XmlElement fileHistoryElement = doc.CreateElement("FileHistory");
+            //doc.AppendChild(fileHistoryElement);
+
+            //XmlElement controllersElement = doc.CreateElement("Controllers");
+            //fileHistoryElement.AppendChild(controllersElement);
+
+            //XmlElement reportsElement = doc.CreateElement("Reports");
+            //fileHistoryElement.AppendChild(reportsElement);
+
+            //XmlElement destFoldersElement = doc.CreateElement("DestFolders");
+            //fileHistoryElement.AppendChild(reportsElement);
 
             doc.Save(_xmlFilePath);
         }

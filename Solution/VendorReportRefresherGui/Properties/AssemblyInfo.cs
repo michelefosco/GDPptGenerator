@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Report Refresher GUI")]
-[assembly: AssemblyDescription("Report Refresher Graphic User Interface")]
+[assembly: AssemblyTitle("PowerPoint Generator")]
+[assembly: AssemblyDescription("PowerPoint Generator User Interface")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LEFO srl")]
-[assembly: AssemblyProduct("ReportRefresherGUI")]
+[assembly: AssemblyProduct("PowerPoint Generator")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

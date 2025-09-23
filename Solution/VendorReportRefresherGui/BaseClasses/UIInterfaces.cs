@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendorReportRefresher.BaseClasses
-{
-    public interface IValidable
-    {
-        bool IsValid();
-    }
-}
+//namespace GDPptGeneratorUI.BaseClasses
+//{
+//    public interface IValidable
+//    {
+//        bool IsValid();
+//    }
+//}

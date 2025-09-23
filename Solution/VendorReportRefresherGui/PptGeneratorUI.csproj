@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GDPptGeneratorUI</RootNamespace>
-    <AssemblyName>GDPptGeneratorUI</AssemblyName>
+    <RootNamespace>PptGeneratorUI</RootNamespace>
+    <AssemblyName>PptGeneratorUI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

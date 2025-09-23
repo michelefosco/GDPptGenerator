@@ -12,13 +12,14 @@ using System.Reflection;
 using System.Web;
 using System.Windows.Forms;
 
-namespace VendorReportRefresher
+namespace GDPptGeneratorUI
 {
     public partial class MainForm : Form
     {
         private PathsHistory _pathFileHistory;
         private string _generatedReportFileName;
         private string _debugFileName;
+
         private const string _newlineHTML = @"<BR />";
         private const string _boldHTML = @"<B>{0}</B>";
         private const string _hyperlinkHTML = @"<a style=""color: blue;"" href=""{0}"">{1}</a>";
@@ -62,6 +63,55 @@ th, td {{
  </body>
 </html>";
 
+
+        #region Selected paths
+        public string SelectedFileBudgetPath
+        {
+            get
+            {
+                return cmbFileBudgetPath.Text;
+            }
+            set
+            {
+                cmbFileBudgetPath.Text = value;
+            }
+        }
+
+        public string SelectedFileForecastPath
+        {
+            get
+            {
+                return cmbFileForecastPath.Text;
+            }
+            set
+            {
+                cmbFileForecastPath.Text = value;
+            }
+        }
+
+        public string SelectedFileSuperDettagliPath
+        {
+            get
+            {
+                return cmbFileSuperDettagliPath.Text;
+            }
+            set
+            {
+                cmbFileSuperDettagliPath.Text = value;
+            }
+        }
+
+        public string SelectedFileRanRatePath
+        {
+            get
+            {
+                return cmbFileRanRatePath.Text;
+            }
+            set
+            {
+                cmbFileRanRatePath.Text = value;
+            }
+        }
         public string SelectedDestinationFilePath
         {
             get
@@ -73,20 +123,7 @@ th, td {{
                 cmbDestinationFolderPath.Text = value;
             }
         }
-
-
-
-        public string SelectedReportFilePath
-        {
-            get
-            {
-                return cmbFile1Path.Text;
-            }
-            set
-            {
-                cmbFile1Path.Text = value;
-            }
-        }
+        #endregion
 
         public MainForm()
         {
@@ -109,41 +146,58 @@ th, td {{
 
         private void RefreshUI(bool breackRecursion)
         {
-            bool isReportPathValid = IsReportPathValid();
+            bool isBudgetPathValid = IsBudgetPathValid();
+            bool isForecastPathValid = IsForecastPathValid();
+            bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
+            bool isRanRatePathValid = IsRanRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
-            if (isReportPathValid && isDestFolderValid)
+
+
+            if (isBudgetPathValid && isForecastPathValid  && isSuperDettagliPathValid  && isRanRatePathValid && isDestFolderValid)
             {
-                toolTipDefault.SetToolTip(btnStart, "Avvia l'elaborazione del report");
+                //todo:
+                toolTipDefault.SetToolTip(btnCreaPresentazione, "Avvia l'elaborazione del report");
                 SetStatusLabel("File di input e cartella di destinazione selezionati, è possibile avviare l'elaborazione");
             }
             else
             {
-                toolTipDefault.SetToolTip(btnStart, "Selezionare il file controller, il file report e la cartella di destinazione");
+                //todo:
+                toolTipDefault.SetToolTip(btnCreaPresentazione, "Selezionare il file controller, il file report e la cartella di destinazione");
                 SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
             }
 
-            btnOpenFile1Folder.Enabled = isReportPathValid;
-            btnOpenFile1File.Enabled = isReportPathValid;
+            btnOpenFileBudgetFolder.Enabled = isBudgetPathValid;
+            btnOpenFileBudget.Enabled = isBudgetPathValid;
+            //
+            btnOpenFileForecastFolder.Enabled = isForecastPathValid;
+            btnOpenFileForecast.Enabled = isForecastPathValid;
+            //
+            btnOpenFileSuperDettagliFolder.Enabled = isSuperDettagliPathValid;
+            btnOpenFileSuperDettagli.Enabled = isSuperDettagliPathValid;
+            //
+            btnOpenFileRanRateFolder.Enabled = isRanRatePathValid;
+            btnOpenFileRanRate.Enabled = isRanRatePathValid;
+            //
             btnOpenDestFolder.Enabled = isDestFolderValid;
 
-            //Imposto il path di destinazione con lo stesso path del file report selezionato aggiungendo la cartella Output (che viene creata se non esiste)
-            if (!breackRecursion && IsReportPathValid())
-                SetOutputFolder();
+            ////Imposto il path di destinazione con lo stesso path del file report selezionato aggiungendo la cartella Output (che viene creata se non esiste)
+            //if (!breackRecursion && IsReportPathValid())
+            //    SetOutputFolder();
         }
 
         private void SetOutputFolder()
         {
             if (string.IsNullOrEmpty(SelectedDestinationFilePath))
             {
-                string outputFolderPath = Path.Combine(Path.GetDirectoryName(SelectedReportFilePath), "Output");
+                //  string outputFolderPath = Path.Combine(Path.GetDirectoryName(SelectedReportFilePath), "Output");
 
-                if (!Directory.Exists(outputFolderPath))
-                {
-                    Directory.CreateDirectory(outputFolderPath);
-                }
+                //if (!Directory.Exists(outputFolderPath))
+                //{
+                //    Directory.CreateDirectory(outputFolderPath);
+                //}
 
-                SelectedDestinationFilePath = outputFolderPath;
+                //SelectedDestinationFilePath = outputFolderPath;
 
                 RefreshUI(true);
             }
@@ -173,29 +227,72 @@ th, td {{
         {
             LoadFileHistory();
 
+            cmbFileBudgetPath.Items.Clear();
+            cmbFileBudgetPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
 
-            cmbFile1Path.Items.Clear();
+            cmbFileForecastPath.Items.Clear();
+            cmbFileForecastPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
+
+            cmbFileSuperDettagliPath.Items.Clear();
+            cmbFileSuperDettagliPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
+
+            cmbFileRanRatePath.Items.Clear();
+            cmbFileRanRatePath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
+
             cmbDestinationFolderPath.Items.Clear();
-
-
-            cmbFile1Path.Items.AddRange(_pathFileHistory.ReportPaths.ToArray());
             cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
         }
 
         private void AddPathsInXmlFileHistory()
         {
-            _pathFileHistory.AddPathsHistory("...", SelectedReportFilePath, SelectedDestinationFilePath);
+            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRanRatePath, SelectedDestinationFilePath);
         }
 
 
 
-        private bool IsReportPathValid()
+        private bool IsBudgetPathValid()
         {
-            bool isValid = !string.IsNullOrEmpty(SelectedReportFilePath);
+            bool isValid = !string.IsNullOrEmpty(SelectedFileBudgetPath);
 
             if (isValid)
             {
-                isValid = File.Exists(SelectedReportFilePath);
+                isValid = File.Exists(SelectedFileBudgetPath);
+            }
+
+            return isValid;
+        }
+
+        private bool IsForecastPathValid()
+        {
+            bool isValid = !string.IsNullOrEmpty(SelectedFileForecastPath);
+
+            if (isValid)
+            {
+                isValid = File.Exists(SelectedFileForecastPath);
+            }
+
+            return isValid;
+        }
+
+        private bool IsSuperDettagliPathValid()
+        {
+            bool isValid = !string.IsNullOrEmpty(SelectedFileSuperDettagliPath);
+
+            if (isValid)
+            {
+                isValid = File.Exists(SelectedFileSuperDettagliPath);
+            }
+
+            return isValid;
+        }
+
+        private bool IsRanRatePathValid()
+        {
+            bool isValid = !string.IsNullOrEmpty(SelectedFileRanRatePath);
+
+            if (isValid)
+            {
+                isValid = File.Exists(SelectedFileRanRatePath);
             }
 
             return isValid;
@@ -231,29 +328,8 @@ th, td {{
             }
         }
 
-        private void btnSelectReportFile_Click(object sender, EventArgs e)
-        {
-            //Report
-            openFileDialog.Title = "Seleziona il file report";
-            DialogResult reportFileDialogResult = openFileDialog.ShowDialog();
 
-            if (reportFileDialogResult == DialogResult.OK)
-            {
-                SelectedReportFilePath = openFileDialog.FileName;
-                RefreshUI();
-            }
-        }
 
-        private void btnSelectDestinationFolder_Click(object sender, EventArgs e)
-        {
-            DialogResult folderBrowserResult = bfbDestFolder.ShowDialog();
-
-            if (folderBrowserResult == DialogResult.OK)
-            {
-                SelectedDestinationFilePath = bfbDestFolder.SelectedPath;
-                RefreshUI();
-            }
-        }
 
         private bool IsDebugModeEnabled()
         {
@@ -345,14 +421,14 @@ th, td {{
                     case TipologiaCartelle.FileDiTipo1:
                         htmlErrorMessage += _newlineHTML;
                         htmlErrorMessage += _newlineHTML;
-                        htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedReportFilePath, SelectedReportFilePath);
+                        //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");
                         break;
 
-                    //case TipologiaCartelle.FileDiTipo2:
-                    //    htmlErrorMessage += _newlineHTML;
-                    //    htmlErrorMessage += _newlineHTML;
-                    //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
-                    //    break;
+                        //case TipologiaCartelle.FileDiTipo2:
+                        //    htmlErrorMessage += _newlineHTML;
+                        //    htmlErrorMessage += _newlineHTML;
+                        //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
+                        //    break;
                 }
             }
 
@@ -484,7 +560,13 @@ th, td {{
 
         private void GenerateReport()
         {
-            if (  IsReportPathValid() && IsDestFolderValid())
+            bool isBudgetPathValid = IsBudgetPathValid();
+            bool isForecastPathValid = IsForecastPathValid();
+            bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
+            bool isRanRatePathValid = IsRanRatePathValid();
+            bool isDestFolderValid = IsDestFolderValid();
+
+            if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid)
             {
                 ClearOutputArea();
                 AddPathsInXmlFileHistory();
@@ -494,7 +576,7 @@ th, td {{
                 _debugFileName = string.Empty;
 
 
-                cmbFile1Path.SelectedIndex = 0;
+                cmbFileBudgetPath.SelectedIndex = 0;
 
                 //Esecuzione Refresher
                 SetStatusLabel("Elaborazione in corso...");
@@ -555,13 +637,13 @@ th, td {{
                     }
                 }
 
-                var updateReportsInput =  new UpdateReportsInput("..", SelectedReportFilePath, newReportFileName, debugFileName);
+                var updateReportsInput = new UpdateReportsInput("..", "", newReportFileName, debugFileName);
 
 
                 try
                 {
                     toolStripProgressBar.Visible = true;
-                    btnStart.Enabled = false;
+                    btnCreaPresentazione.Enabled = false;
                     updateReportsBackgroundWorker.RunWorkerAsync(updateReportsInput);
                 }
                 catch (ManagedException mEx)
@@ -588,6 +670,7 @@ th, td {{
         private void btnStart_Click(object sender, EventArgs e)
         {
             GenerateReport();
+
         }
 
         private void ClearOutputArea()
@@ -694,15 +777,7 @@ th, td {{
             RefreshUI();
         }
 
-        private void cmbControllerFilePath_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
 
-        private void cmbReportFilePath_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
 
         private void toolStripMenuItemClear_Click(object sender, EventArgs e)
         {
@@ -736,38 +811,10 @@ th, td {{
                 RefreshUI();
         }
 
-        private void cmbDestinationFolderPath_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
 
 
 
-        private void btnOpenReportFolder_Click(object sender, EventArgs e)
-        {
-            if (IsReportPathValid())
-            {
-                System.Diagnostics.Process.Start(Path.GetDirectoryName(SelectedReportFilePath));
-            }
-            else
-            {
-                RefreshUI();
-                MessageBox.Show("Percorso del file report non valido o file inesistente", "File report non valido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
-        private void btnOpenReportFile_Click(object sender, EventArgs e)
-        {
-            if (IsReportPathValid())
-            {
-                System.Diagnostics.Process.Start(SelectedReportFilePath);
-            }
-            else
-            {
-                RefreshUI();
-                MessageBox.Show("Percorso del file report non valido o file inesistente", "File report non valido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
         {
@@ -785,14 +832,14 @@ th, td {{
                 else
                     MessageBox.Show($"Impossibile aprire il file {url}, probabilmente non è più presente sul disco.", "Impossibile aprire il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if(url.StartsWith(GetURLMarkerSetAsImput(string.Empty)))
+            else if (url.StartsWith(GetURLMarkerSetAsImput(string.Empty)))
             {
                 url = HttpUtility.UrlDecode(url);
                 url = url.Substring(GetURLMarkerSetAsImput(string.Empty).Length);
 
                 e.Cancel = true;
 
-                SelectedReportFilePath = url;
+                //SelectedReportFilePath = url;
                 RefreshUI();
             }
             //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
@@ -866,16 +913,16 @@ th, td {{
         private void updateReportsBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             toolStripProgressBar.Visible = false;
-            btnStart.Enabled = true;
+            btnCreaPresentazione.Enabled = true;
 
             object[] outputAndInput = e.Result as object[];
 
             UpdateReportsInput updateReportsInput = outputAndInput[0] as UpdateReportsInput;
             UpdateReportsOutput output = outputAndInput[1] as UpdateReportsOutput;
 
- if (output.Esito == EsitiFinali.Success)
+            if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", SelectedReportFilePath, updateReportsInput.NewReport_FilePath, updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
+                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", updateReportsInput.NewReport_FilePath, updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
                 SetOutputMessage(message);
                 SetStatusLabel("Elaborazione terminata con successo");
 
@@ -900,10 +947,116 @@ th, td {{
 
         private void ResetSelectedReportAndDestFolder()
         {
-            SelectedReportFilePath =
-                SelectedDestinationFilePath = string.Empty;
+            SelectedFileBudgetPath = string.Empty;
+            SelectedFileForecastPath = string.Empty;
+            SelectedFileSuperDettagliPath = string.Empty;
+            SelectedFileRanRatePath = string.Empty;
+            SelectedDestinationFilePath = string.Empty;
 
             RefreshUI();
+        }
+
+        private void btnCreaPresentazione_Click(object sender, EventArgs e)
+        {
+            GenerateReport();
+        }
+
+        #region Eventi RefreshUI
+        private void cmbFileBudgetPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void cmbFileForecastPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void cmbFileSuperDettagliPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void cmbFileRanRatePath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+        private void cmbDestinationFolderPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+        #endregion
+
+        private void btnSelectFileBudget_Click(object sender, EventArgs e)
+        {
+            const string tipoFoglio = "Budget";
+            var title = $"Seleziona il file {tipoFoglio}";
+            var filePath = getPercosoSelezionatoDaUtente(title);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                SelectedFileBudgetPath = filePath;
+                RefreshUI();
+            }
+        }
+
+
+        private void btnSelectForecastFile_Click(object sender, EventArgs e)
+        {
+            const string tipoFoglio = "Forecast";
+            var title = $"Seleziona il file {tipoFoglio}";
+            var filePath = getPercosoSelezionatoDaUtente(title);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                SelectedFileForecastPath = filePath;
+                RefreshUI();
+            }
+        }
+
+        private void btnSelectFileSuperDettagli_Click(object sender, EventArgs e)
+        {
+            const string tipoFoglio = "Super dettagli";
+            var title = $"Seleziona il file {tipoFoglio}";
+            var filePath = getPercosoSelezionatoDaUtente(title);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                SelectedFileSuperDettagliPath = filePath;
+                RefreshUI();
+            }
+        }
+
+        private void btnSelectFileRanRate_Click(object sender, EventArgs e)
+        {
+            const string tipoFoglio = "Ran rate";
+            var title = $"Seleziona il file {tipoFoglio}";
+            var filePath = getPercosoSelezionatoDaUtente(title);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                SelectedFileRanRatePath = filePath;
+                RefreshUI();
+            }
+        }
+
+        private void btnSelectDestinationFolder_Click(object sender, EventArgs e)
+        {
+            DialogResult folderBrowserResult = bfbDestFolder.ShowDialog();
+
+            if (folderBrowserResult == DialogResult.OK)
+            {
+                SelectedDestinationFilePath = bfbDestFolder.SelectedPath;
+                RefreshUI();
+            }
+        }
+
+        private string getPercosoSelezionatoDaUtente(string title)
+        {
+            // Open the dialog window
+            openFileDialog.Title = title;
+            var fileDialogResult = openFileDialog.ShowDialog();
+
+            // If the user selected a file, return the file path
+            return (fileDialogResult == DialogResult.OK)
+                ? openFileDialog.FileName
+                : null;
         }
     }
 }
