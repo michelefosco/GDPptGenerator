@@ -1,9 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36429.23
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC_Console", "POC_Console\POC_Console.csproj", "{68AD2303-4A79-409E-8A9F-A8EE03322C18}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C755190C-5170-40E3-B0FA-3E8DFD527CFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlusExtensions", "EPPlusExtensions\EPPlusExtensions.csproj", "{B2E0FAD0-F0A8-41F5-8F27-5D649AF947FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlusExtensions.Tests", "EPPlusExtensions.Tests\EPPlusExtensions.Tests.csproj", "{01F3DF64-F7B8-4072-B42C-71960AD73539}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportRefresher.Tests", "ReportRefresher.Tests\ReportRefresher.Tests.csproj", "{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificato", "Certificato", "{DE77EB39-EEA7-4532-A82F-8ABFB5D442A4}"
+	ProjectSection(SolutionItems) = preProject
+		Certificato\Password.txt = Certificato\Password.txt
+		Certificato\ReportRefresherGUI_2_TemporaryKey.pfx = Certificato\ReportRefresherGUI_2_TemporaryKey.pfx
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterFolderBrowser", "BetterFolderBrowser\BetterFolderBrowser.csproj", "{5711425B-04D4-446E-B7A1-7E6A119B75FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDPptGeneratorUI", "VendorReportRefresherGui\GDPptGeneratorUI.csproj", "{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,21 +27,59 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		Templates\Template_PowerPoint.pptx = Templates\Template_PowerPoint.pptx
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC_Console", "POC_Console\POC_Console.csproj", "{68AD2303-4A79-409E-8A9F-A8EE03322C18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PptGenerator", "PptGenerator\PptGenerator.csproj", "{01E60961-ADD4-4ABA-B31F-F599C5F27321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZZZReportRefresher", "ZZZReportRefresher\ZZZReportRefresher.csproj", "{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2E0FAD0-F0A8-41F5-8F27-5D649AF947FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E0FAD0-F0A8-41F5-8F27-5D649AF947FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E0FAD0-F0A8-41F5-8F27-5D649AF947FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E0FAD0-F0A8-41F5-8F27-5D649AF947FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E60961-ADD4-4ABA-B31F-F599C5F27321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E60961-ADD4-4ABA-B31F-F599C5F27321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E60961-ADD4-4ABA-B31F-F599C5F27321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E60961-ADD4-4ABA-B31F-F599C5F27321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{01F3DF64-F7B8-4072-B42C-71960AD73539} = {C755190C-5170-40E3-B0FA-3E8DFD527CFB}
+		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB} = {C755190C-5170-40E3-B0FA-3E8DFD527CFB}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {64394EEA-5DED-4808-B3E5-99C81EF8AF25}
+		SolutionGuid = {2300A74E-3070-48D5-B8DC-FEDBF0F69F3B}
 	EndGlobalSection
 EndGlobal

@@ -125,7 +125,6 @@ namespace POC_Console
 
         static void GeneraimmaginiPivotTables()
         {
-
             // Carica il workbook
             Workbook workbook = new Workbook(context.ExcelDataSourceFile);
 
@@ -138,15 +137,11 @@ namespace POC_Console
                 var worksheetName = $"Pivot_{pivotType.ToString("D2")}";
                 var worksheetWithPivot = workbook.Worksheets[worksheetName];
 
-
-
                 // Trova tutti i fogli che iniziano con "Pivot_"
                 //   var worksheetsWithPivots = workbook.Worksheets.Where(_ => _.Name.StartsWith("Pivot_", StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-
-
                 //foreach (var worksheetWithPivot in worksheetsWithPivots)
                 //{
+                
                 // Prendi la prima PivotTable del foglio
                 PivotTable pivot = worksheetWithPivot.PivotTables[0];
 
@@ -168,15 +163,14 @@ namespace POC_Console
 
                 // Crea un oggetto SheetRender per il foglio
                 SheetRender sr = new SheetRender(worksheetWithPivot, imgOptions);
-
-                sr = new SheetRender(worksheetWithPivot, imgOptions);
-
+                //   sr = new SheetRender(worksheetWithPivot, imgOptions);
 
                 // Esporta la pivot (tutto il foglio) come immagine
-                string imagePath = context.TmpFolder + $"\\Img_{worksheetName}.png";
-
-                context.GeneratedImagesList.Add(new GeneratedImages { Path = imagePath, PivotType = pivotType });
+                var imagePath = context.TmpFolder + $"\\Img_{worksheetName}.png";
                 sr.ToImage(0, imagePath);
+
+                // aggiungo alla lista delle immagini generate
+                context.GeneratedImagesList.Add(new GeneratedImages { Path = imagePath, PivotType = pivotType });
             }
         }
 
@@ -216,6 +210,10 @@ namespace POC_Console
                 var imgFilePath = context.GeneratedImagesList.Single(_ => _.PivotType == slideToGenerate.PivotType).Path;
                 var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
                 slideToEdit.Shapes.AddPicture(imgStream);
+                slideToEdit.Shapes[1].Y = 50;
+                slideToEdit.Shapes[1].X = 50;
+                slideToEdit.Shapes[1].Width = pres.SlideWidth - 100;
+                slideToEdit.Shapes[1].Height = pres.SlideHeight - 100;
 
                 //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_2_INDEX), pres.Slides.Count + 1);
                 //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_2_INDEX), pres.Slides.Count + 1);
