@@ -1,18 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B2E0FAD0-F0A8-41F5-8F27-5D649AF947FB}</ProjectGuid>
+    <ProjectGuid>{F85777CC-75DE-4B11-9C69-EFD39243E1B9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EPPlusExtensions</RootNamespace>
-    <AssemblyName>EPPlusExtensions</AssemblyName>
+    <RootNamespace>FilesEditor</RootNamespace>
+    <AssemblyName>FilesEditor</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,21 +54,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EPPlusHelper.cs" />
+    <Compile Include="Constants\MessaggiErrorePerUtente.cs" />
+    <Compile Include="Constants\Numbers.cs" />
+    <Compile Include="Entities\Configurazione.cs" />
+    <Compile Include="Entities\Exceptions\ManagedException.cs" />
+    <Compile Include="Entities\RigaSpeseSkippata.cs" />
+    <Compile Include="Entities\StepContext.cs" />
+    <Compile Include="Entities\Step_Base.cs" />
+    <Compile Include="Entities\UpdateReportsInput.cs" />
+    <Compile Include="Entities\UpdateReportsOutput.cs" />
+    <Compile Include="Enums\ColumnIDS.cs" />
+    <Compile Include="Enums\EsitiFinali.cs" />
+    <Compile Include="Enums\ExtensionMethods.cs" />
+    <Compile Include="Enums\NomiDatoErrore.cs" />
+    <Compile Include="Enums\TipologiaCartelle.cs" />
+    <Compile Include="Enums\TipologiaErrori.cs" />
+    <Compile Include="Helpers\ConfigurazioneHelper.cs" />
+    <Compile Include="Helpers\FileDebugHelper.cs" />
+    <Compile Include="Helpers\ValueHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+    <Compile Include="Refresher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <None Include="PptGenerator.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EPPlusExtensions\EPPlusExtensions.csproj">
+      <Project>{b2e0fad0-f0a8-41f5-8f27-5d649af947fb}</Project>
+      <Name>EPPlusExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
