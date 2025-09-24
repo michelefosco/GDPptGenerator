@@ -71,8 +71,8 @@
             this.lblFileSuperDettagliPath = new System.Windows.Forms.Label();
             this.cmbFileRanRatePath = new System.Windows.Forms.ComboBox();
             this.lblFileRanRatePath = new System.Windows.Forms.Label();
-            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.btnCreaPresentazioneStep1 = new System.Windows.Forms.Button();
+            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +85,7 @@
             this.toolStripStatusLabel1,
             this.txtStatusLabel,
             this.lblVersion});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 781);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 673);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
             this.statusStrip1.Size = new System.Drawing.Size(1093, 22);
@@ -135,7 +135,7 @@
             // btnSelectDestinationFolder
             // 
             this.btnSelectDestinationFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectDestinationFolder.Location = new System.Drawing.Point(982, 149);
+            this.btnSelectDestinationFolder.Location = new System.Drawing.Point(982, 137);
             this.btnSelectDestinationFolder.Name = "btnSelectDestinationFolder";
             this.btnSelectDestinationFolder.Size = new System.Drawing.Size(29, 23);
             this.btnSelectDestinationFolder.TabIndex = 5;
@@ -147,7 +147,7 @@
             // lblCartellaOutputPath
             // 
             this.lblCartellaOutputPath.AutoSize = true;
-            this.lblCartellaOutputPath.Location = new System.Drawing.Point(6, 154);
+            this.lblCartellaOutputPath.Location = new System.Drawing.Point(6, 142);
             this.lblCartellaOutputPath.Name = "lblCartellaOutputPath";
             this.lblCartellaOutputPath.Size = new System.Drawing.Size(118, 13);
             this.lblCartellaOutputPath.TabIndex = 11;
@@ -164,12 +164,13 @@
             this.btnOpenFileBudget.TabIndex = 3;
             this.toolTipDefault.SetToolTip(this.btnOpenFileBudget, "Apre il file report");
             this.btnOpenFileBudget.UseVisualStyleBackColor = true;
+            this.btnOpenFileBudget.Click += new System.EventHandler(this.btnOpenFileBudget_Click);
             // 
             // btnOpenDestFolder
             // 
             this.btnOpenDestFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenDestFolder.Image = global::PptGeneratorGUI.Properties.Resources.free_yellow_open_folder_icon_11567_thumb_Small;
-            this.btnOpenDestFolder.Location = new System.Drawing.Point(1019, 149);
+            this.btnOpenDestFolder.Location = new System.Drawing.Point(1019, 137);
             this.btnOpenDestFolder.Name = "btnOpenDestFolder";
             this.btnOpenDestFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenDestFolder.TabIndex = 6;
@@ -187,6 +188,7 @@
             this.btnOpenFileBudgetFolder.TabIndex = 2;
             this.toolTipDefault.SetToolTip(this.btnOpenFileBudgetFolder, "Apre la cartella contenente il file report");
             this.btnOpenFileBudgetFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFileBudgetFolder.Click += new System.EventHandler(this.btnOpenFileBudgetFolder_Click);
             // 
             // btnOpenFileForecast
             // 
@@ -198,6 +200,7 @@
             this.btnOpenFileForecast.TabIndex = 25;
             this.toolTipDefault.SetToolTip(this.btnOpenFileForecast, "Apre il file report");
             this.btnOpenFileForecast.UseVisualStyleBackColor = true;
+            this.btnOpenFileForecast.Click += new System.EventHandler(this.btnOpenFileForecast_Click);
             // 
             // btnOpenFileForecastFolder
             // 
@@ -209,6 +212,7 @@
             this.btnOpenFileForecastFolder.TabIndex = 24;
             this.toolTipDefault.SetToolTip(this.btnOpenFileForecastFolder, "Apre la cartella contenente il file report");
             this.btnOpenFileForecastFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFileForecastFolder.Click += new System.EventHandler(this.btnOpenFileForecastFolder_Click);
             // 
             // btnSelectForecastFile
             // 
@@ -232,6 +236,7 @@
             this.btnOpenFileSuperDettagli.TabIndex = 30;
             this.toolTipDefault.SetToolTip(this.btnOpenFileSuperDettagli, "Apre il file report");
             this.btnOpenFileSuperDettagli.UseVisualStyleBackColor = true;
+            this.btnOpenFileSuperDettagli.Click += new System.EventHandler(this.btnOpenFileSuperDettagli_Click);
             // 
             // btnOpenFileSuperDettagliFolder
             // 
@@ -243,6 +248,7 @@
             this.btnOpenFileSuperDettagliFolder.TabIndex = 29;
             this.toolTipDefault.SetToolTip(this.btnOpenFileSuperDettagliFolder, "Apre la cartella contenente il file report");
             this.btnOpenFileSuperDettagliFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFileSuperDettagliFolder.Click += new System.EventHandler(this.btnOpenFileSuperDettagliFolder_Click);
             // 
             // btnSelectFileSuperDettagli
             // 
@@ -266,6 +272,7 @@
             this.btnOpenFileRanRate.TabIndex = 35;
             this.toolTipDefault.SetToolTip(this.btnOpenFileRanRate, "Apre il file report");
             this.btnOpenFileRanRate.UseVisualStyleBackColor = true;
+            this.btnOpenFileRanRate.Click += new System.EventHandler(this.btnOpenFileRanRate_Click);
             // 
             // btnOpenFileRanRateFolder
             // 
@@ -277,6 +284,7 @@
             this.btnOpenFileRanRateFolder.TabIndex = 34;
             this.toolTipDefault.SetToolTip(this.btnOpenFileRanRateFolder, "Apre la cartella contenente il file report");
             this.btnOpenFileRanRateFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFileRanRateFolder.Click += new System.EventHandler(this.btnOpenFileRanRateFolder_Click);
             // 
             // btnSelectFileRanRate
             // 
@@ -302,7 +310,7 @@
             this.cmbFileBudgetPath.Size = new System.Drawing.Size(851, 21);
             this.cmbFileBudgetPath.TabIndex = 0;
             this.cmbFileBudgetPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileBudgetPath_SelectedIndexChanged);
-            this.cmbFileBudgetPath.TextUpdate += new System.EventHandler(this.cmbReportFilePath_TextUpdate);
+            this.cmbFileBudgetPath.TextUpdate += new System.EventHandler(this.cmbFileBudgetPath_TextUpdate);
             // 
             // lblFileBudgetPath
             // 
@@ -316,7 +324,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 202);
+            this.label2.Location = new System.Drawing.Point(9, 186);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(132, 13);
             this.label2.TabIndex = 20;
@@ -356,7 +364,7 @@
             this.cmbDestinationFolderPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbDestinationFolderPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbDestinationFolderPath.FormattingEnabled = true;
-            this.cmbDestinationFolderPath.Location = new System.Drawing.Point(124, 150);
+            this.cmbDestinationFolderPath.Location = new System.Drawing.Point(124, 138);
             this.cmbDestinationFolderPath.Name = "cmbDestinationFolderPath";
             this.cmbDestinationFolderPath.Size = new System.Drawing.Size(851, 21);
             this.cmbDestinationFolderPath.TabIndex = 4;
@@ -370,10 +378,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.wbExecutionResult.IsWebBrowserContextMenuEnabled = false;
-            this.wbExecutionResult.Location = new System.Drawing.Point(12, 227);
+            this.wbExecutionResult.Location = new System.Drawing.Point(9, 205);
             this.wbExecutionResult.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbExecutionResult.Name = "wbExecutionResult";
-            this.wbExecutionResult.Size = new System.Drawing.Size(1066, 551);
+            this.wbExecutionResult.Size = new System.Drawing.Size(1075, 465);
             this.wbExecutionResult.TabIndex = 17;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating_1);
             // 
@@ -386,7 +394,7 @@
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClear.AutoSize = true;
-            this.btnClear.Location = new System.Drawing.Point(938, 236);
+            this.btnClear.Location = new System.Drawing.Point(934, 214);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(123, 13);
             this.btnClear.TabIndex = 16;
@@ -397,8 +405,9 @@
             // 
             // btnCopyError
             // 
+            this.btnCopyError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyError.AutoSize = true;
-            this.btnCopyError.Location = new System.Drawing.Point(944, 647);
+            this.btnCopyError.Location = new System.Drawing.Point(993, 648);
             this.btnCopyError.Name = "btnCopyError";
             this.btnCopyError.Size = new System.Drawing.Size(64, 13);
             this.btnCopyError.TabIndex = 17;
@@ -424,6 +433,7 @@
             this.cmbFileForecastPath.Size = new System.Drawing.Size(851, 21);
             this.cmbFileForecastPath.TabIndex = 22;
             this.cmbFileForecastPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileForecastPath_SelectedIndexChanged);
+            this.cmbFileForecastPath.TextUpdate += new System.EventHandler(this.cmbFileForecastPath_TextUpdate);
             // 
             // lblFileForecastPath
             // 
@@ -446,6 +456,7 @@
             this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(851, 21);
             this.cmbFileSuperDettagliPath.TabIndex = 27;
             this.cmbFileSuperDettagliPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileSuperDettagliPath_SelectedIndexChanged);
+            this.cmbFileSuperDettagliPath.TextUpdate += new System.EventHandler(this.cmbFileSuperDettagliPath_TextUpdate);
             // 
             // lblFileSuperDettagliPath
             // 
@@ -468,6 +479,7 @@
             this.cmbFileRanRatePath.Size = new System.Drawing.Size(851, 21);
             this.cmbFileRanRatePath.TabIndex = 32;
             this.cmbFileRanRatePath.SelectedIndexChanged += new System.EventHandler(this.cmbFileRanRatePath_SelectedIndexChanged);
+            this.cmbFileRanRatePath.TextUpdate += new System.EventHandler(this.cmbFileRanRatePath_TextUpdate);
             // 
             // lblFileRanRatePath
             // 
@@ -478,27 +490,28 @@
             this.lblFileRanRatePath.TabIndex = 36;
             this.lblFileRanRatePath.Text = "File \"Ran rate\":";
             // 
+            // btnCreaPresentazioneStep1
+            // 
+            this.btnCreaPresentazioneStep1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreaPresentazioneStep1.Location = new System.Drawing.Point(947, 166);
+            this.btnCreaPresentazioneStep1.Name = "btnCreaPresentazioneStep1";
+            this.btnCreaPresentazioneStep1.Size = new System.Drawing.Size(137, 33);
+            this.btnCreaPresentazioneStep1.TabIndex = 37;
+            this.btnCreaPresentazioneStep1.Text = "&Crea presentazione";
+            this.btnCreaPresentazioneStep1.UseVisualStyleBackColor = true;
+            this.btnCreaPresentazioneStep1.Click += new System.EventHandler(this.btnCreaPresentazioneStep1_Click);
+            // 
             // bfbDestFolder
             // 
             this.bfbDestFolder.Multiselect = false;
             this.bfbDestFolder.RootFolder = "C:\\Users\\DELL\\Desktop";
             this.bfbDestFolder.Title = "Selezionare la cartella di destinazione del report...";
             // 
-            // btnCreaPresentazioneStep1
-            // 
-            this.btnCreaPresentazioneStep1.Location = new System.Drawing.Point(941, 192);
-            this.btnCreaPresentazioneStep1.Name = "btnCreaPresentazioneStep1";
-            this.btnCreaPresentazioneStep1.Size = new System.Drawing.Size(137, 23);
-            this.btnCreaPresentazioneStep1.TabIndex = 37;
-            this.btnCreaPresentazioneStep1.Text = "&Crea presentazione";
-            this.btnCreaPresentazioneStep1.UseVisualStyleBackColor = true;
-            this.btnCreaPresentazioneStep1.Click += new System.EventHandler(this.btnCreaPresentazioneStep1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1093, 803);
+            this.ClientSize = new System.Drawing.Size(1093, 695);
             this.Controls.Add(this.btnCreaPresentazioneStep1);
             this.Controls.Add(this.btnOpenFileRanRate);
             this.Controls.Add(this.btnOpenFileRanRateFolder);

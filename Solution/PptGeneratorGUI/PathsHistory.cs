@@ -135,9 +135,9 @@ namespace PptGeneratorGUI
 
         public void ClearHistory()
         {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
-            XmlElement fileHistoryElement = doc.CreateElement("FileHistory");
+            var fileHistoryElement = doc.CreateElement("FileHistory");
             doc.AppendChild(fileHistoryElement);
 
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_BUDGET));
@@ -145,32 +145,6 @@ namespace PptGeneratorGUI
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_SUPERDETTAGLI));
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_RANRATE));
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_DESTINATIONFOLDER));
-
-            //XmlElement forecastPathElement = doc.CreateElement("ForecastPaths");
-            //fileHistoryElement.AppendChild(forecastPathElement);
-
-            //XmlElement superDettagliPathElement = doc.CreateElement("SuperDettagliPaths");
-            //fileHistoryElement.AppendChild(superDettagliPathElement);
-
-            //XmlElement ranRatePathElement = doc.CreateElement("RanRatePaths");
-            //fileHistoryElement.AppendChild(ranRatePathElement);
-
-            //XmlElement destFoldersElement = doc.CreateElement("DestFolders");
-            //fileHistoryElement.AppendChild(destFoldersElement);
-
-            //XmlDocument doc = new XmlDocument();
-
-            //XmlElement fileHistoryElement = doc.CreateElement("FileHistory");
-            //doc.AppendChild(fileHistoryElement);
-
-            //XmlElement controllersElement = doc.CreateElement("Controllers");
-            //fileHistoryElement.AppendChild(controllersElement);
-
-            //XmlElement reportsElement = doc.CreateElement("Reports");
-            //fileHistoryElement.AppendChild(reportsElement);
-
-            //XmlElement destFoldersElement = doc.CreateElement("DestFolders");
-            //fileHistoryElement.AppendChild(reportsElement);
 
             doc.Save(_xmlFilePath);
         }

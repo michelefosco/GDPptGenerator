@@ -140,20 +140,13 @@ th, td {{
 
         private void RefreshUI()
         {
-            RefreshUI(false);
-        }
-
-        private void RefreshUI(bool breackRecursion)
-        {
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
             bool isRanRatePathValid = IsRanRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
-
-
-            if (isBudgetPathValid && isForecastPathValid  && isSuperDettagliPathValid  && isRanRatePathValid && isDestFolderValid)
+            if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid)
             {
                 //todo:
                 toolTipDefault.SetToolTip(btnCreaPresentazioneStep1, "Avvia l'elaborazione del report");
@@ -179,28 +172,8 @@ th, td {{
             btnOpenFileRanRate.Enabled = isRanRatePathValid;
             //
             btnOpenDestFolder.Enabled = isDestFolderValid;
-
-            ////Imposto il path di destinazione con lo stesso path del file report selezionato aggiungendo la cartella Output (che viene creata se non esiste)
-            //if (!breackRecursion && IsReportPathValid())
-            //    SetOutputFolder();
         }
 
-        private void SetOutputFolder()
-        {
-            if (string.IsNullOrEmpty(SelectedDestinationFilePath))
-            {
-                //  string outputFolderPath = Path.Combine(Path.GetDirectoryName(SelectedReportFilePath), "Output");
-
-                //if (!Directory.Exists(outputFolderPath))
-                //{
-                //    Directory.CreateDirectory(outputFolderPath);
-                //}
-
-                //SelectedDestinationFilePath = outputFolderPath;
-
-                RefreshUI(true);
-            }
-        }
 
         public string GetLocaLApplicationDataPath()
         {
@@ -248,7 +221,7 @@ th, td {{
         }
 
 
-
+        #region Check "IsValid" su file e cartella
         private bool IsBudgetPathValid()
         {
             bool isValid = !string.IsNullOrEmpty(SelectedFileBudgetPath);
@@ -308,25 +281,13 @@ th, td {{
 
             return isValid;
         }
+        #endregion
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
             RefreshUI();
         }
-
-        private void btnSelectControllerFile_Click(object sender, EventArgs e)
-        {
-            //Controller
-            openFileDialog.Title = "Seleziona il file Controller";
-            DialogResult controllerFileDialogResult = openFileDialog.ShowDialog();
-
-            if (controllerFileDialogResult == DialogResult.OK)
-            {
-                //SelectedControllerFilePath = openFileDialog.FileName;
-                RefreshUI();
-            }
-        }
-
 
 
 
@@ -670,12 +631,6 @@ th, td {{
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            GenerateReport();
-
-        }
-
         private void ClearOutputArea()
         {
             if (wbExecutionResult.Document != null)
@@ -770,16 +725,6 @@ th, td {{
             return outputMessage;
         }
 
-        private void cmbControllerFilePath_TextUpdate(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
-
-        private void cmbReportFilePath_TextUpdate(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
-
 
 
         private void toolStripMenuItemClear_Click(object sender, EventArgs e)
@@ -793,26 +738,7 @@ th, td {{
 
         }
 
-        private void btnOpenDestFolder_Click(object sender, EventArgs e)
-        {
-            if (IsDestFolderValid())
-            {
-                System.Diagnostics.Process.Start(SelectedDestinationFilePath);
-            }
-            else
-            {
-                RefreshUI();
-                MessageBox.Show("Cartella di destinazione non esistente o nonvalida", "Cartella di destinazione non valida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
-        private void cmbDestinationFolderPath_TextUpdate(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(SelectedDestinationFilePath))
-                RefreshUI(true);
-            else
-                RefreshUI();
-        }
 
 
 
@@ -988,8 +914,33 @@ th, td {{
         {
             RefreshUI();
         }
+
+        private void cmbFileBudgetPath_TextUpdate(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void cmbFileForecastPath_TextUpdate(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void cmbFileRanRatePath_TextUpdate(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void cmbFileSuperDettagliPath_TextUpdate(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+        private void cmbDestinationFolderPath_TextUpdate(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
         #endregion
 
+        #region Eventi selezione file/cartella
         private void btnSelectFileBudget_Click(object sender, EventArgs e)
         {
             const string tipoFoglio = "Budget";
@@ -1001,7 +952,6 @@ th, td {{
                 RefreshUI();
             }
         }
-
 
         private void btnSelectForecastFile_Click(object sender, EventArgs e)
         {
@@ -1061,6 +1011,88 @@ th, td {{
                 ? openFileDialog.FileName
                 : null;
         }
+        #endregion
+
+        #region Apertura cartelle selezionate
+
+
+        private void btnOpenFileBudgetFolder_Click(object sender, EventArgs e)
+        {
+            var folderPath = Path.GetDirectoryName(SelectedFileBudgetPath);
+            openFolderForUser(folderPath);
+        }
+
+        private void btnOpenFileForecastFolder_Click(object sender, EventArgs e)
+        {
+            var folderPath = Path.GetDirectoryName(SelectedFileForecastPath);
+            openFolderForUser(folderPath);
+        }
+
+        private void btnOpenFileSuperDettagliFolder_Click(object sender, EventArgs e)
+        {
+            var folderPath = Path.GetDirectoryName(SelectedFileSuperDettagliPath);
+            openFolderForUser(folderPath);
+        }
+
+        private void btnOpenFileRanRateFolder_Click(object sender, EventArgs e)
+        {
+            var folderPath = Path.GetDirectoryName(SelectedFileRanRatePath);
+            openFolderForUser(folderPath);
+        }
+
+        private void btnOpenDestFolder_Click(object sender, EventArgs e)
+        {
+            openFolderForUser(SelectedDestinationFilePath);
+        }
+
+        private void openFolderForUser(string folderPath)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                System.Diagnostics.Process.Start(folderPath);
+            }
+            else
+            {
+                RefreshUI();
+                MessageBox.Show("Cartella non esistente o non valida", "Cartella non valida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region Apertura dei file Excel selezionati
+        private void btnOpenFileBudget_Click(object sender, EventArgs e)
+        {
+            openExcelForUser(SelectedFileBudgetPath);
+        }
+
+        private void btnOpenFileForecast_Click(object sender, EventArgs e)
+        {
+            openExcelForUser(SelectedFileForecastPath);
+        }
+
+        private void btnOpenFileSuperDettagli_Click(object sender, EventArgs e)
+        {
+            openExcelForUser(SelectedFileSuperDettagliPath);
+        }
+
+        private void btnOpenFileRanRate_Click(object sender, EventArgs e)
+        {
+            openExcelForUser(SelectedFileRanRatePath);
+        }
+
+        private void openExcelForUser(string filePath)
+        {            
+            if (File.Exists(filePath))
+            {
+                System.Diagnostics.Process.Start(filePath);
+            }
+            else
+            {
+                RefreshUI();
+                MessageBox.Show("Percorso del file non valido o file inesistente", "File non valido", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
 
         private void btnCreaPresentazioneStep1_Click(object sender, EventArgs e)
         {

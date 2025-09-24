@@ -54,7 +54,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>GDReportRefresherIco.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -153,7 +154,7 @@
     <None Include="Resources\png-clipart-spreadsheet-computer-icons-google-docs-microsoft-excel-table-angle-furniture-small1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GDReportRefresherIco.ico" />
+    <Content Include="Icona.ico" />
     <None Include="Willy-KimuraBetterFolderBrowser License.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
