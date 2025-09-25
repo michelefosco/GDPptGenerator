@@ -55,10 +55,10 @@ namespace POC_Console
             context.ItemsToExportAsImage = new List<ItemToExport>
             {
                 
-                new ItemToExport { Sheet = "Foglio_01", PrintArea = "B2:E13", ImageId = "Img_001" },
-                new ItemToExport { Sheet = "Foglio_01", PrintArea = "H2:K13", ImageId = "Img_002" },
-                new ItemToExport { Sheet = "Foglio_01", PrintArea = "N2:Q13", ImageId = "Img_003" },
-                new ItemToExport { Sheet = "Foglio_01", PrintArea = "T2:W13", ImageId = "Img_004" },
+                new ItemToExport { Sheet = "Foglio_01", PrintArea = "B2:B13", ImageId = "Img_001" },
+                new ItemToExport { Sheet = "Foglio_02", PrintArea = "B2:C13", ImageId = "Img_002" },
+                new ItemToExport { Sheet = "Foglio_03", PrintArea = "B2:D13", ImageId = "Img_003" },
+                new ItemToExport { Sheet = "Foglio_04", PrintArea = "B2:E13", ImageId = "Img_004" },
 
 
 
