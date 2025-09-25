@@ -2,73 +2,79 @@
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Pivot;
 using Aspose.Cells.Rendering;
-using DocumentFormat.OpenXml.Office.CoverPageProps;
-using ImageMagick;
+using DocumentFormat.OpenXml.Presentation;
+using POC_Console.Entities;
 using ShapeCrawler;
+//
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace POC_Console
 {
-    internal class Program
+    internal partial class Program
     {
 
         const int NumberOfTemplateSlides = 4;
 
         //todo: da mofificare con i percorsi reali, prendere da cartella di esecuzione
 
-        const string TEMPLATE_FILE_PPT = @"C:\Data\Lefo\Dev\GDPptGenerator\Solution\Templates\Template_PowerPoint.pptx";
-        const string TEMPLATE_FILE_XLS = @"C:\Data\Lefo\Dev\GDPptGenerator\Solution\Templates\Template_DataSource.xlsx";
+        const string TEMPLATE_FILE_PPT = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\Templates\Template_PowerPoint.pptx";
+        const string TEMPLATE_FILE_XLS = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\Templates\Template_DataSource.xlsx";
 
         const string OUTPUT_POWERPOINT_FILENAME = "Output.pptx";
 
-        //static string foder = AppDomain.CurrentDomain.BaseDirectory;
-
-
-        struct Context
-        {
-            public string OutputFolder;
-            public string TmpFolder;
-            public string ExcelDataSourceFile;
-            public string PowerPointOutputFile;
-            public List<SlideToGenerate> SlideToGenerateList;
-            public List<GeneratedImages> GeneratedImagesList;
-        }
-
-        struct GeneratedImages
+        public class GeneratedImages
         {
             public int PivotType;
             public string Path;
         }
 
-        struct SlideToGenerate
-        {
-            public int PivotType;
-            public int SlideTemplateIndex;
-        }
+
 
         static Context context;
 
         static void Main()
         {
+            context = new Context();
             // scelta dall'utente...
-            context.OutputFolder = @"C:\Data\Lefo\Dev\GDPptGenerator\AAA_Output";
+            context.OutputFolder = @"C:\Data\Lefo\Dev\3 GDPptGenerator\AAA_Demo\AAA Output";
 
             CreaListaSlidesDaGenerare();
 
             PredisposiTmpFolder();
 
+            // Creazione della sorgente dati ed aggiornamento degli oggetti correlati (PivotTables, grafici, etc)
             GeneraFileConDati();
 
-            GeneraimmaginiPivotTables();
+            //todo leggere da un XML
+            context.ItemsToExportAsImage = new List<ItemToExport>
+            {
+                
+                new ItemToExport { Sheet = "Foglio_01", PrintArea = "B2:E13", ImageId = "Img_001" },
+                new ItemToExport { Sheet = "Foglio_01", PrintArea = "H2:K13", ImageId = "Img_002" },
+                new ItemToExport { Sheet = "Foglio_01", PrintArea = "N2:Q13", ImageId = "Img_003" },
+                new ItemToExport { Sheet = "Foglio_01", PrintArea = "T2:W13", ImageId = "Img_004" },
 
+
+
+                //new ItemToExport { Sheet = "Shapes_01", PrintArea = "A1:C22", ImageId = "Img_001" },
+                //new ItemToExport { Sheet = "Shapes_01", PrintArea = "E1:P22", ImageId = "Img_002" },
+                //new ItemToExport { Sheet = "Shapes_02", PrintArea = "A4:F18", ImageId = "Img_003" },
+                //new ItemToExport { Sheet = "Shapes_03", PrintArea = "D1:V27", ImageId = "Img_004" },
+                //new ItemToExport { Sheet = "Shapes_04", PrintArea = "A1:K20", ImageId = "Img_005" },
+            };
+            GeneraimmaginiItmes();
+
+            // dall'UI
+            CreaListaSlidesDaGenerare();
+
+            // Creazione del PPT con le slides scelte dall'utente
             CreazionePowerPoint();
-
-            //      AggiungiImmagini();
         }
 
         static void CreaListaSlidesDaGenerare()
@@ -77,32 +83,44 @@ namespace POC_Console
             const int SLIDE_TEMPLATE_2_INDEX = 2;
             const int SLIDE_TEMPLATE_3_INDEX = 3;
             const int SLIDE_TEMPLATE_4_INDEX = 4;
+
             context.SlideToGenerateList = new List<SlideToGenerate>
             {
-                new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
-                new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
-                new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
-                new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
-
-                new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
-                new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
-                new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
-                new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
-
-                new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
-                new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
-                new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_3_INDEX },
-                new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_4_INDEX },
-
-
-                //new SlideToGenerate { PivotType = 3, SlideIndex = 4 },
-                //new SlideToGenerate { PivotType = 3, SlideIndex = 5 },
-                //new SlideToGenerate { PivotType = 3, SlideIndex = 6 },
-                //new SlideToGenerate { PivotType = 4, SlideIndex = 7 },
-                //new SlideToGenerate { PivotType = 4, SlideIndex = 8 },
-                //new SlideToGenerate { PivotType = 4, SlideIndex = 9 },
-                //new SlideToGenerate { PivotType = 4, SlideIndex = 10 }
+                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_001" },
+                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_002" },
+                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_003" },
+                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_004" },
+                
+                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_001",ImageId2 = "Img_002" },
+                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_003",ImageId2 = "Img_004" },
             };
+
+            //context.SlideToGenerateList = new List<SlideToGenerate>
+            //{
+            //    new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
+            //    new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
+            //    new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
+            //    new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
+
+            //    new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+            //    new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+            //    new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+            //    new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+
+            //    new SlideToGenerate { PivotType = 1, SlideTemplateIndex = SLIDE_TEMPLATE_1_INDEX },
+            //    new SlideToGenerate { PivotType = 2, SlideTemplateIndex = SLIDE_TEMPLATE_2_INDEX },
+            //    new SlideToGenerate { PivotType = 3, SlideTemplateIndex = SLIDE_TEMPLATE_3_INDEX },
+            //    new SlideToGenerate { PivotType = 4, SlideTemplateIndex = SLIDE_TEMPLATE_4_INDEX },
+
+
+            //    //new SlideToGenerate { PivotType = 3, SlideIndex = 4 },
+            //    //new SlideToGenerate { PivotType = 3, SlideIndex = 5 },
+            //    //new SlideToGenerate { PivotType = 3, SlideIndex = 6 },
+            //    //new SlideToGenerate { PivotType = 4, SlideIndex = 7 },
+            //    //new SlideToGenerate { PivotType = 4, SlideIndex = 8 },
+            //    //new SlideToGenerate { PivotType = 4, SlideIndex = 9 },
+            //    //new SlideToGenerate { PivotType = 4, SlideIndex = 10 }
+            //};
         }
 
 
@@ -130,18 +148,13 @@ namespace POC_Console
 
             const int PIVOT_TYPES_NUMBER = 4;
 
-            context.GeneratedImagesList = new List<GeneratedImages>();
+            // context.GeneratedImagesList = new List<GeneratedImages>();
 
             for (int pivotType = 1; pivotType <= PIVOT_TYPES_NUMBER; pivotType++)
             {
-                var worksheetName = $"Pivot_{pivotType.ToString("D2")}";
+                var worksheetName = $"Shapes_{pivotType.ToString("D2")}";
                 var worksheetWithPivot = workbook.Worksheets[worksheetName];
 
-                // Trova tutti i fogli che iniziano con "Pivot_"
-                //   var worksheetsWithPivots = workbook.Worksheets.Where(_ => _.Name.StartsWith("Pivot_", StringComparison.InvariantCultureIgnoreCase)).ToList();
-                //foreach (var worksheetWithPivot in worksheetsWithPivots)
-                //{
-                
                 // Prendi la prima PivotTable del foglio
                 PivotTable pivot = worksheetWithPivot.PivotTables[0];
 
@@ -160,21 +173,90 @@ namespace POC_Console
                     OnePagePerSheet = true,
                     PrintingPage = PrintingPageType.Default
                 };
-
                 // Crea un oggetto SheetRender per il foglio
                 SheetRender sr = new SheetRender(worksheetWithPivot, imgOptions);
                 //   sr = new SheetRender(worksheetWithPivot, imgOptions);
 
                 // Esporta la pivot (tutto il foglio) come immagine
-                var imagePath = context.TmpFolder + $"\\Img_{worksheetName}.png";
+                var imagePath = context.TmpFolder + $"\\Img_{worksheetName}_Pivot.png";
                 sr.ToImage(0, imagePath);
 
                 // aggiungo alla lista delle immagini generate
-                context.GeneratedImagesList.Add(new GeneratedImages { Path = imagePath, PivotType = pivotType });
+                //context.GeneratedImagesList.Add(new GeneratedImages { Path = imagePath, PivotType = pivotType });
             }
         }
 
 
+        static void GeneraimmaginiItmes()
+        {
+            // Carica il workbook
+            Workbook workbook = new Workbook(context.ExcelDataSourceFile);
+
+            foreach (var itemsToExportAsImage in context.ItemsToExportAsImage)
+            {
+                var worksheet = workbook.Worksheets[itemsToExportAsImage.Sheet];
+
+                // per il tipo 5 (chart a parte) imposto un'area di stampa più grande
+                worksheet.PageSetup.PrintArea = itemsToExportAsImage.PrintArea;
+
+
+                // Opzioni di rendering in immagine
+                ImageOrPrintOptions imgOptions = new ImageOrPrintOptions
+                {
+                    ImageType = ImageType.Png,
+                    OnePagePerSheet = true,
+                    PrintingPage = PrintingPageType.Default
+                };
+                // Crea un oggetto SheetRender per il foglio
+                SheetRender sr = new SheetRender(worksheet, imgOptions);
+                //   sr = new SheetRender(worksheetWithPivot, imgOptions);
+
+                // Esporta la pivot (tutto il foglio) come immagine
+                var toBeChoppedImagePath = GetImagePath(itemsToExportAsImage.ImageId + "_toBeChopped");
+                sr.ToImage(0, toBeChoppedImagePath);
+
+                var finalImagePath = GetImagePath(itemsToExportAsImage.ImageId);
+                ChopImage(toBeChoppedImagePath, finalImagePath);
+
+                //todo uncommentare
+                //File.Delete(toBeChoppedImagePath);
+            }
+        }
+
+        static private string GetImagePath(string imageId)
+        {
+            var imagePath = $"{context.TmpFolder}\\{imageId}.png";
+            return imagePath;
+        }
+
+        static void ChopImage(string inputPath, string outputPath)
+        {
+            using (Bitmap original = new Bitmap(inputPath))
+            {
+                // Definisci i margini da tagliare
+                int top = 70;
+                int left = 66;
+                int right = 65;
+                int bottom = 68;
+
+                // Calcola la nuova area utile
+                int newWidth = original.Width - left - right;
+                int newHeight = original.Height - top - bottom;
+
+                if (newWidth <= 0 || newHeight <= 0)
+                {
+                    throw new InvalidOperationException("I margini da tagliare sono troppo grandi rispetto all'immagine.");
+                }
+
+                Rectangle cropArea = new Rectangle(left, top, newWidth, newHeight);
+
+                // Clona la porzione scelta
+                using (Bitmap cropped = original.Clone(cropArea, original.PixelFormat))
+                {
+                    cropped.Save(outputPath, ImageFormat.Png);
+                }
+            }
+        }
 
 
         static void CreazionePowerPoint()
@@ -188,46 +270,100 @@ namespace POC_Console
             // ripulisco il possibile file di output
             if (File.Exists(context.PowerPointOutputFile))
             { File.Delete(context.PowerPointOutputFile); }
-            File.Copy(TEMPLATE_FILE_PPT, context.PowerPointOutputFile);
+
 
             // apro la presentazione
             //var pres = new Presentation(TEMPLATE_FILE);
             //pres.Save(OUTPUT_FILE);
             //pres = new Presentation(OUTPUT_FILE);
 
-            var pres = new Presentation(context.PowerPointOutputFile);
+            // copio il template nella cartella di output
+            File.Copy(TEMPLATE_FILE_PPT, context.PowerPointOutputFile);
+            var pres = new ShapeCrawler.Presentation(context.PowerPointOutputFile);
 
             // prendo la slide con 2 contenuti verticali
             //var slideToDuplicate = pres.Slide(SLIDE_INDEX_CONTENT_2);
+
+
+
+            const int SpazionIntornoAlleImmagini = 10;
+           // const int DistanzaDallaBordoLaterale = 50;
 
             foreach (var slideToGenerate in context.SlideToGenerateList)
             {
                 //TODO: inserire qui il codice per generare i template in 
                 // creo le slides a partire dai template
-                pres.Slides.Add(pres.Slide(slideToGenerate.SlideTemplateIndex), pres.Slides.Count + 1);
-
+                pres.Slides.Add(pres.Slide(slideToGenerate.SlideType), pres.Slides.Count + 1);
                 var slideToEdit = pres.Slide(pres.Slides.Count);
-                var imgFilePath = context.GeneratedImagesList.Single(_ => _.PivotType == slideToGenerate.PivotType).Path;
+
+
+
+
+                // in base al template inserisco una o più immagini in diverse posizioni
+                var imgFilePath = GetImagePath(slideToGenerate.ImageId1);
                 var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
-                slideToEdit.Shapes.AddPicture(imgStream);
-                slideToEdit.Shapes[1].Y = 50;
-                slideToEdit.Shapes[1].X = 50;
-                slideToEdit.Shapes[1].Width = pres.SlideWidth - 100;
-                slideToEdit.Shapes[1].Height = pres.SlideHeight - 100;
-
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_2_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_2_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_3_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_3_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_3_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_4_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_4_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_4_INDEX), pres.Slides.Count + 1);
-                //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_4_INDEX), pres.Slides.Count + 1);
+                decimal larghezzaImmagine;
+                decimal altezzaImmagine;
+                int numeroImmaginiInOrizzontale;
+                int numeroImmaginiInVerticale;
+                switch (slideToGenerate.SlideType)
+                {
+                    case 1:
+                        // un'unica immagine che occupa tutta la slide
+                        numeroImmaginiInVerticale = 1;
+                        numeroImmaginiInOrizzontale = 1;
+                        larghezzaImmagine = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
+                        altezzaImmagine = pres.SlideHeight / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
+                        //
+                        slideToEdit.Shapes.AddPicture(imgStream);
+                        slideToEdit.Shapes[1].Y = SpazionIntornoAlleImmagini;
+                        slideToEdit.Shapes[1].X = SpazionIntornoAlleImmagini;
+                        slideToEdit.Shapes[1].Width = larghezzaImmagine;
+                        slideToEdit.Shapes[1].Height = altezzaImmagine;
+                        break;
+                    case 2:
+                        // 2 immagini sulla stessa riga
+                        numeroImmaginiInVerticale = 1;
+                        numeroImmaginiInOrizzontale = 2;
+                        larghezzaImmagine = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
+                        altezzaImmagine = pres.SlideHeight / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
+                        //
+                        slideToEdit.Shapes.AddPicture(imgStream);
+                        slideToEdit.Shapes[1].Y = SpazionIntornoAlleImmagini;
+                        slideToEdit.Shapes[1].X = SpazionIntornoAlleImmagini;
+                        slideToEdit.Shapes[1].Width = larghezzaImmagine;
+                        slideToEdit.Shapes[1].Height = altezzaImmagine;
+                        //
+                        imgFilePath = GetImagePath(slideToGenerate.ImageId2);
+                        var imgStream2 = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                        slideToEdit.Shapes.AddPicture(imgStream);
+                        slideToEdit.Shapes[2].Y = SpazionIntornoAlleImmagini;
+                        slideToEdit.Shapes[2].X = larghezzaImmagine + (SpazionIntornoAlleImmagini * 3);
+                        slideToEdit.Shapes[2].Width = larghezzaImmagine;
+                        slideToEdit.Shapes[2].Height = altezzaImmagine;
+                        break;
+                    case 3:
+                        //var imgFilePath = GetImagePath(slideToGenerate.ImageId1);
+                        //var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                        //slideToEdit.Shapes.AddPicture(imgStream);
+                        //slideToEdit.Shapes[1].Y = 50;
+                        //slideToEdit.Shapes[1].X = 50;
+                        //slideToEdit.Shapes[1].Width = pres.SlideWidth - 100;
+                        //slideToEdit.Shapes[1].Height = pres.SlideHeight - 100;
+                        break;
+                    case 4:
+                        //var imgFilePath = GetImagePath(slideToGenerate.ImageId1);
+                        //var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                        //slideToEdit.Shapes.AddPicture(imgStream);
+                        //slideToEdit.Shapes[1].Y = 50;
+                        //slideToEdit.Shapes[1].X = 50;
+                        //slideToEdit.Shapes[1].Width = pres.SlideWidth - 100;
+                        //slideToEdit.Shapes[1].Height = pres.SlideHeight - 100;
+                        break;
+                    default:
+                        break;
+                }
             }
-
-
-
 
             // rimuovo i 4 templale
             for (var slideIndex = 1; slideIndex <= NumberOfTemplateSlides; slideIndex++)
