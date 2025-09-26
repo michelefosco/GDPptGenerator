@@ -120,6 +120,12 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Configurazione\Template_DataSource.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurazione\Template_PowerPoint.pptx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -153,6 +159,9 @@
     <None Include="Resources\png-clipart-spreadsheet-computer-icons-google-docs-microsoft-excel-table-angle-furniture-small1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configurazione\PrintAreas.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icona.ico" />
     <None Include="Willy-KimuraBetterFolderBrowser License.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

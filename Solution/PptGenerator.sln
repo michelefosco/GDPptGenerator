@@ -19,12 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificato", "Certificato"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterFolderBrowser", "BetterFolderBrowser\BetterFolderBrowser.csproj", "{5711425B-04D4-446E-B7A1-7E6A119B75FE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		Templates\Template_DataSource.xlsx = Templates\Template_DataSource.xlsx
-		Templates\Template_PowerPoint.pptx = Templates\Template_PowerPoint.pptx
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC_Console", "POC_Console\POC_Console.csproj", "{68AD2303-4A79-409E-8A9F-A8EE03322C18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZZZReportRefresher", "ZZZReportRefresher\ZZZReportRefresher.csproj", "{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}"

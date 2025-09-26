@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace POC_Console
@@ -23,8 +24,9 @@ namespace POC_Console
 
         //todo: da mofificare con i percorsi reali, prendere da cartella di esecuzione
 
-        const string TEMPLATE_FILE_PPT = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\Templates\Template_PowerPoint.pptx";
-        const string TEMPLATE_FILE_XLS = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\Templates\Template_DataSource.xlsx";
+        const string TEMPLATE_FILE_PPT = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\Template_PowerPoint.pptx";
+        const string TEMPLATE_FILE_XLS = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\Template_DataSource.xlsx";
+        const string PRINT_AREAS = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\PrintAreas.txt";
 
         const string OUTPUT_POWERPOINT_FILENAME = "Output.pptx";
 
@@ -51,23 +53,24 @@ namespace POC_Console
             // Creazione della sorgente dati ed aggiornamento degli oggetti correlati (PivotTables, grafici, etc)
             GeneraFileConDati();
 
-            //todo leggere da un XML
-            context.ItemsToExportAsImage = new List<ItemToExport>
-            {
-                
-                new ItemToExport { Sheet = "Foglio_01", PrintArea = "B2:B13", ImageId = "Img_001" },
-                new ItemToExport { Sheet = "Foglio_02", PrintArea = "B2:C13", ImageId = "Img_002" },
-                new ItemToExport { Sheet = "Foglio_03", PrintArea = "B2:D13", ImageId = "Img_003" },
-                new ItemToExport { Sheet = "Foglio_04", PrintArea = "B2:E13", ImageId = "Img_004" },
+            ////todo leggere da un XML
+            //context.ItemsToExportAsImage = new List<ItemToExport>
+            //{
+
+            //    new ItemToExport { Sheet = "Foglio_01", PrintArea = "B2:B13", ImageId = "Img_001" },
+            //    new ItemToExport { Sheet = "Foglio_02", PrintArea = "B2:C13", ImageId = "Img_002" },
+            //    new ItemToExport { Sheet = "Foglio_03", PrintArea = "B2:D13", ImageId = "Img_003" },
+            //    new ItemToExport { Sheet = "Foglio_04", PrintArea = "B2:E13", ImageId = "Img_004" },
 
 
 
-                //new ItemToExport { Sheet = "Shapes_01", PrintArea = "A1:C22", ImageId = "Img_001" },
-                //new ItemToExport { Sheet = "Shapes_01", PrintArea = "E1:P22", ImageId = "Img_002" },
-                //new ItemToExport { Sheet = "Shapes_02", PrintArea = "A4:F18", ImageId = "Img_003" },
-                //new ItemToExport { Sheet = "Shapes_03", PrintArea = "D1:V27", ImageId = "Img_004" },
-                //new ItemToExport { Sheet = "Shapes_04", PrintArea = "A1:K20", ImageId = "Img_005" },
-            };
+            //    //new ItemToExport { Sheet = "Shapes_01", PrintArea = "A1:C22", ImageId = "Img_001" },
+            //    //new ItemToExport { Sheet = "Shapes_01", PrintArea = "E1:P22", ImageId = "Img_002" },
+            //    //new ItemToExport { Sheet = "Shapes_02", PrintArea = "A4:F18", ImageId = "Img_003" },
+            //    //new ItemToExport { Sheet = "Shapes_03", PrintArea = "D1:V27", ImageId = "Img_004" },
+            //    //new ItemToExport { Sheet = "Shapes_04", PrintArea = "A1:K20", ImageId = "Img_005" },
+            //};
+            CreaListaImmaginiDaGenerare();
             GeneraimmaginiItmes();
 
             // dall'UI
@@ -90,7 +93,7 @@ namespace POC_Console
                 new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_002" },
                 new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_003" },
                 new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_004" },
-                
+
                 new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_001",ImageId2 = "Img_002" },
                 new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_003",ImageId2 = "Img_004" },
             };
@@ -140,6 +143,38 @@ namespace POC_Console
             File.Copy(TEMPLATE_FILE_XLS, context.ExcelDataSourceFile, true);
         }
 
+
+        static void CreaListaImmaginiDaGenerare()
+        {
+            string percorsoFile = PRINT_AREAS;
+
+            if (File.Exists(percorsoFile))
+            {
+                context.ItemsToExportAsImage = new List<ItemToExport>();
+
+                // Legge tutte le righe del file
+                string[] righe = File.ReadAllLines(percorsoFile);
+
+                foreach (string riga in righe)
+                {
+                    // Divide la riga nei campi separati da ";"
+                    string[] campi = riga.Split(';');
+
+
+                    //todo: ragionare su queste trasformazioni
+                    var sheet = campi[0].Trim();
+                    var printArea = campi[1].Trim().ToUpper();
+                    var imageId = campi[2].Trim().ToLower();
+
+                    context.ItemsToExportAsImage.Add(new ItemToExport { Sheet = sheet, PrintArea = printArea, ImageId = imageId });
+                }
+            }
+            else
+            {
+                //todo: eccezione managed
+                Console.WriteLine("Il file non esiste!");
+            }
+        }
 
         static void GeneraimmaginiPivotTables()
         {
@@ -287,7 +322,7 @@ namespace POC_Console
 
 
             const int SpazionIntornoAlleImmagini = 10;
-           // const int DistanzaDallaBordoLaterale = 50;
+            // const int DistanzaDallaBordoLaterale = 50;
 
             foreach (var slideToGenerate in context.SlideToGenerateList)
             {
