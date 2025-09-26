@@ -3,7 +3,7 @@
     public enum EsitiFinali
     {
         Failure,
-        DatiFornitoriMancanti,
+        //DatiMancanti,
         Success,
     }
 }

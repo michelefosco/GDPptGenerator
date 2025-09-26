@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
-    public class UpdateReportsOutput
+    public class CreatePresentationsOutput
     {
         public EsitiFinali Esito { get; private set; }
         //public List<Reparto> RepartiCensitiInController { get; private set; }
@@ -24,10 +24,10 @@ namespace FilesEditor.Entities
         public Configurazione ConfigurazioneUsata { get; private set; }
 
 
-        public UpdateReportsOutput()
+        public CreatePresentationsOutput()
         { }
 
-        public UpdateReportsOutput(EsitiFinali esito)
+        public CreatePresentationsOutput(EsitiFinali esito)
         {
             Esito = esito;
         }

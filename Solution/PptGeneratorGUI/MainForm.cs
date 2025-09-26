@@ -111,7 +111,7 @@ th, td {{
                 cmbFileRanRatePath.Text = value;
             }
         }
-        public string SelectedDestinationFilePath
+        public string SelectedDestinationFolderPath
         {
             get
             {
@@ -149,13 +149,13 @@ th, td {{
             if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid)
             {
                 //todo:
-                toolTipDefault.SetToolTip(btnCreaPresentazioneStep1, "Avvia l'elaborazione del report");
+                toolTipDefault.SetToolTip(btnCreaPresentazione, "Avvia l'elaborazione del report");
                 SetStatusLabel("File di input e cartella di destinazione selezionati, è possibile avviare l'elaborazione");
             }
             else
             {
                 //todo:
-                toolTipDefault.SetToolTip(btnCreaPresentazioneStep1, "Selezionare il file controller, il file report e la cartella di destinazione");
+                toolTipDefault.SetToolTip(btnCreaPresentazione, "Selezionare il file controller, il file report e la cartella di destinazione");
                 SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
             }
 
@@ -217,7 +217,7 @@ th, td {{
 
         private void AddPathsInXmlFileHistory()
         {
-            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRanRatePath, SelectedDestinationFilePath);
+            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRanRatePath, SelectedDestinationFolderPath);
         }
 
 
@@ -272,11 +272,11 @@ th, td {{
 
         private bool IsDestFolderValid()
         {
-            bool isValid = !string.IsNullOrEmpty(SelectedDestinationFilePath);
+            bool isValid = !string.IsNullOrEmpty(SelectedDestinationFolderPath);
 
             if (isValid)
             {
-                isValid = Directory.Exists(SelectedDestinationFilePath);
+                isValid = Directory.Exists(SelectedDestinationFolderPath);
             }
 
             return isValid;
@@ -520,17 +520,30 @@ th, td {{
 
         private void GenerateReport()
         {
+
+
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
             bool isRanRatePathValid = IsRanRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
-            if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid)
+            if (/*isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && */isDestFolderValid)
             {
                 ClearOutputArea();
                 AddPathsInXmlFileHistory();
                 FillComboBoxes();
+
+
+                // Todo: usare qualcosa tipo AppDomain.CurrentDomain.BaseDirectory;
+                // context.TmpFolder = AppDomain.CurrentDomain.BaseDirectory + "\\tmp";
+
+                var configurationFolder = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\";
+                configurationFolder = ConfigurationFolderPath;
+
+                CreatePresentationsInput createPresentationsInput = new CreatePresentationsInput(SelectedDestinationFolderPath, configurationFolder);
+                CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
+                return;
 
                 //todo:
                 return;
@@ -545,7 +558,7 @@ th, td {{
                 //Esecuzione Refresher
                 SetStatusLabel("Elaborazione in corso...");
 
-                string destPath = SelectedDestinationFilePath;
+                string destPath = SelectedDestinationFolderPath;
                 string newReportFileName = Path.Combine(destPath, $"File_Gestione_Esterni.xlsx");
 
                 string debugFileName = Path.Combine(destPath, "DebugFile.xlsx");
@@ -601,13 +614,13 @@ th, td {{
                     }
                 }
 
-                var updateReportsInput = new UpdateReportsInput("..", "", newReportFileName, debugFileName);
+                var updateReportsInput = new CreatePresentationsInput(debugFileName, "");
 
 
                 try
                 {
                     toolStripProgressBar.Visible = true;
-                    btnCreaPresentazioneStep1.Enabled = false;
+                    btnCreaPresentazione.Enabled = false;
                     updateReportsBackgroundWorker.RunWorkerAsync(updateReportsInput);
                 }
                 catch (ManagedException mEx)
@@ -627,7 +640,7 @@ th, td {{
             }
             else
             {
-                MessageBox.Show("Selezionare i file controller, report e la cartella di destinazione", "File controller, report o cartella di destinazione non validi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Selezionare i file di input e la cartella di destinazione", "File di input o cartella di destinazione non validi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -741,15 +754,22 @@ th, td {{
 
         private void toolStripMenuItemOpenConfigFolder_Click(object sender, EventArgs e)
         {
-            string exePath = Assembly.GetExecutingAssembly().Location;
-            string exeDir = Path.GetDirectoryName(exePath);
-            var folderPath = Path.Combine(exeDir, "Configurazione");
+            var folderPath = ConfigurationFolderPath;
             openFolderForUser(folderPath);
         }
 
 
 
-
+        private string ConfigurationFolderPath
+        {
+            get
+            {
+                string exePath = Assembly.GetExecutingAssembly().Location;
+                string exeDir = Path.GetDirectoryName(exePath);
+                var folderPath = Path.Combine(exeDir, "Configurazione");
+                return folderPath;
+            }
+        }
 
         private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
         {
@@ -839,29 +859,29 @@ th, td {{
 
         private void updateReportsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            UpdateReportsInput updateReportsInput = e.Argument as UpdateReportsInput;
+            CreatePresentationsInput updateReportsInput = e.Argument as CreatePresentationsInput;
 
-            UpdateReportsOutput output = Refresher.UpdateReports(updateReportsInput);
+            CreatePresentationsOutput output = Editor.CreatePresentations(updateReportsInput);
             e.Result = new object[] { updateReportsInput, output };
         }
 
         private void updateReportsBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             toolStripProgressBar.Visible = false;
-            btnCreaPresentazioneStep1.Enabled = true;
+            btnCreaPresentazione.Enabled = true;
 
             object[] outputAndInput = e.Result as object[];
 
-            UpdateReportsInput updateReportsInput = outputAndInput[0] as UpdateReportsInput;
-            UpdateReportsOutput output = outputAndInput[1] as UpdateReportsOutput;
+            CreatePresentationsInput updateReportsInput = outputAndInput[0] as CreatePresentationsInput;
+            CreatePresentationsOutput output = outputAndInput[1] as CreatePresentationsOutput;
 
             if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", updateReportsInput.NewReport_FilePath, updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
+                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
                 SetOutputMessage(message);
                 SetStatusLabel("Elaborazione terminata con successo");
 
-                _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
                 _debugFileName = updateReportsInput.FileDebug_FilePath;
                 btnCopyError.Visible = false;
             }
@@ -886,7 +906,7 @@ th, td {{
             SelectedFileForecastPath = string.Empty;
             SelectedFileSuperDettagliPath = string.Empty;
             SelectedFileRanRatePath = string.Empty;
-            SelectedDestinationFilePath = string.Empty;
+            SelectedDestinationFolderPath = string.Empty;
 
             RefreshUI();
         }
@@ -1001,7 +1021,7 @@ th, td {{
 
             if (folderBrowserResult == DialogResult.OK)
             {
-                SelectedDestinationFilePath = bfbDestFolder.SelectedPath;
+                SelectedDestinationFolderPath = bfbDestFolder.SelectedPath;
                 RefreshUI();
             }
         }
@@ -1048,7 +1068,7 @@ th, td {{
 
         private void btnOpenDestFolder_Click(object sender, EventArgs e)
         {
-            openFolderForUser(SelectedDestinationFilePath);
+            openFolderForUser(SelectedDestinationFolderPath);
         }
 
         private void openFolderForUser(string folderPath)
@@ -1087,7 +1107,7 @@ th, td {{
         }
 
         private void openExcelForUser(string filePath)
-        {            
+        {
             if (File.Exists(filePath))
             {
                 System.Diagnostics.Process.Start(filePath);
@@ -1099,12 +1119,5 @@ th, td {{
             }
         }
         #endregion
-
-        private void btnCreaPresentazioneStep1_Click(object sender, EventArgs e)
-        {
-            GenerateReport();
-        }
-
-
     }
 }

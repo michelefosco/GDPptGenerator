@@ -58,6 +58,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemClear = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenConfigFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.cmbDestinationFolderPath = new System.Windows.Forms.ComboBox();
             this.wbExecutionResult = new System.Windows.Forms.WebBrowser();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -71,9 +72,8 @@
             this.lblFileSuperDettagliPath = new System.Windows.Forms.Label();
             this.cmbFileRanRatePath = new System.Windows.Forms.ComboBox();
             this.lblFileRanRatePath = new System.Windows.Forms.Label();
-            this.btnCreaPresentazioneStep1 = new System.Windows.Forms.Button();
+            this.btnCreaPresentazione = new System.Windows.Forms.Button();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
-            this.toolStripMenuItemOpenConfigFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -359,6 +359,13 @@
             this.toolStripMenuItemClear.Text = "&Svuota cronologia menu a tendina";
             this.toolStripMenuItemClear.Click += new System.EventHandler(this.toolStripMenuItemClear_Click);
             // 
+            // toolStripMenuItemOpenConfigFolder
+            // 
+            this.toolStripMenuItemOpenConfigFolder.Name = "toolStripMenuItemOpenConfigFolder";
+            this.toolStripMenuItemOpenConfigFolder.Size = new System.Drawing.Size(256, 22);
+            this.toolStripMenuItemOpenConfigFolder.Text = "&Apri cartella di configurazione";
+            this.toolStripMenuItemOpenConfigFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenConfigFolder_Click);
+            // 
             // cmbDestinationFolderPath
             // 
             this.cmbDestinationFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -492,16 +499,16 @@
             this.lblFileRanRatePath.TabIndex = 36;
             this.lblFileRanRatePath.Text = "File \"Ran rate\":";
             // 
-            // btnCreaPresentazioneStep1
+            // btnCreaPresentazione
             // 
-            this.btnCreaPresentazioneStep1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreaPresentazioneStep1.Location = new System.Drawing.Point(947, 166);
-            this.btnCreaPresentazioneStep1.Name = "btnCreaPresentazioneStep1";
-            this.btnCreaPresentazioneStep1.Size = new System.Drawing.Size(137, 33);
-            this.btnCreaPresentazioneStep1.TabIndex = 37;
-            this.btnCreaPresentazioneStep1.Text = "&Crea presentazione";
-            this.btnCreaPresentazioneStep1.UseVisualStyleBackColor = true;
-            this.btnCreaPresentazioneStep1.Click += new System.EventHandler(this.btnCreaPresentazioneStep1_Click);
+            this.btnCreaPresentazione.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreaPresentazione.Location = new System.Drawing.Point(947, 166);
+            this.btnCreaPresentazione.Name = "btnCreaPresentazione";
+            this.btnCreaPresentazione.Size = new System.Drawing.Size(137, 33);
+            this.btnCreaPresentazione.TabIndex = 37;
+            this.btnCreaPresentazione.Text = "&Crea presentazione";
+            this.btnCreaPresentazione.UseVisualStyleBackColor = true;
+            this.btnCreaPresentazione.Click += new System.EventHandler(this.btnCreaPresentazione_Click);
             // 
             // bfbDestFolder
             // 
@@ -509,19 +516,12 @@
             this.bfbDestFolder.RootFolder = "C:\\Users\\DELL\\Desktop";
             this.bfbDestFolder.Title = "Selezionare la cartella di destinazione del report...";
             // 
-            // toolStripMenuItemOpenConfigFolder
-            // 
-            this.toolStripMenuItemOpenConfigFolder.Name = "toolStripMenuItemOpenConfigFolder";
-            this.toolStripMenuItemOpenConfigFolder.Size = new System.Drawing.Size(256, 22);
-            this.toolStripMenuItemOpenConfigFolder.Text = "&Apri cartella di configurazione";
-            this.toolStripMenuItemOpenConfigFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenConfigFolder_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1093, 695);
-            this.Controls.Add(this.btnCreaPresentazioneStep1);
+            this.Controls.Add(this.btnCreaPresentazione);
             this.Controls.Add(this.btnOpenFileRanRate);
             this.Controls.Add(this.btnOpenFileRanRateFolder);
             this.Controls.Add(this.cmbFileRanRatePath);
@@ -611,7 +611,7 @@
         private System.Windows.Forms.ComboBox cmbFileRanRatePath;
         private System.Windows.Forms.Button btnSelectFileRanRate;
         private System.Windows.Forms.Label lblFileRanRatePath;
-        private System.Windows.Forms.Button btnCreaPresentazioneStep1;
+        private System.Windows.Forms.Button btnCreaPresentazione;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenConfigFolder;
     }
 }

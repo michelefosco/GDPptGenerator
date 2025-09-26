@@ -9,28 +9,31 @@ using System.Threading.Tasks;
 
 namespace FilesEditor
 {
-    public class Refresher
+    public class Editor
     {
         #region Metodi UpdateReports
-        public static UpdateReportsOutput UpdateReports(UpdateReportsInput updateReportsInput)
+        public static CreatePresentationsOutput CreatePresentations(CreatePresentationsInput createPresentationsInput)
         {
             var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
-            return updateReports(updateReportsInput, configurazione);
+            return updateReports(createPresentationsInput, configurazione);
         }
 
-        public static UpdateReportsOutput UpdateReports(UpdateReportsInput updateReportsInput, Configurazione configurazione)
+        public static CreatePresentationsOutput UpdateReports(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
         {
             if (configurazione == null)
             { throw new ArgumentNullException(nameof(configurazione)); }
-            return updateReports(updateReportsInput, configurazione);
+            return updateReports(createPresentationsInput, configurazione);
         }
 
-        private static UpdateReportsOutput updateReports(UpdateReportsInput updateReportsInput, Configurazione configurazione)
+        private static CreatePresentationsOutput updateReports(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
         {
-            var context = new StepContext(updateReportsInput, configurazione);
+            var context = new StepContext(createPresentationsInput, configurazione);
             var stepsSequence = new List<Step_Base>
                 {
-                    //new Step_Start_FileDebugHelper(),
+                    new Step_PredisponiTmpFolder(context),
+                    new Step_AggiornaDataSource(context),
+                    new Step_CreaFilesImmagini(context),                    
+                    new Step_CreaFilesPowerPoint(context),                    
                     //new Step_VerificaPercorsoNuovaVersioneFileReport(),
                     //new Step_Start_InfoFileController(),
                     //new Step_Start_InfoFileReport(),
@@ -53,17 +56,17 @@ namespace FilesEditor
                     //new Step_Beautify(),
                     //new Step_SalvataggioNuovaVersioneFileReport(),
                     //new Step_ProduzioneContenutiExtraPerFileDebug(),
-                    //new Step_EsitoFinaleSuccess(),
+                    new Step_EsitoFinaleSuccess(context),
                  };
             return runStepSequence(stepsSequence, context);
         }
         #endregion
 
-        private static UpdateReportsOutput runStepSequence(List<Step_Base> stepsSequence, StepContext context)
+        private static CreatePresentationsOutput runStepSequence(List<Step_Base> stepsSequence, StepContext context)
         {
             foreach (var step in stepsSequence)
             {
-                var stepResult = step.Do(context);
+                var stepResult = step.Do();
 
                 if (stepResult != null)
                 { return stepResult; }

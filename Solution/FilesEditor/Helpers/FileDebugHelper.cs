@@ -86,7 +86,7 @@ namespace FilesEditor.Helpers
             AutoSave();
         }
 
-        internal void LogUpdateReportsInput(UpdateReportsInput updateReportsInput)
+        internal void LogUpdateReportsInput(CreatePresentationsInput updateReportsInput)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -103,7 +103,7 @@ namespace FilesEditor.Helpers
             AutoSave();
         }
 
-        internal void LogUpdateReportsOutput(UpdateReportsOutput updateReportsOutput)
+        internal void LogUpdateReportsOutput(CreatePresentationsOutput updateReportsOutput)
         {
             if (_epPlusHelper == null) { return; }
 

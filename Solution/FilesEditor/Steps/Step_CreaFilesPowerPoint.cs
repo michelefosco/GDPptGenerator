@@ -2,8 +2,8 @@
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Pivot;
 using Aspose.Cells.Rendering;
-using POC_Console.Entities;
-//
+using FilesEditor.Constants;
+using FilesEditor.Entities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,16 +11,19 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
-
-namespace POC_Console
+namespace FilesEditor.Steps
 {
-    internal partial class Program
+    internal class Step_CreaFilesPowerPoint : Step_Base
     {
+        public Step_CreaFilesPowerPoint(StepContext context) : base(context)
+        { }
 
-        internal class FiltriNomifile
+        internal override CreatePresentationsOutput DoSpecificTask()
         {
-            public const string FILTRO_NOME_FILE_PPT_STRUTTURA = "PowerPoint_Struttura*.txt";
+            creaPresentazione();
+            return null; // Step intermedio, non ritorna alcun esito
         }
+        
 
         const int NumberOfTemplateSlides = 4;
 
@@ -39,21 +42,9 @@ namespace POC_Console
         //    public string Path;
         //}
 
-        static Context context;
 
-        static void Main()
+        private void creaPresentazione()
         {
-            context = new Context();
-            // scelta dall'utente...
-            context.OutputFolder = @"C:\Data\Lefo\Dev\3 GDPptGenerator\AAA_Demo\AAA Output";
-            context.ConfigurationFolder = "C:\\Data\\Lefo\\Dev\\3 GDPptGenerator\\Solution\\PptGeneratorGUI\\bin\\Debug\\Configurazione\\";
-
-            // CreaListaSlidesDaGenerare();
-
-            PredisposiTmpFolder();
-
-            // Creazione della sorgente dati ed aggiornamento degli oggetti correlati (PivotTables, grafici, etc)
-            GeneraFileConDati();
 
             // Lettura del file di testo con le aree di stampa e creazione della lista delle immagini da generare
             CreaListaImmaginiDaGenerare();
@@ -62,13 +53,13 @@ namespace POC_Console
             GeneraimmaginiItmes();
 
             // dall'UI
-          //  CreaListaSlidesDaGenerare();
+            //  CreaListaSlidesDaGenerare();
 
             // Creazione del PPT con le slides scelte dall'utente
             CreazionePowerPoint();
         }
 
-        static List<string> GetFilesListFromFolder(string folderPath, string filter)
+        private List<string> GetFilesListFromFolder(string folderPath, string filter)
         {
             // rimuovo dalla lista i file il cui nome inizia con "~$" (ovvero i file temporaranei creati da Excel quando un file è aperto)
             var filePaths = Directory.GetFiles(folderPath, filter, SearchOption.TopDirectoryOnly)
@@ -76,10 +67,10 @@ namespace POC_Console
             return filePaths;
         }
 
-        static void CreaListaSlidesDaGenerare()
+        private void CreaListaSlidesDaGenerare()
         {
-            context.ConfigurationFolder = "C:\\Data\\Lefo\\Dev\\3 GDPptGenerator\\Solution\\PptGeneratorGUI\\bin\\Debug\\Configurazione\\";
-            var pptOutputStructFiles = GetFilesListFromFolder(context.ConfigurationFolder, FiltriNomifile.FILTRO_NOME_FILE_PPT_STRUTTURA);
+            Context.ConfigurationFolder = "C:\\Data\\Lefo\\Dev\\3 GDPptGenerator\\Solution\\PptGeneratorGUI\\bin\\Debug\\Configurazione\\";
+            var pptOutputStructFiles = GetFilesListFromFolder(Context.ConfigurationFolder, FiltriNomifile.FILTRO_NOME_FILE_PPT_STRUTTURA);
             // string percorsoFile = PPT_STRUTTURA_FILE_PATH;
 
 
@@ -168,32 +159,14 @@ namespace POC_Console
             //};
         }
 
-        static void PredisposiTmpFolder()
-        {
-            // Todo: usare qualcosa tipo AppDomain.CurrentDomain.BaseDirectory;
-            // context.TmpFolder = AppDomain.CurrentDomain.BaseDirectory + "\\tmp";
-            context.TmpFolder = context.OutputFolder + "\\tmp";
 
-            // Pulizia e creazione della cartella temporanea
-            if (Directory.Exists(context.TmpFolder)) { Directory.Delete(context.TmpFolder, true); }
-            Directory.CreateDirectory(context.TmpFolder);
-        }
-
-        static void GeneraFileConDati()
-        {
-            // Simulazione del creazione del file Excel con i dati...
-            context.ExcelDataSourceFile = context.TmpFolder + "\\DataSource.xlsx";
-            File.Copy(XLS_DATASOURCE_FILE_PATH, context.ExcelDataSourceFile, true);
-        }
-
-
-        static void CreaListaImmaginiDaGenerare()
+        private void CreaListaImmaginiDaGenerare()
         {
             string percorsoFile = XLS_DATASOURCE_PRINT_AREAS_FILE_PATH;
 
             if (File.Exists(percorsoFile))
             {
-                context.ItemsToExportAsImage = new List<ItemToExport>();
+                Context.ItemsToExportAsImage = new List<ItemToExport>();
 
                 // Legge tutte le righe del file
                 string[] righe = File.ReadAllLines(percorsoFile);
@@ -209,7 +182,7 @@ namespace POC_Console
                     var sheet = campi[1].Trim();
                     var printArea = campi[2].Trim().ToUpper();
 
-                    context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = sheet, PrintArea = printArea, });
+                    Context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = sheet, PrintArea = printArea, });
                 }
             }
             else
@@ -219,10 +192,10 @@ namespace POC_Console
             }
         }
 
-        static void GeneraimmaginiPivotTables()
+        private void GeneraimmaginiPivotTables()
         {
             // Carica il workbook
-            Workbook workbook = new Workbook(context.ExcelDataSourceFile);
+            Workbook workbook = new Workbook(Context.ExcelDataSourceFile);
 
             const int PIVOT_TYPES_NUMBER = 4;
 
@@ -256,7 +229,7 @@ namespace POC_Console
                 //   sr = new SheetRender(worksheetWithPivot, imgOptions);
 
                 // Esporta la pivot (tutto il foglio) come immagine
-                var imagePath = context.TmpFolder + $"\\Img_{worksheetName}_Pivot.png";
+                var imagePath = Context.TmpFolder + $"\\Img_{worksheetName}_Pivot.png";
                 sr.ToImage(0, imagePath);
 
                 // aggiungo alla lista delle immagini generate
@@ -265,12 +238,12 @@ namespace POC_Console
         }
 
 
-        static void GeneraimmaginiItmes()
+        private void GeneraimmaginiItmes()
         {
             // Carica il workbook
-            Workbook workbook = new Workbook(context.ExcelDataSourceFile);
+            Workbook workbook = new Workbook(Context.ExcelDataSourceFile);
 
-            foreach (var itemsToExportAsImage in context.ItemsToExportAsImage)
+            foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {
                 var worksheet = workbook.Worksheets[itemsToExportAsImage.Sheet];
 
@@ -301,13 +274,13 @@ namespace POC_Console
             }
         }
 
-        static private string GetImagePath(string imageId)
+        private  string GetImagePath(string imageId)
         {
-            var imagePath = $"{context.TmpFolder}\\{imageId}.png";
+            var imagePath = $"{Context.TmpFolder}\\{imageId}.png";
             return imagePath;
         }
 
-        static void ChopImage(string inputPath, string outputPath)
+        private void ChopImage(string inputPath, string outputPath)
         {
             using (Bitmap original = new Bitmap(inputPath))
             {
@@ -337,7 +310,7 @@ namespace POC_Console
         }
 
 
-        static List<SlideToGenerate> GetListaSlidesDaFile(string percorsoFile)
+        private List<SlideToGenerate> GetListaSlidesDaFile(string percorsoFile)
         {
             var SlideToGenerateList = new List<SlideToGenerate>();
 
@@ -368,12 +341,12 @@ namespace POC_Console
             return SlideToGenerateList;
         }
 
-        static void CreazionePowerPoint()
+        private void CreazionePowerPoint()
         {
-           // context.PowerPointOutputFile = context.OutputFolder + "\\" + OUTPUT_POWERPOINT_FILENAME;
+            // context.PowerPointOutputFile = context.OutputFolder + "\\" + OUTPUT_POWERPOINT_FILENAME;
 
-            
-            var pptOutputStructFiles = GetFilesListFromFolder(context.ConfigurationFolder, FiltriNomifile.FILTRO_NOME_FILE_PPT_STRUTTURA);
+
+            var pptOutputStructFiles = GetFilesListFromFolder(Context.ConfigurationFolder, FiltriNomifile.FILTRO_NOME_FILE_PPT_STRUTTURA);
             // string percorsoFile = PPT_STRUTTURA_FILE_PATH;
 
             int contaOutput = 1;
@@ -392,7 +365,7 @@ namespace POC_Console
                 //   const string OUTPUT_FILE = @"C:\Data\Lefo\Dev\GDPptxReport\POC\Output.pptx";
 
 
-                var outputfilePath = $"{context.OutputFolder}\\Output_{contaOutput.ToString("D2")}.pptx";
+                var outputfilePath = $"{Context.OutputFolder}\\Output_{contaOutput.ToString("D2")}.pptx";
                 // ripulisco il possibile file di output
                 if (File.Exists(outputfilePath))
                 { File.Delete(outputfilePath); }
@@ -446,6 +419,8 @@ namespace POC_Console
                             slideToEdit.Shapes[1].X = SpazionIntornoAlleImmagini;
                             slideToEdit.Shapes[1].Width = larghezzaImmagine;
                             slideToEdit.Shapes[1].Height = altezzaImmagine;
+                            //
+                            imgStream.Close();
                             break;
                         case 2:
                             // 2 immagini sulla stessa riga
@@ -467,6 +442,9 @@ namespace POC_Console
                             slideToEdit.Shapes[2].X = larghezzaImmagine + (SpazionIntornoAlleImmagini * 3);
                             slideToEdit.Shapes[2].Width = larghezzaImmagine;
                             slideToEdit.Shapes[2].Height = altezzaImmagine;
+                            //
+                            imgStream.Close();
+                            imgStream2.Close();
                             break;
                         case 3:
                             //var imgFilePath = GetImagePath(slideToGenerate.ImageId1);
