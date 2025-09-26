@@ -73,6 +73,7 @@
             this.lblFileRanRatePath = new System.Windows.Forms.Label();
             this.btnCreaPresentazioneStep1 = new System.Windows.Forms.Button();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.toolStripMenuItemOpenConfigFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -345,7 +346,8 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemClear});
+            this.toolStripMenuItemClear,
+            this.toolStripMenuItemOpenConfigFolder});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(87, 20);
             this.toolStripMenuItem1.Text = "Impostazioni";
@@ -354,7 +356,7 @@
             // 
             this.toolStripMenuItemClear.Name = "toolStripMenuItemClear";
             this.toolStripMenuItemClear.Size = new System.Drawing.Size(256, 22);
-            this.toolStripMenuItemClear.Text = "Svuota cronologia menu a tendina";
+            this.toolStripMenuItemClear.Text = "&Svuota cronologia menu a tendina";
             this.toolStripMenuItemClear.Click += new System.EventHandler(this.toolStripMenuItemClear_Click);
             // 
             // cmbDestinationFolderPath
@@ -507,6 +509,13 @@
             this.bfbDestFolder.RootFolder = "C:\\Users\\DELL\\Desktop";
             this.bfbDestFolder.Title = "Selezionare la cartella di destinazione del report...";
             // 
+            // toolStripMenuItemOpenConfigFolder
+            // 
+            this.toolStripMenuItemOpenConfigFolder.Name = "toolStripMenuItemOpenConfigFolder";
+            this.toolStripMenuItemOpenConfigFolder.Size = new System.Drawing.Size(256, 22);
+            this.toolStripMenuItemOpenConfigFolder.Text = "&Apri cartella di configurazione";
+            this.toolStripMenuItemOpenConfigFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenConfigFolder_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -603,6 +612,7 @@
         private System.Windows.Forms.Button btnSelectFileRanRate;
         private System.Windows.Forms.Label lblFileRanRatePath;
         private System.Windows.Forms.Button btnCreaPresentazioneStep1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenConfigFolder;
     }
 }
 

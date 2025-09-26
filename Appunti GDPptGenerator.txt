@@ -6,7 +6,7 @@ Form con
 
 -------------------- Domande per Francesco
 - Prendere presentazione base con le slide da usarsi come templates
-
+- Definire tipologia di layout
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
@@ -30,4 +30,4 @@ Tipo layout:
 
  
 -------------------- Todo
-- Aggiornare icona
+- Aggiungere file istruzioni.txt per la configurazione dei file di testo

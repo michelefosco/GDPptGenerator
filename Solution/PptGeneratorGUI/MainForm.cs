@@ -739,7 +739,13 @@ th, td {{
         }
 
 
-
+        private void toolStripMenuItemOpenConfigFolder_Click(object sender, EventArgs e)
+        {
+            string exePath = Assembly.GetExecutingAssembly().Location;
+            string exeDir = Path.GetDirectoryName(exePath);
+            var folderPath = Path.Combine(exeDir, "Configurazione");
+            openFolderForUser(folderPath);
+        }
 
 
 
@@ -1098,5 +1104,7 @@ th, td {{
         {
             GenerateReport();
         }
+
+
     }
 }
