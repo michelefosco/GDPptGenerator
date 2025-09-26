@@ -2,17 +2,13 @@
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Pivot;
 using Aspose.Cells.Rendering;
-using DocumentFormat.OpenXml.Presentation;
 using POC_Console.Entities;
-using ShapeCrawler;
 //
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace POC_Console
@@ -24,19 +20,18 @@ namespace POC_Console
 
         //todo: da mofificare con i percorsi reali, prendere da cartella di esecuzione
 
-        const string TEMPLATE_FILE_PPT = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\Template_PowerPoint.pptx";
-        const string TEMPLATE_FILE_XLS = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\Template_DataSource.xlsx";
-        const string PRINT_AREAS = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\PrintAreas.txt";
+        const string PPT_TEMPLATE_FILE_PATH = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\PowerPoint_Template.pptx";
+        const string PPT_PRINT_AREAS_FILE_PATH = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\PowerPoint_PrintAreas.txt";
+        const string PPT_STRUTTURA_FILE_PATH = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\PowerPoint_Struttura.txt";
+        const string XLS_DATASOURCE_FILE_PATH = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\DataSource.xlsx";
 
         const string OUTPUT_POWERPOINT_FILENAME = "Output.pptx";
 
-        public class GeneratedImages
-        {
-            public int PivotType;
-            public string Path;
-        }
-
-
+        //public class GeneratedImages
+        //{
+        //    public int PivotType;
+        //    public string Path;
+        //}
 
         static Context context;
 
@@ -53,24 +48,10 @@ namespace POC_Console
             // Creazione della sorgente dati ed aggiornamento degli oggetti correlati (PivotTables, grafici, etc)
             GeneraFileConDati();
 
-            ////todo leggere da un XML
-            //context.ItemsToExportAsImage = new List<ItemToExport>
-            //{
-
-            //    new ItemToExport { Sheet = "Foglio_01", PrintArea = "B2:B13", ImageId = "Img_001" },
-            //    new ItemToExport { Sheet = "Foglio_02", PrintArea = "B2:C13", ImageId = "Img_002" },
-            //    new ItemToExport { Sheet = "Foglio_03", PrintArea = "B2:D13", ImageId = "Img_003" },
-            //    new ItemToExport { Sheet = "Foglio_04", PrintArea = "B2:E13", ImageId = "Img_004" },
-
-
-
-            //    //new ItemToExport { Sheet = "Shapes_01", PrintArea = "A1:C22", ImageId = "Img_001" },
-            //    //new ItemToExport { Sheet = "Shapes_01", PrintArea = "E1:P22", ImageId = "Img_002" },
-            //    //new ItemToExport { Sheet = "Shapes_02", PrintArea = "A4:F18", ImageId = "Img_003" },
-            //    //new ItemToExport { Sheet = "Shapes_03", PrintArea = "D1:V27", ImageId = "Img_004" },
-            //    //new ItemToExport { Sheet = "Shapes_04", PrintArea = "A1:K20", ImageId = "Img_005" },
-            //};
+            // Lettura del file di testo con le aree di stampa e creazione della lista delle immagini da generare
             CreaListaImmaginiDaGenerare();
+
+            // Genera le immagini da usarsi nelle slides
             GeneraimmaginiItmes();
 
             // dall'UI
@@ -82,21 +63,58 @@ namespace POC_Console
 
         static void CreaListaSlidesDaGenerare()
         {
-            const int SLIDE_TEMPLATE_1_INDEX = 1;
-            const int SLIDE_TEMPLATE_2_INDEX = 2;
-            const int SLIDE_TEMPLATE_3_INDEX = 3;
-            const int SLIDE_TEMPLATE_4_INDEX = 4;
+            string percorsoFile = PPT_STRUTTURA_FILE_PATH;
 
-            context.SlideToGenerateList = new List<SlideToGenerate>
+            if (File.Exists(percorsoFile))
             {
-                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_001" },
-                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_002" },
-                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_003" },
-                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_004" },
+                context.SlideToGenerateList = new List<SlideToGenerate>();
 
-                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_001",ImageId2 = "Img_002" },
-                new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_003",ImageId2 = "Img_004" },
-            };
+                // Legge tutte le righe del file
+                string[] righe = File.ReadAllLines(percorsoFile);
+
+                foreach (string riga in righe)
+                {
+                    // Divide la riga nei campi separati da ";"
+                    string[] campi = riga.Split(';');
+
+                    //todo: ragionare su queste trasformazioni
+                    var slideType = int.Parse(campi[0].Trim());
+                    var imageId1 = campi[1].Trim().ToUpper();
+                    var imageId2 = campi[2].Trim().ToUpper();
+                    var imageId3 = campi[3].Trim().ToLower();
+
+
+                    context.SlideToGenerateList.Add(new SlideToGenerate
+                    {
+                        SlideType = slideType,
+                        ImageId1 = imageId1,
+                        ImageId2 = imageId2,
+                        ImageId3 = imageId3
+                    });
+                }
+            }
+            else
+            {
+                //todo: eccezione managed
+                Console.WriteLine("Il file non esiste!");
+            }
+
+            //return;
+            //const int SLIDE_TEMPLATE_1_INDEX = 1;
+            //const int SLIDE_TEMPLATE_2_INDEX = 2;
+            //const int SLIDE_TEMPLATE_3_INDEX = 3;
+            //const int SLIDE_TEMPLATE_4_INDEX = 4;
+
+            //context.SlideToGenerateList = new List<SlideToGenerate>
+            //{
+            //    new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_001" },
+            //    new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_002" },
+            //    new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_003" },
+            //    new SlideToGenerate { SlideType=SLIDE_TEMPLATE_1_INDEX, ImageId1 = "Img_004" },
+
+            //    new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_001",ImageId2 = "Img_002" },
+            //    new SlideToGenerate { SlideType=SLIDE_TEMPLATE_2_INDEX, ImageId1 = "Img_003",ImageId2 = "Img_004" },
+            //};
 
             //context.SlideToGenerateList = new List<SlideToGenerate>
             //{
@@ -126,27 +144,28 @@ namespace POC_Console
             //};
         }
 
-
         static void PredisposiTmpFolder()
         {
             // Todo: usare qualcosa tipo AppDomain.CurrentDomain.BaseDirectory;
             // context.TmpFolder = AppDomain.CurrentDomain.BaseDirectory + "\\tmp";
             context.TmpFolder = context.OutputFolder + "\\tmp";
+
             // Pulizia e creazione della cartella temporanea
             if (Directory.Exists(context.TmpFolder)) { Directory.Delete(context.TmpFolder, true); }
             Directory.CreateDirectory(context.TmpFolder);
         }
+
         static void GeneraFileConDati()
         {
             // Simulazione del creazione del file Excel con i dati...
             context.ExcelDataSourceFile = context.TmpFolder + "\\DataSource.xlsx";
-            File.Copy(TEMPLATE_FILE_XLS, context.ExcelDataSourceFile, true);
+            File.Copy(XLS_DATASOURCE_FILE_PATH, context.ExcelDataSourceFile, true);
         }
 
 
         static void CreaListaImmaginiDaGenerare()
         {
-            string percorsoFile = PRINT_AREAS;
+            string percorsoFile = PPT_PRINT_AREAS_FILE_PATH;
 
             if (File.Exists(percorsoFile))
             {
@@ -162,11 +181,11 @@ namespace POC_Console
 
 
                     //todo: ragionare su queste trasformazioni
-                    var sheet = campi[0].Trim();
-                    var printArea = campi[1].Trim().ToUpper();
-                    var imageId = campi[2].Trim().ToLower();
+                    var imageId = campi[0].Trim().ToLower();
+                    var sheet = campi[1].Trim();
+                    var printArea = campi[2].Trim().ToUpper();
 
-                    context.ItemsToExportAsImage.Add(new ItemToExport { Sheet = sheet, PrintArea = printArea, ImageId = imageId });
+                    context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = sheet, PrintArea = printArea, });
                 }
             }
             else
@@ -313,7 +332,7 @@ namespace POC_Console
             //pres = new Presentation(OUTPUT_FILE);
 
             // copio il template nella cartella di output
-            File.Copy(TEMPLATE_FILE_PPT, context.PowerPointOutputFile);
+            File.Copy(PPT_TEMPLATE_FILE_PATH, context.PowerPointOutputFile);
             var pres = new ShapeCrawler.Presentation(context.PowerPointOutputFile);
 
             // prendo la slide con 2 contenuti verticali

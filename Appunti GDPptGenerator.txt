@@ -5,7 +5,7 @@ Form con
 
 
 -------------------- Domande per Francesco
-- Dare un nome ad ogni report
+- Prendere presentazione base con le slide da usarsi come templates
 
 
 -------------------- Info
@@ -16,7 +16,7 @@ a pagamento
 https://products.aspose.com/cells/net/
 -----
 - File di input: 
-	1) Superdettaglio
+	1) SuperDettagli
 	2) Budget
 	3) Forecast
 	4) Ran Rate

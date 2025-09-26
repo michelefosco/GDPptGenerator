@@ -120,10 +120,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Configurazione\Template_DataSource.xlsx">
+    <None Include="Configurazione\DataSource.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Configurazione\Template_PowerPoint.pptx">
+    <None Include="Configurazione\PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -159,7 +159,10 @@
     <None Include="Resources\png-clipart-spreadsheet-computer-icons-google-docs-microsoft-excel-table-angle-furniture-small1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configurazione\PrintAreas.txt">
+    <Content Include="Configurazione\PowerPoint_PrintAreas.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurazione\PowerPoint_Struttura.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icona.ico" />

@@ -1,4 +1,0 @@
-Foglio_01;B2:B13;Img_001
-Foglio_02;B2:C13;Img_002
-Foglio_03;B2:D13;Img_003
-Foglio_04;B2:E13;Img_004
