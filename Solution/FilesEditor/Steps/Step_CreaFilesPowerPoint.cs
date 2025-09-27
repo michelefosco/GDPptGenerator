@@ -48,14 +48,21 @@ namespace FilesEditor.Steps
                 const int SpazionIntornoAlleImmagini = 10;
                 const int offSetVerticale = 80;
 
+
+                for (int j = 1; j <= slideToGenerateList.Count -1; j++)
+                {
+                    pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_1_INDEX), pres.Slides.Count + 1);
+                }
+
+                int slideToEditIndex = SLIDE_TEMPLATE_1_INDEX;
                 foreach (var slideToGenerate in slideToGenerateList)
                 {
-                    #region Duplico la slide template
-                    pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_1_INDEX), pres.Slides.Count + 1);
-                    var slideToEdit = pres.Slide(pres.Slides.Count);
-                    #endregion
+                    //#region Duplico la slide template
+                    //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_1_INDEX), pres.Slides.Count + 1);
+                    //var slideToEdit = pres.Slide(pres.Slides.Count);
+                    //#endregion
 
-
+                    var slideToEdit = pres.Slide(slideToEditIndex);
                     #region Modifico la textbox del titolo
                     var titleTextBox = slideToEdit.GetTextBoxes().FirstOrDefault(tb => tb.Text.Contains("Titolo"));
                     if (titleTextBox != null)
@@ -116,12 +123,14 @@ namespace FilesEditor.Steps
                             break;
                     }
                     #endregion
+
+                    slideToEditIndex++;
                 }
 
                 #region Operazioni finali
                 // rimuovo le slide template
-                for (var slideIndex = 1; slideIndex <= NumberOfTemplateSlides; slideIndex++)
-                { pres.Slide(SLIDE_TEMPLATE_1_INDEX).Remove(); }
+                //for (var slideIndex = 1; slideIndex <= NumberOfTemplateSlides; slideIndex++)
+                //{ pres.Slide(SLIDE_TEMPLATE_1_INDEX).Remove(); }
 
                 // rimuovo le slide vuote finali
                 //int numberOfSlidesToRemove = pres.Slides.Count - (slideToEditIndex - 1);
