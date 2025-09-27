@@ -21,43 +21,39 @@ namespace FilesEditor.Steps
         const int SLIDE_TEMPLATE_1_INDEX = 3;
         private void creazionePowerPoint()
         {
-
             var powerPointStructFiles = GetFilesListFromFolder(Context.ConfigurationFolder, FiltriNomifile.FILTRO_NOME_FILE_PPT_STRUTTURA);
 
             foreach (var percorsoFile in powerPointStructFiles)
             {
                 var slideToGenerateList = getListaSlidesDaFile(percorsoFile);
 
-                var suffisso = Path.GetFileNameWithoutExtension(percorsoFile).Replace("PowerPoint_Struttura", "");
 
+                #region Predispongo il file di output
+                var suffisso = Path.GetFileNameWithoutExtension(percorsoFile).Replace("PowerPoint_Struttura", "");
                 var outputfilePath = $"{Context.OutputFolder}\\Output{suffisso}.pptx";
                 // ripulisco il possibile file di output
                 if (File.Exists(outputfilePath))
                 { File.Delete(outputfilePath); }
+                #endregion
 
 
-                // copio il template nella cartella di output
+                #region Copio il template nella cartella di output
                 var percorsoFileTemplatePowerPoint = Path.Combine(Context.ConfigurationFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
                 File.Copy(percorsoFileTemplatePowerPoint, outputfilePath);
                 var pres = new ShapeCrawler.Presentation(outputfilePath);
+                #endregion
 
-
-                // predispongo il numero di slides necessarie
-                //var numeroSlidesNecessarieAggiungere = slideToGenerateList.Count - 1; // tolgo 1 perchè c'è già una slide template
-                //for (int j = 1; j <= numeroSlidesNecessarieAggiungere; j++)
-                //{
-                //    pres.Slides.Add(SLIDE_TEMPLATE_INDEX, pres.Slides.Count + 1);
-                //}
 
                 const int SpazionIntornoAlleImmagini = 10;
-
-                int slideToEditIndex = 3; // la slide 1 è il titolo, la 2 è l'indice, la 3 è la prima slide template
+               // int slideToEditIndex = 3; // la slide 1 è il titolo, la 2 è l'indice, la 3 è la prima slide template
                 foreach (var slideToGenerate in slideToGenerateList)
                 {
                     // duplico la slide template
                     pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_1_INDEX), pres.Slides.Count + 1);
                     var slideToEdit = pres.Slide(pres.Slides.Count);
 
+
+                    // Modifico la textbox del titolo
                     var titleTextBox = slideToEdit.GetTextBoxes().FirstOrDefault(tb => tb.Text.Contains("Titolo"));
                     if (titleTextBox != null)
                     {
@@ -67,8 +63,8 @@ namespace FilesEditor.Steps
 
                     const int offSetVerticale = 80;
                     // in base al template inserisco una o più immagini in diverse posizioni
-                    string imgFilePath;// = GetImagePath(slideToGenerate.ImageId1);
-                    FileStream imgStream;// = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                    string imgFilePath;
+                    FileStream imgStream;
                     decimal larghezzaImmagine;
                     decimal altezzaImmagine;
                     int numeroImmaginiInOrizzontale;
@@ -127,7 +123,7 @@ namespace FilesEditor.Steps
                             break;
                     }
 
-                    slideToEditIndex++;
+                   // slideToEditIndex++;
                 }
 
 
