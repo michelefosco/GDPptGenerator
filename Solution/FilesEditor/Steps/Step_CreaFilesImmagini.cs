@@ -21,8 +21,6 @@ namespace FilesEditor.Steps
             return null; // Step intermedio, non ritorna alcun esito
         }
 
-        const string OUTPUT_POWERPOINT_FILENAME = "Output.pptx";
-
         private void creaFilesImmagini()
         {
             // Lettura del file di testo con le aree di stampa e creazione della lista delle immagini da generare
@@ -65,52 +63,6 @@ namespace FilesEditor.Steps
             }
         }
 
-        //private void GeneraimmaginiPivotTables()
-        //{
-        //    // Carica il workbook
-        //    Workbook workbook = new Workbook(Context.ExcelDataSourceFile);
-
-        //    const int PIVOT_TYPES_NUMBER = 4;
-
-        //    // context.GeneratedImagesList = new List<GeneratedImages>();
-
-        //    for (int pivotType = 1; pivotType <= PIVOT_TYPES_NUMBER; pivotType++)
-        //    {
-        //        var worksheetName = $"Shapes_{pivotType.ToString("D2")}";
-        //        var worksheetWithPivot = workbook.Worksheets[worksheetName];
-
-        //        // Prendi la prima PivotTable del foglio
-        //        PivotTable pivot = worksheetWithPivot.PivotTables[0];
-
-        //        // Ottieni il range della pivot
-        //        CellArea range = pivot.TableRange2;
-
-        //        // Imposta l'area di stampa sul range della pivot
-        //        worksheetWithPivot.PageSetup.PrintArea =
-        //            CellsHelper.CellIndexToName(range.StartRow, range.StartColumn) + ":" +
-        //            CellsHelper.CellIndexToName(range.EndRow, range.EndColumn);
-
-        //        // Opzioni di rendering in immagine
-        //        ImageOrPrintOptions imgOptions = new ImageOrPrintOptions
-        //        {
-        //            ImageType = ImageType.Png,
-        //            OnePagePerSheet = true,
-        //            PrintingPage = PrintingPageType.Default
-        //        };
-        //        // Crea un oggetto SheetRender per il foglio
-        //        SheetRender sr = new SheetRender(worksheetWithPivot, imgOptions);
-        //        //   sr = new SheetRender(worksheetWithPivot, imgOptions);
-
-        //        // Esporta la pivot (tutto il foglio) come immagine
-        //        var imagePath = Context.TmpFolder + $"\\Img_{worksheetName}_Pivot.png";
-        //        sr.ToImage(0, imagePath);
-
-        //        // aggiungo alla lista delle immagini generate
-        //        //context.GeneratedImagesList.Add(new GeneratedImages { Path = imagePath, PivotType = pivotType });
-        //    }
-        //}
-
-
         private void generaImmagini()
         {
             // Carica il workbook
@@ -136,10 +88,10 @@ namespace FilesEditor.Steps
                 //   sr = new SheetRender(worksheetWithPivot, imgOptions);
 
                 // Esporta la pivot (tutto il foglio) come immagine
-                var toBeChoppedImagePath = getImagePath(itemsToExportAsImage.ImageId + "_toBeChopped");
+                var toBeChoppedImagePath = GetImagePath(itemsToExportAsImage.ImageId + "_toBeChopped");
                 sr.ToImage(0, toBeChoppedImagePath);
 
-                var finalImagePath = getImagePath(itemsToExportAsImage.ImageId);
+                var finalImagePath = GetImagePath(itemsToExportAsImage.ImageId);
                 chopImage(toBeChoppedImagePath, finalImagePath);
 
                 //todo uncommentare
@@ -147,11 +99,6 @@ namespace FilesEditor.Steps
             }
         }
 
-        private string getImagePath(string imageId)
-        {
-            var imagePath = $"{Context.TmpFolder}\\{imageId}.png";
-            return imagePath;
-        }
 
         private void chopImage(string inputPath, string outputPath)
         {

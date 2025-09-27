@@ -5,7 +5,7 @@ Form con
 
 
 -------------------- Domande per Francesco
-- Prendere presentazione base con le slide da usarsi come templates
+- Qual'è il livello di customizzazione che si vuole dare?
 - Definire tipologia di layout
 
 -------------------- Info

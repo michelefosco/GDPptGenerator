@@ -21,7 +21,7 @@ namespace FilesEditor.Entities
 
         public string OutputFolder;
         public string TmpFolder;
-        public string PowerPointOutputFile;
+       // public string PowerPointOutputFile;
 
         public List<ItemToExport> ItemsToExportAsImage;
         //public List<SlideToGenerate> SlideToGenerateList;

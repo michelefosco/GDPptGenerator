@@ -67,5 +67,10 @@ namespace FilesEditor.Steps
             return filePaths;
         }
 
+        internal string GetImagePath(string imageId)
+        {
+            var imagePath = $"{Context.TmpFolder}\\{imageId}.png";
+            return imagePath;
+        }
     }
 }

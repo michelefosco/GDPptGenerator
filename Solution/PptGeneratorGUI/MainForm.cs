@@ -520,8 +520,6 @@ th, td {{
 
         private void GenerateReport()
         {
-
-
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
@@ -534,18 +532,8 @@ th, td {{
                 AddPathsInXmlFileHistory();
                 FillComboBoxes();
 
-
-                // Todo: usare qualcosa tipo AppDomain.CurrentDomain.BaseDirectory;
-                // context.TmpFolder = AppDomain.CurrentDomain.BaseDirectory + "\\tmp";
-
-                var configurationFolder = @"C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\PptGeneratorGUI\bin\Debug\Configurazione\";
-                configurationFolder = ConfigurationFolderPath;
-
-                CreatePresentationsInput createPresentationsInput = new CreatePresentationsInput(SelectedDestinationFolderPath, configurationFolder);
+                CreatePresentationsInput createPresentationsInput = new CreatePresentationsInput(SelectedDestinationFolderPath, ConfigurationFolderPath);
                 CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
-                return;
-
-                //todo:
                 return;
 
 
