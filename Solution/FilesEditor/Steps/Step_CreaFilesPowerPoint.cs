@@ -1,8 +1,11 @@
-﻿using FilesEditor.Constants;
+﻿using DocumentFormat.OpenXml.Presentation;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
+using ShapeCrawler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace FilesEditor.Steps
 {
@@ -45,7 +48,8 @@ namespace FilesEditor.Steps
 
 
                 const int SpazionIntornoAlleImmagini = 10;
-               // int slideToEditIndex = 3; // la slide 1 è il titolo, la 2 è l'indice, la 3 è la prima slide template
+                const int offSetVerticale = 80;
+
                 foreach (var slideToGenerate in slideToGenerateList)
                 {
                     // duplico la slide template
@@ -60,13 +64,11 @@ namespace FilesEditor.Steps
                         titleTextBox.SetText(slideToGenerate.Title);
                     }
 
-
-                    const int offSetVerticale = 80;
                     // in base al template inserisco una o più immagini in diverse posizioni
-                    string imgFilePath;
-                    FileStream imgStream;
-                    decimal larghezzaImmagine;
-                    decimal altezzaImmagine;
+                    //string imgFilePath;
+                    //FileStream imgStream;
+                    decimal imageWidth;
+                    decimal imageHeight;
                     int numeroImmaginiInOrizzontale;
                     int numeroImmaginiInVerticale;
                     switch (slideToGenerate.SlideType)
@@ -75,42 +77,76 @@ namespace FilesEditor.Steps
                             // un'unica immagine che occupa tutta la slide
                             numeroImmaginiInVerticale = 1;
                             numeroImmaginiInOrizzontale = 1;
-                            larghezzaImmagine = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
-                            altezzaImmagine = (pres.SlideHeight - offSetVerticale) / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
+                            imageWidth = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
+                            imageHeight = (pres.SlideHeight - offSetVerticale) / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
                             //
-                            imgFilePath = GetImagePath(slideToGenerate.ImageId1);
-                            imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
-                            slideToEdit.Shapes.AddPicture(imgStream);
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Y = offSetVerticale + SpazionIntornoAlleImmagini;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].X = SpazionIntornoAlleImmagini;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Width = larghezzaImmagine;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Height = altezzaImmagine;
-                            imgStream.Close();
+                            //imgFilePath = GetImagePath(slideToGenerate.ImageId1);
+                            //imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                            //slideToEdit.Shapes.AddPicture(imgStream);
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Y = offSetVerticale + SpazionIntornoAlleImmagini;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].X = SpazionIntornoAlleImmagini;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Width = larghezzaImmagine;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Height = altezzaImmagine;
+                            //imgStream.Close();
+
+                            var shape = AddImageToTheSlide(
+                                            slide: slideToEdit,
+                                            imageId: slideToGenerate.ImageId1,
+                                            imageWidth: imageWidth,
+                                            imageHeight: imageHeight,
+                                            imagePostionY: offSetVerticale + SpazionIntornoAlleImmagini,
+                                            imagePostionX: SpazionIntornoAlleImmagini
+                                            );
+                            //shape.Y = offSetVerticale + SpazionIntornoAlleImmagini;
+                            //shape.X = SpazionIntornoAlleImmagini;
                             break;
                         case 2:
                             // 2 immagini sulla stessa riga
                             numeroImmaginiInVerticale = 1;
                             numeroImmaginiInOrizzontale = 2;
-                            larghezzaImmagine = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
-                            altezzaImmagine = (pres.SlideHeight - offSetVerticale) / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
+                            imageWidth = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
+                            imageHeight = (pres.SlideHeight - offSetVerticale) / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
                             //
-                            imgFilePath = GetImagePath(slideToGenerate.ImageId1);
-                            imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
-                            slideToEdit.Shapes.AddPicture(imgStream);
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Y = offSetVerticale + SpazionIntornoAlleImmagini;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].X = SpazionIntornoAlleImmagini;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Width = larghezzaImmagine;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Height = altezzaImmagine;
-                            imgStream.Close();
+                            //imgFilePath = GetImagePath(slideToGenerate.ImageId1);
+                            //imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                            //slideToEdit.Shapes.AddPicture(imgStream);
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Y = offSetVerticale + SpazionIntornoAlleImmagini;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].X = SpazionIntornoAlleImmagini;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Width = larghezzaImmagine;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Height = altezzaImmagine;
+                            //imgStream.Close();
+
+                            //var shape2 = AddImageToTheSlide(slideToEdit, slideToGenerate.ImageId1, larghezzaImmagine, altezzaImmagine);
+                            var shape2 = AddImageToTheSlide(
+                                         slide: slideToEdit,
+                                         imageId: slideToGenerate.ImageId1,
+                                         imageWidth: imageWidth,
+                                         imageHeight: imageHeight,
+                                         imagePostionY: offSetVerticale + SpazionIntornoAlleImmagini,
+                                         imagePostionX: SpazionIntornoAlleImmagini);
+                            //shape2.Y = offSetVerticale + SpazionIntornoAlleImmagini;
+                            //shape2.X = SpazionIntornoAlleImmagini;
+
                             //
-                            imgFilePath = GetImagePath(slideToGenerate.ImageId2);
-                            imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
-                            slideToEdit.Shapes.AddPicture(imgStream);
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Y = offSetVerticale + SpazionIntornoAlleImmagini;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].X = larghezzaImmagine + (SpazionIntornoAlleImmagini * 3);
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Width = larghezzaImmagine;
-                            slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Height = altezzaImmagine;
-                            imgStream.Close();
+                            //imgFilePath = GetImagePath(slideToGenerate.ImageId2);
+                            //imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+                            //slideToEdit.Shapes.AddPicture(imgStream);
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Y = offSetVerticale + SpazionIntornoAlleImmagini;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].X = larghezzaImmagine + (SpazionIntornoAlleImmagini * 3);
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Width = larghezzaImmagine;
+                            //slideToEdit.Shapes[slideToEdit.Shapes.Count - 1].Height = altezzaImmagine;
+                            //imgStream.Close();
+
+                            var shape3 = AddImageToTheSlide(
+                                        slide: slideToEdit,
+                                        imageId: slideToGenerate.ImageId2,
+                                        imageWidth: imageWidth,
+                                        imageHeight: imageHeight,
+                                        imagePostionY: offSetVerticale + SpazionIntornoAlleImmagini,
+                                        imagePostionX: imageWidth + (SpazionIntornoAlleImmagini * 3)
+                                        );
+                            //shape3.Y = offSetVerticale + SpazionIntornoAlleImmagini;
+                            //shape3.X = imageWidth + (SpazionIntornoAlleImmagini * 3);
                             //
                             break;
                         case 3:
@@ -123,7 +159,7 @@ namespace FilesEditor.Steps
                             break;
                     }
 
-                   // slideToEditIndex++;
+                    // slideToEditIndex++;
                 }
 
 
@@ -184,6 +220,22 @@ namespace FilesEditor.Steps
             }
 
             return SlideToGenerateList;
+        }
+
+        private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal imageWidth, decimal  imageHeight, decimal imagePostionY, decimal imagePostionX)
+        {
+            var imgFilePath = GetImagePath(imageId);
+            var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
+            slide.Shapes.AddPicture(imgStream);
+            imgStream.Close();
+
+            var shape = slide.Shapes[slide.Shapes.Count - 1];
+            shape.Width = imageWidth;
+            shape.Height = imageHeight;
+            shape.Y = imagePostionY;
+            shape.X = imagePostionX;
+
+            return shape;
         }
     }
 }
