@@ -160,6 +160,7 @@
     <Compile Include="Steps\Step_PredisponiTmpFolder.cs" />
     <Compile Include="Steps\Step_CreaFilesPowerPoint.cs" />
     <Compile Include="Steps\Step_EsitoFinaleSuccess.cs" />
+    <Compile Include="Steps\Step_Start_FileDebugHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -31,6 +31,7 @@ namespace FilesEditor
             var stepsSequence = new List<Step_Base>
                 {
                     new Step_PredisponiTmpFolder(context),
+                    new Step_Start_FileDebugHelper(context),
                     new Step_AggiornaDataSource(context),
                     new Step_CreaFilesImmagini(context),                    
                     new Step_CreaFilesPowerPoint(context),                    

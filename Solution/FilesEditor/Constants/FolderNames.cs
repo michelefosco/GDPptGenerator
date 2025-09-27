@@ -1,6 +1,6 @@
 ﻿namespace FilesEditor.Constants
 {
-    internal class FolderNames
+    public class FolderNames
     {
         public const string TMP_FOLDER_FOR_GENERATED_FILES = "TmpForGeneratedFiles";
     }

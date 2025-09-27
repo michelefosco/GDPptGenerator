@@ -84,7 +84,7 @@ namespace FilesEditor.Helpers
             AutoSave();
         }
 
-        internal void LogUpdateReportsInput(CreatePresentationsInput updateReportsInput)
+        internal void LogCreatePresentationsInput(CreatePresentationsInput createPresentationsInput)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -101,7 +101,7 @@ namespace FilesEditor.Helpers
             AutoSave();
         }
 
-        internal void LogUpdateReportsOutput(CreatePresentationsOutput updateReportsOutput)
+        internal void LogCreatePresentationsOutput(CreatePresentationsOutput createPresentationsOutput)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -151,13 +151,13 @@ namespace FilesEditor.Helpers
             //{
             //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero FornitoriNonCensitiInReport", updateReportsOutput.FornitoriNonCensitiInReport.Count);
             //}
-            if (updateReportsOutput.ManagedException != null)
+            if (createPresentationsOutput.ManagedException != null)
             {
-                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException.MessaggioPerUtente", updateReportsOutput.ManagedException.MessaggioPerUtente.ToString());
-                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", updateReportsOutput.ManagedException.ToString());
-                if (updateReportsOutput.ManagedException.InnerException != null)
+                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException.MessaggioPerUtente", createPresentationsOutput.ManagedException.MessaggioPerUtente.ToString());
+                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", createPresentationsOutput.ManagedException.ToString());
+                if (createPresentationsOutput.ManagedException.InnerException != null)
                 {
-                    _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", updateReportsOutput.ManagedException.InnerException.ToString());
+                    _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", createPresentationsOutput.ManagedException.InnerException.ToString());
                 }
             }
 

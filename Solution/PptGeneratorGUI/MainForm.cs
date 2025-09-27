@@ -16,7 +16,6 @@ namespace PptGeneratorGUI
     public partial class MainForm : Form
     {
         private PathsHistory _pathFileHistory;
-        private string _generatedReportFileName;
         private string _debugFileName;
 
         private const string _newlineHTML = @"<BR />";
@@ -518,7 +517,7 @@ th, td {{
             }
         }
 
-        private void GenerateReport()
+        private void CreaPresentazione()
         {
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
@@ -532,84 +531,30 @@ th, td {{
                 AddPathsInXmlFileHistory();
                 FillComboBoxes();
 
-                CreatePresentationsInput createPresentationsInput = new CreatePresentationsInput(SelectedDestinationFolderPath, ConfigurationFolderPath);
-                CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
-                return;
-
-
-                _generatedReportFileName = string.Empty;
-                _debugFileName = string.Empty;
-
 
                 cmbFileBudgetPath.SelectedIndex = 0;
+                cmbFileForecastPath.SelectedIndex = 0;
+                cmbFileSuperDettagliPath.SelectedIndex = 0;
+                cmbFileRanRatePath.SelectedIndex = 0;
+                cmbDestinationFolderPath.SelectedIndex = 0;
 
                 //Esecuzione Refresher
                 SetStatusLabel("Elaborazione in corso...");
 
-                string destPath = SelectedDestinationFolderPath;
-                string newReportFileName = Path.Combine(destPath, $"File_Gestione_Esterni.xlsx");
 
-                string debugFileName = Path.Combine(destPath, "DebugFile.xlsx");
+                var tmpFolder = Path.Combine(SelectedDestinationFolderPath, FilesEditor.Constants.FolderNames.TMP_FOLDER_FOR_GENERATED_FILES);
+                _debugFileName = Path.Combine(tmpFolder, "Debugfile.xlsx");
 
-                //Togliere dopo i test? Se la chiave di configurazione non esiste viene sempre saltata l'eliminazione dei file
-                if (IsOverwriteEnabled())
-                {
-                    if (File.Exists(newReportFileName))
-                    {
-                        DeleteFile(newReportFileName);
-                    }
-
-                    if (File.Exists(debugFileName))
-                    {
-                        DeleteFile(debugFileName);
-                    }
-                }
-                else
-                {
-                    bool reportFileExist = File.Exists(newReportFileName);
-                    bool debugFileExist = File.Exists(debugFileName);
-
-                    //Richiesta di sovrascrivere se i file esistono già
-                    if (reportFileExist || debugFileExist)
-                    {
-                        string message = reportFileExist && debugFileExist ? "I file " : "Il file ";
-
-                        message += reportFileExist ? newReportFileName : "";
-                        message += reportFileExist && debugFileExist ? " e " : "";
-                        message += debugFileExist ? debugFileName : "";
-
-                        message += reportFileExist && debugFileExist
-                            ? " esistono già\r\nSovrascrivere i file? (L'operazione è irreversibile)"
-                            : " esiste già\r\nSovrascrivere il file? (L'operazione è irreversibile)";
-
-                        string caption = reportFileExist && debugFileExist ? "Sovrascrivere i file " : "Sovrascrivere il file ";
-                        caption += reportFileExist ? "Report" : "";
-                        caption += reportFileExist && debugFileExist ? " e " : "";
-                        caption += debugFileExist ? "Debug" : "";
-
-                        if (MessageBox.Show(message, caption, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            if (File.Exists(newReportFileName))
-                            {
-                                DeleteFile(newReportFileName);
-                            }
-
-                            if (File.Exists(debugFileName))
-                            {
-                                DeleteFile(debugFileName);
-                            }
-                        }
-                    }
-                }
-
-                var updateReportsInput = new CreatePresentationsInput(debugFileName, "");
-
-
+                var createPresentationsInput = new CreatePresentationsInput(
+                            outputFolder: SelectedDestinationFolderPath,
+                            tmpFolder: tmpFolder,
+                            configurationFolder: ConfigurationFolderPath,
+                            fileDebug_FilePath: _debugFileName);
                 try
                 {
                     toolStripProgressBar.Visible = true;
                     btnCreaPresentazione.Enabled = false;
-                    updateReportsBackgroundWorker.RunWorkerAsync(updateReportsInput);
+                    updateReportsBackgroundWorker.RunWorkerAsync(createPresentationsInput);
                 }
                 catch (ManagedException mEx)
                 {
@@ -736,7 +681,6 @@ th, td {{
                 FillComboBoxes();
                 RefreshUI();
             }
-
         }
 
 
@@ -847,10 +791,10 @@ th, td {{
 
         private void updateReportsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            CreatePresentationsInput updateReportsInput = e.Argument as CreatePresentationsInput;
+            CreatePresentationsInput createPresentationsInput = e.Argument as CreatePresentationsInput;
 
-            CreatePresentationsOutput output = Editor.CreatePresentations(updateReportsInput);
-            e.Result = new object[] { updateReportsInput, output };
+            CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
+            e.Result = new object[] { createPresentationsInput, output };
         }
 
         private void updateReportsBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -901,7 +845,7 @@ th, td {{
 
         private void btnCreaPresentazione_Click(object sender, EventArgs e)
         {
-            GenerateReport();
+            CreaPresentazione();
         }
 
         #region Eventi RefreshUI

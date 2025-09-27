@@ -27,7 +27,7 @@ namespace FilesEditor.Steps
             }
             catch (ManagedException ex)
             {
-                Context.UpdateReportsOutput.SettaManagedException(ex);
+                Context.CreatePresentationsOutput.SettaManagedException(ex);
 
                 return FinalizzaOutput(EsitiFinali.Failure);
             }
@@ -42,14 +42,14 @@ namespace FilesEditor.Steps
 
         internal CreatePresentationsOutput FinalizzaOutput(EsitiFinali esitofinale)
         {
-            Context.UpdateReportsOutput.SettaEsitoFinale(esitofinale);
+            Context.CreatePresentationsOutput.SettaEsitoFinale(esitofinale);
 
             //Context.FileDebugHelper?.LogCreateFileVendutoInput(Context.CreateFileVendutoInput);
             //Context.FileDebugHelper?.LogCreateFileVendutoOutput(Context.CreateFileVendutoOutput);
             //Context.FileDebugHelper?.Beautify();
             //Context.FileDebugHelper?.Save();
 
-            return Context.UpdateReportsOutput;
+            return Context.CreatePresentationsOutput;
         }
 
 

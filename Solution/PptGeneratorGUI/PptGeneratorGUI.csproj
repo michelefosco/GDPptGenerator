@@ -232,10 +232,10 @@
     <Content Include="Configurazione\DataSource_PrintAreas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurazione\PowerPoint_Struttura_02.txt">
+    <Content Include="Configurazione\PowerPoint_Struttura_Bis.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurazione\PowerPoint_Struttura_01.txt">
+    <Content Include="Configurazione\PowerPoint_Struttura.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icona.ico" />

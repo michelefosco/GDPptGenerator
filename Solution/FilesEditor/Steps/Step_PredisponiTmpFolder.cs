@@ -1,5 +1,4 @@
-﻿using FilesEditor.Constants;
-using FilesEditor.Entities;
+﻿using FilesEditor.Entities;
 using System.IO;
 
 namespace FilesEditor.Steps
@@ -17,9 +16,6 @@ namespace FilesEditor.Steps
 
         private void predisposiTmpFolder()
         {
-            // Imposto il percorso della cartella temporanea (sottocartella di OutputFolder)
-            Context.TmpFolder = Path.Combine(Context.OutputFolder, FolderNames.TMP_FOLDER_FOR_GENERATED_FILES);
-
             // Rimuovo la cartella se già esistente
             if (Directory.Exists(Context.TmpFolder))
             { Directory.Delete(Context.TmpFolder, true); }
