@@ -1,4 +1,6 @@
 Img_001;Foglio_01;B2:N25
 Img_002;Foglio_02;B2:G16
 Img_003;Foglio_03;B2:S30
-Img_004;Foglio_04;B2:E13
+Img_004;Foglio_04;B2:J14
+Img_005;Dati_01;A1:D17
+Img_006;Foglio_04;B2:J14

@@ -2,6 +2,7 @@
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using ShapeCrawler;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace PptGeneratorGUI
     {
         private PathsHistory _pathFileHistory;
         private string _debugFileName;
+        private DateTime _selectedDatePeriodo;
 
         private const string _newlineHTML = @"<BR />";
         private const string _boldHTML = @"<B>{0}</B>";
@@ -129,7 +131,16 @@ th, td {{
 
             FillComboBoxes();
 
+            SetDefaultDatePeriodo();
+
+            LetturaConfigurazioneDaFileDataSource();
+
             lblVersion.Text = $"Versione: {GetVersion()}";
+        }
+
+        private void LetturaConfigurazioneDaFileDataSource()
+        {
+            // throw new NotImplementedException();
         }
 
         private void SetStatusLabel(string status)
@@ -145,18 +156,6 @@ th, td {{
             bool isRanRatePathValid = IsRanRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
-            if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid)
-            {
-                //todo:
-                toolTipDefault.SetToolTip(btnCreaPresentazione, "Avvia l'elaborazione del report");
-                SetStatusLabel("File di input e cartella di destinazione selezionati, è possibile avviare l'elaborazione");
-            }
-            else
-            {
-                //todo:
-                toolTipDefault.SetToolTip(btnCreaPresentazione, "Selezionare il file controller, il file report e la cartella di destinazione");
-                SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
-            }
 
             btnOpenFileBudgetFolder.Enabled = isBudgetPathValid;
             btnOpenFileBudget.Enabled = isBudgetPathValid;
@@ -171,6 +170,30 @@ th, td {{
             btnOpenFileRanRate.Enabled = isRanRatePathValid;
             //
             btnOpenDestFolder.Enabled = isDestFolderValid;
+
+
+            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid;
+
+            if (allValid)
+            {
+                BuildFiltersArea();
+                //
+                dgvFiltri.Enabled = true;
+                btnCreaPresentazione.Enabled = true;
+
+                //todo:
+                toolTipDefault.SetToolTip(btnCreaPresentazione, "Avvia l'elaborazione del report");
+                SetStatusLabel("File di input e cartella di destinazione selezionati, è possibile avviare l'elaborazione");
+            }
+            else
+            {
+                dgvFiltri.Rows.Clear();
+                dgvFiltri.Enabled = false;
+                btnCreaPresentazione.Enabled = false;
+                //todo:
+                toolTipDefault.SetToolTip(btnCreaPresentazione, "Selezionare il file controller, il file report e la cartella di destinazione");
+                SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
+            }
         }
 
 
@@ -179,7 +202,7 @@ th, td {{
             string localApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PptGenerator");
 
             if (!Directory.Exists(localApplicationPath))
-                Directory.CreateDirectory(localApplicationPath);
+            { Directory.CreateDirectory(localApplicationPath); }
 
             return localApplicationPath;
         }
@@ -212,6 +235,43 @@ th, td {{
 
             cmbDestinationFolderPath.Items.Clear();
             cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
+        }
+
+        private void BuildFiltersArea()
+        {
+            dgvFiltri.Rows.Clear();
+
+            var getUserOptionsFromDataSourceInput = new GetUserOptionsFromDataSourceInput(TemplatesFolderPath);
+
+            var userOptionsFromDataSourceOutput = Editor.GetUserOptionsFromDataSource(getUserOptionsFromDataSourceInput);
+
+
+            foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
+            {
+                int rowIndex = dgvFiltri.Rows.Add();
+                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"Seleziona filtri";
+                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.Tabella}";
+                dgvFiltri.Rows[rowIndex].Cells[2].Value = $"{filtro.Campo}";
+                //todo: rivedere
+                dgvFiltri.Rows[rowIndex].Cells[3].Value = string.Join("; ", filtro.ValoriSelezionati);
+            }
+
+            for (int i = 0; i < dgvFiltri.Columns.Count; i++)
+            {
+                dgvFiltri.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+
+
+            dgvFiltri.CellContentClick += (s, e) =>
+            {
+                if (e.ColumnIndex == dgvFiltri.Columns["Modifica"].Index && e.RowIndex >= 0)
+                {
+                    string tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
+                    string campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
+                    MessageBox.Show($"Hai cliccato sul pulsante della riga: {tabella}-{campo}");
+                }
+            };
+
         }
 
         private void AddPathsInXmlFileHistory()
@@ -548,7 +608,7 @@ th, td {{
                 var createPresentationsInput = new CreatePresentationsInput(
                             outputFolder: SelectedDestinationFolderPath,
                             tmpFolder: tmpFolder,
-                            configurationFolder: ConfigurationFolderPath,
+                            templateFolder: TemplatesFolderPath,
                             fileDebug_FilePath: _debugFileName);
                 try
                 {
@@ -686,19 +746,19 @@ th, td {{
 
         private void toolStripMenuItemOpenConfigFolder_Click(object sender, EventArgs e)
         {
-            var folderPath = ConfigurationFolderPath;
+            var folderPath = TemplatesFolderPath;
             openFolderForUser(folderPath);
         }
 
 
 
-        private string ConfigurationFolderPath
+        private string TemplatesFolderPath
         {
             get
             {
                 string exePath = Assembly.GetExecutingAssembly().Location;
                 string exeDir = Path.GetDirectoryName(exePath);
-                var folderPath = Path.Combine(exeDir, "Configurazione");
+                var folderPath = Path.Combine(exeDir, "Templates");
                 return folderPath;
             }
         }
@@ -848,6 +908,7 @@ th, td {{
             CreaPresentazione();
         }
 
+
         #region Eventi RefreshUI
         private void cmbFileBudgetPath_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -897,6 +958,7 @@ th, td {{
             RefreshUI();
         }
         #endregion
+
 
         #region Eventi selezione file/cartella
         private void btnSelectFileBudget_Click(object sender, EventArgs e)
@@ -971,9 +1033,8 @@ th, td {{
         }
         #endregion
 
+
         #region Apertura cartelle selezionate
-
-
         private void btnOpenFileBudgetFolder_Click(object sender, EventArgs e)
         {
             var folderPath = Path.GetDirectoryName(SelectedFileBudgetPath);
@@ -1017,6 +1078,7 @@ th, td {{
         }
         #endregion
 
+
         #region Apertura dei file Excel selezionati
         private void btnOpenFileBudget_Click(object sender, EventArgs e)
         {
@@ -1049,6 +1111,27 @@ th, td {{
                 RefreshUI();
                 MessageBox.Show("Percorso del file non valido o file inesistente", "File non valido", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        #endregion
+
+
+        #region Selezione data periodo
+        private void SetDefaultDatePeriodo()
+        {
+            _selectedDatePeriodo = DateTime.Now;
+            lblDataPeriodo.Text = _selectedDatePeriodo.ToShortDateString();
+        }
+
+        private void btnOpenCalendar_Click(object sender, EventArgs e)
+        {
+            pnlCalendar.Visible = !pnlCalendar.Visible;
+        }
+
+        private void calendarPeriodo_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            _selectedDatePeriodo = calendarPeriodo.SelectionStart;
+            lblDataPeriodo.Text = calendarPeriodo.SelectionStart.ToShortDateString();
+            pnlCalendar.Visible = false;
         }
         #endregion
     }

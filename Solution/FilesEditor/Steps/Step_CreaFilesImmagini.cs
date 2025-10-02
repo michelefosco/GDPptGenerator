@@ -33,7 +33,7 @@ namespace FilesEditor.Steps
 
         private void creaListaImmaginiDaGenerare()
         {
-            string percorsoFile = Path.Combine(Context.ConfigurationFolder, Constants.FileNames.DATASOURCE_PRINT_AREAS_FILENAME);
+            string percorsoFile = Path.Combine(Context.TemplatesFolder, Constants.FileNames.DATASOURCE_PRINT_AREAS_FILENAME);
 
             if (File.Exists(percorsoFile))
             {

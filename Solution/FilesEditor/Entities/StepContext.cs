@@ -16,7 +16,7 @@ namespace FilesEditor.Entities
         //
         public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         //
-        public string ConfigurationFolder;
+        public string TemplatesFolder;
         public string ExcelDataSourceFile;
 
         public string OutputFolder;
@@ -34,7 +34,7 @@ namespace FilesEditor.Entities
             //
             OutputFolder = createPresentationsInput.OutputFolder;
             TmpFolder = createPresentationsInput.TmpFolder;
-            ConfigurationFolder = createPresentationsInput.ConfigurationFolder;
+            TemplatesFolder = createPresentationsInput.TemplatesFolder;
             //
             CreatePresentationsOutput = new CreatePresentationsOutput();
             CreatePresentationsOutput.SettaConfigurazioneUsata(Configurazione);

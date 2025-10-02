@@ -168,11 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClasses\UIInterfaces.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,10 +185,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Configurazione\DataSource.xlsx">
+    <None Include="Templates\DataSource_Template.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Configurazione\PowerPoint_Template.pptx">
+    <None Include="Templates\PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -202,6 +197,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -223,19 +223,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PptGenerator.pfx" />
-    <None Include="Resources\free-yellow-open-folder-icon-11567-thumb_Small.png" />
+    <None Include="Resources\FolderIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\png-clipart-spreadsheet-computer-icons-google-docs-microsoft-excel-table-angle-furniture-small1.png" />
+    <None Include="Resources\ExcelIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configurazione\DataSource_PrintAreas.txt">
+    <Content Include="Resources\CalendarIcon.png" />
+    <Content Include="Templates\DataSource_PrintAreas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurazione\PowerPoint_Struttura_Bis.txt">
+    <Content Include="Templates\PowerPoint_Struttura_Bis.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurazione\PowerPoint_Struttura.txt">
+    <Content Include="Templates\PowerPoint_Struttura.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icona.ico" />
@@ -254,6 +258,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

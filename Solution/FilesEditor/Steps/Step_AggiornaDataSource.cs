@@ -18,7 +18,7 @@ namespace FilesEditor.Steps
         {
             // Simulazione del creazione del file Excel con i dati...
             Context.ExcelDataSourceFile = Path.Combine(Context.TmpFolder, Constants.FileNames.DATA_SOURCE_FILENAME);
-            var dataSourceTemplateFile = Path.Combine(Context.ConfigurationFolder, Constants.FileNames.DATA_SOURCE_FILENAME);
+            var dataSourceTemplateFile = Path.Combine(Context.TemplatesFolder, Constants.FileNames.DATA_SOURCE_FILENAME);
             File.Copy(dataSourceTemplateFile, Context.ExcelDataSourceFile, true);
         }
     }

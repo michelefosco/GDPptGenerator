@@ -63,9 +63,9 @@ namespace PptGeneratorGUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap free_yellow_open_folder_icon_11567_thumb_Small {
+        internal static System.Drawing.Bitmap CalendarIcon {
             get {
-                object obj = ResourceManager.GetObject("free-yellow-open-folder-icon-11567-thumb_Small", resourceCulture);
+                object obj = ResourceManager.GetObject("CalendarIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,10 +73,19 @@ namespace PptGeneratorGUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap png_clipart_spreadsheet_computer_icons_google_docs_microsoft_excel_table_angle_furniture_small1 {
+        internal static System.Drawing.Bitmap ExcelIcon {
             get {
-                object obj = ResourceManager.GetObject("png-clipart-spreadsheet-computer-icons-google-docs-microsoft-excel-table-angle-fu" +
-                        "rniture-small1", resourceCulture);
+                object obj = ResourceManager.GetObject("ExcelIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FolderIcon {
+            get {
+                object obj = ResourceManager.GetObject("FolderIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

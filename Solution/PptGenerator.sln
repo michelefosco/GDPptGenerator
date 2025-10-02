@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlusExtensions", "EPPlusE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlusExtensions.Tests", "EPPlusExtensions.Tests\EPPlusExtensions.Tests.csproj", "{01F3DF64-F7B8-4072-B42C-71960AD73539}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportRefresher.Tests", "ReportRefresher.Tests\ReportRefresher.Tests.csproj", "{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificato", "Certificato", "{DE77EB39-EEA7-4532-A82F-8ABFB5D442A4}"
 	ProjectSection(SolutionItems) = preProject
 		Certificato\Password.txt = Certificato\Password.txt
@@ -18,10 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificato", "Certificato"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterFolderBrowser", "BetterFolderBrowser\BetterFolderBrowser.csproj", "{5711425B-04D4-446E-B7A1-7E6A119B75FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC_Console", "POC_Console\POC_Console.csproj", "{68AD2303-4A79-409E-8A9F-A8EE03322C18}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZZZReportRefresher", "ZZZReportRefresher\ZZZReportRefresher.csproj", "{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesEditor", "FilesEditor\FilesEditor.csproj", "{F85777CC-75DE-4B11-9C69-EFD39243E1B9}"
 EndProject
@@ -41,22 +35,10 @@ Global
 		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01F3DF64-F7B8-4072-B42C-71960AD73539}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5711425B-04D4-446E-B7A1-7E6A119B75FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68AD2303-4A79-409E-8A9F-A8EE03322C18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{634A9363-AB13-4FB1-AE90-2A8BCCD0A2C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F85777CC-75DE-4B11-9C69-EFD39243E1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F85777CC-75DE-4B11-9C69-EFD39243E1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F85777CC-75DE-4B11-9C69-EFD39243E1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,7 +53,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{01F3DF64-F7B8-4072-B42C-71960AD73539} = {C755190C-5170-40E3-B0FA-3E8DFD527CFB}
-		{F45CF90B-69B2-4589-AB7D-6291D9E97DEB} = {C755190C-5170-40E3-B0FA-3E8DFD527CFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2300A74E-3070-48D5-B8DC-FEDBF0F69F3B}
