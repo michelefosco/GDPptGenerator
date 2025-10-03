@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -66,7 +66,7 @@
             this.cmbDestinationFolderPath = new System.Windows.Forms.ComboBox();
             this.wbExecutionResult = new System.Windows.Forms.WebBrowser();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.createPresentationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.btnCreatePresentationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.btnCopyError = new System.Windows.Forms.LinkLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.cmbFileForecastPath = new System.Windows.Forms.ComboBox();
@@ -78,17 +78,18 @@
             this.btnCreaPresentazione = new System.Windows.Forms.Button();
             this.lblFiltriApplicabili = new System.Windows.Forms.Label();
             this.dgvFiltri = new System.Windows.Forms.DataGridView();
-            this.Modifica = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Tabella = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Campo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValoriSelezionati = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnClear = new System.Windows.Forms.LinkLabel();
             this.calendarPeriodo = new System.Windows.Forms.MonthCalendar();
             this.pnlCalendar = new System.Windows.Forms.Panel();
-            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.gbPaths = new System.Windows.Forms.GroupBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.btnNext = new System.Windows.Forms.Button();
+            this.btnNextBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.Tabella = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Campo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OpenFiltersSelection = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ValoriSelezionati = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -442,10 +443,10 @@
             this.wbExecutionResult.TabIndex = 23;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating_1);
             // 
-            // createPresentationBackgroundWorker
+            // btnCreatePresentationBackgroundWorker
             // 
-            this.createPresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.createPresentantionBackgroundWorker_DoWork);
-            this.createPresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.createPresentantionBackgroundWorker_RunWorkerCompleted);
+            this.btnCreatePresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnCreatePresentationBackgroundWorker_DoWork);
+            this.btnCreatePresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnCreatePresentationBackgroundWorker_RunWorkerCompleted);
             // 
             // btnCopyError
             // 
@@ -564,19 +565,19 @@
             this.dgvFiltri.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFiltri.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFiltri.CausesValidation = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Modifica,
             this.Tabella,
             this.Campo,
+            this.OpenFiltersSelection,
             this.ValoriSelezionati});
             this.dgvFiltri.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvFiltri.Location = new System.Drawing.Point(121, 47);
@@ -586,35 +587,6 @@
             this.dgvFiltri.ShowEditingIcon = false;
             this.dgvFiltri.Size = new System.Drawing.Size(1454, 239);
             this.dgvFiltri.TabIndex = 21;
-            // 
-            // Modifica
-            // 
-            this.Modifica.HeaderText = "Select values";
-            this.Modifica.Name = "Modifica";
-            this.Modifica.ReadOnly = true;
-            this.Modifica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Modifica.Width = 90;
-            // 
-            // Tabella
-            // 
-            this.Tabella.HeaderText = "Table";
-            this.Tabella.Name = "Tabella";
-            this.Tabella.ReadOnly = true;
-            this.Tabella.Width = 64;
-            // 
-            // Campo
-            // 
-            this.Campo.HeaderText = "Field";
-            this.Campo.Name = "Campo";
-            this.Campo.ReadOnly = true;
-            this.Campo.Width = 59;
-            // 
-            // ValoriSelezionati
-            // 
-            this.ValoriSelezionati.HeaderText = "Selected values";
-            this.ValoriSelezionati.Name = "ValoriSelezionati";
-            this.ValoriSelezionati.ReadOnly = true;
-            this.ValoriSelezionati.Width = 123;
             // 
             // btnClear
             // 
@@ -644,12 +616,6 @@
             this.pnlCalendar.Size = new System.Drawing.Size(226, 161);
             this.pnlCalendar.TabIndex = 49;
             this.pnlCalendar.Visible = false;
-            // 
-            // bfbDestFolder
-            // 
-            this.bfbDestFolder.Multiselect = false;
-            this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
-            this.bfbDestFolder.Title = "Please select a folder...";
             // 
             // gbPaths
             // 
@@ -713,6 +679,46 @@
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
+            // btnNextBackgroundWorker
+            // 
+            this.btnNextBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnNextBackgroundWorker_DoWork);
+            this.btnNextBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnNextBackgroundWorker_RunWorkerCompleted);
+            // 
+            // bfbDestFolder
+            // 
+            this.bfbDestFolder.Multiselect = false;
+            this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
+            this.bfbDestFolder.Title = "Please select a folder...";
+            // 
+            // Tabella
+            // 
+            this.Tabella.HeaderText = "Table";
+            this.Tabella.Name = "Tabella";
+            this.Tabella.ReadOnly = true;
+            this.Tabella.Width = 64;
+            // 
+            // Campo
+            // 
+            this.Campo.HeaderText = "Field";
+            this.Campo.Name = "Campo";
+            this.Campo.ReadOnly = true;
+            this.Campo.Width = 59;
+            // 
+            // OpenFiltersSelection
+            // 
+            this.OpenFiltersSelection.HeaderText = "";
+            this.OpenFiltersSelection.Name = "OpenFiltersSelection";
+            this.OpenFiltersSelection.ReadOnly = true;
+            this.OpenFiltersSelection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.OpenFiltersSelection.Width = 5;
+            // 
+            // ValoriSelezionati
+            // 
+            this.ValoriSelezionati.HeaderText = "Selected values";
+            this.ValoriSelezionati.Name = "ValoriSelezionati";
+            this.ValoriSelezionati.ReadOnly = true;
+            this.ValoriSelezionati.Width = 123;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -769,7 +775,7 @@
         private System.Windows.Forms.Button btnOpenFileBudget;
         private System.Windows.Forms.WebBrowser wbExecutionResult;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.ComponentModel.BackgroundWorker createPresentationBackgroundWorker;
+        private System.ComponentModel.BackgroundWorker btnCreatePresentationBackgroundWorker;
         private System.Windows.Forms.LinkLabel btnCopyError;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser bfbDestFolder;
@@ -800,13 +806,14 @@
         private System.Windows.Forms.MonthCalendar calendarPeriodo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnlCalendar;
-        private System.Windows.Forms.DataGridViewButtonColumn Modifica;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tabella;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Campo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValoriSelezionati;
         private System.Windows.Forms.GroupBox gbPaths;
         private System.Windows.Forms.GroupBox gbOptions;
         private System.Windows.Forms.Button btnNext;
+        private System.ComponentModel.BackgroundWorker btnNextBackgroundWorker;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tabella;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Campo;
+        private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ValoriSelezionati;
     }
 }
 

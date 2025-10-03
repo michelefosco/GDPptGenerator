@@ -184,7 +184,7 @@ th, td {{
             btnNext.Enabled = allValid;
 
             if (allValid)
-            {                
+            {
                 btnCreaPresentazione.Enabled = _inputValidato;
                 gbOptions.Enabled = _inputValidato;
 
@@ -215,9 +215,9 @@ th, td {{
             foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
             {
                 int rowIndex = dgvFiltri.Rows.Add();
-                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"Select values";
-                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.Tabella}";
-                dgvFiltri.Rows[rowIndex].Cells[2].Value = $"{filtro.Campo}";
+                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Tabella}";
+                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.Campo}";
+                dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
                 //todo: rivedere
                 dgvFiltri.Rows[rowIndex].Cells[3].Value = string.Join("; ", filtro.ValoriSelezionati);
             }
@@ -230,7 +230,7 @@ th, td {{
 
             dgvFiltri.CellContentClick += (s, e) =>
             {
-                if (e.ColumnIndex == dgvFiltri.Columns["Modifica"].Index && e.RowIndex >= 0)
+                if (e.ColumnIndex == dgvFiltri.Columns["OpenFiltersSelection"].Index && e.RowIndex >= 0)
                 {
                     string tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
                     string campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
@@ -583,105 +583,6 @@ th, td {{
             }
         }
 
-        #region CreaPresentazione
-        private void CreatePresentation()
-        {
-            bool isBudgetPathValid = IsBudgetPathValid();
-            bool isForecastPathValid = IsForecastPathValid();
-            bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
-            bool isRanRatePathValid = IsRanRatePathValid();
-            bool isDestFolderValid = IsDestFolderValid();
-
-            if (/*isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && */isDestFolderValid)
-            {
-                ClearOutputArea();
-                AddPathsInXmlFileHistory();
-                FillComboBoxes();
-
-
-                cmbFileBudgetPath.SelectedIndex = 0;
-                cmbFileForecastPath.SelectedIndex = 0;
-                cmbFileSuperDettagliPath.SelectedIndex = 0;
-                cmbFileRanRatePath.SelectedIndex = 0;
-                cmbDestinationFolderPath.SelectedIndex = 0;
-
-                //Esecuzione Refresher
-                SetStatusLabel("Elaborazione in corso...");
-
-
-                var tmpFolder = Path.Combine(SelectedDestinationFolderPath, FilesEditor.Constants.FolderNames.TMP_FOLDER_FOR_GENERATED_FILES);
-                _debugFileName = Path.Combine(tmpFolder, "Debugfile.xlsx");
-
-                var createPresentationsInput = new CreatePresentationsInput(
-                            outputFolder: SelectedDestinationFolderPath,
-                            tmpFolder: tmpFolder,
-                            templateFolder: TemplatesFolderPath,
-                            fileDebug_FilePath: _debugFileName);
-                try
-                {
-                    toolStripProgressBar.Visible = true;
-                    btnCreaPresentazione.Enabled = false;
-                    createPresentationBackgroundWorker.RunWorkerAsync(createPresentationsInput);
-                }
-                catch (ManagedException mEx)
-                {
-                    SetStatusLabel("Elaborazione terminata con errori");
-
-                    SetOutputMessage(mEx);
-                    btnCopyError.Visible = true;
-                }
-                catch (Exception ex)
-                {
-                    SetStatusLabel("Elaborazione terminata con errori");
-
-                    SetOutputMessage(ex);
-                    btnCopyError.Visible = true;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Selezionare i file di input e la cartella di destinazione", "File di input o cartella di destinazione non validi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        private void createPresentantionBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            CreatePresentationsInput createPresentationsInput = e.Argument as CreatePresentationsInput;
-            CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
-            e.Result = new object[] { createPresentationsInput, output };
-        }
-
-        private void createPresentantionBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            toolStripProgressBar.Visible = false;
-            btnCreaPresentazione.Enabled = true;
-
-            var outputAndInput = e.Result as object[];
-
-            var createPresentationsInput = outputAndInput[0] as CreatePresentationsInput;
-            var createPresentationsOutput = outputAndInput[1] as CreatePresentationsOutput;
-
-            if (createPresentationsOutput.Esito == EsitiFinali.Success)
-            {
-                //todo: transalation
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", createPresentationsInput.FileDebug_FilePath, createPresentationsOutput.RigheSpesaSkippate);
-                SetOutputMessage(message);
-                SetStatusLabel("Elaborazione terminata con successo");
-
-                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-                _debugFileName = createPresentationsInput.FileDebug_FilePath;
-                btnCopyError.Visible = false;
-            }
-            else //FAIL
-            {
-                //Mostrare eventuali dati nel fail
-                SetStatusLabel("Elaborazione terminata con errori");
-                SetOutputMessage(createPresentationsOutput.ManagedException);
-                btnCopyError.Visible = true;
-            }
-        }
-        #endregion
 
         private void ClearOutputArea()
         {
@@ -915,13 +816,10 @@ th, td {{
             RefreshUI(true);
         }
 
-        private void btnCreaPresentazione_Click(object sender, EventArgs e)
-        {
-            CreatePresentation();
-        }
 
 
-        #region Eventi RefreshUI
+
+        #region Eventi Selezione file/cartella - RefreshUI
         private void cmbFileBudgetPath_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshUI(true);
@@ -967,7 +865,7 @@ th, td {{
         #endregion
 
 
-        #region Eventi selezione file/cartella
+        #region Eventi avvio selezione file/cartella
         private void btnSelectFileBudget_Click(object sender, EventArgs e)
         {
             const string tipoFoglio = "Budget";
@@ -1145,6 +1043,44 @@ th, td {{
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            validaFileDiInput();
+        }
+
+        private void validaFileDiInput()
+        {
+            try
+            {
+                toolStripProgressBar.Visible = true;
+                btnNext.Enabled = false;
+                btnNextBackgroundWorker.RunWorkerAsync();
+            }
+            catch (ManagedException mEx)
+            {
+                SetStatusLabel("Elaborazione terminata con errori");
+
+                SetOutputMessage(mEx);
+                btnCopyError.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                SetStatusLabel("Elaborazione terminata con errori");
+
+                SetOutputMessage(ex);
+                btnCopyError.Visible = true;
+            }
+        }
+
+        private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //todo valida input
+            // chiama al backend
+            System.Threading.Thread.Sleep(2000);
+        }
+
+        private void btnNextBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btnNext.Enabled = true;
+
             //todo valida input
             _inputValidato = true;
 
@@ -1157,5 +1093,112 @@ th, td {{
 
             RefreshUI(false);
         }
+
+
+        #region CreaPresentazione
+        private void btnCreaPresentazione_Click(object sender, EventArgs e)
+        {
+            createPresentation();
+        }
+
+        private void createPresentation()
+        {
+            bool isBudgetPathValid = IsBudgetPathValid();
+            bool isForecastPathValid = IsForecastPathValid();
+            bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
+            bool isRanRatePathValid = IsRanRatePathValid();
+            bool isDestFolderValid = IsDestFolderValid();
+
+            if (/*isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && */isDestFolderValid)
+            {
+                ClearOutputArea();
+                AddPathsInXmlFileHistory();
+                FillComboBoxes();
+
+
+                cmbFileBudgetPath.SelectedIndex = 0;
+                cmbFileForecastPath.SelectedIndex = 0;
+                cmbFileSuperDettagliPath.SelectedIndex = 0;
+                cmbFileRanRatePath.SelectedIndex = 0;
+                cmbDestinationFolderPath.SelectedIndex = 0;
+
+                //Esecuzione Refresher
+                SetStatusLabel("Elaborazione in corso...");
+
+
+                var tmpFolder = Path.Combine(SelectedDestinationFolderPath, FilesEditor.Constants.FolderNames.TMP_FOLDER_FOR_GENERATED_FILES);
+                _debugFileName = Path.Combine(tmpFolder, "Debugfile.xlsx");
+
+                var createPresentationsInput = new CreatePresentationsInput(
+                            outputFolder: SelectedDestinationFolderPath,
+                            tmpFolder: tmpFolder,
+                            templateFolder: TemplatesFolderPath,
+                            fileDebug_FilePath: _debugFileName);
+                try
+                {
+                    toolStripProgressBar.Visible = true;
+                    btnCreaPresentazione.Enabled = false;
+                    btnCreatePresentationBackgroundWorker.RunWorkerAsync(createPresentationsInput);
+                }
+                catch (ManagedException mEx)
+                {
+                    SetStatusLabel("Elaborazione terminata con errori");
+
+                    SetOutputMessage(mEx);
+                    btnCopyError.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    SetStatusLabel("Elaborazione terminata con errori");
+
+                    SetOutputMessage(ex);
+                    btnCopyError.Visible = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selezionare i file di input e la cartella di destinazione", "File di input o cartella di destinazione non validi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            CreatePresentationsInput createPresentationsInput = e.Argument as CreatePresentationsInput;
+
+            CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
+            e.Result = new object[] { createPresentationsInput, output };
+        }
+
+        private void btnCreatePresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+            toolStripProgressBar.Visible = false;
+            btnCreaPresentazione.Enabled = true;
+
+            object[] outputAndInput = e.Result as object[];
+
+            CreatePresentationsInput updateReportsInput = outputAndInput[0] as CreatePresentationsInput;
+            CreatePresentationsOutput output = outputAndInput[1] as CreatePresentationsOutput;
+
+            if (output.Esito == EsitiFinali.Success)
+            {
+                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
+                SetOutputMessage(message);
+                SetStatusLabel("Elaborazione terminata con successo");
+
+                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+                _debugFileName = updateReportsInput.FileDebug_FilePath;
+                btnCopyError.Visible = false;
+            }
+            else //FAIL
+            {
+                //Mostrare eventuali dati nel fail
+                SetStatusLabel("Elaborazione terminata con errori");
+                SetOutputMessage(output.ManagedException);
+                btnCopyError.Visible = true;
+            }
+        }
+        #endregion
     }
 }

@@ -36,6 +36,7 @@ Tipo layout:
 -------------------- Todo
 - Selezione del periodo
 - Aggiornare variabili foglio nome in base al periodo
+- Migliorare aspetto griglia filtri quando disabilitat
 - Applicazione filtri su super dettagli
 - Aggiungere file istruzioni.txt per la configurazione dei file di testo
 - Debug di input
