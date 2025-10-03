@@ -20,6 +20,9 @@ namespace PptGeneratorGUI
         private string _debugFileName;
         private DateTime _selectedDatePeriodo;
 
+
+        private bool _inputValidato = false;
+
         private const string _newlineHTML = @"<BR />";
         private const string _boldHTML = @"<B>{0}</B>";
         private const string _hyperlinkHTML = @"<a style=""color: blue;"" href=""{0}"">{1}</a>";
@@ -76,7 +79,6 @@ th, td {{
                 cmbFileBudgetPath.Text = value;
             }
         }
-
         public string SelectedFileForecastPath
         {
             get
@@ -88,7 +90,6 @@ th, td {{
                 cmbFileForecastPath.Text = value;
             }
         }
-
         public string SelectedFileSuperDettagliPath
         {
             get
@@ -100,7 +101,6 @@ th, td {{
                 cmbFileSuperDettagliPath.Text = value;
             }
         }
-
         public string SelectedFileRanRatePath
         {
             get
@@ -138,18 +138,26 @@ th, td {{
             lblVersion.Text = $"Versione: {GetVersion()}";
         }
 
-        private void LetturaConfigurazioneDaFileDataSource()
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            // throw new NotImplementedException();
+            RefreshUI(true);
         }
+
 
         private void SetStatusLabel(string status)
         {
             txtStatusLabel.Text = status;
         }
 
-        private void RefreshUI()
+        private void RefreshUI(bool resetInputValidato)
         {
+            if (resetInputValidato)
+            {
+                _inputValidato = false;
+                gbOptions.Enabled = false;
+                dgvFiltri.Rows.Clear();
+            }
+
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
@@ -173,13 +181,12 @@ th, td {{
 
 
             var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid;
+            btnNext.Enabled = allValid;
 
             if (allValid)
-            {
-                BuildFiltersArea();
-                //
-                dgvFiltri.Enabled = true;
-                btnCreaPresentazione.Enabled = true;
+            {                
+                btnCreaPresentazione.Enabled = _inputValidato;
+                gbOptions.Enabled = _inputValidato;
 
                 //todo:
                 toolTipDefault.SetToolTip(btnCreaPresentazione, "Avvia l'elaborazione del report");
@@ -187,16 +194,58 @@ th, td {{
             }
             else
             {
-                dgvFiltri.Rows.Clear();
-                dgvFiltri.Enabled = false;
+
                 btnCreaPresentazione.Enabled = false;
+                gbOptions.Enabled = false;
                 //todo:
                 toolTipDefault.SetToolTip(btnCreaPresentazione, "Selezionare il file controller, il file report e la cartella di destinazione");
                 SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
             }
         }
 
+        private void BuildFiltersArea()
+        {
+            dgvFiltri.Rows.Clear();
 
+            var getUserOptionsFromDataSourceInput = new GetUserOptionsFromDataSourceInput(TemplatesFolderPath);
+
+            var userOptionsFromDataSourceOutput = Info.GetUserOptionsFromDataSource(getUserOptionsFromDataSourceInput);
+
+
+            foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
+            {
+                int rowIndex = dgvFiltri.Rows.Add();
+                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"Select values";
+                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.Tabella}";
+                dgvFiltri.Rows[rowIndex].Cells[2].Value = $"{filtro.Campo}";
+                //todo: rivedere
+                dgvFiltri.Rows[rowIndex].Cells[3].Value = string.Join("; ", filtro.ValoriSelezionati);
+            }
+
+            //for (int i = 0; i < dgvFiltri.Columns.Count; i++)
+            //{
+            //    dgvFiltri.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //}
+
+
+            dgvFiltri.CellContentClick += (s, e) =>
+            {
+                if (e.ColumnIndex == dgvFiltri.Columns["Modifica"].Index && e.RowIndex >= 0)
+                {
+                    string tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
+                    string campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
+                    MessageBox.Show($"Hai cliccato sul pulsante della riga: {tabella}-{campo}");
+                }
+            };
+        }
+
+        private void LetturaConfigurazioneDaFileDataSource()
+        {
+            // throw new NotImplementedException();
+        }
+
+
+        #region Gestione history combo boxes
         public string GetLocaLApplicationDataPath()
         {
             string localApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PptGenerator");
@@ -236,48 +285,11 @@ th, td {{
             cmbDestinationFolderPath.Items.Clear();
             cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
         }
-
-        private void BuildFiltersArea()
-        {
-            dgvFiltri.Rows.Clear();
-
-            var getUserOptionsFromDataSourceInput = new GetUserOptionsFromDataSourceInput(TemplatesFolderPath);
-
-            var userOptionsFromDataSourceOutput = Editor.GetUserOptionsFromDataSource(getUserOptionsFromDataSourceInput);
-
-
-            foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
-            {
-                int rowIndex = dgvFiltri.Rows.Add();
-                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"Seleziona filtri";
-                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.Tabella}";
-                dgvFiltri.Rows[rowIndex].Cells[2].Value = $"{filtro.Campo}";
-                //todo: rivedere
-                dgvFiltri.Rows[rowIndex].Cells[3].Value = string.Join("; ", filtro.ValoriSelezionati);
-            }
-
-            for (int i = 0; i < dgvFiltri.Columns.Count; i++)
-            {
-                dgvFiltri.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-
-            dgvFiltri.CellContentClick += (s, e) =>
-            {
-                if (e.ColumnIndex == dgvFiltri.Columns["Modifica"].Index && e.RowIndex >= 0)
-                {
-                    string tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
-                    string campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
-                    MessageBox.Show($"Hai cliccato sul pulsante della riga: {tabella}-{campo}");
-                }
-            };
-
-        }
-
         private void AddPathsInXmlFileHistory()
         {
             _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRanRatePath, SelectedDestinationFolderPath);
         }
+        #endregion
 
 
         #region Check "IsValid" su file e cartella
@@ -341,12 +353,6 @@ th, td {{
             return isValid;
         }
         #endregion
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
 
 
 
@@ -577,7 +583,8 @@ th, td {{
             }
         }
 
-        private void CreaPresentazione()
+        #region CreaPresentazione
+        private void CreatePresentation()
         {
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
@@ -614,7 +621,7 @@ th, td {{
                 {
                     toolStripProgressBar.Visible = true;
                     btnCreaPresentazione.Enabled = false;
-                    updateReportsBackgroundWorker.RunWorkerAsync(createPresentationsInput);
+                    createPresentationBackgroundWorker.RunWorkerAsync(createPresentationsInput);
                 }
                 catch (ManagedException mEx)
                 {
@@ -636,6 +643,45 @@ th, td {{
                 MessageBox.Show("Selezionare i file di input e la cartella di destinazione", "File di input o cartella di destinazione non validi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        private void createPresentantionBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            CreatePresentationsInput createPresentationsInput = e.Argument as CreatePresentationsInput;
+            CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
+            e.Result = new object[] { createPresentationsInput, output };
+        }
+
+        private void createPresentantionBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            toolStripProgressBar.Visible = false;
+            btnCreaPresentazione.Enabled = true;
+
+            var outputAndInput = e.Result as object[];
+
+            var createPresentationsInput = outputAndInput[0] as CreatePresentationsInput;
+            var createPresentationsOutput = outputAndInput[1] as CreatePresentationsOutput;
+
+            if (createPresentationsOutput.Esito == EsitiFinali.Success)
+            {
+                //todo: transalation
+                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", createPresentationsInput.FileDebug_FilePath, createPresentationsOutput.RigheSpesaSkippate);
+                SetOutputMessage(message);
+                SetStatusLabel("Elaborazione terminata con successo");
+
+                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+                _debugFileName = createPresentationsInput.FileDebug_FilePath;
+                btnCopyError.Visible = false;
+            }
+            else //FAIL
+            {
+                //Mostrare eventuali dati nel fail
+                SetStatusLabel("Elaborazione terminata con errori");
+                SetOutputMessage(createPresentationsOutput.ManagedException);
+                btnCopyError.Visible = true;
+            }
+        }
+        #endregion
 
         private void ClearOutputArea()
         {
@@ -735,11 +781,11 @@ th, td {{
 
         private void toolStripMenuItemClear_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Svuotare definitivamente lo storico dei file? (L'operaizone è irreversibile)", "Svuotare lo stodico dei file?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 _pathFileHistory.ClearHistory();
                 FillComboBoxes();
-                RefreshUI();
+                RefreshUI(false);
             }
         }
 
@@ -787,7 +833,7 @@ th, td {{
                 e.Cancel = true;
 
                 //SelectedReportFilePath = url;
-                RefreshUI();
+                RefreshUI(false);
             }
             //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
             //{
@@ -812,6 +858,7 @@ th, td {{
             //}
 
         }
+
 
         private string GetURLMarker(string url)
         {
@@ -849,42 +896,7 @@ th, td {{
             ClearOutputArea();
         }
 
-        private void updateReportsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            CreatePresentationsInput createPresentationsInput = e.Argument as CreatePresentationsInput;
 
-            CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
-            e.Result = new object[] { createPresentationsInput, output };
-        }
-
-        private void updateReportsBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            toolStripProgressBar.Visible = false;
-            btnCreaPresentazione.Enabled = true;
-
-            object[] outputAndInput = e.Result as object[];
-
-            CreatePresentationsInput updateReportsInput = outputAndInput[0] as CreatePresentationsInput;
-            CreatePresentationsOutput output = outputAndInput[1] as CreatePresentationsOutput;
-
-            if (output.Esito == EsitiFinali.Success)
-            {
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
-                SetOutputMessage(message);
-                SetStatusLabel("Elaborazione terminata con successo");
-
-                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-                _debugFileName = updateReportsInput.FileDebug_FilePath;
-                btnCopyError.Visible = false;
-            }
-            else //FAIL
-            {
-                //Mostrare eventuali dati nel fail
-                SetStatusLabel("Elaborazione terminata con errori");
-                SetOutputMessage(output.ManagedException);
-                btnCopyError.Visible = true;
-            }
-        }
 
         private string GetVersion()
         {
@@ -900,62 +912,57 @@ th, td {{
             SelectedFileRanRatePath = string.Empty;
             SelectedDestinationFolderPath = string.Empty;
 
-            RefreshUI();
+            RefreshUI(true);
         }
 
         private void btnCreaPresentazione_Click(object sender, EventArgs e)
         {
-            CreaPresentazione();
+            CreatePresentation();
         }
 
 
         #region Eventi RefreshUI
         private void cmbFileBudgetPath_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
-
         private void cmbFileForecastPath_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
-
         private void cmbFileSuperDettagliPath_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
-
         private void cmbFileRanRatePath_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
         private void cmbDestinationFolderPath_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
+
 
         private void cmbFileBudgetPath_TextUpdate(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
-
         private void cmbFileForecastPath_TextUpdate(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
-
         private void cmbFileRanRatePath_TextUpdate(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
-
         private void cmbFileSuperDettagliPath_TextUpdate(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
         private void cmbDestinationFolderPath_TextUpdate(object sender, EventArgs e)
         {
-            RefreshUI();
+            RefreshUI(true);
         }
         #endregion
 
@@ -964,48 +971,48 @@ th, td {{
         private void btnSelectFileBudget_Click(object sender, EventArgs e)
         {
             const string tipoFoglio = "Budget";
-            var title = $"Seleziona il file {tipoFoglio}";
+            var title = $"Select the file {tipoFoglio}";
             var filePath = getPercosoSelezionatoDaUtente(title);
             if (!string.IsNullOrEmpty(filePath))
             {
                 SelectedFileBudgetPath = filePath;
-                RefreshUI();
+                RefreshUI(true);
             }
         }
 
         private void btnSelectForecastFile_Click(object sender, EventArgs e)
         {
             const string tipoFoglio = "Forecast";
-            var title = $"Seleziona il file {tipoFoglio}";
+            var title = $"Select the file {tipoFoglio}";
             var filePath = getPercosoSelezionatoDaUtente(title);
             if (!string.IsNullOrEmpty(filePath))
             {
                 SelectedFileForecastPath = filePath;
-                RefreshUI();
+                RefreshUI(true);
             }
         }
 
         private void btnSelectFileSuperDettagli_Click(object sender, EventArgs e)
         {
             const string tipoFoglio = "Super dettagli";
-            var title = $"Seleziona il file {tipoFoglio}";
+            var title = $"Select the file {tipoFoglio}";
             var filePath = getPercosoSelezionatoDaUtente(title);
             if (!string.IsNullOrEmpty(filePath))
             {
                 SelectedFileSuperDettagliPath = filePath;
-                RefreshUI();
+                RefreshUI(true);
             }
         }
 
         private void btnSelectFileRanRate_Click(object sender, EventArgs e)
         {
             const string tipoFoglio = "Ran rate";
-            var title = $"Seleziona il file {tipoFoglio}";
+            var title = $"Select the file {tipoFoglio}";
             var filePath = getPercosoSelezionatoDaUtente(title);
             if (!string.IsNullOrEmpty(filePath))
             {
                 SelectedFileRanRatePath = filePath;
-                RefreshUI();
+                RefreshUI(true);
             }
         }
 
@@ -1016,7 +1023,7 @@ th, td {{
             if (folderBrowserResult == DialogResult.OK)
             {
                 SelectedDestinationFolderPath = bfbDestFolder.SelectedPath;
-                RefreshUI();
+                RefreshUI(false);
             }
         }
 
@@ -1072,7 +1079,7 @@ th, td {{
             }
             else
             {
-                RefreshUI();
+                RefreshUI(false);
                 MessageBox.Show("Cartella non esistente o non valida", "Cartella non valida", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1108,7 +1115,7 @@ th, td {{
             }
             else
             {
-                RefreshUI();
+                RefreshUI(false);
                 MessageBox.Show("Percorso del file non valido o file inesistente", "File non valido", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1133,6 +1140,22 @@ th, td {{
             lblDataPeriodo.Text = calendarPeriodo.SelectionStart.ToShortDateString();
             pnlCalendar.Visible = false;
         }
+
         #endregion
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            //todo valida input
+            _inputValidato = true;
+
+            if (_inputValidato)
+            {
+                BuildFiltersArea();
+                //
+
+            }
+
+            RefreshUI(false);
+        }
     }
 }

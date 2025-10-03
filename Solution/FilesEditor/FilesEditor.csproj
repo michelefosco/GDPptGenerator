@@ -135,6 +135,7 @@
     <Compile Include="Constants\FolderNames.cs" />
     <Compile Include="Constants\MessaggiErrorePerUtente.cs" />
     <Compile Include="Constants\Numbers.cs" />
+    <Compile Include="Constants\Values.cs" />
     <Compile Include="Entities\Configurazione.cs" />
     <Compile Include="Entities\Exceptions\ManagedException.cs" />
     <Compile Include="Entities\FilterItems.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Entities\SlideToGenerate.cs" />
     <Compile Include="Entities\StepContext.cs" />
     <Compile Include="Entities\GetUserOptionsFromDataSourceInput.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="Steps\Step_AggiornaDataSource.cs" />
     <Compile Include="Steps\Step_Base.cs" />
     <Compile Include="Entities\CreatePresentationsInput.cs" />

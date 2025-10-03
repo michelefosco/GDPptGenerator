@@ -13,26 +13,7 @@ namespace FilesEditor
     public class Editor
     {
         #region Metodi pubblici
-        public static GetUserOptionsFromDataSourceOutput GetUserOptionsFromDataSource(GetUserOptionsFromDataSourceInput getUserOptionsFromDataSourceInput)
-        {
-            var dataSourceTemplateFile = Path.Combine(getUserOptionsFromDataSourceInput.TemplatesFolder, Constants.FileNames.DATA_SOURCE_FILENAME);
 
-            const string AllFilterApplied = "Tutti";
-            var filtriPossibili = new List<FilterItems>();
-            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "ProjType Cluster 2_", ValoriSelezionati = new List<string> { AllFilterApplied } });
-            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "BussinessArea Cluster 1_", ValoriSelezionati = new List<string> { AllFilterApplied } });
-            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "BusinessArea_", ValoriSelezionati = new List<string> { "Valore 1", "Valore 2", "Valore 3", "Valore 4" } });
-            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "ProjType_", ValoriSelezionati = new List<string> { AllFilterApplied } });
-            filtriPossibili.Add(new FilterItems { Tabella = "FORECAST", Campo = "Proj type cluster 2", ValoriSelezionati = new List<string> { AllFilterApplied } });
-            filtriPossibili.Add(new FilterItems { Tabella = "FORECAST", Campo = "Business", ValoriSelezionati = new List<string> { AllFilterApplied } });
-            filtriPossibili.Add(new FilterItems { Tabella = "BUDGET", Campo = "EngUnit area cluster 1_", ValoriSelezionati = new List<string> { AllFilterApplied } });
-            filtriPossibili.Add(new FilterItems { Tabella = "BUDGET", Campo = "CATEGORIA_", ValoriSelezionati = new List<string> { AllFilterApplied } });
-
-            return new GetUserOptionsFromDataSourceOutput
-            {
-                FiltriPossibili = filtriPossibili
-            };
-        }
 
         public static CreatePresentationsOutput CreatePresentations(CreatePresentationsInput createPresentationsInput)
         {
