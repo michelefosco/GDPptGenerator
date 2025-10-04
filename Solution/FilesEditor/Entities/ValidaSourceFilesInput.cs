@@ -11,15 +11,15 @@ namespace FilesEditor.Entities
         //public string FileDebug_FilePath { get; private set; }
 
         public ValidaSourceFilesInput(
-            string templateFolder
+            string templatesFolder
             //string outputFolder,
             //string tmpFolder,            
             //string fileDebug_FilePath = null,
             //bool evidenziaErroriNelFileDiInput = false
             )
         {
-            if (string.IsNullOrWhiteSpace(templateFolder))
-                throw new ArgumentNullException(nameof(templateFolder));
+            if (string.IsNullOrWhiteSpace(templatesFolder))
+                throw new ArgumentNullException(nameof(templatesFolder));
             //if (string.IsNullOrWhiteSpace(outputFolder))
             //    throw new ArgumentNullException(nameof(outputFolder));
             //if (string.IsNullOrWhiteSpace(tmpFolder))
@@ -27,7 +27,7 @@ namespace FilesEditor.Entities
 
 
 
-            TemplatesFolder = templateFolder;
+            TemplatesFolder = templatesFolder;
             //OutputFolder = outputFolder;
             //TmpFolder = tmpFolder;
             //FileDebug_FilePath = fileDebug_FilePath;

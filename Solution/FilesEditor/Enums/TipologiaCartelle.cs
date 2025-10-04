@@ -7,8 +7,8 @@ namespace FilesEditor.Enums
         [Description("Debug")]
         Debug,
 
-        [Description("File di tipo 1")]
-        FileDiTipo1,
+        [Description("Data source Template")]
+        DataSource_Template,
 
         [Description("File di tipo 2")]
         FileDiTipo2,

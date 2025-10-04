@@ -1,4 +1,8 @@
-﻿using FilesEditor.Entities;
+﻿using EPPlusExtensions;
+using FilesEditor.Constants;
+using FilesEditor.Entities;
+using FilesEditor.Entities.Exceptions;
+using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using FilesEditor.Steps;
 using System;
@@ -18,17 +22,17 @@ namespace FilesEditor
         public static CreatePresentationsOutput CreatePresentations(CreatePresentationsInput createPresentationsInput)
         {
             var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
-            return updateReports(createPresentationsInput, configurazione);
+            return createPresentations(createPresentationsInput, configurazione);
         }
 
-        public static CreatePresentationsOutput UpdateReports(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
+        public static CreatePresentationsOutput CreatePresentations(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
         {
             if (configurazione == null)
             { throw new ArgumentNullException(nameof(configurazione)); }
-            return updateReports(createPresentationsInput, configurazione);
+            return createPresentations(createPresentationsInput, configurazione);
         }
 
-        private static CreatePresentationsOutput updateReports(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
+        private static CreatePresentationsOutput createPresentations(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
         {
             var context = new StepContext(createPresentationsInput, configurazione);
             var stepsSequence = new List<Step_Base>
@@ -65,6 +69,89 @@ namespace FilesEditor
             return runStepSequence(stepsSequence, context);
         }
         #endregion
+
+
+        public static ValidaSourceFilesOutput ValidaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput)
+        {
+            // Lettura Opzione dal datasource
+
+            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, Constants.FileNames.DATA_SOURCE_FILENAME);
+            var opzioniUtente = GetOpzioniUtente(dataSourceTemplateFile);
+
+            // lettura info da 1° file
+
+            // lettura info da 2° file
+
+            // lettura info da 3° file
+
+            // lettura info da 4° file
+
+            // verifica applicabilità filtri
+
+            // completa Valori sele
+
+            return new ValidaSourceFilesOutput
+            {
+                OpzioniUtente = opzioniUtente
+            };
+        }
+
+
+        private static OpzioniUtente GetOpzioniUtente(string filePath)
+        {
+            EPPlusExtensions.EPPlusHelper ePPlusHelper = GetHelperForExistingFile(filePath, TipologiaCartelle.DataSource_Template);
+
+            //todo leggere da file
+            var filtriPossibili = new List<FilterItems>();
+            filtriPossibili.Add(new FilterItems
+            {
+                Tabella = "SUPERDETTAGLI",
+                Campo = "ProjType Cluster 2_",
+                ValoriPossibili = new List<string>(),
+                ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED }
+            });
+            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "BussinessArea Cluster 1_", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "BusinessArea_", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+            filtriPossibili.Add(new FilterItems { Tabella = "SUPERDETTAGLI", Campo = "ProjType_", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+            filtriPossibili.Add(new FilterItems { Tabella = "FORECAST", Campo = "Proj type cluster 2", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+            filtriPossibili.Add(new FilterItems { Tabella = "FORECAST", Campo = "Business", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+            filtriPossibili.Add(new FilterItems { Tabella = "BUDGET", Campo = "EngUnit area cluster 1_", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+            filtriPossibili.Add(new FilterItems { Tabella = "BUDGET", Campo = "CATEGORIA_", ValoriSelezionati = new List<string> { Values.ALLFILTERSAPPLIED } });
+
+            // Implement your logic to read user options from the specified file
+            return new OpzioniUtente
+            {
+                FiltriPossibili = filtriPossibili
+            };
+        }
+
+        public static bool IsBudgetFileOk(string filePath)
+        {
+            // check file existence
+
+            // check expected worksheet names
+
+            // check expected columns in each worksheet
+
+            // Implement your logic to check if the budget file is OK
+            return true;
+        }
+
+
+        static internal EPPlusHelper GetHelperForExistingFile(string filePath, TipologiaCartelle tipologiaCartella)
+        {
+            var ePPlusHelper = new EPPlusHelper();
+            if (!ePPlusHelper.Open(filePath))
+            {
+                throw new ManagedException(
+                    tipologiaErrore: TipologiaErrori.UnableToOpenFile,
+                    tipologiaCartella: tipologiaCartella,
+                    messaggioPerUtente: MessaggiErrorePerUtente.UnableToOpenFile,
+                    percorsoFile: filePath);
+            }
+            return ePPlusHelper;
+        }
+
 
         private static CreatePresentationsOutput runStepSequence(List<Step_Base> stepsSequence, StepContext context)
         {

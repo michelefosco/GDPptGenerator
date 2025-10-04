@@ -4,6 +4,17 @@ namespace FilesEditor.Enums
 {
     public enum TipologiaErrori
     {
+        [Description("Unable to open the file")]
+        UnableToOpenFile,
+
+
+
+
+
+
+
+
+
         [Description("Impossibile creare il file")]
         ImpossibileCreareFile,
 

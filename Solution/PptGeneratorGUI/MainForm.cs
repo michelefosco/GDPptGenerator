@@ -443,7 +443,7 @@ th, td {{
             {
                 switch (mEx.TipologiaCartella)
                 {
-                    case TipologiaCartelle.FileDiTipo1:
+                    case TipologiaCartelle.DataSource_Template:
                         htmlErrorMessage += _newlineHTML;
                         htmlErrorMessage += _newlineHTML;
                         //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");
@@ -1058,7 +1058,7 @@ th, td {{
                 backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
                 {
                     var input = e.Argument as ValidaSourceFilesInput;
-                    var output = Info.ValidaSourceFiles(input);
+                    var output = Editor.ValidaSourceFiles(input);
                     e.Result = new object[] { input, output };
                 };
 
