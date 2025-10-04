@@ -2,7 +2,7 @@
 
 namespace FilesEditor.Entities
 {
-    public class GetUserOptionsFromDataSourceInput
+    public class ValidaSourceFilesInput
     {
         public string TemplatesFolder { get; private set; }
         //public string OutputFolder { get; private set; }
@@ -10,7 +10,7 @@ namespace FilesEditor.Entities
         //public bool EvidenziaErroriNelFileDiInput { get; private set; }
         //public string FileDebug_FilePath { get; private set; }
 
-        public GetUserOptionsFromDataSourceInput(
+        public ValidaSourceFilesInput(
             string templateFolder
             //string outputFolder,
             //string tmpFolder,            

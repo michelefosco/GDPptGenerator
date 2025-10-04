@@ -203,16 +203,16 @@ th, td {{
             }
         }
 
-        private void BuildFiltersArea()
+        private void BuildFiltersArea(List<FilterItems> filtriPossibili)
         {
             dgvFiltri.Rows.Clear();
 
-            var getUserOptionsFromDataSourceInput = new GetUserOptionsFromDataSourceInput(TemplatesFolderPath);
+            //var getUserOptionsFromDataSourceInput = new GetUserOptionsFromDataSourceInput(TemplatesFolderPath);
 
-            var userOptionsFromDataSourceOutput = Info.GetUserOptionsFromDataSource(getUserOptionsFromDataSourceInput);
+            //var userOptionsFromDataSourceOutput = Info.GetUserOptionsFromDataSource(getUserOptionsFromDataSourceInput);
 
-
-            foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
+            //foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
+            foreach (var filtro in filtriPossibili)
             {
                 int rowIndex = dgvFiltri.Rows.Add();
                 dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Tabella}";
@@ -1041,18 +1041,54 @@ th, td {{
 
         #endregion
 
+
         private void btnNext_Click(object sender, EventArgs e)
         {
             validaFileDiInput();
         }
 
+
         private void validaFileDiInput()
         {
             try
             {
+                var backgroundWorker = new BackgroundWorker();
+
+                // eseguzione dell'attività
+                backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
+                {
+                    var input = e.Argument as ValidaSourceFilesInput;
+                    var output = Info.ValidaSourceFiles(input);
+                    e.Result = new object[] { input, output };
+                };
+
+                // completamento dell'attività
+                backgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
+                {
+                    var outputAndInput = e.Result as object[];
+                    var input = outputAndInput[0] as ValidaSourceFilesInput;
+                    var output = outputAndInput[1] as ValidaSourceFilesOutput;
+
+                    btnNext.Enabled = true;
+
+                    //todo valida input
+                    _inputValidato = true;
+
+                    if (_inputValidato)
+                    {
+                        BuildFiltersArea(output.OpzioniUtente.FiltriPossibili);
+                        //
+
+                    }
+                    RefreshUI(false);
+                };
+
                 toolStripProgressBar.Visible = true;
                 btnNext.Enabled = false;
-                btnNextBackgroundWorker.RunWorkerAsync();
+                // input per la chiamata al backend
+                var getUserOptionsFromDataSourceInput = new ValidaSourceFilesInput(TemplatesFolderPath);
+                //btnNextBackgroundWorker.RunWorkerAsync(getUserOptionsFromDataSourceInput);
+                backgroundWorker.RunWorkerAsync(getUserOptionsFromDataSourceInput);
             }
             catch (ManagedException mEx)
             {
@@ -1070,29 +1106,30 @@ th, td {{
             }
         }
 
-        private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            //todo valida input
-            // chiama al backend
-            System.Threading.Thread.Sleep(2000);
-        }
+        //private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    var input = e.Argument as GetUserOptionsFromDataSourceInput;
+        //    var output = Info.GetUserOptionsFromDataSource(input);
 
-        private void btnNextBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            btnNext.Enabled = true;
+        //    e.Result = new object[] { input, output };
+        //}
 
-            //todo valida input
-            _inputValidato = true;
+        //private void btnNextBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    btnNext.Enabled = true;
 
-            if (_inputValidato)
-            {
-                BuildFiltersArea();
-                //
+        //    //todo valida input
+        //    _inputValidato = true;
 
-            }
+        //    if (_inputValidato)
+        //    {
+        //        BuildFiltersArea(null);
+        //        //
 
-            RefreshUI(false);
-        }
+        //    }
+
+        //    RefreshUI(false);
+        //}
 
 
         #region CreaPresentazione
@@ -1103,6 +1140,46 @@ th, td {{
 
         private void createPresentation()
         {
+            var backgroundWorker = new BackgroundWorker();
+
+            backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
+            {
+                var createPresentationsInput = e.Argument as CreatePresentationsInput;
+                var output = Editor.CreatePresentations(createPresentationsInput);
+                e.Result = new object[] { createPresentationsInput, output };
+            };
+
+            backgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
+            {
+                toolStripProgressBar.Visible = false;
+                btnCreaPresentazione.Enabled = true;
+
+                var outputAndInput = e.Result as object[];
+
+                var input = outputAndInput[0] as CreatePresentationsInput;
+                var output = outputAndInput[1] as CreatePresentationsOutput;
+
+                if (output.Esito == EsitiFinali.Success)
+                {
+                    string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
+                    SetOutputMessage(message);
+                    SetStatusLabel("Elaborazione terminata con successo");
+
+                    // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+                    _debugFileName = input.FileDebug_FilePath;
+                    btnCopyError.Visible = false;
+                }
+                else //FAIL
+                {
+                    //Mostrare eventuali dati nel fail
+                    SetStatusLabel("Elaborazione terminata con errori");
+                    SetOutputMessage(output.ManagedException);
+                    btnCopyError.Visible = true;
+                }
+            };
+
+
+
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
@@ -1132,13 +1209,14 @@ th, td {{
                 var createPresentationsInput = new CreatePresentationsInput(
                             outputFolder: SelectedDestinationFolderPath,
                             tmpFolder: tmpFolder,
-                            templateFolder: TemplatesFolderPath,
+                            templatesFolder: TemplatesFolderPath,
                             fileDebug_FilePath: _debugFileName);
                 try
                 {
                     toolStripProgressBar.Visible = true;
                     btnCreaPresentazione.Enabled = false;
-                    btnCreatePresentationBackgroundWorker.RunWorkerAsync(createPresentationsInput);
+                    //btnCreatePresentationBackgroundWorker.RunWorkerAsync(createPresentationsInput);
+                    backgroundWorker.RunWorkerAsync(createPresentationsInput);
                 }
                 catch (ManagedException mEx)
                 {
@@ -1162,43 +1240,42 @@ th, td {{
         }
 
 
-        private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            CreatePresentationsInput createPresentationsInput = e.Argument as CreatePresentationsInput;
+        //private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    var createPresentationsInput = e.Argument as CreatePresentationsInput;
+        //    var output = Editor.CreatePresentations(createPresentationsInput);
+        //    e.Result = new object[] { createPresentationsInput, output };
+        //}
 
-            CreatePresentationsOutput output = Editor.CreatePresentations(createPresentationsInput);
-            e.Result = new object[] { createPresentationsInput, output };
-        }
+        //private void btnCreatePresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
 
-        private void btnCreatePresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
+        //    toolStripProgressBar.Visible = false;
+        //    btnCreaPresentazione.Enabled = true;
 
-            toolStripProgressBar.Visible = false;
-            btnCreaPresentazione.Enabled = true;
+        //    var outputAndInput = e.Result as object[];
 
-            object[] outputAndInput = e.Result as object[];
+        //    var input = outputAndInput[0] as CreatePresentationsInput;
+        //    var output = outputAndInput[1] as CreatePresentationsOutput;
 
-            CreatePresentationsInput updateReportsInput = outputAndInput[0] as CreatePresentationsInput;
-            CreatePresentationsOutput output = outputAndInput[1] as CreatePresentationsOutput;
+        //    if (output.Esito == EsitiFinali.Success)
+        //    {
+        //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
+        //        SetOutputMessage(message);
+        //        SetStatusLabel("Elaborazione terminata con successo");
 
-            if (output.Esito == EsitiFinali.Success)
-            {
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", updateReportsInput.FileDebug_FilePath, output.RigheSpesaSkippate);
-                SetOutputMessage(message);
-                SetStatusLabel("Elaborazione terminata con successo");
-
-                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-                _debugFileName = updateReportsInput.FileDebug_FilePath;
-                btnCopyError.Visible = false;
-            }
-            else //FAIL
-            {
-                //Mostrare eventuali dati nel fail
-                SetStatusLabel("Elaborazione terminata con errori");
-                SetOutputMessage(output.ManagedException);
-                btnCopyError.Visible = true;
-            }
-        }
+        //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+        //        _debugFileName = input.FileDebug_FilePath;
+        //        btnCopyError.Visible = false;
+        //    }
+        //    else //FAIL
+        //    {
+        //        //Mostrare eventuali dati nel fail
+        //        SetStatusLabel("Elaborazione terminata con errori");
+        //        SetOutputMessage(output.ManagedException);
+        //        btnCopyError.Visible = true;
+        //    }
+        //}
         #endregion
     }
 }

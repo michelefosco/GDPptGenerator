@@ -143,8 +143,9 @@
     <Compile Include="Entities\RigaSpeseSkippata.cs" />
     <Compile Include="Entities\SlideToGenerate.cs" />
     <Compile Include="Entities\StepContext.cs" />
-    <Compile Include="Entities\GetUserOptionsFromDataSourceInput.cs" />
+    <Compile Include="Entities\ValidaSourceFilesInput.cs" />
     <Compile Include="Info.cs" />
+    <Compile Include="Entities\OpzioniUtente.cs" />
     <Compile Include="Steps\Step_AggiornaDataSource.cs" />
     <Compile Include="Steps\Step_Base.cs" />
     <Compile Include="Entities\CreatePresentationsInput.cs" />
@@ -165,7 +166,7 @@
     <Compile Include="Steps\Step_CreaFilesPowerPoint.cs" />
     <Compile Include="Steps\Step_EsitoFinaleSuccess.cs" />
     <Compile Include="Steps\Step_Start_FileDebugHelper.cs" />
-    <Compile Include="Entities\GetUserOptionsFromDataSourceOutput.cs" />
+    <Compile Include="Entities\ValidaSourceFilesOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

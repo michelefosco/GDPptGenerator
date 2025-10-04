@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesEditor", "FilesEditor\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PptGeneratorGUI", "PptGeneratorGUI\PptGeneratorGUI.csproj", "{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesEditor.Tests", "FilesEditor.Tests\FilesEditor.Tests.csproj", "{6B502AFA-9579-4089-9566-B0085D5902D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +49,17 @@ Global
 		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ECC3EA0-CA4B-4615-AE9B-3C3CAAC610CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B502AFA-9579-4089-9566-B0085D5902D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B502AFA-9579-4089-9566-B0085D5902D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B502AFA-9579-4089-9566-B0085D5902D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B502AFA-9579-4089-9566-B0085D5902D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{01F3DF64-F7B8-4072-B42C-71960AD73539} = {C755190C-5170-40E3-B0FA-3E8DFD527CFB}
+		{6B502AFA-9579-4089-9566-B0085D5902D0} = {C755190C-5170-40E3-B0FA-3E8DFD527CFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2300A74E-3070-48D5-B8DC-FEDBF0F69F3B}

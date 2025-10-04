@@ -445,9 +445,9 @@
             // 
             // btnCreatePresentationBackgroundWorker
             // 
-            this.btnCreatePresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnCreatePresentationBackgroundWorker_DoWork);
-            this.btnCreatePresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnCreatePresentationBackgroundWorker_RunWorkerCompleted);
-            // 
+            //this.btnCreatePresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnCreatePresentationBackgroundWorker_DoWork);
+            //this.btnCreatePresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnCreatePresentationBackgroundWorker_RunWorkerCompleted);
+            //// 
             // btnCopyError
             // 
             this.btnCopyError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -681,8 +681,8 @@
             // 
             // btnNextBackgroundWorker
             // 
-            this.btnNextBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnNextBackgroundWorker_DoWork);
-            this.btnNextBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnNextBackgroundWorker_RunWorkerCompleted);
+            //this.btnNextBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnNextBackgroundWorker_DoWork);
+            //this.btnNextBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnNextBackgroundWorker_RunWorkerCompleted);
             // 
             // bfbDestFolder
             // 
