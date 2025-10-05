@@ -80,7 +80,10 @@ namespace FilesEditor
             var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
             var opzioniUtente = getOpzioniUtente(ePPlusHelper, configurazione);
+            ePPlusHelper.Close();
 
+            ePPlusHelper = GetHelperForExistingFile(validaSourceFilesInput.FileSuperDettagliPath, FileTypes.SuperDettagli);
+            
 
 
             // lettura info da 1° file
@@ -101,7 +104,10 @@ namespace FilesEditor
             };
             return outout;
         }
+        #endregion
 
+
+        #region Lettura da DataSource_Template
         private static UserOptions getOpzioniUtente(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
@@ -116,7 +122,6 @@ namespace FilesEditor
                 SildeToGenerate = slidesToGenerate
             };
         }
-
 
         private static List<FilterItems> getListaFiltriApplicabili(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
@@ -236,10 +241,8 @@ namespace FilesEditor
         }
         #endregion
 
-        private static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)
+        private static void ReadDataFrom_SuperDettagli()
         {
-            return (obj1 == null && obj2 == null && obj3 == null && obj4 == null && obj5 == null && obj6 == null);
-
         }
 
         private static bool IsBudgetFileOk(string filePath)
@@ -255,6 +258,12 @@ namespace FilesEditor
         }
 
 
+        #region Utilities
+        private static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)
+        {
+            return (obj1 == null && obj2 == null && obj3 == null && obj4 == null && obj5 == null && obj6 == null);
+
+        }
         static internal EPPlusHelper GetHelperForExistingFile(string filePath, FileTypes fileType)
         {
             var ePPlusHelper = new EPPlusHelper();
@@ -276,7 +285,6 @@ namespace FilesEditor
             }
             return ePPlusHelper;
         }
-
         static internal void ThrowExpetionsForMissingWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType)
         {
             if (!ePPlusHelper.WorksheetExists(worksheetName))
@@ -296,5 +304,6 @@ namespace FilesEditor
                     );
             }
         }
+        #endregion
     }
 }

@@ -7,23 +7,6 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
     [TestClass]
     public class Table_Operations : BaseTest
     {
-        [TestMethod]
-        public void DoSomethingOnTheTable()
-        {
-            //GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_003);
-            var savedAsFilePath = Path.Combine(TestFileFolderPath, "Output_" + InputfileNames.INPUT_FILE_003);
-
-
-            // WHEN
-            ExcelHelper.Open(filePath);
-            ExcelHelper.DoSomething(/*"Anagrafica Fornitori", 1, 2, 3, 4*/);
-            ExcelHelper.SaveAs(savedAsFilePath);
-
-            // THEN            
-            Assert.IsTrue(File.Exists(savedAsFilePath));
-        }
-
         [DataTestMethod]
         [DataRow(1, 0, true)]
         [DataRow(2, 1, true)]

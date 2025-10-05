@@ -1,38 +1,50 @@
-﻿using FilesEditor.Entities.MethodsArgs;
-using System;
+﻿using System;
 
 namespace FilesEditor.Entities
 {
     public class ValidaSourceFilesInput
     {
+        public string DestinationFolder { get; private set; }
         public string TemplatesFolder { get; private set; }
+        public string FileBudgetPath { get; private set; }
+        public string FileForecastPath { get; private set; }
+        public string FileSuperDettagliPath { get; private set; }
+        public string FileRanRatePath { get; private set; }
+
+        //public string DestinationFolderPath { get; private set; }
         //public string OutputFolder { get; private set; }
         //public string TmpFolder { get; private set; }
         //public bool EvidenziaErroriNelFileDiInput { get; private set; }
-        //public string FileDebug_FilePath { get; private set; }
+
 
         public ValidaSourceFilesInput(
-            string templatesFolder
-            //string outputFolder,
-            //string tmpFolder,            
-            //string fileDebug_FilePath = null,
-            //bool evidenziaErroriNelFileDiInput = false
+                 string destinationFolder,
+                 string templatesFolder,
+                 string fileBudgetPath,
+                 string fileForecastPath,
+                 string fileSuperDettagliPath,
+                 string fileRanRatePath
             )
         {
+            if (string.IsNullOrWhiteSpace(destinationFolder))
+                throw new ArgumentNullException(nameof(destinationFolder));
             if (string.IsNullOrWhiteSpace(templatesFolder))
                 throw new ArgumentNullException(nameof(templatesFolder));
-            //if (string.IsNullOrWhiteSpace(outputFolder))
-            //    throw new ArgumentNullException(nameof(outputFolder));
-            //if (string.IsNullOrWhiteSpace(tmpFolder))
-            //    throw new ArgumentNullException(nameof(tmpFolder));
+            if (string.IsNullOrWhiteSpace(fileBudgetPath))
+                throw new ArgumentNullException(nameof(fileBudgetPath));
+            if (string.IsNullOrWhiteSpace(fileForecastPath))
+                throw new ArgumentNullException(nameof(fileForecastPath));
+            if (string.IsNullOrWhiteSpace(fileSuperDettagliPath))
+                throw new ArgumentNullException(nameof(fileSuperDettagliPath));
+            if (string.IsNullOrWhiteSpace(fileRanRatePath))
+                throw new ArgumentNullException(nameof(fileRanRatePath));
 
-
-
+            DestinationFolder = destinationFolder;
             TemplatesFolder = templatesFolder;
-            //OutputFolder = outputFolder;
-            //TmpFolder = tmpFolder;
-            //FileDebug_FilePath = fileDebug_FilePath;
-            //EvidenziaErroriNelFileDiInput = evidenziaErroriNelFileDiInput;
+            FileBudgetPath = fileBudgetPath;
+            FileForecastPath = fileForecastPath;
+            FileSuperDettagliPath = fileSuperDettagliPath;
+            FileRanRatePath = fileRanRatePath;
         }
     }
 }

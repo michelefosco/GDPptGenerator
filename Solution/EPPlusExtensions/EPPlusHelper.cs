@@ -346,7 +346,6 @@ namespace EPPlusExtensions
             try
             {
                 _excelPackage = new ExcelPackage(new FileInfo(filePath));
-
                 // file aperto correttamente
                 FilePathInUse = filePath;
                 return true;
@@ -558,12 +557,10 @@ namespace EPPlusExtensions
             }
         }
 
-        /// <summary>
-        /// Metodo usato per test empirici
-        /// </summary>
-        public void DoSomething(/*string worksheetName, int fromRow, int fromCol, int toRow, int toCol*/)
+
+        public void Close()
         {
-            //var currentWorksheet = GetWorksheet(worksheetName);
+            _excelPackage.Dispose();
         }
     }
 }

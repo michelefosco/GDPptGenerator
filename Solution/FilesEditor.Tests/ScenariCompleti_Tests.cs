@@ -13,27 +13,28 @@ namespace FilesEditor.Tests
         [TestMethod]
         public void Interazione_OK_01()
         {
-            var templatesFolder_Path = Path.Combine(TestFileFolderPath, TestPaths.TEMPLATES_FOLDER);
-
-            //var folderOutput_Path = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
-
-
-            //var fileOutput_Path = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FILE);
-            //var fileDebug_Path = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_DEBUGFILE);
-
-            //var folderDatabase_Path = Path.Combine(TestFileFolderPath, TestPaths.KO_MacchineNomiDuplicatiStessoFile);
-            //var folderVenduto_Path = Path.Combine(TestFileFolderPath, TestPaths.Venduto_DatiAdHoc);
+            string destinationFolder = "?";
+            string templatesFolder = Path.Combine(TestFileFolderPath, TestPaths.TEMPLATES_FOLDER);
+            string fileBudgetPath = "?";
+            string fileForecastPath = "?";
+            string fileSuperDettagliPath = "?";
+            string fileRanRatePat = "?";
 
 
             var validaSourceFilesInput = new ValidaSourceFilesInput(
-                templatesFolder: templatesFolder_Path);
+                    destinationFolder: destinationFolder,
+                    templatesFolder: templatesFolder,
+                    fileBudgetPath: fileBudgetPath,
+                    fileForecastPath: fileForecastPath,
+                    fileSuperDettagliPath: fileSuperDettagliPath,
+                    fileRanRatePath: fileRanRatePat
+                    );
 
             var validaSourceFilesOutput = Editor.ValidaSourceFiles(validaSourceFilesInput);
 
-            //todo: inserire validazioni qui
             Assert.IsNotNull(validaSourceFilesOutput);
-            Assert.IsNull(validaSourceFilesOutput.ManagedException);
             Assert.AreEqual(EsitiFinali.Success, validaSourceFilesOutput.Esito);
+            Assert.IsNull(validaSourceFilesOutput.ManagedException);
             Assert.IsNotNull(validaSourceFilesOutput.UserOptions);
             //
             Assert.IsNotNull(validaSourceFilesOutput.UserOptions.Applicablefilters);
@@ -41,14 +42,6 @@ namespace FilesEditor.Tests
             //
             Assert.IsNotNull(validaSourceFilesOutput.UserOptions.SildeToGenerate);
             Assert.AreEqual(18, validaSourceFilesOutput.UserOptions.SildeToGenerate.Count);
-
-            //var createPresentationsInput = new CreatePresentationsInput(
-            //    outputFolder: "Output",
-            //    tmpFolder: "Tmp",
-            //    templatesFolder: templatesFolder,
-            //    fileDebug_FilePath: "fileDebug_FilePath"
-            //    );
-            //var createPresentationsOutput = Editor.CreatePresentations(createPresentationsInput);
         }
     }
 }

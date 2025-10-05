@@ -1080,9 +1080,15 @@ th, td {{
                 toolStripProgressBar.Visible = true;
                 btnNext.Enabled = false;
                 // input per la chiamata al backend
-                var getUserOptionsFromDataSourceInput = new ValidaSourceFilesInput(TemplatesFolderPath);
+                var validaSourceFilesInput = new ValidaSourceFilesInput(
+                        destinationFolder: SelectedDestinationFolderPath,
+                        templatesFolder: TemplatesFolderPath,
+                        fileBudgetPath: SelectedFileBudgetPath,
+                        fileForecastPath: SelectedFileForecastPath,
+                        fileSuperDettagliPath: SelectedFileSuperDettagliPath,
+                        fileRanRatePath: SelectedFileRanRatePath);
                 //btnNextBackgroundWorker.RunWorkerAsync(getUserOptionsFromDataSourceInput);
-                backgroundWorker.RunWorkerAsync(getUserOptionsFromDataSourceInput);
+                backgroundWorker.RunWorkerAsync(validaSourceFilesInput);
             }
             catch (ManagedException mEx)
             {

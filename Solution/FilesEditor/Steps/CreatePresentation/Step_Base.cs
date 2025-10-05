@@ -29,7 +29,6 @@ namespace FilesEditor.Steps.CreatePresentation
             catch (ManagedException ex)
             {
                 Context.CreatePresentationsOutput.SettaManagedException(ex);
-
                 return FinalizzaOutput(EsitiFinali.Failure);
             }
         }
