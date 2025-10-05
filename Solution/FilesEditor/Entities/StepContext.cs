@@ -1,4 +1,5 @@
 ﻿using FilesEditor.Entities.MethodsArgs;
+using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using System.Collections.Generic;
 
@@ -37,7 +38,7 @@ namespace FilesEditor.Entities
             TmpFolder = createPresentationsInput.TmpFolder;
             TemplatesFolder = createPresentationsInput.TemplatesFolder;
             //
-            CreatePresentationsOutput = new CreatePresentationsOutput();
+            CreatePresentationsOutput = new CreatePresentationsOutput(EsitiFinali.Undefined);
         }
     }
 }

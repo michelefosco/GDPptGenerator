@@ -1,12 +1,14 @@
-﻿namespace FilesEditor.Entities
+﻿using FilesEditor.Enums;
+using System.Collections.Generic;
+
+namespace FilesEditor.Entities
 {
     public class SlideToGenerate
     {
+        public string OutputFileName;
         public string Title;
-        public string ImageId1;
+        public LayoutTypes LayoutType;
 
-        public int SlideType;
-        public string ImageId2;
-        public string ImageId3;
+        public List<string> Contents;
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace FilesEditor.Entities
 {
-    public class ValidaSourceFilesInput : UserInterfaceIOutputBase
+    public class ValidaSourceFilesInput
     {
         public string TemplatesFolder { get; private set; }
         //public string OutputFolder { get; private set; }

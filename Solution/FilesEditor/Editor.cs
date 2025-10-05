@@ -10,6 +10,7 @@ using FilesEditor.Steps.CreatePresentation;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace FilesEditor
 {
@@ -76,11 +77,11 @@ namespace FilesEditor
         {
             // Lettura Opzione dal datasource
 
-            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, Constants.FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
-
-
             var opzioniUtente = getOpzioniUtente(ePPlusHelper, configurazione);
+
+
 
             // lettura info da 1° file
 
@@ -94,24 +95,28 @@ namespace FilesEditor
 
             // completa Valori sele
 
-            return new ValidaSourceFilesOutput
+            var outout = new ValidaSourceFilesOutput(EsitiFinali.Success)
             {
-                OpzioniUtente = opzioniUtente
+                UserOptions = opzioniUtente,
             };
+            return outout;
         }
 
         private static UserOptions getOpzioniUtente(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
-            var worksheetName = Constants.WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
 
             var filtriPossibili = getListaFiltriApplicabili(ePPlusHelper, configurazione);
+            var slidesToGenerate = getSildeToGenerate(ePPlusHelper, configurazione);
 
             return new UserOptions
             {
-                Applicablefilters = filtriPossibili
+                Applicablefilters = filtriPossibili,
+                SildeToGenerate = slidesToGenerate
             };
         }
+
 
         private static List<FilterItems> getListaFiltriApplicabili(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
@@ -124,7 +129,7 @@ namespace FilesEditor
             {
                 var table = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL);
                 var field = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL);
-                if (string.IsNullOrWhiteSpace(table) || string.IsNullOrWhiteSpace(field))
+                if (allNulls(table, field))
                 { break; }
 
                 filtriPossibili.Add(new FilterItems
@@ -142,7 +147,100 @@ namespace FilesEditor
             return filtriPossibili;
         }
 
+        private static List<SlideToGenerate> getSildeToGenerate(EPPlusHelper ePPlusHelper, Configurazione configurazione)
+        {
+            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+
+
+            var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATA_SOURCE_TEMPLATE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
+
+            //todo: lettura dei workshitt names con elementi stampabili
+
+            var slideToGenerateList = new List<SlideToGenerate>();
+
+            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_ROW;
+            while (true)
+            {
+                var outputFileName = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL);
+                var title = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL);
+                var content1 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL);
+                var content2 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_2_COL);
+                var content3 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_3_COL);
+                var layout = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL);
+
+                // mi fermo quando la riga è competamente a null
+                if (allNulls(outputFileName, title, content1, content2, content3, layout))
+                { break; }
+
+                //verifico i campi obbligatori
+                // check sul campo "Powerpoint File"
+                ManagedException.ThrowIfMissingMandatoryValue(outputFileName, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL,
+                    ValueHeaders.TableName);
+                // check sul campo "Title"
+                ManagedException.ThrowIfMissingMandatoryValue(title, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL,
+                    ValueHeaders.SlideTitle);
+                // check sul campo "Conten 1"
+                ManagedException.ThrowIfMissingMandatoryValue(content1, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL,
+                    ValueHeaders.SlideTitle);
+
+                //todo: chiedere info a Francesco su questo uso del default
+                if (layout == null) { layout = LayoutTypes.Horizontal.ToString(); }
+                // check sul campo "Layout"
+                ManagedException.ThrowIfMissingMandatoryValue(layout, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL,
+                    ValueHeaders.SlideLayout);
+
+                if (Enum.TryParse(layout, out LayoutTypes layoutType))
+                {
+                    // ok
+                }
+                else
+                {
+                    // Sollevare eccezione Managed
+                    //todo:
+                    throw new Exception("Tipo layout sconosciuto");
+                }
+
+                var contents = new List<string>() { content1 };
+                if (!string.IsNullOrWhiteSpace(content2)) { contents.Add(content2); }
+                if (!string.IsNullOrWhiteSpace(content3)) { contents.Add(content3); }
+
+                // Verifico che i valori usati in contents siano validi (ovvero esistano foglio con quel nome)
+                foreach (var item in contents)
+                {
+                    if (!printableWorksheets.Any(n => n.Equals(item, StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        // Sollevare eccezione Managed
+                        //todo:
+                        throw new Exception("Elemento da stampare non valido");
+                    }
+                }
+
+                // aggiungo la slide alla lista di quelle lette
+                slideToGenerateList.Add(new SlideToGenerate
+                {
+                    OutputFileName = outputFileName,
+                    Title = title,
+                    LayoutType = layoutType,
+                    Contents = contents
+                });
+
+                // passo alla riga successiva
+                rigaCorrente++;
+            }
+
+            return slideToGenerateList;
+        }
         #endregion
+
+        private static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)
+        {
+            return (obj1 == null && obj2 == null && obj3 == null && obj4 == null && obj5 == null && obj6 == null);
+
+        }
 
         private static bool IsBudgetFileOk(string filePath)
         {
@@ -169,7 +267,7 @@ namespace FilesEditor
                     worksheetName: null,
                     cellRow: null,
                     cellColumn: null,
-                    valueType: ValueTypes.None,
+                    valueHeader: ValueHeaders.None,
                     value: null,
                     //
                     errorType: ErrorTypes.UnableToOpenFile,
@@ -190,7 +288,7 @@ namespace FilesEditor
                     worksheetName: worksheetName,
                     cellRow: null,
                     cellColumn: null,
-                    valueType: ValueTypes.None,
+                    valueHeader: ValueHeaders.None,
                     value: null,
                     //
                     errorType: ErrorTypes.MissingWorksheet,

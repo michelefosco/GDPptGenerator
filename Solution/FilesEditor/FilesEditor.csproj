@@ -146,7 +146,8 @@
     <Compile Include="Entities\StepContext.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesInput.cs" />
     <Compile Include="Entities\UserOptions.cs" />
-    <Compile Include="Enums\ValueTypes.cs" />
+    <Compile Include="Enums\LayoutTypes.cs" />
+    <Compile Include="Enums\ValueHeaders.cs" />
     <Compile Include="Steps\CreatePresentation\Step_AggiornaDataSource.cs" />
     <Compile Include="Steps\CreatePresentation\Step_Base.cs" />
     <Compile Include="Entities\MethodsArgs\CreatePresentationsInput.cs" />

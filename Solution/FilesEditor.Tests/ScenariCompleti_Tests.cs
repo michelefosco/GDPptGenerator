@@ -1,4 +1,5 @@
 ﻿using FilesEditor.Entities;
+using FilesEditor.Enums;
 using FilesEditor.Tests.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -7,12 +8,11 @@ using System.IO;
 namespace FilesEditor.Tests
 {
     [TestClass]
-    public class ScenariCompleti_Tests: BaseTest
+    public class ScenariCompleti_Tests : BaseTest
     {
         [TestMethod]
         public void Interazione_OK_01()
         {
-
             var templatesFolder_Path = Path.Combine(TestFileFolderPath, TestPaths.TEMPLATES_FOLDER);
 
             //var folderOutput_Path = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
@@ -25,18 +25,22 @@ namespace FilesEditor.Tests
             //var folderVenduto_Path = Path.Combine(TestFileFolderPath, TestPaths.Venduto_DatiAdHoc);
 
 
-            var validaSourceFilesInput = new ValidaSourceFilesInput( 
-                templatesFolder: templatesFolder_Path
-                );
+            var validaSourceFilesInput = new ValidaSourceFilesInput(
+                templatesFolder: templatesFolder_Path);
 
             var validaSourceFilesOutput = Editor.ValidaSourceFiles(validaSourceFilesInput);
 
             //todo: inserire validazioni qui
             Assert.IsNotNull(validaSourceFilesOutput);
-            Assert.IsNotNull(validaSourceFilesOutput.OpzioniUtente);
-            Assert.IsNotNull(validaSourceFilesOutput.OpzioniUtente.Applicablefilters);
-            Assert.AreEqual(8, validaSourceFilesOutput.OpzioniUtente.Applicablefilters.Count);
-
+            Assert.IsNull(validaSourceFilesOutput.ManagedException);
+            Assert.AreEqual(EsitiFinali.Success, validaSourceFilesOutput.Esito);
+            Assert.IsNotNull(validaSourceFilesOutput.UserOptions);
+            //
+            Assert.IsNotNull(validaSourceFilesOutput.UserOptions.Applicablefilters);
+            Assert.AreEqual(8, validaSourceFilesOutput.UserOptions.Applicablefilters.Count);
+            //
+            Assert.IsNotNull(validaSourceFilesOutput.UserOptions.SildeToGenerate);
+            Assert.AreEqual(18, validaSourceFilesOutput.UserOptions.SildeToGenerate.Count);
 
             //var createPresentationsInput = new CreatePresentationsInput(
             //    outputFolder: "Output",

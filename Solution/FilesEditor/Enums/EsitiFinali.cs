@@ -2,6 +2,7 @@
 {
     public enum EsitiFinali
     {
+        Undefined,
         Failure,
         //DatiMancanti,
         Success,

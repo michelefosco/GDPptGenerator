@@ -12,7 +12,8 @@ namespace FilesEditor.Enums
         [Description("An expected worksheet is missing")]
         MissingWorksheet,
 
-
+        [Description("Missing value")]
+        MissingValue,
 
 
 
@@ -35,16 +36,11 @@ namespace FilesEditor.Enums
         [Description("Foglio incompleto")]
         FoglioIncompleto,
 
-        [Description("Dato mancante")]
-        DatoMancante,
-
         [Description("Dato non valido")]
         DatoNonValido,
 
         [Description("Dato non univoco")]
         DatoNonUnivoco,
-
-
 
         [Description("Errore in una formula")]
         Formula

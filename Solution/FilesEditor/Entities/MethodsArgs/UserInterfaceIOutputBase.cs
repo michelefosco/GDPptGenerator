@@ -6,6 +6,13 @@ namespace FilesEditor.Entities.MethodsArgs
 {
     public class UserInterfaceIOutputBase
     {
+        //public UserInterfaceIOutputBase() { }
+
+        public UserInterfaceIOutputBase(EsitiFinali esito)
+        {
+            Esito = esito;
+        }
+
         public ManagedException ManagedException { get; private set; }
         public EsitiFinali Esito { get; private set; }
 

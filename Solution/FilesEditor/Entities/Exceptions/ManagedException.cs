@@ -1,4 +1,6 @@
-﻿using FilesEditor.Enums;
+﻿using EPPlusExtensions;
+using FilesEditor.Constants;
+using FilesEditor.Enums;
 using System;
 
 namespace FilesEditor.Entities.Exceptions
@@ -11,7 +13,7 @@ namespace FilesEditor.Entities.Exceptions
         public readonly string WorksheetName;
         public readonly int? CellRow;
         public readonly int? CellColumn;
-        public readonly ValueTypes ValueType;
+        public readonly ValueHeaders ValueHeader;
         public readonly string Value;
         //
         public readonly ErrorTypes ErrorType;
@@ -26,7 +28,7 @@ namespace FilesEditor.Entities.Exceptions
                 string worksheetName,
                 int? cellRow,
                 int? cellColumn,
-                ValueTypes valueType,
+                ValueHeaders valueHeader,
                 string value,
                 //
                 ErrorTypes errorType,
@@ -40,7 +42,7 @@ namespace FilesEditor.Entities.Exceptions
             WorksheetName = worksheetName;
             CellRow = cellRow;
             CellColumn = cellColumn;
-            this.ValueType = valueType;
+            this.ValueHeader = valueHeader;
             Value = value;
             //
             ErrorType = errorType;
@@ -48,8 +50,6 @@ namespace FilesEditor.Entities.Exceptions
                         ? buildUserMessage()
                         : userMessage;
         }
-
-
         private string buildUserMessage()
         {
             var _userMessage = $"{ErrorType.GetEnumDescription()}, file type: {FileType.GetEnumDescription()}";
@@ -81,13 +81,33 @@ namespace FilesEditor.Entities.Exceptions
                 _userMessage += $", value: \"{Value}\"";
             }
 
-            if (ValueType != ValueTypes.None)
+            if (ValueHeader != ValueHeaders.None)
             {
-                _userMessage += $", value types: {ValueType.GetEnumDescription()}";
+                _userMessage += $", value types: {ValueHeader.GetEnumDescription()}";
             }
 
             return _userMessage;
         }
 
+
+        internal static void ThrowIfMissingMandatoryValue(string valueToCheck, string filePath, FileTypes fileType, string worksheetName, int cellRow, int cellColumn, ValueHeaders valueHeader)
+        {
+            if (valueToCheck == null)
+            {
+                throw new ManagedException(
+                    filePath: filePath,
+                    fileType: fileType,
+                    //
+                    worksheetName: null,
+                    cellRow: cellRow,
+                    cellColumn: cellColumn,
+                    valueHeader: valueHeader,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.MissingValue,
+                    userMessage: string.Format(UserErrorMessages.MissingValue, valueHeader)
+                    );
+            }
+        }
     }
 }

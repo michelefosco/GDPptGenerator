@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using FilesEditor.Enums;
+using System.Collections.Generic;
 
 
 namespace FilesEditor.Entities.MethodsArgs
 {
 
-    public class CreatePresentationsOutput: UserInterfaceIOutputBase
+    public class CreatePresentationsOutput : UserInterfaceIOutputBase
     {
-        
+        public CreatePresentationsOutput(EsitiFinali esito) : base(esito)
+        {
+        }
         //public List<Reparto> RepartiCensitiInController { get; private set; }
         //public List<Reparto> RepartiCensitiInReport { get; private set; }
         //public List<FornitoreCensito> FornitoriCensitiInReport { get; private set; }
         //public List<FornitoreNonCensito> FornitoriNonCensitiInReport { get; private set; }
         //public List<RigaSpese> RigheSpesa { get; private set; }
-      //  public List<RigaSpeseSkippata> RigheSpesaSkippate { get; private set; }
+        //  public List<RigaSpeseSkippata> RigheSpesaSkippate { get; private set; }
         //public List<RigaTabellaAvanzamento> RigheTabellaAvanzamento { get; private set; }
         //public List<RigaTabellaConsumiSpacchettati> RigheTabellaConsumiSpacchettati { get; private set; }
         //public List<TuplaSpesePerAnno> RigheTabellaSintesi_SetMinimoRigheNecessarie { get; private set; }
@@ -21,7 +24,7 @@ namespace FilesEditor.Entities.MethodsArgs
         //public List<string> CategorieFornitori { get; private set; }
 
 
- 
+
 
         //public void SettaRepartiCensitiController(List<Reparto> reparti)
         //{

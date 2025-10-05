@@ -9,6 +9,7 @@ Dimensioni box immagini:	27,400 cm X 14.500 cm
 -------------------- Domande per Francesco
 - Qual'è il livello di customizzazione che si vuole dare?
 - Definire tipologia di layout
+- Il campo Typo layout nella configruazione deve essere obbligatorio? O possiamo usare horisontal come default
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
