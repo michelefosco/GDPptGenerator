@@ -145,10 +145,10 @@
     <Compile Include="Entities\SlideToGenerate.cs" />
     <Compile Include="Entities\StepContext.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesInput.cs" />
-    <Compile Include="Entities\OpzioniUtente.cs" />
+    <Compile Include="Entities\UserOptions.cs" />
     <Compile Include="Enums\ValueTypes.cs" />
-    <Compile Include="Steps\Step_AggiornaDataSource.cs" />
-    <Compile Include="Steps\Step_Base.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_AggiornaDataSource.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_Base.cs" />
     <Compile Include="Entities\MethodsArgs\CreatePresentationsInput.cs" />
     <Compile Include="Entities\MethodsArgs\CreatePresentationsOutput.cs" />
     <Compile Include="Enums\ColumnIDS.cs" />
@@ -161,11 +161,11 @@
     <Compile Include="Helpers\ValueHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />
-    <Compile Include="Steps\Step_CreaFilesImmagini.cs" />
-    <Compile Include="Steps\Step_PredisponiTmpFolder.cs" />
-    <Compile Include="Steps\Step_CreaFilesPowerPoint.cs" />
-    <Compile Include="Steps\Step_EsitoFinaleSuccess.cs" />
-    <Compile Include="Steps\Step_Start_FileDebugHelper.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_CreaFilesImmagini.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_PredisponiTmpFolder.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_CreaFilesPowerPoint.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_EsitoFinaleSuccess.cs" />
+    <Compile Include="Steps\CreatePresentation\Step_Start_FileDebugHelper.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesOutput.cs" />
   </ItemGroup>
   <ItemGroup>

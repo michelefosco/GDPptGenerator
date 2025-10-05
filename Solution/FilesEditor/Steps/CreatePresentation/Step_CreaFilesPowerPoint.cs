@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using FilesEditor.Entities.MethodsArgs;
 
-namespace FilesEditor.Steps
+namespace FilesEditor.Steps.CreatePresentation
 {
     internal class Step_CreaFilesPowerPoint : Step_Base
     {

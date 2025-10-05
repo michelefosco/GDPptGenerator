@@ -34,8 +34,8 @@ namespace FilesEditor.Tests
             //todo: inserire validazioni qui
             Assert.IsNotNull(validaSourceFilesOutput);
             Assert.IsNotNull(validaSourceFilesOutput.OpzioniUtente);
-            Assert.IsNotNull(validaSourceFilesOutput.OpzioniUtente.FiltriPossibili);
-            Assert.AreEqual(8, validaSourceFilesOutput.OpzioniUtente.FiltriPossibili.Count);
+            Assert.IsNotNull(validaSourceFilesOutput.OpzioniUtente.Applicablefilters);
+            Assert.AreEqual(8, validaSourceFilesOutput.OpzioniUtente.Applicablefilters.Count);
 
 
             //var createPresentationsInput = new CreatePresentationsInput(

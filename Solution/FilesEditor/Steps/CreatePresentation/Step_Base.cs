@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FilesEditor.Steps
+namespace FilesEditor.Steps.CreatePresentation
 {
     //todo: rendere internal ma accessibile ai test
     abstract public class Step_Base

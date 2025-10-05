@@ -2,8 +2,8 @@
 
 namespace FilesEditor.Entities
 {
-    public class OpzioniUtente
+    public class UserOptions
     {
-        public List<FilterItems> FiltriPossibili;
+        public List<FilterItems> Applicablefilters;
     }
 }

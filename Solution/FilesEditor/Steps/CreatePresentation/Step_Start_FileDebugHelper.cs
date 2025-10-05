@@ -4,7 +4,7 @@ using FilesEditor.Entities.MethodsArgs;
 using System.IO;
 
 
-namespace FilesEditor.Steps
+namespace FilesEditor.Steps.CreatePresentation
 {
     /// <summary>
     /// Avvio il logging sul file "Debug"

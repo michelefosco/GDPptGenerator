@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace FilesEditor.Steps
+namespace FilesEditor.Steps.CreatePresentation
 {
     internal class Step_CreaFilesImmagini : Step_Base
     {

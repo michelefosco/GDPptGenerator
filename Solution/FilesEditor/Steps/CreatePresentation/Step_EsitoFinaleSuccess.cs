@@ -2,7 +2,7 @@
 using FilesEditor.Enums;
 using FilesEditor.Entities.MethodsArgs;
 
-namespace FilesEditor.Steps
+namespace FilesEditor.Steps.CreatePresentation
 {
     /// <summary>
     /// Step che se raggiungo indica l'esito Success dell'intero processo

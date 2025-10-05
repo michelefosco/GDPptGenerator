@@ -2,7 +2,7 @@
 using FilesEditor.Entities.MethodsArgs;
 using System.IO;
 
-namespace FilesEditor.Steps
+namespace FilesEditor.Steps.CreatePresentation
 {
     internal class Step_AggiornaDataSource : Step_Base
     {

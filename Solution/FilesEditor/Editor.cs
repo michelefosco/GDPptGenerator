@@ -6,6 +6,7 @@ using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using FilesEditor.Steps;
+using FilesEditor.Steps.CreatePresentation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,7 +58,7 @@ namespace FilesEditor
         #endregion
 
 
-        #region CreatePresentations
+        #region ValidaSourceFiles
         public static ValidaSourceFilesOutput ValidaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput)
         {
             var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
@@ -76,7 +77,10 @@ namespace FilesEditor
             // Lettura Opzione dal datasource
 
             var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, Constants.FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
-            var opzioniUtente = GetOpzioniUtente(dataSourceTemplateFile, configurazione);
+            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
+
+
+            var opzioniUtente = getOpzioniUtente(ePPlusHelper, configurazione);
 
             // lettura info da 1° file
 
@@ -95,25 +99,27 @@ namespace FilesEditor
                 OpzioniUtente = opzioniUtente
             };
         }
-        #endregion
 
-
-
-
-
-
-
-
-
-        private static OpzioniUtente GetOpzioniUtente(string filePath, Configurazione configurazione)
+        private static UserOptions getOpzioniUtente(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
-            var ePPlusHelper = GetHelperForExistingFile(filePath, FileTypes.DataSource_Template);
-
             var worksheetName = Constants.WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
+
+            var filtriPossibili = getListaFiltriApplicabili(ePPlusHelper, configurazione);
+
+            return new UserOptions
+            {
+                Applicablefilters = filtriPossibili
+            };
+        }
+
+        private static List<FilterItems> getListaFiltriApplicabili(EPPlusHelper ePPlusHelper, Configurazione configurazione)
+        {
+            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+
             var filtriPossibili = new List<FilterItems>();
 
-            // scorro verso destra le colonne della tabella contenente i nomi dei reparti
-            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_ROW; ;
+            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_ROW;
             while (true)
             {
                 var table = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL);
@@ -129,35 +135,14 @@ namespace FilesEditor
                     SelectedValues = new List<string>(),
                 });
 
-
+                // passo alla riga successiva
                 rigaCorrente++;
             }
 
-
-
-            //todo leggere da file
-
-            //filtriPossibili.Add(new FilterItems
-            //{
-            //    TableName = "SUPERDETTAGLI",
-            //    FieldName = "ProjType Cluster 2_",
-            //    Values = new List<string>(),
-            //    SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED }
-            //});
-            //filtriPossibili.Add(new FilterItems { TableName = "SUPERDETTAGLI", FieldName = "BussinessArea Cluster 1_", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-            //filtriPossibili.Add(new FilterItems { TableName = "SUPERDETTAGLI", FieldName = "BusinessArea_", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-            //filtriPossibili.Add(new FilterItems { TableName = "SUPERDETTAGLI", FieldName = "ProjType_", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-            //filtriPossibili.Add(new FilterItems { TableName = "FORECAST", FieldName = "Proj type cluster 2", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-            //filtriPossibili.Add(new FilterItems { TableName = "FORECAST", FieldName = "Business", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-            //filtriPossibili.Add(new FilterItems { TableName = "BUDGET", FieldName = "EngUnit area cluster 1_", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-            //filtriPossibili.Add(new FilterItems { TableName = "BUDGET", FieldName = "CATEGORIA_", SelectedValues = new List<string> { Values.ALLFILTERSAPPLIED } });
-
-            //// Implement your logic to read user options from the specified file
-            return new OpzioniUtente
-            {
-                FiltriPossibili = filtriPossibili
-            };
+            return filtriPossibili;
         }
+
+        #endregion
 
         private static bool IsBudgetFileOk(string filePath)
         {

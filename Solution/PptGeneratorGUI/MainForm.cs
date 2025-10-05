@@ -1071,7 +1071,7 @@ th, td {{
 
                     if (_inputValidato)
                     {
-                        _fieldFilters = output.OpzioniUtente.FiltriPossibili;
+                        _fieldFilters = output.OpzioniUtente.Applicablefilters;
                         BuildFiltersArea(_fieldFilters);
                     }
                     RefreshUI(false);

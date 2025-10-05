@@ -4,6 +4,6 @@ namespace FilesEditor.Entities.MethodsArgs
 {
     public class ValidaSourceFilesOutput: UserInterfaceIOutputBase
     {
-        public OpzioniUtente OpzioniUtente;
+        public UserOptions OpzioniUtente;
     }
 }
