@@ -1,4 +1,5 @@
 ﻿using FilesEditor.Entities;
+using FilesEditor.Entities.MethodsArgs;
 using System.IO;
 
 namespace FilesEditor.Steps

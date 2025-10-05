@@ -1,8 +1,9 @@
-﻿using System;
+﻿using FilesEditor.Entities.MethodsArgs;
+using System;
 
 namespace FilesEditor.Entities
 {
-    public class ValidaSourceFilesInput
+    public class ValidaSourceFilesInput : UserInterfaceIOutputBase
     {
         public string TemplatesFolder { get; private set; }
         //public string OutputFolder { get; private set; }

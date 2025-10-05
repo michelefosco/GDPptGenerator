@@ -13,6 +13,9 @@ namespace EPPlusExtensions
         private ExcelPackage _excelPackage;
         private readonly Color _backgroundColorCellaInEvidenza;
         private readonly Color _backgroundColorCellaInErrore;
+        
+
+        public string FilePathInUse {get; private set;}
 
         public EPPlusHelper()
         {
@@ -85,7 +88,7 @@ namespace EPPlusExtensions
                 currentWorksheet.Cells[currentWorksheet.Dimension.Address].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             }
         }
-     
+
         public void RemoveEntireRow(string worksheetName, int row)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
@@ -121,6 +124,12 @@ namespace EPPlusExtensions
                     currentWorksheet.Cells[row, col].Value = null;
                 }
             }
+        }
+
+        public bool ExistsGetWorksheet(string worksheetName)
+        {
+            var worksheet = _excelPackage.Workbook.Worksheets[worksheetName];
+            return !(worksheet == null);
         }
 
         private ExcelWorksheet GetWorksheet(string worksheetName, bool addIfMissing = false)
@@ -260,7 +269,7 @@ namespace EPPlusExtensions
             return currentWorksheet.Cells[row, col].Value;
         }
 
-        public List<object> GetValuesFromColumn(string worksheetName, int col,int rowFrom, int rowTo)
+        public List<object> GetValuesFromColumn(string worksheetName, int col, int rowFrom, int rowTo)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
             var values = new List<object>();
@@ -283,7 +292,7 @@ namespace EPPlusExtensions
             return !string.IsNullOrEmpty(currentWorksheet.Cells[row, col].Formula);
         }
 
-        public bool HasWorksheetCells(string worksheetName)
+        public bool WorksheetExists(string worksheetName)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
             return !(currentWorksheet.Dimension == null);
@@ -328,12 +337,18 @@ namespace EPPlusExtensions
 
         public bool Open(string filePath)
         {
+            // resetto il nome del file aperto
+            FilePathInUse = null;
+
             if (!File.Exists(filePath))
-                return false;
+            { return false; }               
 
             try
             {
                 _excelPackage = new ExcelPackage(new FileInfo(filePath));
+
+                // file aperto correttamente
+                FilePathInUse = filePath;
                 return true;
             }
             catch (Exception)

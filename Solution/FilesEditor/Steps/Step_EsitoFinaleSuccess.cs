@@ -1,6 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using FilesEditor.Steps;
+using FilesEditor.Entities.MethodsArgs;
 
 namespace FilesEditor.Steps
 {

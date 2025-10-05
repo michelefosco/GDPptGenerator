@@ -4,6 +4,7 @@ using ShapeCrawler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FilesEditor.Entities.MethodsArgs;
 
 namespace FilesEditor.Steps
 {
@@ -22,7 +23,7 @@ namespace FilesEditor.Steps
         const int SLIDE_TEMPLATE_1_INDEX = 3;
         private void creazionePowerPoint()
         {
-            var powerPointStructFiles = GetFilesListFromFolder(Context.TemplatesFolder, FiltriNomifile.FILTRO_NOME_FILE_PPT_STRUTTURA);
+            var powerPointStructFiles = GetFilesListFromFolder(Context.TemplatesFolder, FileNames.FILTRO_NOME_FILE_PPT_STRUTTURA);
 
             foreach (var percorsoFile in powerPointStructFiles)
             {

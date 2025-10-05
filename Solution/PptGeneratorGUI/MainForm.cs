@@ -1,6 +1,8 @@
 ﻿using FilesEditor;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using ShapeCrawler;
 using System;
@@ -9,6 +11,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 using System.Windows.Forms;
 
@@ -19,7 +22,7 @@ namespace PptGeneratorGUI
         private PathsHistory _pathFileHistory;
         private string _debugFileName;
         private DateTime _selectedDatePeriodo;
-
+        private List<FilterItems> _fieldFilters;
 
         private bool _inputValidato = false;
 
@@ -207,31 +210,23 @@ th, td {{
         {
             dgvFiltri.Rows.Clear();
 
-            //var getUserOptionsFromDataSourceInput = new GetUserOptionsFromDataSourceInput(TemplatesFolderPath);
-
-            //var userOptionsFromDataSourceOutput = Info.GetUserOptionsFromDataSource(getUserOptionsFromDataSourceInput);
-
-            //foreach (var filtro in userOptionsFromDataSourceOutput.FiltriPossibili)
             foreach (var filtro in filtriPossibili)
             {
                 int rowIndex = dgvFiltri.Rows.Add();
-                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Tabella}";
-                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.Campo}";
+                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.TableName}";
+                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.FieldName}";
                 dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
-                //todo: rivedere
-                dgvFiltri.Rows[rowIndex].Cells[3].Value = string.Join("; ", filtro.ValoriSelezionati);
+                var textFiltriSelezionati = (filtro.SelectedValues.Count == 0)
+                        ? Values.ALLFILTERSAPPLIED
+                        : string.Join("; ", filtro.SelectedValues);
+                dgvFiltri.Rows[rowIndex].Cells[3].Value = textFiltriSelezionati;
             }
-
-            //for (int i = 0; i < dgvFiltri.Columns.Count; i++)
-            //{
-            //    dgvFiltri.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            //}
-
 
             dgvFiltri.CellContentClick += (s, e) =>
             {
                 if (e.ColumnIndex == dgvFiltri.Columns["OpenFiltersSelection"].Index && e.RowIndex >= 0)
                 {
+                    //todo aprire form di selezione 
                     string tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
                     string campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
                     MessageBox.Show($"Hai cliccato sul pulsante della riga: {tabella}-{campo}");
@@ -429,21 +424,21 @@ th, td {{
             string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Errore:"));
             htmlErrorMessage += _newlineHTML;
             htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += StringToHTML(GetHTMLBold(mEx.MessaggioPerUtente));
+            htmlErrorMessage += StringToHTML(GetHTMLBold(mEx.UserMessage));
 
-            if (!string.IsNullOrEmpty(mEx.PercorsoFile))
+            if (!string.IsNullOrEmpty(mEx.FilePath))
             {
                 htmlErrorMessage += _newlineHTML;
                 htmlErrorMessage += _newlineHTML;
-                htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(mEx.PercorsoFile, mEx.PercorsoFile);
+                htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(mEx.FilePath, mEx.FilePath);
                 //htmlErrorMessage += _spaceHTML;
                 //htmlErrorMessage += GetHTMLDeleteFileHyperLink(mEx.PercorsoFile);
             }
             else
             {
-                switch (mEx.TipologiaCartella)
+                switch (mEx.FileType)
                 {
-                    case TipologiaCartelle.DataSource_Template:
+                    case FileTypes.DataSource_Template:
                         htmlErrorMessage += _newlineHTML;
                         htmlErrorMessage += _newlineHTML;
                         //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");
@@ -461,39 +456,39 @@ th, td {{
             htmlErrorMessage += _newlineHTML;
 
             //Tabella con dati aggiuntivi dell'errore
-            string tableHTML = GetHTMLTableRowWithCells("Tipologia errore:", mEx.TipologiaErrore.GetEnumDescription());
-            tableHTML += GetHTMLTableRowWithCells("Tipologia cartella:", mEx.TipologiaCartella.GetEnumDescription());
+            string tableHTML = GetHTMLTableRowWithCells("Tipologia errore:", mEx.ErrorType.GetEnumDescription());
+            tableHTML += GetHTMLTableRowWithCells("Tipologia cartella:", mEx.FileType.GetEnumDescription());
 
             if (!string.IsNullOrEmpty(mEx.WorksheetName))
             {
                 tableHTML += GetHTMLTableRowWithCells("Nome foglio:", mEx.WorksheetName);
             }
 
-            if (mEx.ColonnaCella.HasValue && mEx.RigaCella.HasValue)
+            if (mEx.CellColumn.HasValue && mEx.CellRow.HasValue)
             {
-                tableHTML += GetHTMLTableRowWithCells("Cella:", $"{mEx.NomeColonnaCella}{mEx.RigaCella.ToString()}");
+                tableHTML += GetHTMLTableRowWithCells("Cella:", $"{((ColumnIDS)mEx.CellColumn).ToString()}{mEx.CellRow.ToString()}");
             }
             else
             {
-                if (mEx.ColonnaCella.HasValue)
+                if (mEx.CellColumn.HasValue)
                 {
-                    tableHTML += GetHTMLTableRowWithCells("Colonna:", mEx.NomeColonnaCella);
+                    tableHTML += GetHTMLTableRowWithCells("Colonna:", ((ColumnIDS)mEx.CellColumn).ToString());
                 }
 
-                if (mEx.RigaCella.HasValue)
+                if (mEx.CellRow.HasValue)
                 {
-                    tableHTML += GetHTMLTableRowWithCells("Riga:", mEx.RigaCella.ToString());
+                    tableHTML += GetHTMLTableRowWithCells("Riga:", mEx.CellRow.ToString());
                 }
             }
 
-            if (mEx.NomeDatoErrore != NomiDatoErrore.None)
-            {
-                tableHTML += GetHTMLTableRowWithCells("Errore sul dato:", mEx.NomeDatoErrore.GetEnumDescription());
-            }
+            //if (mEx.NomeDatoErrore != NomiDatoErrore.None)
+            //{
+            //    tableHTML += GetHTMLTableRowWithCells("Errore sul dato:", mEx.NomeDatoErrore.GetEnumDescription());
+            //}
 
-            if (!string.IsNullOrEmpty(mEx.Dato))
+            if (!string.IsNullOrEmpty(mEx.Value))
             {
-                tableHTML += GetHTMLTableRowWithCells("Valore:", mEx.Dato);
+                tableHTML += GetHTMLTableRowWithCells("Valore:", mEx.Value);
             }
 
             htmlErrorMessage += GetHTMLTable(tableHTML);
@@ -635,7 +630,7 @@ th, td {{
             return outputMessage;
         }
 
-        private string CreateOutputMessageSuccessHTML(string message, string controllerFile, string reportFile, string newReportFile, string debugFile, List<RigaSpeseSkippata> righeSkippate)
+        private string CreateOutputMessageSuccessHTML(string message, string controllerFile, string reportFile, string newReportFile, string debugFile/*, List<RigaSpeseSkippata> righeSkippate*/)
         {
             string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
             outputMessage += _newlineHTML;
@@ -652,28 +647,28 @@ th, td {{
                 outputMessage += GetHTMLHyperLink(debugFile, debugFile);
             }
 
-            if (righeSkippate != null && righeSkippate.Count > 0)
-            {
-                outputMessage += _newlineHTML;
-                outputMessage += _newlineHTML;
-                outputMessage += _newlineHTML;
-                outputMessage += GetHTMLBold("Attenzione, Alcune righe sono state scartate.");
-                outputMessage += _newlineHTML;
-                outputMessage += GetHTMLBold("Maggiori dettagli nel file di debug o di seguito.");
-                outputMessage += _newlineHTML;
-                outputMessage += _newlineHTML;
-                outputMessage += GetHTMLMoreDetailLink($"Mostra maggiori dettagli ({righeSkippate.Count})");
-                outputMessage += _newlineHTML;
+            //if (righeSkippate != null && righeSkippate.Count > 0)
+            //{
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += GetHTMLBold("Attenzione, Alcune righe sono state scartate.");
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += GetHTMLBold("Maggiori dettagli nel file di debug o di seguito.");
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += GetHTMLMoreDetailLink($"Mostra maggiori dettagli ({righeSkippate.Count})");
+            //    outputMessage += _newlineHTML;
 
-                string moreDetails = string.Empty;
-                foreach (RigaSpeseSkippata rigaSkippata in righeSkippate)
-                {
-                    moreDetails += $"Nome foglio: {rigaSkippata.Foglio}, Cella: {((ColumnIDS)rigaSkippata.Colonna).ToString()}{rigaSkippata.Riga}, Dato: \"{rigaSkippata.DatoNonValido}\"";
-                    moreDetails += _newlineHTML;
-                }
+            //    string moreDetails = string.Empty;
+            //    foreach (RigaSpeseSkippata rigaSkippata in righeSkippate)
+            //    {
+            //        moreDetails += $"Nome foglio: {rigaSkippata.Foglio}, Cella: {((ColumnIDS)rigaSkippata.Colonna).ToString()}{rigaSkippata.Riga}, Dato: \"{rigaSkippata.DatoNonValido}\"";
+            //        moreDetails += _newlineHTML;
+            //    }
 
-                outputMessage += GetInvisibleSPAN(moreDetails);
-            }
+            //    outputMessage += GetInvisibleSPAN(moreDetails);
+            //}
 
             return outputMessage;
         }
@@ -1076,9 +1071,8 @@ th, td {{
 
                     if (_inputValidato)
                     {
-                        BuildFiltersArea(output.OpzioniUtente.FiltriPossibili);
-                        //
-
+                        _fieldFilters = output.OpzioniUtente.FiltriPossibili;
+                        BuildFiltersArea(_fieldFilters);
                     }
                     RefreshUI(false);
                 };
@@ -1161,7 +1155,7 @@ th, td {{
 
                 if (output.Esito == EsitiFinali.Success)
                 {
-                    string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
+                    string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
                     SetOutputMessage(message);
                     SetStatusLabel("Elaborazione terminata con successo");
 

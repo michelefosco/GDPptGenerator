@@ -1,6 +1,5 @@
 ﻿using EPPlusExtensions;
-using FilesEditor.Constants;
-using FilesEditor.Entities.Exceptions;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Entities;
 using System.Collections.Generic;
@@ -50,13 +49,13 @@ namespace FilesEditor.Helpers
             // Verifica che il file da generare NON esita già
             if (File.Exists(filePath))
             {
-                //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_GiaEsistente()
-                throw new ManagedException(
-                    tipologiaErrore: TipologiaErrori.FileGiaEsistente,
-                    tipologiaCartella: TipologiaCartelle.Debug,
-                    messaggioPerUtente: MessaggiErrorePerUtente.FileGiaEsistente,
-                    percorsoFile: filePath
-                    );
+                ////TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_GiaEsistente()
+                //throw new ManagedException(
+                //    tipologiaErrore: ErrorTypes.FileGiaEsistente,
+                //    tipologiaCartella: FileTypes.Debug,
+                //    messaggioPerUtente: UserErrorMessages.FileGiaEsistente,
+                //    percorsoFile: filePath
+                //    );
             }
 
             _epPlusHelper = new EPPlusHelper();
@@ -64,12 +63,12 @@ namespace FilesEditor.Helpers
             // Verifica che il file da usarsi per il debug sia stato stato creato correttamente
             if (!_epPlusHelper.Create(filePath, WorkSheetNames.Log))
             {
-                //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_ImpossibileDaCreare()
-                throw new ManagedException(
-                    tipologiaErrore: TipologiaErrori.ImpossibileCreareFile,
-                    tipologiaCartella: TipologiaCartelle.Debug,
-                    percorsoFile: filePath
-                    );
+            //    //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_ImpossibileDaCreare()
+            //    throw new ManagedException(
+            //        tipologiaErrore: ErrorTypes.ImpossibileCreareFile,
+            //        tipologiaCartella: FileTypes.Debug,
+            //        percorsoFile: filePath
+            //        );
             }
         }
 
@@ -153,7 +152,7 @@ namespace FilesEditor.Helpers
             //}
             if (createPresentationsOutput.ManagedException != null)
             {
-                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException.MessaggioPerUtente", createPresentationsOutput.ManagedException.MessaggioPerUtente.ToString());
+                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException.MessaggioPerUtente", createPresentationsOutput.ManagedException.UserMessage.ToString());
                 _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", createPresentationsOutput.ManagedException.ToString());
                 if (createPresentationsOutput.ManagedException.InnerException != null)
                 {

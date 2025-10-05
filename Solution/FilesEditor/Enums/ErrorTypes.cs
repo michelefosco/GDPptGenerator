@@ -2,13 +2,15 @@
 
 namespace FilesEditor.Enums
 {
-    public enum TipologiaErrori
+    public enum ErrorTypes
     {
+        None = 0,
+
         [Description("Unable to open the file")]
         UnableToOpenFile,
 
-
-
+        [Description("An expected worksheet is missing")]
+        MissingWorksheet,
 
 
 
@@ -40,6 +42,11 @@ namespace FilesEditor.Enums
         DatoNonValido,
 
         [Description("Dato non univoco")]
-        DatoNonUnivoco
+        DatoNonUnivoco,
+
+
+
+        [Description("Errore in una formula")]
+        Formula
     }
 }

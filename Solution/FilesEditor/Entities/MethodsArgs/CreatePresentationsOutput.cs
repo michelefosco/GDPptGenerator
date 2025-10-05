@@ -1,54 +1,27 @@
-﻿using FilesEditor.Entities.Exceptions;
-using FilesEditor.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 
-namespace FilesEditor.Entities
+namespace FilesEditor.Entities.MethodsArgs
 {
-    public class CreatePresentationsOutput
+
+    public class CreatePresentationsOutput: UserInterfaceIOutputBase
     {
-        public EsitiFinali Esito { get; private set; }
+        
         //public List<Reparto> RepartiCensitiInController { get; private set; }
         //public List<Reparto> RepartiCensitiInReport { get; private set; }
         //public List<FornitoreCensito> FornitoriCensitiInReport { get; private set; }
         //public List<FornitoreNonCensito> FornitoriNonCensitiInReport { get; private set; }
         //public List<RigaSpese> RigheSpesa { get; private set; }
-        public List<RigaSpeseSkippata> RigheSpesaSkippate { get; private set; }
+      //  public List<RigaSpeseSkippata> RigheSpesaSkippate { get; private set; }
         //public List<RigaTabellaAvanzamento> RigheTabellaAvanzamento { get; private set; }
         //public List<RigaTabellaConsumiSpacchettati> RigheTabellaConsumiSpacchettati { get; private set; }
         //public List<TuplaSpesePerAnno> RigheTabellaSintesi_SetMinimoRigheNecessarie { get; private set; }
         //public List<RigaTabellaSintesi> RigheTabellaSintesi_RigheMancanti { get; private set; }
 
         //public List<string> CategorieFornitori { get; private set; }
-        public ManagedException ManagedException { get; private set; }
-        public Configurazione ConfigurazioneUsata { get; private set; }
 
 
-        public CreatePresentationsOutput()
-        { }
-
-        public CreatePresentationsOutput(EsitiFinali esito)
-        {
-            Esito = esito;
-        }
-
-
-        public void SettaManagedException(ManagedException managedException)
-        {
-            ManagedException = managedException;
-            if (managedException != null)
-            { Esito = EsitiFinali.Failure; }
-        }
-
-        public void SettaConfigurazioneUsata(Configurazione configurazioneUsata)
-        {
-            ConfigurazioneUsata = configurazioneUsata;
-        }
-
-        public void SettaEsitoFinale(EsitiFinali esito)
-        {
-            Esito = esito;
-        }
+ 
 
         //public void SettaRepartiCensitiController(List<Reparto> reparti)
         //{
@@ -69,10 +42,10 @@ namespace FilesEditor.Entities
         //{
         //    RigheSpesa = righeSpesa;
         //}
-        public void SettaRigheSpesaSkippate(List<RigaSpeseSkippata> righeSpesaSkippate)
-        {
-            RigheSpesaSkippate = righeSpesaSkippate;
-        }
+        //public void SettaRigheSpesaSkippate(List<RigaSpeseSkippata> righeSpesaSkippate)
+        //{
+        //    RigheSpesaSkippate = righeSpesaSkippate;
+        //}
 
         //public void SettaTabellaAvanzamento(List<RigaTabellaAvanzamento> righeTabellaAvanzamento)
         //{

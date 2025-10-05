@@ -2,6 +2,7 @@
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Rendering;
 using FilesEditor.Entities;
+using FilesEditor.Entities.MethodsArgs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

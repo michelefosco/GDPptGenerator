@@ -1,8 +1,10 @@
 ﻿namespace FilesEditor.Constants
 {
-    public class MessaggiErrorePerUtente
+    public class UserErrorMessages
     {
         public const string UnableToOpenFile = "The selected file could not be opened. Make sure that the file is not already open and that it is in a compatible format.";
+        public const string MissingWorksheet = "The worksheet '{0}' is missing";
+        
 
         public const string FoglioMancante = "Nella cartella '{0}' risulta mancare il foglio '{1}'";
         public const string FoglioIncompleto = "Nella cartella '{0}' il foglio '{1}' risulta incompleto";

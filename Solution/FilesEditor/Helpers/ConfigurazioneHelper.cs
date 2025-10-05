@@ -1,4 +1,5 @@
 ﻿using FilesEditor.Entities;
+using FilesEditor.Enums;
 namespace FilesEditor.Helpers
 {
     public class ConfigurazioneHelper
@@ -6,6 +7,10 @@ namespace FilesEditor.Helpers
         public static Configurazione GetConfigurazioneDefault()
         {
             var configurazione = new Configurazione();
+
+            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_ROW = 4;
+            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL = (int)ColumnIDS.K;
+            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL = (int)ColumnIDS.L;
 
             //#region Cartella "Controller"
             //// Foglio "ACT SOLO CDC"

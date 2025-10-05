@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ namespace FilesEditor.Steps
 
         internal Step_Base(StepContext context)
         {
-            this.Context = context;
+            Context = context;
         }
 
         internal abstract CreatePresentationsOutput DoSpecificTask();

@@ -1,4 +1,5 @@
-﻿using FilesEditor.Helpers;
+﻿using FilesEditor.Entities.MethodsArgs;
+using FilesEditor.Helpers;
 using System.Collections.Generic;
 
 namespace FilesEditor.Entities
@@ -37,7 +38,6 @@ namespace FilesEditor.Entities
             TemplatesFolder = createPresentationsInput.TemplatesFolder;
             //
             CreatePresentationsOutput = new CreatePresentationsOutput();
-            CreatePresentationsOutput.SettaConfigurazioneUsata(Configurazione);
         }
     }
 }

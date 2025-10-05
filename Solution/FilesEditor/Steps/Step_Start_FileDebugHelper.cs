@@ -1,6 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Helpers;
-using FilesEditor.Steps;
+using FilesEditor.Entities.MethodsArgs;
 using System.IO;
 
 

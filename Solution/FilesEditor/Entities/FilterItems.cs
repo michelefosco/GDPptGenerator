@@ -4,9 +4,9 @@ namespace FilesEditor.Entities
 {
     public class FilterItems
     {
-        public string Tabella { get; set; }
-        public string Campo { get; set; }
-        public List<string> ValoriPossibili { get; set; }
-        public List<string> ValoriSelezionati { get; set; }
+        public string TableName { get; set; }
+        public string FieldName { get; set; }
+        public List<string> Values { get; set; }
+        public List<string> SelectedValues { get; set; }
     }
 }

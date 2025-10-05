@@ -5,88 +5,89 @@ namespace FilesEditor.Entities.Exceptions
 {
     public class ManagedException : Exception
     {
-        public readonly TipologiaErrori TipologiaErrore;
-        public readonly TipologiaCartelle TipologiaCartella;
-        public readonly NomiDatoErrore NomeDatoErrore;
+        public readonly string FilePath;
+        public readonly FileTypes FileType;
+        //
         public readonly string WorksheetName;
-        public readonly string PercorsoFile;
-        public readonly int? RigaCella;
-        public readonly int? ColonnaCella;
-        public readonly string NomeColonnaCella;
-        public readonly string Dato;
+        public readonly int? CellRow;
+        public readonly int? CellColumn;
+        public readonly ValueTypes ValueType;
+        public readonly string Value;
+        //
+        public readonly ErrorTypes ErrorType;
+        public readonly string UserMessage;
 
-        private string _messaggioPerUtente;
 
-        public string MessaggioPerUtente
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_messaggioPerUtente))
-                {
-                    _messaggioPerUtente = $"{TipologiaErrore.GetEnumDescription()}, cartella: {TipologiaCartella.GetEnumDescription()}";
-
-                    if (!string.IsNullOrEmpty(WorksheetName))
-                    {
-                        _messaggioPerUtente += $", foglio: \"{WorksheetName}\"";
-                    }
-
-                    if (ColonnaCella.HasValue && RigaCella.HasValue)
-                    {
-                        _messaggioPerUtente += $", cella: {NomeColonnaCella}{RigaCella}";
-                    }
-                    else
-                    {
-                        if (ColonnaCella.HasValue)
-                        {
-                            _messaggioPerUtente += $", colonna: {NomeColonnaCella}";
-                        }
-
-                        if (RigaCella.HasValue)
-                        {
-                            _messaggioPerUtente += $", riga: {RigaCella}";
-                        }
-                    }
-
-                    if (NomeDatoErrore != NomiDatoErrore.None)
-                    {
-                        _messaggioPerUtente += $", dato: {NomeDatoErrore.GetEnumDescription()}";
-                    }
-
-                    if (!string.IsNullOrEmpty(Dato))
-                    {
-                        _messaggioPerUtente += $", valore: \"{Dato}\"";
-                    }
-                }
-
-                return _messaggioPerUtente;
-            }
-        }
 
         public ManagedException(
-                TipologiaErrori tipologiaErrore,
-                TipologiaCartelle tipologiaCartella,
-                string messaggioPerUtente = null,
-                string worksheetName = null,
-                string percorsoFile = null,
-                int? rigaCella = null,
-                int? colonnaCella = null,
-                string dato = null,
-                NomiDatoErrore nomeDatoErrore = NomiDatoErrore.None
-                ) : base(messaggioPerUtente)
+                string filePath,
+                FileTypes fileType,
+                //
+                string worksheetName,
+                int? cellRow,
+                int? cellColumn,
+                ValueTypes valueType,
+                string value,
+                //
+                ErrorTypes errorType,
+                string userMessage
+                ) : base(userMessage)
         {
-            _messaggioPerUtente = messaggioPerUtente;
 
-            TipologiaErrore = tipologiaErrore;
-            TipologiaCartella = tipologiaCartella;
+            FilePath = filePath;
+            FileType = fileType;
+            //
             WorksheetName = worksheetName;
-            PercorsoFile = percorsoFile;
-            RigaCella = rigaCella;
-            ColonnaCella = colonnaCella;
-            NomeColonnaCella = colonnaCella.HasValue 
-                            ? ((ColumnIDS)colonnaCella.Value).ToString()
-                            : null;
-            Dato = dato;
-            NomeDatoErrore = nomeDatoErrore;
+            CellRow = cellRow;
+            CellColumn = cellColumn;
+            this.ValueType = valueType;
+            Value = value;
+            //
+            ErrorType = errorType;
+            UserMessage = string.IsNullOrEmpty(userMessage)
+                        ? buildUserMessage()
+                        : userMessage;
         }
+
+
+        private string buildUserMessage()
+        {
+            var _userMessage = $"{ErrorType.GetEnumDescription()}, file type: {FileType.GetEnumDescription()}";
+
+            if (!string.IsNullOrEmpty(WorksheetName))
+            {
+                _userMessage += $", worksheet: \"{WorksheetName}\"";
+            }
+
+            if (CellColumn.HasValue && CellRow.HasValue)
+            {
+                _userMessage += $", cell: {(ColumnIDS)CellColumn.Value}{CellRow}";
+            }
+            else
+            {
+                if (CellColumn.HasValue)
+                {
+                    _userMessage += $", column: {(ColumnIDS)CellColumn.Value}";
+                }
+
+                if (CellRow.HasValue)
+                {
+                    _userMessage += $", row: {CellRow}";
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Value))
+            {
+                _userMessage += $", value: \"{Value}\"";
+            }
+
+            if (ValueType != ValueTypes.None)
+            {
+                _userMessage += $", value types: {ValueType.GetEnumDescription()}";
+            }
+
+            return _userMessage;
+        }
+
     }
 }

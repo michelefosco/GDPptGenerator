@@ -67,14 +67,14 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         [DataRow("FoglioSenzaCelle", false)]
         [DataRow("DatiPerPivot", true)]
         [DataRow("Foglio primo", true)]
-        public void HasWorksheetCells(string worksheetName, bool expectedHasWorksheetCells)
+        public void WorksheetExists(string worksheetName, bool expectedHasWorksheetCells)
         {
             // GIVEN
             var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
             ExcelHelper.Open(filePath);
 
             // WHEN
-            var actualHasWorksheetCells = ExcelHelper.HasWorksheetCells(worksheetName);
+            var actualHasWorksheetCells = ExcelHelper.WorksheetExists(worksheetName);
 
             // THEN
             Assert.AreEqual(expectedHasWorksheetCells, actualHasWorksheetCells);

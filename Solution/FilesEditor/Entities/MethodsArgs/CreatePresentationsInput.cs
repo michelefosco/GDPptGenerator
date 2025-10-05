@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FilesEditor.Entities
+namespace FilesEditor.Entities.MethodsArgs
 {
     public class CreatePresentationsInput
     {
