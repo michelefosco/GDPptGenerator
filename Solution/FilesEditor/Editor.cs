@@ -1,4 +1,5 @@
-﻿using EPPlusExtensions;
+﻿//using DocumentFormat.OpenXml.Drawing;
+using EPPlusExtensions;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
@@ -75,15 +76,17 @@ namespace FilesEditor
 
         private static ValidaSourceFilesOutput validaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
         {
-            // Lettura Opzione dal datasource
+            validazioniPreliminari_InputFiles(validaSourceFilesInput, configurazione);
 
+
+            // Lettura Opzione dal datasource
             var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
-            var opzioniUtente = getOpzioniUtente(ePPlusHelper, configurazione);
+            var userOptions = getUserOptions(ePPlusHelper, configurazione);
             ePPlusHelper.Close();
 
-            ePPlusHelper = GetHelperForExistingFile(validaSourceFilesInput.FileSuperDettagliPath, FileTypes.SuperDettagli);
-            
+
+
 
 
             // lettura info da 1° file
@@ -100,7 +103,7 @@ namespace FilesEditor
 
             var outout = new ValidaSourceFilesOutput(EsitiFinali.Success)
             {
-                UserOptions = opzioniUtente,
+                UserOptions = userOptions,
             };
             return outout;
         }
@@ -108,7 +111,7 @@ namespace FilesEditor
 
 
         #region Lettura da DataSource_Template
-        private static UserOptions getOpzioniUtente(EPPlusHelper ePPlusHelper, Configurazione configurazione)
+        private static UserOptions getUserOptions(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
@@ -129,7 +132,7 @@ namespace FilesEditor
 
             var filtriPossibili = new List<FilterItems>();
 
-            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_ROW;
+            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW;
             while (true)
             {
                 var table = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL);
@@ -163,7 +166,7 @@ namespace FilesEditor
 
             var slideToGenerateList = new List<SlideToGenerate>();
 
-            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_ROW;
+            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_DATA_ROW;
             while (true)
             {
                 var outputFileName = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL);
@@ -241,21 +244,29 @@ namespace FilesEditor
         }
         #endregion
 
-        private static void ReadDataFrom_SuperDettagli()
+        private static void validazioniPreliminari_InputFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
         {
+            validazioniPreliminari_InputFiles_SuperDettagli(validaSourceFilesInput.FileSuperDettagliPath, configurazione);
         }
 
-        private static bool IsBudgetFileOk(string filePath)
+        private static void validazioniPreliminari_InputFiles_SuperDettagli(string filePath, Configurazione configurazione)
         {
-            // check file existence
+            var fileType = FileTypes.SuperDettagli;
+            var ePPlusHelper = GetHelperForExistingFile(filePath, fileType);
+            //
+            var worksheetName = WorksheetNames.SUPERDETTAGLI_DATA;
 
-            // check expected worksheet names
+            // Controllo che ci sia il foglio da cui leggere i dati
+            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, fileType);
 
-            // check expected columns in each worksheet
-
-            // Implement your logic to check if the budget file is OK
-            return true;
+            // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)
+            //todo: aggiungere un certo numero di colonne uniche di questo foglio
+            var expectedColumns = new List<string> { "Distinzione produttive indirette vs improduttive"};
+            ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, configurazione.SUPERDETTAGLI_HEADERS_ROW, expectedColumns);
         }
+
+
+    
 
 
         #region Utilities
@@ -302,6 +313,29 @@ namespace FilesEditor
                     errorType: ErrorTypes.MissingWorksheet,
                     userMessage: string.Format(UserErrorMessages.MissingWorksheet, worksheetName)
                     );
+            }
+        }
+        private static void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, List<string> expectedColumns)
+        {
+            var columnsList = ePPlusHelper.GetHeaders(worksheetName, rowWithHeaders);
+            foreach (var expectedColumn in expectedColumns)
+            {
+                if (!columnsList.Any(_ => _.Equals(expectedColumn, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    throw new ManagedException(
+                            filePath: ePPlusHelper.FilePathInUse,
+                            fileType: fileType,
+                            //
+                            worksheetName: worksheetName,
+                            cellRow: rowWithHeaders,
+                            cellColumn: null,
+                            valueHeader: ValueHeaders.None,
+                            value: null,
+                            //
+                            errorType: ErrorTypes.MissingValue,
+                            userMessage: $"The file '{fileType}' does not have one of the expected headers ('{expectedColumn}')"
+                            );
+                }
             }
         }
         #endregion

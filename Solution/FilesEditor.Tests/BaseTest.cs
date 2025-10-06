@@ -20,7 +20,8 @@ namespace FilesEditor.Tests
             var fileDaCancellarePrimaDeiTest = new List<string>
                 {
                 TestPaths.OUTPUT_DEBUGFILE,
-                TestPaths.OUTPUT_FILE,
+                //TODO: AGGIUNGERE PRESENTAZIONE    
+                //TestPaths.OUTPUT_FILE,
                 };
             foreach (var filename in fileDaCancellarePrimaDeiTest)
             {

@@ -7,12 +7,12 @@
         #region DataSource Template
 
         // "Filtri"
-        public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_ROW { get; set; }
+        public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL { get; set; }
 
         // "Slide da generare
-        public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_ROW { get; set; }
+        public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_DATA_ROW { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL { get; set; }
@@ -23,15 +23,16 @@
 
         //
 
-        public int DATASOURCE_SUPERDETTAGLI_FIRST_ROW { get; set; }
-        public int DATASOURCE_BUDGET_FIRST_ROW { get; set; }
-        public int DATASOURCE_FORECAST_FIRST_ROW { get; set; }
-        public int DATASOURCE_RANRATE_FIRST_ROW { get; set; }
+        public int DATASOURCE_SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
+        public int DATASOURCE_BUDGET_FIRST_DATA_ROW { get; set; }
+        public int DATASOURCE_FORECAST_FIRST_DATA_ROW { get; set; }
+        public int DATASOURCE_RANRATE_FIRST_DATA_ROW { get; set; }
         #endregion
 
 
         #region Superdettagli
-
+        public int SUPERDETTAGLI_HEADERS_ROW { get; set; }
+        //public int SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
         #endregion
 
         #region Budgets

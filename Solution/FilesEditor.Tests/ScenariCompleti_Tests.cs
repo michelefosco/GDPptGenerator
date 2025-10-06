@@ -13,12 +13,13 @@ namespace FilesEditor.Tests
         [TestMethod]
         public void Interazione_OK_01()
         {
-            string destinationFolder = "?";
+            string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER); ;
             string templatesFolder = Path.Combine(TestFileFolderPath, TestPaths.TEMPLATES_FOLDER);
-            string fileBudgetPath = "?";
-            string fileForecastPath = "?";
-            string fileSuperDettagliPath = "?";
-            string fileRanRatePat = "?";
+            //
+            string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
+            string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
+            string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
+            string fileRanRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RANRATE_FILE);
 
 
             var validaSourceFilesInput = new ValidaSourceFilesInput(

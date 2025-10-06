@@ -9,18 +9,22 @@ namespace FilesEditor.Helpers
             var configurazione = new Configurazione();
 
             // Filtri
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_ROW = 4;
+            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW = 4;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL = (int)ColumnIDS.K;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL = (int)ColumnIDS.L;
 
             // Slide da generare
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_ROW = 4;
+            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_DATA_ROW = 4;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL = (int)ColumnIDS.A;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL = (int)ColumnIDS.B;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL = (int)ColumnIDS.C;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_2_COL = (int)ColumnIDS.D;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_3_COL = (int)ColumnIDS.E;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL = (int)ColumnIDS.F;
+
+
+            // Input file Superdettagli
+            configurazione.SUPERDETTAGLI_HEADERS_ROW = 1;
 
             //#region Cartella "Controller"
             //// Foglio "ACT SOLO CDC"

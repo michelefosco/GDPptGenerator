@@ -8,29 +8,30 @@ namespace FilesEditor.Tests.Constants
 {
     internal class TestPaths
     {
-        #region Output paths
         public const string TEMPLATES_FOLDER = "Templates";
-
+        //
+        public const string INPUT_BUDGET_FILE = "InputFiles\\Budget.xlsx";
+        public const string INPUT_FORECAST_FILE = "InputFiles\\Forecast.xlsx";
+        public const string INPUT_SUPERDETTAGLI_FILE = "InputFiles\\Superdettagli.xlsx";
+        public const string INPUT_RANRATE_FILE = "InputFiles\\Ran Rate.xlsx";
+        //
         public const string OUTPUT_FOLDER = "";
-        public const string OUTPUT_FILE = "SoldReport.xlsx";
-        public const string OUTPUT_DEBUGFILE = "SoldReport_Debugfile.xlsx";
-        #endregion
+        public const string OUTPUT_DEBUGFILE = "Debugfile.xlsx";
 
 
-        #region Input paths
-        // Database folders
-        public const string Database_OK_DatiAdHoc = @"Database\OK\DatiAdHoc";
-        public const string Database_OK_DaGD = @"Database\OK\DaGD";
-        public const string KO_MacchineNomiDuplicatiStessoFile = @"Database\KO\MacchineNomiDuplicatiStessoFile";
-        public const string KO_MacchineNomiDuplicatiFileDiversi = @"Database\KO\MacchineNomiDuplicatiFileDiversi";
+        //#region Input paths
+        //// Database folders
+        //public const string Database_OK_DatiAdHoc = @"Database\OK\DatiAdHoc";
+        //public const string Database_OK_DaGD = @"Database\OK\DaGD";
+        //public const string KO_MacchineNomiDuplicatiStessoFile = @"Database\KO\MacchineNomiDuplicatiStessoFile";
+        //public const string KO_MacchineNomiDuplicatiFileDiversi = @"Database\KO\MacchineNomiDuplicatiFileDiversi";
 
 
-        // Venduto
-        public const string Venduto_DatiAdHoc = @"Venduto\OK\DatiAdHoc";
-        public const string Venduto_DatiDaGD = @"Venduto\OK\DaGD";
+        //// Venduto
+        //public const string Venduto_DatiAdHoc = @"Venduto\OK\DatiAdHoc";
+        //public const string Venduto_DatiDaGD = @"Venduto\OK\DaGD";
 
-        public const string Venduto_TrovateUnknownMachines_01 = @"Venduto\KO\TrovateMacchineSconosciute_01";
+        //public const string Venduto_TrovateUnknownMachines_01 = @"Venduto\KO\TrovateMacchineSconosciute_01";
 
-        #endregion
     }
 }

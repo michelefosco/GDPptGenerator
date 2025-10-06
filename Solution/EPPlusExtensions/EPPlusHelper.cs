@@ -13,9 +13,9 @@ namespace EPPlusExtensions
         private ExcelPackage _excelPackage;
         private readonly Color _backgroundColorCellaInEvidenza;
         private readonly Color _backgroundColorCellaInErrore;
-        
 
-        public string FilePathInUse {get; private set;}
+
+        public string FilePathInUse { get; private set; }
 
         public EPPlusHelper()
         {
@@ -280,6 +280,28 @@ namespace EPPlusExtensions
             return values;
         }
 
+        /// <summary>
+        /// Legge i valori presenti nella riga (utile per le intestazioni)
+        /// </summary>
+        /// <param name="worksheetName"></param>
+        /// <param name="row"></param>
+        /// <param name="colFrom"></param>
+        /// <returns></returns>
+        public List<string> GetHeaders(string worksheetName, int row, int colFrom = 1)
+        {
+            var currentWorksheet = GetWorksheet(worksheetName);
+
+            var values = new List<string>();
+            for (int colonnaCorrente = colFrom; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
+            {
+                var value = currentWorksheet.Cells[row, colonnaCorrente].Value.ToString();
+                if (!string.IsNullOrEmpty(value))
+                { values.Add(value); }
+            }
+
+            return values;
+        }
+
         public string GetFormula(string worksheetName, int row, int col)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
@@ -341,7 +363,7 @@ namespace EPPlusExtensions
             FilePathInUse = null;
 
             if (!File.Exists(filePath))
-            { return false; }               
+            { return false; }
 
             try
             {

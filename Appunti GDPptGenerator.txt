@@ -1,40 +1,30 @@
-Downolad:	http://www.lefo.it/tmp/PptGeneratorGUI.zip
-
-
--------------------- Descrizione
+-------------------- Varie
+Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
 Dimensioni slide: 			29,691 cm X 16,713 cm
-Dimensioni box immagini:	27,400 cm X 14.500 cm
-			Rapporto (1 : 2,192)
+Dimensioni box immagini:	27,400 cm X 14.500 cm	Rapporto (1 : 2,192)
+File di input: 
+	1) SuperDettagli
+	2) Budget
+	3) Forecast
+	4) Ran Rate
+
+
 
 -------------------- Domande per Francesco
-- Qual'è il livello di customizzazione che si vuole dare?
-- Definire tipologia di layout
 - Il campo Typo layout nella configruazione deve essere obbligatorio? O possiamo usare horisontal come default
+
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
 -----
 Usare liberie con licenza di tipo "MIT"
-a pagamento
-
-Aspose.Cells
-https://products.aspose.com/cells/net/
 -----
-- File di input: 
-	1) SuperDettagli
-	2) Budget
-	3) Forecast
-	4) Ran Rate
 Ogni file Excel ha un unico foglio
 -----
-Gli elementi da inserire nel PowerPoint devono essere configuratabili
------
-Tipo layout:
-- 1 2 o 3 posti
-- Orientamento verticale o orizzontale
-
  
 -------------------- Todo
+- Riusciamo a vincolare maggiormente il foglio Excel? Protezioni?
+- Codice per distribuire fino a 3 slides
 - Selezione del periodo
 - Aggiornare variabili foglio nome in base al periodo
 - Migliorare aspetto griglia filtri quando disabilitat
