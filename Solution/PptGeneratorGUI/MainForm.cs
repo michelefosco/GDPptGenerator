@@ -214,8 +214,11 @@ th, td {{
             {
                 int rowIndex = dgvFiltri.Rows.Add();
                 dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Table}";
+
                 dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.FieldName}";
+
                 dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
+
                 var textFiltriSelezionati = (filtro.SelectedValues.Count == 0)
                         ? Values.ALLFILTERSAPPLIED
                         : string.Join("; ", filtro.SelectedValues);
