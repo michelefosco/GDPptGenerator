@@ -23,8 +23,18 @@ namespace FilesEditor.Helpers
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL = (int)ColumnIDS.F;
 
 
-            // Input file Superdettagli
+            // Input file input Superdettagli
             configurazione.SUPERDETTAGLI_HEADERS_ROW = 1;
+
+            // Input file input Budget
+            configurazione.BUDGET_HEADERS_ROW = 2;
+
+            // Input file input Forecast
+            configurazione.FORECAST_HEADERS_ROW = 3;
+
+            // Input file input Superdettagli
+            configurazione.RANRATE_HEADERS_ROW = 1;
+
 
             //#region Cartella "Controller"
             //// Foglio "ACT SOLO CDC"

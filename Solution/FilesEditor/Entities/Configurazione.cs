@@ -32,16 +32,20 @@
 
         #region Superdettagli
         public int SUPERDETTAGLI_HEADERS_ROW { get; set; }
-        //public int SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
         #endregion
 
         #region Budgets
+        public int BUDGET_HEADERS_ROW { get; set; }
+
         #endregion
 
         #region Forecast
+        public int FORECAST_HEADERS_ROW { get; set; }
+
         #endregion
 
         #region Ran rate
+        public int RANRATE_HEADERS_ROW { get; set; }
         #endregion
     }
 }

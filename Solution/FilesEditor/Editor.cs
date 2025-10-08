@@ -244,29 +244,66 @@ namespace FilesEditor
         }
         #endregion
 
+
+        #region Validazioni preliminari sui file di input
         private static void validazioniPreliminari_InputFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
         {
             validazioniPreliminari_InputFiles_SuperDettagli(validaSourceFilesInput.FileSuperDettagliPath, configurazione);
+            validazioniPreliminari_InputFiles_Budget(validaSourceFilesInput.FileBudgetPath, configurazione);
+            validazioniPreliminari_InputFiles_Forecast(validaSourceFilesInput.FileForecastPath, configurazione);
+            validazioniPreliminari_InputFiles_RanRate(validaSourceFilesInput.FileRanRatePath, configurazione);
         }
 
         private static void validazioniPreliminari_InputFiles_SuperDettagli(string filePath, Configurazione configurazione)
         {
             var fileType = FileTypes.SuperDettagli;
-            var ePPlusHelper = GetHelperForExistingFile(filePath, fileType);
-            //
             var worksheetName = WorksheetNames.SUPERDETTAGLI_DATA;
+            var headersRow = configurazione.SUPERDETTAGLI_HEADERS_ROW;
+            //todo: aggiungere un certo numero di colonne uniche di questo foglio
+            var expectedHeadersColumns = new List<string> { "Distinzione produttive indirette vs improduttive" };
 
+            validazioniPreliminari_Comuni(filePath, fileType, worksheetName, headersRow, expectedHeadersColumns);
+        }
+        private static void validazioniPreliminari_InputFiles_Budget(string filePath, Configurazione configurazione)
+        {
+            var fileType = FileTypes.Budget;
+            var worksheetName = WorksheetNames.BUDGET_DATA;
+            var headersRow = configurazione.BUDGET_HEADERS_ROW;
+            //todo: aggiungere un certo numero di colonne uniche di questo foglio
+            var expectedHeadersColumns = new List<string> { "Macro categoria_new" ,"Strut.Eng" };
+
+            validazioniPreliminari_Comuni(filePath, fileType, worksheetName, headersRow, expectedHeadersColumns);
+        }
+        private static void validazioniPreliminari_InputFiles_Forecast(string filePath, Configurazione configurazione)
+        {
+            var fileType = FileTypes.Forecast;
+            var worksheetName = WorksheetNames.FORECAST_DATA;
+            var headersRow = configurazione.FORECAST_HEADERS_ROW;
+            //todo: aggiungere un certo numero di colonne uniche di questo foglio
+            var expectedHeadersColumns = new List<string> { "ENG TOB Totale_", "ENG LPP - INT_" };
+
+            validazioniPreliminari_Comuni(filePath, fileType, worksheetName, headersRow, expectedHeadersColumns);
+        }
+        private static void validazioniPreliminari_InputFiles_RanRate(string filePath, Configurazione configurazione)
+        {
+            var fileType = FileTypes.RanRate;
+            var worksheetName = WorksheetNames.RAN_RATE_DATA;
+            var headersRow = configurazione.RANRATE_HEADERS_ROW;
+            //todo: aggiungere un certo numero di colonne uniche di questo foglio
+            var expectedHeadersColumns = new List<string> { "01", "02" };
+
+            validazioniPreliminari_Comuni(filePath, fileType, worksheetName, headersRow, expectedHeadersColumns);
+        }
+        private static void validazioniPreliminari_Comuni(string filePath, FileTypes fileType, string worksheetName, int headersRow, List<string> expectedHeadersColumns)
+        {
+            var ePPlusHelper = GetHelperForExistingFile(filePath, fileType);
             // Controllo che ci sia il foglio da cui leggere i dati
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, fileType);
 
-            // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)
-            //todo: aggiungere un certo numero di colonne uniche di questo foglio
-            var expectedColumns = new List<string> { "Distinzione produttive indirette vs improduttive"};
-            ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, configurazione.SUPERDETTAGLI_HEADERS_ROW, expectedColumns);
+            // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
+            ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, expectedHeadersColumns);
         }
-
-
-    
+        #endregion
 
 
         #region Utilities
