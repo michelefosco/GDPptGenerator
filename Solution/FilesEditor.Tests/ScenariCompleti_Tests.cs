@@ -40,6 +40,18 @@ namespace FilesEditor.Tests
             //
             Assert.IsNotNull(validaSourceFilesOutput.UserOptions.Applicablefilters);
             Assert.AreEqual(8, validaSourceFilesOutput.UserOptions.Applicablefilters.Count);
+
+            foreach (var filter in validaSourceFilesOutput.UserOptions.Applicablefilters)
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(filter.FieldName));
+                Assert.IsNotNull(filter.Values);
+                Assert.IsTrue(filter.Values.Count > 0);
+                Assert.AreEqual(0, filter.SelectedValues.Count);
+            }
+
+            // 
+            Assert.AreEqual(1, validaSourceFilesOutput.UserOptions.Applicablefilters[0].Values.Count);
+            Assert.AreEqual("K", validaSourceFilesOutput.UserOptions.Applicablefilters[0].Values[0]);           
             //
             Assert.IsNotNull(validaSourceFilesOutput.UserOptions.SildeToGenerate);
             Assert.AreEqual(18, validaSourceFilesOutput.UserOptions.SildeToGenerate.Count);

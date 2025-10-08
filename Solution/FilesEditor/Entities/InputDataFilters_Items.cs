@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using FilesEditor.Enums;
+using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
-    public class FilterItems
+    public class InputDataFilters_Items
     {
-        public string TableName { get; set; }
+        public InputDataFilters_Tables Table { get; set; }
         public string FieldName { get; set; }
         public List<string> Values { get; set; }
         public List<string> SelectedValues { get; set; }

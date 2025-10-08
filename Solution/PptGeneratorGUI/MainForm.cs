@@ -22,7 +22,7 @@ namespace PptGeneratorGUI
         private PathsHistory _pathFileHistory;
         private string _debugFileName;
         private DateTime _selectedDatePeriodo;
-        private List<FilterItems> _fieldFilters;
+        private List<InputDataFilters_Items> _fieldFilters;
 
         private bool _inputValidato = false;
 
@@ -206,14 +206,14 @@ th, td {{
             }
         }
 
-        private void BuildFiltersArea(List<FilterItems> filtriPossibili)
+        private void BuildFiltersArea(List<InputDataFilters_Items> filtriPossibili)
         {
             dgvFiltri.Rows.Clear();
 
             foreach (var filtro in filtriPossibili)
             {
                 int rowIndex = dgvFiltri.Rows.Add();
-                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.TableName}";
+                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Table}";
                 dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.FieldName}";
                 dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
                 var textFiltriSelezionati = (filtro.SelectedValues.Count == 0)

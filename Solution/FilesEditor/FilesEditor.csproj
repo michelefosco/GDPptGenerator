@@ -138,7 +138,8 @@
     <Compile Include="Constants\WorkSheetNames.cs" />
     <Compile Include="Entities\Configurazione.cs" />
     <Compile Include="Entities\Exceptions\ManagedException.cs" />
-    <Compile Include="Entities\FilterItems.cs" />
+    <Compile Include="Entities\InputDataFilters_Items.cs" />
+    <Compile Include="Enums\InputDataFilters_Tables.cs" />
     <Compile Include="Entities\ItemToExport.cs" />
     <Compile Include="Entities\MethodsArgs\UserInterfaceIOutputBase.cs" />
     <Compile Include="Entities\RigaSpeseSkippata.cs" />

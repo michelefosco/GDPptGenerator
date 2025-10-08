@@ -4,7 +4,7 @@ namespace FilesEditor.Entities
 {
     public class UserOptions
     {
-        public List<FilterItems> Applicablefilters;
+        public List<InputDataFilters_Items> Applicablefilters;
         public List<SlideToGenerate> SildeToGenerate;
     }
 }
