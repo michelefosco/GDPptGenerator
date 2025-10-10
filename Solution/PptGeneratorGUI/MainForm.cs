@@ -104,15 +104,15 @@ th, td {{
                 cmbFileSuperDettagliPath.Text = value;
             }
         }
-        public string SelectedFileRanRatePath
+        public string SelectedFileRunRatePath
         {
             get
             {
-                return cmbFileRanRatePath.Text;
+                return cmbFileRunRatePath.Text;
             }
             set
             {
-                cmbFileRanRatePath.Text = value;
+                cmbFileRunRatePath.Text = value;
             }
         }
         public string SelectedDestinationFolderPath
@@ -134,11 +134,23 @@ th, td {{
 
             FillComboBoxes();
 
+            SetDefaultsFor_ReplaceAll_CheckBoxes();
+
             SetDefaultDatePeriodo();
 
             LetturaConfigurazioneDaFileDataSource();
 
             lblVersion.Text = $"Versione: {GetVersion()}";
+        }
+
+        private void SetDefaultsFor_ReplaceAll_CheckBoxes()
+        {
+            // Todo: leggere da config??
+
+            //cbReplaceAllDataFileBudget.Checked = false;
+            //cbReplaceAllDataFileForecast.Checked = false;
+            //cbReplaceAllDataFileRunRate.Checked = false;
+            cbReplaceAllDataFileSuperDettagli.Checked = true;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -164,7 +176,7 @@ th, td {{
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
-            bool isRanRatePathValid = IsRanRatePathValid();
+            bool isRunRatePathValid = IsRunRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
 
@@ -177,13 +189,13 @@ th, td {{
             btnOpenFileSuperDettagliFolder.Enabled = isSuperDettagliPathValid;
             btnOpenFileSuperDettagli.Enabled = isSuperDettagliPathValid;
             //
-            btnOpenFileRanRateFolder.Enabled = isRanRatePathValid;
-            btnOpenFileRanRate.Enabled = isRanRatePathValid;
+            btnOpenFileRunRateFolder.Enabled = isRunRatePathValid;
+            btnOpenFileRunRate.Enabled = isRunRatePathValid;
             //
             btnOpenDestFolder.Enabled = isDestFolderValid;
 
 
-            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && isDestFolderValid;
+            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid;
             btnNext.Enabled = allValid;
 
             if (allValid)
@@ -277,15 +289,15 @@ th, td {{
             cmbFileSuperDettagliPath.Items.Clear();
             cmbFileSuperDettagliPath.Items.AddRange(_pathFileHistory.SuperDettagliPaths.ToArray());
 
-            cmbFileRanRatePath.Items.Clear();
-            cmbFileRanRatePath.Items.AddRange(_pathFileHistory.RanRatePaths.ToArray());
+            cmbFileRunRatePath.Items.Clear();
+            cmbFileRunRatePath.Items.AddRange(_pathFileHistory.RunRatePaths.ToArray());
 
             cmbDestinationFolderPath.Items.Clear();
             cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
         }
         private void AddPathsInXmlFileHistory()
         {
-            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRanRatePath, SelectedDestinationFolderPath);
+            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRunRatePath, SelectedDestinationFolderPath);
         }
         #endregion
 
@@ -327,13 +339,13 @@ th, td {{
             return isValid;
         }
 
-        private bool IsRanRatePathValid()
+        private bool IsRunRatePathValid()
         {
-            bool isValid = !string.IsNullOrEmpty(SelectedFileRanRatePath);
+            bool isValid = !string.IsNullOrEmpty(SelectedFileRunRatePath);
 
             if (isValid)
             {
-                isValid = File.Exists(SelectedFileRanRatePath);
+                isValid = File.Exists(SelectedFileRunRatePath);
             }
 
             return isValid;
@@ -808,7 +820,7 @@ th, td {{
             SelectedFileBudgetPath = string.Empty;
             SelectedFileForecastPath = string.Empty;
             SelectedFileSuperDettagliPath = string.Empty;
-            SelectedFileRanRatePath = string.Empty;
+            SelectedFileRunRatePath = string.Empty;
             SelectedDestinationFolderPath = string.Empty;
 
             RefreshUI(true);
@@ -830,7 +842,7 @@ th, td {{
         {
             RefreshUI(true);
         }
-        private void cmbFileRanRatePath_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbFileRunRatePath_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshUI(true);
         }
@@ -848,7 +860,7 @@ th, td {{
         {
             RefreshUI(true);
         }
-        private void cmbFileRanRatePath_TextUpdate(object sender, EventArgs e)
+        private void cmbFileRunRatePath_TextUpdate(object sender, EventArgs e)
         {
             RefreshUI(true);
         }
@@ -900,14 +912,14 @@ th, td {{
             }
         }
 
-        private void btnSelectFileRanRate_Click(object sender, EventArgs e)
+        private void btnSelectFileRunRate_Click(object sender, EventArgs e)
         {
-            const string tipoFoglio = "Ran rate";
+            const string tipoFoglio = "Run rate";
             var title = $"Select the file {tipoFoglio}";
             var filePath = getPercosoSelezionatoDaUtente(title);
             if (!string.IsNullOrEmpty(filePath))
             {
-                SelectedFileRanRatePath = filePath;
+                SelectedFileRunRatePath = filePath;
                 RefreshUI(true);
             }
         }
@@ -956,9 +968,9 @@ th, td {{
             openFolderForUser(folderPath);
         }
 
-        private void btnOpenFileRanRateFolder_Click(object sender, EventArgs e)
+        private void btnOpenFileRunRateFolder_Click(object sender, EventArgs e)
         {
-            var folderPath = Path.GetDirectoryName(SelectedFileRanRatePath);
+            var folderPath = Path.GetDirectoryName(SelectedFileRunRatePath);
             openFolderForUser(folderPath);
         }
 
@@ -998,9 +1010,9 @@ th, td {{
             openExcelForUser(SelectedFileSuperDettagliPath);
         }
 
-        private void btnOpenFileRanRate_Click(object sender, EventArgs e)
+        private void btnOpenFileRunRate_Click(object sender, EventArgs e)
         {
-            openExcelForUser(SelectedFileRanRatePath);
+            openExcelForUser(SelectedFileRunRatePath);
         }
 
         private void openExcelForUser(string filePath)
@@ -1089,7 +1101,7 @@ th, td {{
                         fileBudgetPath: SelectedFileBudgetPath,
                         fileForecastPath: SelectedFileForecastPath,
                         fileSuperDettagliPath: SelectedFileSuperDettagliPath,
-                        fileRanRatePath: SelectedFileRanRatePath);
+                        fileRunRatePath: SelectedFileRunRatePath);
                 //btnNextBackgroundWorker.RunWorkerAsync(getUserOptionsFromDataSourceInput);
                 backgroundWorker.RunWorkerAsync(validaSourceFilesInput);
             }
@@ -1186,10 +1198,10 @@ th, td {{
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
-            bool isRanRatePathValid = IsRanRatePathValid();
+            bool isRunRatePathValid = IsRunRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
-            if (/*isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRanRatePathValid && */isDestFolderValid)
+            if (/*isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && */isDestFolderValid)
             {
                 ClearOutputArea();
                 AddPathsInXmlFileHistory();
@@ -1199,7 +1211,7 @@ th, td {{
                 cmbFileBudgetPath.SelectedIndex = 0;
                 cmbFileForecastPath.SelectedIndex = 0;
                 cmbFileSuperDettagliPath.SelectedIndex = 0;
-                cmbFileRanRatePath.SelectedIndex = 0;
+                cmbFileRunRatePath.SelectedIndex = 0;
                 cmbDestinationFolderPath.SelectedIndex = 0;
 
                 //Esecuzione Refresher
@@ -1213,7 +1225,12 @@ th, td {{
                             outputFolder: SelectedDestinationFolderPath,
                             tmpFolder: tmpFolder,
                             templatesFolder: TemplatesFolderPath,
-                            fileDebug_FilePath: _debugFileName);
+                            fileDebug_FilePath: _debugFileName,
+                            replaceAllData_FileBudget: cbReplaceAllDataFileBudget.Checked,
+                            replaceAllData_FileForecast: cbReplaceAllDataFileForecast.Checked,
+                            replaceAllData_FileRunRate: cbReplaceAllDataFileRunRate.Checked,
+                            replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked
+                            );
                 try
                 {
                     toolStripProgressBar.Visible = true;

@@ -19,7 +19,7 @@ namespace FilesEditor.Tests
             string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
             string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
             string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
-            string fileRanRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RANRATE_FILE);
+            string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
 
 
             var validaSourceFilesInput = new ValidaSourceFilesInput(
@@ -28,7 +28,7 @@ namespace FilesEditor.Tests
                     fileBudgetPath: fileBudgetPath,
                     fileForecastPath: fileForecastPath,
                     fileSuperDettagliPath: fileSuperDettagliPath,
-                    fileRanRatePath: fileRanRatePat
+                    fileRunRatePath: fileRunRatePat
                     );
 
             var validaSourceFilesOutput = Editor.ValidaSourceFiles(validaSourceFilesInput);

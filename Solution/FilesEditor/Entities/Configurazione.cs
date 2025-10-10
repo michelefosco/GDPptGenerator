@@ -26,7 +26,7 @@
         public int DATASOURCE_SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
         public int DATASOURCE_BUDGET_FIRST_DATA_ROW { get; set; }
         public int DATASOURCE_FORECAST_FIRST_DATA_ROW { get; set; }
-        public int DATASOURCE_RANRATE_FIRST_DATA_ROW { get; set; }
+        public int DATASOURCE_RUNRATE_FIRST_DATA_ROW { get; set; }
         #endregion
 
 
@@ -44,8 +44,8 @@
 
         #endregion
 
-        #region Ran rate
-        public int RANRATE_HEADERS_ROW { get; set; }
+        #region Run rate
+        public int RUNRATE_HEADERS_ROW { get; set; }
         #endregion
     }
 }

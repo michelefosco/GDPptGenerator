@@ -9,7 +9,7 @@ namespace FilesEditor.Entities
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }
-        public string FileRanRatePath { get; private set; }
+        public string FileRunRatePath { get; private set; }
 
         //public string DestinationFolderPath { get; private set; }
         //public string OutputFolder { get; private set; }
@@ -23,7 +23,7 @@ namespace FilesEditor.Entities
                  string fileBudgetPath,
                  string fileForecastPath,
                  string fileSuperDettagliPath,
-                 string fileRanRatePath
+                 string fileRunRatePath
             )
         {
             if (string.IsNullOrWhiteSpace(destinationFolder))
@@ -36,15 +36,15 @@ namespace FilesEditor.Entities
                 throw new ArgumentNullException(nameof(fileForecastPath));
             if (string.IsNullOrWhiteSpace(fileSuperDettagliPath))
                 throw new ArgumentNullException(nameof(fileSuperDettagliPath));
-            if (string.IsNullOrWhiteSpace(fileRanRatePath))
-                throw new ArgumentNullException(nameof(fileRanRatePath));
+            if (string.IsNullOrWhiteSpace(fileRunRatePath))
+                throw new ArgumentNullException(nameof(fileRunRatePath));
 
             DestinationFolder = destinationFolder;
             TemplatesFolder = templatesFolder;
             FileBudgetPath = fileBudgetPath;
             FileForecastPath = fileForecastPath;
             FileSuperDettagliPath = fileSuperDettagliPath;
-            FileRanRatePath = fileRanRatePath;
+            FileRunRatePath = fileRunRatePath;
         }
     }
 }

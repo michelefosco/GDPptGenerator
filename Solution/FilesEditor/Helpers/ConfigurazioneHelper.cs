@@ -33,7 +33,7 @@ namespace FilesEditor.Helpers
             configurazione.FORECAST_HEADERS_ROW = 3;
 
             // Input file input Superdettagli
-            configurazione.RANRATE_HEADERS_ROW = 1;
+            configurazione.RUNRATE_HEADERS_ROW = 1;
 
 
             //#region Cartella "Controller"
@@ -185,9 +185,9 @@ namespace FilesEditor.Helpers
             //configurazione.Sintesi_Formula_AdOggi = "IF($K19=\"{0}\",SUM(L19:{1}19),0)"; // Somma valori da colonna L a <X-1>
 
             //// Foglio "Previsione a finire"
-            //configurazione.PrevisioneAfinire_ColonnaRanRateOre = (int)ColumnIDS.S;
+            //configurazione.PrevisioneAfinire_ColonnaRunRateOre = (int)ColumnIDS.S;
             //configurazione.PrevisioneAfinire_Riga_PrimaConDati = 6;
-            //configurazione.PrevisioneAfinire_FormulaRanRateOre = "IF($G6<>\"non-visibile\",K6*12/{0},\"non-visibile\")";
+            //configurazione.PrevisioneAfinire_FormulaRunRateOre = "IF($G6<>\"non-visibile\",K6*12/{0},\"non-visibile\")";
 
             //// Fogli "Spese..."
             //configurazione.Spese_Colonna_PrimaRangeMesi = (int)ColumnIDS.D;

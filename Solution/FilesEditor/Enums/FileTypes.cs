@@ -24,7 +24,7 @@ namespace FilesEditor.Enums
         [Description("File Excel Forecast")]
         Forecast,
 
-        [Description("File Excel Ran Rate")]
-        RanRate
+        [Description("File Excel Run Rate")]
+        RunRate
     }
 }

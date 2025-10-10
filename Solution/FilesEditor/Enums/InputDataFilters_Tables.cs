@@ -5,6 +5,7 @@
     {
         SUPERDETTAGLI,
         FORECAST,
-        BUDGET
+        BUDGET,
+        RUNRATE,
     }
 }

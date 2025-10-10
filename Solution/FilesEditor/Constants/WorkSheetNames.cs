@@ -8,6 +8,6 @@
         public const string SUPERDETTAGLI_DATA = "Sheet1";
         public const string BUDGET_DATA = "Sheet1";
         public const string FORECAST_DATA = "Sheet1";
-        public const string RAN_RATE_DATA = "Sheet1";
+        public const string RUN_RATE_DATA = "Sheet1";
     }
 }

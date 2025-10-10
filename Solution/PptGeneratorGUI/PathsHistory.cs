@@ -29,10 +29,10 @@ namespace PptGeneratorGUI
         private const string XML_KEY_SUPERDETTAGLI = "SuperDettagli";
 
 
-        //RanRatePaths
-        private List<string> _ranRatePaths;
-        public List<string> RanRatePaths { get => _ranRatePaths; set => _ranRatePaths = value; }
-        private const string XML_KEY_RANRATE = "RanRate";
+        //RunRatePaths
+        private List<string> _runRatePaths;
+        public List<string> RunRatePaths { get => _runRatePaths; set => _runRatePaths = value; }
+        private const string XML_KEY_RUNRATE = "RunRate";
 
 
         //DestFolderPaths
@@ -57,7 +57,7 @@ namespace PptGeneratorGUI
             _budgetPaths = fillListFromXmlForHystoryType(doc, XML_KEY_BUDGET);
             _forecastPaths = fillListFromXmlForHystoryType(doc, XML_KEY_FORECAST);
             _superDettagliPaths = fillListFromXmlForHystoryType(doc, XML_KEY_SUPERDETTAGLI);
-            _ranRatePaths = fillListFromXmlForHystoryType(doc, XML_KEY_RANRATE);
+            _runRatePaths = fillListFromXmlForHystoryType(doc, XML_KEY_RUNRATE);
             _destFolderPaths = fillListFromXmlForHystoryType(doc, XML_KEY_DESTINATIONFOLDER);
         }
 
@@ -85,7 +85,7 @@ namespace PptGeneratorGUI
             return doc;
         }
 
-        public void AddPathsHistory(string budgetPath, string forecastPath, string superDettagliPath, string ranRatePath, string destinationFolderPath)
+        public void AddPathsHistory(string budgetPath, string forecastPath, string superDettagliPath, string runRatePath, string destinationFolderPath)
         {
             var doc = new XmlDocument();
 
@@ -95,7 +95,7 @@ namespace PptGeneratorGUI
             fileHistoryElement.AppendChild(updateHystoryItems(doc, budgetPath, _budgetPaths, XML_KEY_BUDGET));
             fileHistoryElement.AppendChild(updateHystoryItems(doc, forecastPath, _forecastPaths, XML_KEY_FORECAST));
             fileHistoryElement.AppendChild(updateHystoryItems(doc, superDettagliPath, _superDettagliPaths, XML_KEY_SUPERDETTAGLI));
-            fileHistoryElement.AppendChild(updateHystoryItems(doc, ranRatePath, _ranRatePaths, XML_KEY_RANRATE));
+            fileHistoryElement.AppendChild(updateHystoryItems(doc, runRatePath, _runRatePaths, XML_KEY_RUNRATE));
             fileHistoryElement.AppendChild(updateHystoryItems(doc, destinationFolderPath, _destFolderPaths, XML_KEY_DESTINATIONFOLDER));
 
             doc.Save(_xmlFilePath);
@@ -143,7 +143,7 @@ namespace PptGeneratorGUI
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_BUDGET));
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_FORECAST));
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_SUPERDETTAGLI));
-            fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_RANRATE));
+            fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_RUNRATE));
             fileHistoryElement.AppendChild(doc.CreateElement(XML_KEY_DESTINATIONFOLDER));
 
             doc.Save(_xmlFilePath);

@@ -117,7 +117,7 @@ namespace FilesEditor
             validazioniPreliminari_InputFiles_SuperDettagli(validaSourceFilesInput.FileSuperDettagliPath, configurazione);
             validazioniPreliminari_InputFiles_Budget(validaSourceFilesInput.FileBudgetPath, configurazione);
             validazioniPreliminari_InputFiles_Forecast(validaSourceFilesInput.FileForecastPath, configurazione);
-            validazioniPreliminari_InputFiles_RanRate(validaSourceFilesInput.FileRanRatePath, configurazione);
+            validazioniPreliminari_InputFiles_RunRate(validaSourceFilesInput.FileRunRatePath, configurazione);
         }
         private static void validazioniPreliminari_InputFiles_SuperDettagli(string filePath, Configurazione configurazione)
         {
@@ -149,11 +149,11 @@ namespace FilesEditor
 
             validazioniPreliminari_Comuni(filePath, fileType, worksheetName, headersRow, expectedHeadersColumns);
         }
-        private static void validazioniPreliminari_InputFiles_RanRate(string filePath, Configurazione configurazione)
+        private static void validazioniPreliminari_InputFiles_RunRate(string filePath, Configurazione configurazione)
         {
-            var fileType = FileTypes.RanRate;
-            var worksheetName = WorksheetNames.RAN_RATE_DATA;
-            var headersRow = configurazione.RANRATE_HEADERS_ROW;
+            var fileType = FileTypes.RunRate;
+            var worksheetName = WorksheetNames.RUN_RATE_DATA;
+            var headersRow = configurazione.RUNRATE_HEADERS_ROW;
             //todo: aggiungere un certo numero di colonne uniche di questo foglio
             var expectedHeadersColumns = new List<string> { "01", "02" };
 
@@ -236,6 +236,14 @@ namespace FilesEditor
                                 headersRow: configurazione.BUDGET_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
+                    case InputDataFilters_Tables.RUNRATE:
+                        applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
+                                filePath: validaSourceFilesInput.FileRunRatePath,
+                                worksheetName: WorksheetNames.RUN_RATE_DATA,
+                                fileType: FileTypes.RunRate,
+                                headersRow: configurazione.RUNRATE_HEADERS_ROW,
+                                headerValue: applicablefilter.FieldName);
+                        break;
 
                     default:
                         throw new Exception($"Tipo tabella sconosciuto nella configurazione dei filtri: '{applicablefilter.Table}'");
@@ -309,9 +317,7 @@ namespace FilesEditor
                 }
 
 
-                //todo: chiedere info a Francesco su questo uso del default
-                if (layout == null)
-                { layout = LayoutTypes.Horizontal.ToString(); }
+
 
                 // con più di un contenuto, il layout diventa obbligatorio
                 if (contents.Count > 1)
@@ -321,7 +327,9 @@ namespace FilesEditor
                         configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL,
                         ValueHeaders.SlideLayout);
                 }
-
+                //todo: chiedere info a Francesco su questo uso del default
+                if (layout == null)
+                { layout = LayoutTypes.Horizontal.ToString(); }
 
 
                 if (Enum.TryParse(layout, out LayoutTypes layoutType))

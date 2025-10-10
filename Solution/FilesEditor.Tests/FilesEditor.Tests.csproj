@@ -61,7 +61,7 @@
     <None Include="TestFiles\InputFiles\Forecast.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\Ran Rate.xlsx">
+    <None Include="TestFiles\InputFiles\RunRate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\InputFiles\Superdettagli.xlsx">
