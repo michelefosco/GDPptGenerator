@@ -5,7 +5,7 @@ namespace FilesEditor.Entities
     public class ValidaSourceFilesInput
     {
         public string DestinationFolder { get; private set; }
-        public string TemplatesFolder { get; private set; }
+        public string SourceFilesFolderPath { get; private set; }
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }
@@ -19,7 +19,7 @@ namespace FilesEditor.Entities
 
         public ValidaSourceFilesInput(
                  string destinationFolder,
-                 string templatesFolder,
+                 string sourceFilesFolderPath,
                  string fileBudgetPath,
                  string fileForecastPath,
                  string fileSuperDettagliPath,
@@ -28,8 +28,8 @@ namespace FilesEditor.Entities
         {
             if (string.IsNullOrWhiteSpace(destinationFolder))
                 throw new ArgumentNullException(nameof(destinationFolder));
-            if (string.IsNullOrWhiteSpace(templatesFolder))
-                throw new ArgumentNullException(nameof(templatesFolder));
+            if (string.IsNullOrWhiteSpace(sourceFilesFolderPath))
+                throw new ArgumentNullException(nameof(sourceFilesFolderPath));
             if (string.IsNullOrWhiteSpace(fileBudgetPath))
                 throw new ArgumentNullException(nameof(fileBudgetPath));
             if (string.IsNullOrWhiteSpace(fileForecastPath))
@@ -40,7 +40,7 @@ namespace FilesEditor.Entities
                 throw new ArgumentNullException(nameof(fileRunRatePath));
 
             DestinationFolder = destinationFolder;
-            TemplatesFolder = templatesFolder;
+            SourceFilesFolderPath = sourceFilesFolderPath;
             FileBudgetPath = fileBudgetPath;
             FileForecastPath = fileForecastPath;
             FileSuperDettagliPath = fileSuperDettagliPath;

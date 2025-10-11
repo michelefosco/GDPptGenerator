@@ -92,7 +92,7 @@ namespace FilesEditor
         #region Lettura da DataSource_Template
         private static UserOptions getUserOptions(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
         {
-            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.TemplatesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.SourceFilesFolderPath, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
