@@ -185,10 +185,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Templates\DataSource_Template.xlsx">
+    <None Include="SourceFiles\DataSource.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\PowerPoint_Template.pptx">
+    <None Include="SourceFiles\PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -230,16 +230,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\CalendarIcon.png" />
-    <Content Include="Templates\DataSource_PrintAreas.txt">
+    <Content Include="SourceFiles\DataSource_PrintAreas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Templates\PowerPoint_Struttura_Bis.txt">
+    <Content Include="SourceFiles\PowerPoint_Struttura_Bis.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Templates\PowerPoint_Struttura.txt">
+    <Content Include="SourceFiles\PowerPoint_Struttura.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Templates\README.txt">
+    <Content Include="SourceFiles\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icona.ico" />

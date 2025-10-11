@@ -14,7 +14,7 @@ namespace FilesEditor.Tests
         public void Interazione_OK_01()
         {
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER); ;
-            string templatesFolder = Path.Combine(TestFileFolderPath, TestPaths.TEMPLATES_FOLDER);
+            string sourceFilesFolderPath = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
             //
             string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
             string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
@@ -24,7 +24,7 @@ namespace FilesEditor.Tests
 
             var validaSourceFilesInput = new ValidaSourceFilesInput(
                     destinationFolder: destinationFolder,
-                    templatesFolder: templatesFolder,
+                    sourceFilesFolderPath: sourceFilesFolderPath,
                     fileBudgetPath: fileBudgetPath,
                     fileForecastPath: fileForecastPath,
                     fileSuperDettagliPath: fileSuperDettagliPath,

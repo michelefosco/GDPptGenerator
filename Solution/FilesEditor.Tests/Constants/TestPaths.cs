@@ -8,7 +8,7 @@ namespace FilesEditor.Tests.Constants
 {
     internal class TestPaths
     {
-        public const string TEMPLATES_FOLDER = "Templates";
+        public const string SOURCEFILES_FOLDER = "SourceFiles";
         //
         public const string INPUT_BUDGET_FILE = "InputFiles\\Budget.xlsx";
         public const string INPUT_FORECAST_FILE = "InputFiles\\Forecast.xlsx";

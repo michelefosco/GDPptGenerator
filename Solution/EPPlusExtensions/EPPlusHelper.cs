@@ -295,11 +295,10 @@ namespace EPPlusExtensions
             var values = new List<string>();
             for (int colonnaCorrente = colFrom; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
             {
-                var value = currentWorksheet.Cells[row, colonnaCorrente].Value.ToString();
-                if (!string.IsNullOrEmpty(value))
-                { values.Add(value); }
+                var value = currentWorksheet.Cells[row, colonnaCorrente].Value;
+                if (value != null)
+                { values.Add(value.ToString()); }
             }
-
             return values;
         }
 
