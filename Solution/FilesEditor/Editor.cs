@@ -74,17 +74,41 @@ namespace FilesEditor
 
         private static ValidaSourceFilesOutput validaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
         {
-            // Validazioni preliminari sui file di input
-            validazioniPreliminari_InputFiles(validaSourceFilesInput, configurazione);
-
-            // Lettura Opzione dal datasource
-            var userOptions = getUserOptions(validaSourceFilesInput, configurazione);
-
-            var outout = new ValidaSourceFilesOutput(EsitiFinali.Success)
+            try
             {
-                UserOptions = userOptions,
-            };
-            return outout;
+                // Validazioni preliminari sui file di input
+                validazioniPreliminari_InputFiles(validaSourceFilesInput, configurazione);
+
+                // Lettura Opzione dal datasource
+                var userOptions = getUserOptions(validaSourceFilesInput, configurazione);
+
+                var outout = new ValidaSourceFilesOutput(EsitiFinali.Success)
+                {
+                    UserOptions = userOptions,
+                };
+                return outout;
+            }
+            catch (ManagedException managedException)
+            {
+                return new ValidaSourceFilesOutput(managedException);
+            }
+            catch (Exception ex)
+            {
+                var managedException = new ManagedException(
+                    filePath: null,
+                    fileType: FileTypes.None,
+                    //
+                    worksheetName: null,
+                    cellRow: null,
+                    cellColumn: null,
+                    valueHeader: ValueHeaders.None,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.UnhandledException,
+                    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
+                    );
+                return new ValidaSourceFilesOutput(managedException);
+            }
         }
         #endregion
 

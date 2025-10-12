@@ -8,7 +8,7 @@
         public const string DATASOURCE_PRINT_AREAS_FILENAME = "DataSource_PrintAreas.txt";
         
 
-        public const string DATA_SOURCE_TEMPLATE_FILENAME = "DataSource_Template.xlsx";
+        public const string DATA_SOURCE_TEMPLATE_FILENAME = "DataSource.xlsx";
         public const string POWERPOINT_TEMPLATE_FILENAME = "PowerPoint_Template.pptx";
     }
 }

@@ -26,10 +26,11 @@ namespace FilesEditor.Steps.CreatePresentation
             {
                 return DoSpecificTask();
             }
-            catch (ManagedException ex)
+            catch (ManagedException managedException)
             {
-                Context.CreatePresentationsOutput.SettaManagedException(ex);
-                return FinalizzaOutput(EsitiFinali.Failure);
+                return new CreatePresentationsOutput(managedException);
+                //Context.CreatePresentationsOutput.SettaManagedException(ex);
+                //return FinalizzaOutput(EsitiFinali.Failure);
             }
         }
 

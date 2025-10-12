@@ -1,4 +1,5 @@
-﻿using FilesEditor;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using FilesEditor;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
@@ -12,6 +13,7 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Windows.Forms;
 
@@ -19,7 +21,7 @@ namespace PptGeneratorGUI
 {
     public partial class MainForm : Form
     {
-        private PathsHistory _pathFileHistory;
+
         private string _debugFileName;
         private DateTime _selectedDatePeriodo;
         private List<InputDataFilters_Items> _fieldFilters;
@@ -138,10 +140,72 @@ th, td {{
 
             SetDefaultDatePeriodo();
 
-            LetturaConfigurazioneDaFileDataSource();
-
             lblVersion.Text = $"Versione: {GetVersion()}";
         }
+
+        //private void InstallEventHanlders()
+        //{
+        //    // punsalte Next" --> eseguzione dell'attività
+        //    btnNextBackgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
+        //    {
+        //        try
+        //        {
+        //            var input = e.Argument as ValidaSourceFilesInput;
+        //            var output = Editor.ValidaSourceFiles(input);
+        //            e.Result = new object[] { input, output };
+        //        }
+        //        //catch (ManagedException mEx)
+        //        //{
+        //        //    SetStatusLabel("Elaborazione terminata con errori");
+
+        //        //    SetOutputMessage(mEx);
+        //        //    btnCopyError.Visible = true;
+        //        //}
+        //        catch (Exception ex)
+        //        {
+        //            showExpetion(ex);
+        //        }
+        //    };
+
+        //    // punsalte Next" --> completamento dell'attività
+        //    btnNextBackgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
+        //    {
+        //        try
+        //        {
+        //            var outputAndInput = e.Result as object[];
+        //            var input = outputAndInput[0] as ValidaSourceFilesInput;
+        //            var output = outputAndInput[1] as ValidaSourceFilesOutput;
+
+        //            btnNext.Enabled = true;
+
+        //            //todo valida input
+        //            _inputValidato = true;
+
+        //            if (_inputValidato)
+        //            {
+        //                _fieldFilters = output.UserOptions.Applicablefilters;
+        //                BuildFiltersArea(_fieldFilters);
+        //            }
+        //            RefreshUI(false);
+        //        }
+        //        catch (ManagedException mEx)
+        //        {
+        //            SetStatusLabel("Elaborazione terminata con errori");
+
+        //            SetOutputMessage(mEx);
+        //            btnCopyError.Visible = true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            showExpetion(ex);
+
+        //            SetStatusLabel("Elaborazione terminata con errori");
+
+        //            SetOutputMessage(ex);
+        //            btnCopyError.Visible = true;
+        //        }
+        //    };
+        //}
 
         private void SetDefaultsFor_ReplaceAll_CheckBoxes()
         {
@@ -232,7 +296,7 @@ th, td {{
                 dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
 
                 var textFiltriSelezionati = (filtro.SelectedValues.Count == 0)
-                        ? Values.ALLFILTERSAPPLIED
+                        ? FilesEditor.Constants.Values.ALLFILTERSAPPLIED
                         : string.Join("; ", filtro.SelectedValues);
                 dgvFiltri.Rows[rowIndex].Cells[3].Value = textFiltriSelezionati;
             }
@@ -249,13 +313,18 @@ th, td {{
             };
         }
 
-        private void LetturaConfigurazioneDaFileDataSource()
-        {
-            // throw new NotImplementedException();
-        }
-
 
         #region Gestione history combo boxes
+        private PathsHistory _pathFileHistory;
+        private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                _pathFileHistory.ClearHistory();
+                FillComboBoxes();
+                RefreshUI(false);
+            }
+        }
         public string GetLocaLApplicationDataPath()
         {
             string localApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PptGenerator");
@@ -265,17 +334,14 @@ th, td {{
 
             return localApplicationPath;
         }
-
         public string GetFileHistoryFileName()
         {
             return Path.Combine(GetLocaLApplicationDataPath(), "PptGeneratorFileHistory.xml");
         }
-
         private void LoadFileHistory()
         {
             _pathFileHistory = new PathsHistory(GetFileHistoryFileName());
         }
-
         private void FillComboBoxes()
         {
             LoadFileHistory();
@@ -690,32 +756,14 @@ th, td {{
 
 
 
-        private void toolStripMenuItemClear_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                _pathFileHistory.ClearHistory();
-                FillComboBoxes();
-                RefreshUI(false);
-            }
-        }
 
-
-        private void toolStripMenuItemOpenConfigFolder_Click(object sender, EventArgs e)
-        {
-            var folderPath = TemplatesFolderPath;
-            openFolderForUser(folderPath);
-        }
-
-
-
-        private string TemplatesFolderPath
+        private string SourceFilesFolderPath
         {
             get
             {
                 string exePath = Assembly.GetExecutingAssembly().Location;
                 string exeDir = Path.GetDirectoryName(exePath);
-                var folderPath = Path.Combine(exeDir, "Templates");
+                var folderPath = Path.Combine(exeDir, "SourceFiles");
                 return folderPath;
             }
         }
@@ -1054,71 +1102,105 @@ th, td {{
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            btnNext.Enabled = false;
             validaFileDiInput();
         }
 
 
         private void validaFileDiInput()
         {
+            // eseguzione dell'attività
+            //btnNextBackgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
+            //{
+            //    try
+            //    {
+            //        var input = e.Argument as ValidaSourceFilesInput;
+            //        var output = Editor.ValidaSourceFiles(input);
+            //        e.Result = new object[] { input, output };
+            //    }
+            //    //catch (ManagedException mEx)
+            //    //{
+            //    //    SetStatusLabel("Elaborazione terminata con errori");
+
+            //    //    SetOutputMessage(mEx);
+            //    //    btnCopyError.Visible = true;
+            //    //}
+            //    catch (Exception ex)
+            //    {
+            //        showExpetion(ex);
+            //    }
+            //};
+
+            //// completamento dell'attività
+            //btnNextBackgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
+            //{
+            //    try
+            //    {
+            //        var outputAndInput = e.Result as object[];
+            //        var input = outputAndInput[0] as ValidaSourceFilesInput;
+            //        var output = outputAndInput[1] as ValidaSourceFilesOutput;
+
+            //        btnNext.Enabled = true;
+
+            //        //todo valida input
+            //        _inputValidato = true;
+
+            //        if (_inputValidato)
+            //        {
+            //            _fieldFilters = output.UserOptions.Applicablefilters;
+            //            BuildFiltersArea(_fieldFilters);
+            //        }
+            //        RefreshUI(false);
+            //    }
+            //    catch (ManagedException mEx)
+            //    {
+            //        SetStatusLabel("Elaborazione terminata con errori");
+
+            //        SetOutputMessage(mEx);
+            //        btnCopyError.Visible = true;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        showExpetion(ex);
+
+            //        SetStatusLabel("Elaborazione terminata con errori");
+
+            //        SetOutputMessage(ex);
+            //        btnCopyError.Visible = true;
+            //    }
+            //};
+
+            //toolStripProgressBar.Visible = true;
+
+            // input per la chiamata al backend
+            var validaSourceFilesInput = new ValidaSourceFilesInput(
+                    destinationFolder: SelectedDestinationFolderPath,
+                    sourceFilesFolderPath: SourceFilesFolderPath,
+                    fileBudgetPath: SelectedFileBudgetPath,
+                    fileForecastPath: SelectedFileForecastPath,
+                    fileSuperDettagliPath: SelectedFileSuperDettagliPath,
+                    fileRunRatePath: SelectedFileRunRatePath);
             try
             {
-                var backgroundWorker = new BackgroundWorker();
-
-                // eseguzione dell'attività
-                backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
-                {
-                    var input = e.Argument as ValidaSourceFilesInput;
-                    var output = Editor.ValidaSourceFiles(input);
-                    e.Result = new object[] { input, output };
-                };
-
-                // completamento dell'attività
-                backgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
-                {
-                    var outputAndInput = e.Result as object[];
-                    var input = outputAndInput[0] as ValidaSourceFilesInput;
-                    var output = outputAndInput[1] as ValidaSourceFilesOutput;
-
-                    btnNext.Enabled = true;
-
-                    //todo valida input
-                    _inputValidato = true;
-
-                    if (_inputValidato)
-                    {
-                        _fieldFilters = output.UserOptions.Applicablefilters;
-                        BuildFiltersArea(_fieldFilters);
-                    }
-                    RefreshUI(false);
-                };
-
-                toolStripProgressBar.Visible = true;
-                btnNext.Enabled = false;
-                // input per la chiamata al backend
-                var validaSourceFilesInput = new ValidaSourceFilesInput(
-                        destinationFolder: SelectedDestinationFolderPath,
-                        templatesFolder: TemplatesFolderPath,
-                        fileBudgetPath: SelectedFileBudgetPath,
-                        fileForecastPath: SelectedFileForecastPath,
-                        fileSuperDettagliPath: SelectedFileSuperDettagliPath,
-                        fileRunRatePath: SelectedFileRunRatePath);
-                //btnNextBackgroundWorker.RunWorkerAsync(getUserOptionsFromDataSourceInput);
-                backgroundWorker.RunWorkerAsync(validaSourceFilesInput);
-            }
-            catch (ManagedException mEx)
-            {
-                SetStatusLabel("Elaborazione terminata con errori");
-
-                SetOutputMessage(mEx);
-                btnCopyError.Visible = true;
+                btnNextBackgroundWorker.RunWorkerAsync(validaSourceFilesInput);
             }
             catch (Exception ex)
             {
-                SetStatusLabel("Elaborazione terminata con errori");
-
-                SetOutputMessage(ex);
-                btnCopyError.Visible = true;
+                showExpetion(ex);
             }
+        }
+
+        private void showExpetion(Exception ex)
+        {
+                        // todo: translate
+            SetStatusLabel("Elaborazione terminata con errori");
+
+            if (ex is ManagedException mEx)
+            { SetOutputMessage(mEx); }
+            else
+            { SetOutputMessage(ex); }
+
+            btnCopyError.Visible = true;
         }
 
         //private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -1224,12 +1306,12 @@ th, td {{
                 var createPresentationsInput = new CreatePresentationsInput(
                             outputFolder: SelectedDestinationFolderPath,
                             tmpFolder: tmpFolder,
-                            templatesFolder: TemplatesFolderPath,
+                            templatesFolder: SourceFilesFolderPath,
                             fileDebug_FilePath: _debugFileName,
-                            replaceAllData_FileBudget: cbReplaceAllDataFileBudget.Checked,
-                            replaceAllData_FileForecast: cbReplaceAllDataFileForecast.Checked,
-                            replaceAllData_FileRunRate: cbReplaceAllDataFileRunRate.Checked,
-                            replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked
+                            //replaceAllData_FileBudget: cbReplaceAllDataFileBudget.Checked,
+                            //replaceAllData_FileForecast: cbReplaceAllDataFileForecast.Checked,
+                            replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
+                            periodDate: _selectedDatePeriodo
                             );
                 try
                 {
@@ -1297,5 +1379,55 @@ th, td {{
         //    }
         //}
         #endregion
+
+        private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var input = e.Argument as ValidaSourceFilesInput;
+            var output = Editor.ValidaSourceFiles(input);
+            e.Result = new object[] { input, output };
+        }
+
+        private void btnNextBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var outputAndInput = e.Result as object[];
+            var input = outputAndInput[0] as ValidaSourceFilesInput;
+            var output = outputAndInput[1] as ValidaSourceFilesOutput;
+
+            if(output.Esito == EsitiFinali.Success)
+            {
+                SetStatusLabel("Elaborazione terminata con successo");
+                //todo valida input
+                _inputValidato = true;
+                _fieldFilters = output.UserOptions.Applicablefilters;
+                BuildFiltersArea(_fieldFilters);
+            }
+            else
+            {
+                SetStatusLabel("Elaborazione terminata con errori");
+                SetOutputMessage(output.ManagedException);
+                btnCopyError.Visible = true;
+                //todo valida input
+                _inputValidato = false;
+            }
+
+            RefreshUI(resetInputValidato: false);
+        }
+
+        private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+        }
+        private void btnCreatePresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+
+        private void openSouceFilesFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var folderPath = SourceFilesFolderPath;
+            openFolderForUser(folderPath);
+        }
+
+
     }
 }

@@ -43,6 +43,7 @@ namespace FilesEditor.Enums
         DatoNonUnivoco,
 
         [Description("Errore in una formula")]
-        Formula
+        Formula,
+        UnhandledException
     }
 }

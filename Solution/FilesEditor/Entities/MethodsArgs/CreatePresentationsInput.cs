@@ -10,12 +10,13 @@ namespace FilesEditor.Entities.MethodsArgs
         public string TemplatesFolder { get; private set; }
         public string FileDebug_FilePath { get; private set; }
 
-        public bool ReplaceAllData_FileBudget { get; private set; }
-        public bool ReplaceAllData_FileForecast { get; private set; }
-        public bool ReplaceAllData_FileRunRate { get; private set; }
+        //public bool ReplaceAllData_FileBudget { get; private set; }
+        //public bool ReplaceAllData_FileForecast { get; private set; }
         public bool ReplaceAllData_FileSuperDettagli { get; private set; }
 
-        public bool EvidenziaErroriNelFileDiInput { get; private set; }
+        public DateTime PeriodDate { get; private set; }
+
+        //public bool EvidenziaErroriNelFileDiInput { get; private set; }
 
 
         public CreatePresentationsInput(
@@ -23,12 +24,12 @@ namespace FilesEditor.Entities.MethodsArgs
             string tmpFolder,
             string templatesFolder,
             string fileDebug_FilePath,
-            bool replaceAllData_FileBudget,
-            bool replaceAllData_FileForecast,
-            bool replaceAllData_FileRunRate,
+            //bool replaceAllData_FileBudget,
+            //bool replaceAllData_FileForecast,
             bool replaceAllData_FileSuperDettagli,
-
-        bool evidenziaErroriNelFileDiInput = false)
+            DateTime periodDate
+            //bool evidenziaErroriNelFileDiInput = false
+            )
         {
             if (string.IsNullOrWhiteSpace(outputFolder))
                 throw new ArgumentNullException(nameof(outputFolder));
@@ -41,12 +42,12 @@ namespace FilesEditor.Entities.MethodsArgs
             TmpFolder = tmpFolder;
             TemplatesFolder = templatesFolder;
             FileDebug_FilePath = fileDebug_FilePath;
-            EvidenziaErroriNelFileDiInput = evidenziaErroriNelFileDiInput;
 
-            ReplaceAllData_FileBudget = replaceAllData_FileBudget;
-            ReplaceAllData_FileForecast = replaceAllData_FileForecast;
-            ReplaceAllData_FileRunRate = replaceAllData_FileRunRate;
+            //ReplaceAllData_FileBudget = replaceAllData_FileBudget;
+            //ReplaceAllData_FileForecast = replaceAllData_FileForecast;
             ReplaceAllData_FileSuperDettagli = replaceAllData_FileSuperDettagli;
+
+            PeriodDate = periodDate;
         }
     }
 }

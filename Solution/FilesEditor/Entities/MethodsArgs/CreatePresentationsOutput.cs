@@ -1,4 +1,5 @@
-﻿using FilesEditor.Enums;
+﻿using FilesEditor.Entities.Exceptions;
+using FilesEditor.Enums;
 using System.Collections.Generic;
 
 
@@ -8,8 +9,11 @@ namespace FilesEditor.Entities.MethodsArgs
     public class CreatePresentationsOutput : UserInterfaceIOutputBase
     {
         public CreatePresentationsOutput(EsitiFinali esito) : base(esito)
-        {
-        }
+        { }
+
+        public CreatePresentationsOutput(ManagedException managedException) : base(managedException)
+        { }
+
         //public List<Reparto> RepartiCensitiInController { get; private set; }
         //public List<Reparto> RepartiCensitiInReport { get; private set; }
         //public List<FornitoreCensito> FornitoriCensitiInReport { get; private set; }

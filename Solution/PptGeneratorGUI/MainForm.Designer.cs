@@ -59,13 +59,8 @@
             this.lblFileBudgetPath = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.label2 = new System.Windows.Forms.Label();
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemClear = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenConfigFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.cmbDestinationFolderPath = new System.Windows.Forms.ComboBox();
             this.wbExecutionResult = new System.Windows.Forms.WebBrowser();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.btnCreatePresentationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.btnCopyError = new System.Windows.Forms.LinkLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -87,18 +82,19 @@
             this.pnlCalendar = new System.Windows.Forms.Panel();
             this.gbPaths = new System.Windows.Forms.GroupBox();
             this.cbReplaceAllDataFileSuperDettagli = new System.Windows.Forms.CheckBox();
-            this.cbReplaceAllDataFileRunRate = new System.Windows.Forms.CheckBox();
-            this.cbReplaceAllDataFileForecast = new System.Windows.Forms.CheckBox();
-            this.cbReplaceAllDataFileBudget = new System.Windows.Forms.CheckBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnNextBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
-            this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
             this.gbPaths.SuspendLayout();
             this.gbOptions.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -107,7 +103,7 @@
             this.statusStrip.Location = new System.Drawing.Point(0, 902);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1605, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1178, 22);
             this.statusStrip.TabIndex = 21;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -142,7 +138,7 @@
             // btnSelectFileBudget
             // 
             this.btnSelectFileBudget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileBudget.Location = new System.Drawing.Point(1484, 14);
+            this.btnSelectFileBudget.Location = new System.Drawing.Point(1057, 14);
             this.btnSelectFileBudget.Name = "btnSelectFileBudget";
             this.btnSelectFileBudget.Size = new System.Drawing.Size(29, 23);
             this.btnSelectFileBudget.TabIndex = 1;
@@ -154,10 +150,10 @@
             // btnSelectDestinationFolder
             // 
             this.btnSelectDestinationFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectDestinationFolder.Location = new System.Drawing.Point(1484, 120);
+            this.btnSelectDestinationFolder.Location = new System.Drawing.Point(1057, 120);
             this.btnSelectDestinationFolder.Name = "btnSelectDestinationFolder";
             this.btnSelectDestinationFolder.Size = new System.Drawing.Size(29, 23);
-            this.btnSelectDestinationFolder.TabIndex = 17;
+            this.btnSelectDestinationFolder.TabIndex = 18;
             this.btnSelectDestinationFolder.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectDestinationFolder, "Apre la finestra di selezione cartella");
             this.btnSelectDestinationFolder.UseVisualStyleBackColor = true;
@@ -176,7 +172,7 @@
             // btnSelectForecastFile
             // 
             this.btnSelectForecastFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectForecastFile.Location = new System.Drawing.Point(1484, 40);
+            this.btnSelectForecastFile.Location = new System.Drawing.Point(1057, 40);
             this.btnSelectForecastFile.Name = "btnSelectForecastFile";
             this.btnSelectForecastFile.Size = new System.Drawing.Size(29, 23);
             this.btnSelectForecastFile.TabIndex = 5;
@@ -188,10 +184,10 @@
             // btnSelectFileSuperDettagli
             // 
             this.btnSelectFileSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileSuperDettagli.Location = new System.Drawing.Point(1484, 94);
+            this.btnSelectFileSuperDettagli.Location = new System.Drawing.Point(1057, 94);
             this.btnSelectFileSuperDettagli.Name = "btnSelectFileSuperDettagli";
             this.btnSelectFileSuperDettagli.Size = new System.Drawing.Size(29, 23);
-            this.btnSelectFileSuperDettagli.TabIndex = 13;
+            this.btnSelectFileSuperDettagli.TabIndex = 14;
             this.btnSelectFileSuperDettagli.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectFileSuperDettagli, "Apre la finestra di selezione file");
             this.btnSelectFileSuperDettagli.UseVisualStyleBackColor = true;
@@ -200,7 +196,7 @@
             // btnSelectFileRunRate
             // 
             this.btnSelectFileRunRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileRunRate.Location = new System.Drawing.Point(1484, 67);
+            this.btnSelectFileRunRate.Location = new System.Drawing.Point(1057, 67);
             this.btnSelectFileRunRate.Name = "btnSelectFileRunRate";
             this.btnSelectFileRunRate.Size = new System.Drawing.Size(29, 23);
             this.btnSelectFileRunRate.TabIndex = 9;
@@ -216,7 +212,7 @@
             this.lblDataPeriodo.Location = new System.Drawing.Point(102, 26);
             this.lblDataPeriodo.Name = "lblDataPeriodo";
             this.lblDataPeriodo.Size = new System.Drawing.Size(108, 13);
-            this.lblDataPeriodo.TabIndex = 46;
+            this.lblDataPeriodo.TabIndex = 21;
             this.lblDataPeriodo.Text = "[DATA PERIODO]";
             this.toolTipDefault.SetToolTip(this.lblDataPeriodo, "Cartella nella quale vettanno salvati i file di output");
             // 
@@ -236,7 +232,7 @@
             this.btnOpenCalendar.Location = new System.Drawing.Point(232, 18);
             this.btnOpenCalendar.Name = "btnOpenCalendar";
             this.btnOpenCalendar.Size = new System.Drawing.Size(29, 23);
-            this.btnOpenCalendar.TabIndex = 19;
+            this.btnOpenCalendar.TabIndex = 22;
             this.toolTipDefault.SetToolTip(this.btnOpenCalendar, "Apri il calendario per selezionare la data del periodo di riferimento");
             this.btnOpenCalendar.UseVisualStyleBackColor = true;
             this.btnOpenCalendar.Click += new System.EventHandler(this.btnOpenCalendar_Click);
@@ -245,7 +241,7 @@
             // 
             this.btnOpenFileRunRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileRunRate.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileRunRate.Image")));
-            this.btnOpenFileRunRate.Location = new System.Drawing.Point(1555, 66);
+            this.btnOpenFileRunRate.Location = new System.Drawing.Point(1128, 66);
             this.btnOpenFileRunRate.Name = "btnOpenFileRunRate";
             this.btnOpenFileRunRate.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileRunRate.TabIndex = 11;
@@ -257,7 +253,7 @@
             // 
             this.btnOpenFileRunRateFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileRunRateFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileRunRateFolder.Image")));
-            this.btnOpenFileRunRateFolder.Location = new System.Drawing.Point(1519, 66);
+            this.btnOpenFileRunRateFolder.Location = new System.Drawing.Point(1092, 66);
             this.btnOpenFileRunRateFolder.Name = "btnOpenFileRunRateFolder";
             this.btnOpenFileRunRateFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileRunRateFolder.TabIndex = 10;
@@ -269,10 +265,10 @@
             // 
             this.btnOpenFileSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileSuperDettagli.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileSuperDettagli.Image")));
-            this.btnOpenFileSuperDettagli.Location = new System.Drawing.Point(1554, 93);
+            this.btnOpenFileSuperDettagli.Location = new System.Drawing.Point(1127, 93);
             this.btnOpenFileSuperDettagli.Name = "btnOpenFileSuperDettagli";
             this.btnOpenFileSuperDettagli.Size = new System.Drawing.Size(29, 23);
-            this.btnOpenFileSuperDettagli.TabIndex = 15;
+            this.btnOpenFileSuperDettagli.TabIndex = 16;
             this.toolTipDefault.SetToolTip(this.btnOpenFileSuperDettagli, "Apre il file report");
             this.btnOpenFileSuperDettagli.UseVisualStyleBackColor = true;
             this.btnOpenFileSuperDettagli.Click += new System.EventHandler(this.btnOpenFileSuperDettagli_Click);
@@ -281,10 +277,10 @@
             // 
             this.btnOpenFileSuperDettagliFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileSuperDettagliFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileSuperDettagliFolder.Image")));
-            this.btnOpenFileSuperDettagliFolder.Location = new System.Drawing.Point(1519, 94);
+            this.btnOpenFileSuperDettagliFolder.Location = new System.Drawing.Point(1092, 94);
             this.btnOpenFileSuperDettagliFolder.Name = "btnOpenFileSuperDettagliFolder";
             this.btnOpenFileSuperDettagliFolder.Size = new System.Drawing.Size(29, 23);
-            this.btnOpenFileSuperDettagliFolder.TabIndex = 14;
+            this.btnOpenFileSuperDettagliFolder.TabIndex = 15;
             this.toolTipDefault.SetToolTip(this.btnOpenFileSuperDettagliFolder, "Apre la cartella contenente il file report");
             this.btnOpenFileSuperDettagliFolder.UseVisualStyleBackColor = true;
             this.btnOpenFileSuperDettagliFolder.Click += new System.EventHandler(this.btnOpenFileSuperDettagliFolder_Click);
@@ -293,7 +289,7 @@
             // 
             this.btnOpenFileForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileForecast.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileForecast.Image")));
-            this.btnOpenFileForecast.Location = new System.Drawing.Point(1555, 40);
+            this.btnOpenFileForecast.Location = new System.Drawing.Point(1128, 40);
             this.btnOpenFileForecast.Name = "btnOpenFileForecast";
             this.btnOpenFileForecast.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileForecast.TabIndex = 7;
@@ -305,7 +301,7 @@
             // 
             this.btnOpenFileForecastFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileForecastFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileForecastFolder.Image")));
-            this.btnOpenFileForecastFolder.Location = new System.Drawing.Point(1519, 40);
+            this.btnOpenFileForecastFolder.Location = new System.Drawing.Point(1092, 40);
             this.btnOpenFileForecastFolder.Name = "btnOpenFileForecastFolder";
             this.btnOpenFileForecastFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileForecastFolder.TabIndex = 6;
@@ -317,7 +313,7 @@
             // 
             this.btnOpenFileBudget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileBudget.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileBudget.Image")));
-            this.btnOpenFileBudget.Location = new System.Drawing.Point(1555, 14);
+            this.btnOpenFileBudget.Location = new System.Drawing.Point(1128, 14);
             this.btnOpenFileBudget.Name = "btnOpenFileBudget";
             this.btnOpenFileBudget.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileBudget.TabIndex = 3;
@@ -329,10 +325,10 @@
             // 
             this.btnOpenDestFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenDestFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenDestFolder.Image")));
-            this.btnOpenDestFolder.Location = new System.Drawing.Point(1519, 121);
+            this.btnOpenDestFolder.Location = new System.Drawing.Point(1092, 121);
             this.btnOpenDestFolder.Name = "btnOpenDestFolder";
             this.btnOpenDestFolder.Size = new System.Drawing.Size(29, 23);
-            this.btnOpenDestFolder.TabIndex = 18;
+            this.btnOpenDestFolder.TabIndex = 19;
             this.toolTipDefault.SetToolTip(this.btnOpenDestFolder, "Apre la cartella di destinazione");
             this.btnOpenDestFolder.UseVisualStyleBackColor = true;
             this.btnOpenDestFolder.Click += new System.EventHandler(this.btnOpenDestFolder_Click);
@@ -341,7 +337,7 @@
             // 
             this.btnOpenFileBudgetFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileBudgetFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileBudgetFolder.Image")));
-            this.btnOpenFileBudgetFolder.Location = new System.Drawing.Point(1519, 14);
+            this.btnOpenFileBudgetFolder.Location = new System.Drawing.Point(1092, 14);
             this.btnOpenFileBudgetFolder.Name = "btnOpenFileBudgetFolder";
             this.btnOpenFileBudgetFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileBudgetFolder.TabIndex = 2;
@@ -358,7 +354,7 @@
             this.cmbFileBudgetPath.FormattingEnabled = true;
             this.cmbFileBudgetPath.Location = new System.Drawing.Point(104, 16);
             this.cmbFileBudgetPath.Name = "cmbFileBudgetPath";
-            this.cmbFileBudgetPath.Size = new System.Drawing.Size(1275, 21);
+            this.cmbFileBudgetPath.Size = new System.Drawing.Size(947, 21);
             this.cmbFileBudgetPath.TabIndex = 0;
             this.cmbFileBudgetPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileBudgetPath_SelectedIndexChanged);
             this.cmbFileBudgetPath.TextUpdate += new System.EventHandler(this.cmbFileBudgetPath_TextUpdate);
@@ -381,44 +377,6 @@
             this.label2.TabIndex = 20;
             this.label2.Text = "Results:";
             // 
-            // menuStrip
-            // 
-            this.menuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(49, 24);
-            this.menuStrip.TabIndex = 0;
-            this.menuStrip.Text = "menuStrip1";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemClear,
-            this.toolStripMenuItemOpenConfigFolder});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
-            this.toolStripMenuItem1.Text = "&Settings";
-            // 
-            // toolStripMenuItemClear
-            // 
-            this.toolStripMenuItemClear.Name = "toolStripMenuItemClear";
-            this.toolStripMenuItemClear.Size = new System.Drawing.Size(193, 22);
-            this.toolStripMenuItemClear.Text = "&Clean path lists history";
-            this.toolStripMenuItemClear.Click += new System.EventHandler(this.toolStripMenuItemClear_Click);
-            // 
-            // toolStripMenuItemOpenConfigFolder
-            // 
-            this.toolStripMenuItemOpenConfigFolder.Name = "toolStripMenuItemOpenConfigFolder";
-            this.toolStripMenuItemOpenConfigFolder.Size = new System.Drawing.Size(193, 22);
-            this.toolStripMenuItemOpenConfigFolder.Text = "Open &templates folder";
-            this.toolStripMenuItemOpenConfigFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenConfigFolder_Click);
-            // 
             // cmbDestinationFolderPath
             // 
             this.cmbDestinationFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -428,8 +386,8 @@
             this.cmbDestinationFolderPath.FormattingEnabled = true;
             this.cmbDestinationFolderPath.Location = new System.Drawing.Point(104, 120);
             this.cmbDestinationFolderPath.Name = "cmbDestinationFolderPath";
-            this.cmbDestinationFolderPath.Size = new System.Drawing.Size(1274, 21);
-            this.cmbDestinationFolderPath.TabIndex = 16;
+            this.cmbDestinationFolderPath.Size = new System.Drawing.Size(947, 21);
+            this.cmbDestinationFolderPath.TabIndex = 17;
             this.cmbDestinationFolderPath.SelectedIndexChanged += new System.EventHandler(this.cmbDestinationFolderPath_SelectedIndexChanged);
             this.cmbDestinationFolderPath.TextUpdate += new System.EventHandler(this.cmbDestinationFolderPath_TextUpdate);
             // 
@@ -443,15 +401,20 @@
             this.wbExecutionResult.Location = new System.Drawing.Point(12, 547);
             this.wbExecutionResult.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbExecutionResult.Name = "wbExecutionResult";
-            this.wbExecutionResult.Size = new System.Drawing.Size(1581, 454);
-            this.wbExecutionResult.TabIndex = 23;
+            this.wbExecutionResult.Size = new System.Drawing.Size(1154, 352);
+            this.wbExecutionResult.TabIndex = 25;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating_1);
+            // 
+            // btnCreatePresentationBackgroundWorker
+            // 
+            this.btnCreatePresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnCreatePresentationBackgroundWorker_DoWork);
+            this.btnCreatePresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnCreatePresentationBackgroundWorker_RunWorkerCompleted);
             // 
             // btnCopyError
             // 
             this.btnCopyError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyError.AutoSize = true;
-            this.btnCopyError.Location = new System.Drawing.Point(1421, 988);
+            this.btnCopyError.Location = new System.Drawing.Point(994, 988);
             this.btnCopyError.Name = "btnCopyError";
             this.btnCopyError.Size = new System.Drawing.Size(148, 13);
             this.btnCopyError.TabIndex = 25;
@@ -474,7 +437,7 @@
             this.cmbFileForecastPath.FormattingEnabled = true;
             this.cmbFileForecastPath.Location = new System.Drawing.Point(104, 42);
             this.cmbFileForecastPath.Name = "cmbFileForecastPath";
-            this.cmbFileForecastPath.Size = new System.Drawing.Size(1275, 21);
+            this.cmbFileForecastPath.Size = new System.Drawing.Size(947, 21);
             this.cmbFileForecastPath.TabIndex = 4;
             this.cmbFileForecastPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileForecastPath_SelectedIndexChanged);
             this.cmbFileForecastPath.TextUpdate += new System.EventHandler(this.cmbFileForecastPath_TextUpdate);
@@ -497,7 +460,7 @@
             this.cmbFileSuperDettagliPath.FormattingEnabled = true;
             this.cmbFileSuperDettagliPath.Location = new System.Drawing.Point(104, 94);
             this.cmbFileSuperDettagliPath.Name = "cmbFileSuperDettagliPath";
-            this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(1275, 21);
+            this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(848, 21);
             this.cmbFileSuperDettagliPath.TabIndex = 12;
             this.cmbFileSuperDettagliPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileSuperDettagliPath_SelectedIndexChanged);
             this.cmbFileSuperDettagliPath.TextUpdate += new System.EventHandler(this.cmbFileSuperDettagliPath_TextUpdate);
@@ -520,7 +483,7 @@
             this.cmbFileRunRatePath.FormattingEnabled = true;
             this.cmbFileRunRatePath.Location = new System.Drawing.Point(104, 68);
             this.cmbFileRunRatePath.Name = "cmbFileRunRatePath";
-            this.cmbFileRunRatePath.Size = new System.Drawing.Size(1275, 21);
+            this.cmbFileRunRatePath.Size = new System.Drawing.Size(947, 21);
             this.cmbFileRunRatePath.TabIndex = 8;
             this.cmbFileRunRatePath.SelectedIndexChanged += new System.EventHandler(this.cmbFileRunRatePath_SelectedIndexChanged);
             this.cmbFileRunRatePath.TextUpdate += new System.EventHandler(this.cmbFileRunRatePath_TextUpdate);
@@ -537,10 +500,10 @@
             // btnCreaPresentazione
             // 
             this.btnCreaPresentazione.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreaPresentazione.Location = new System.Drawing.Point(1467, 511);
+            this.btnCreaPresentazione.Location = new System.Drawing.Point(1040, 511);
             this.btnCreaPresentazione.Name = "btnCreaPresentazione";
             this.btnCreaPresentazione.Size = new System.Drawing.Size(120, 30);
-            this.btnCreaPresentazione.TabIndex = 22;
+            this.btnCreaPresentazione.TabIndex = 24;
             this.btnCreaPresentazione.Text = "Build &Presentation";
             this.btnCreaPresentazione.UseVisualStyleBackColor = true;
             this.btnCreaPresentazione.Click += new System.EventHandler(this.btnCreaPresentazione_Click);
@@ -584,8 +547,8 @@
             this.dgvFiltri.RowHeadersVisible = false;
             this.dgvFiltri.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFiltri.ShowEditingIcon = false;
-            this.dgvFiltri.Size = new System.Drawing.Size(1474, 239);
-            this.dgvFiltri.TabIndex = 21;
+            this.dgvFiltri.Size = new System.Drawing.Size(1047, 239);
+            this.dgvFiltri.TabIndex = 23;
             // 
             // Tabella
             // 
@@ -620,7 +583,7 @@
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClear.AutoSize = true;
-            this.btnClear.Location = new System.Drawing.Point(1461, 557);
+            this.btnClear.Location = new System.Drawing.Point(1034, 557);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(108, 13);
             this.btnClear.TabIndex = 24;
@@ -650,9 +613,6 @@
             this.gbPaths.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbPaths.Controls.Add(this.cbReplaceAllDataFileSuperDettagli);
-            this.gbPaths.Controls.Add(this.cbReplaceAllDataFileRunRate);
-            this.gbPaths.Controls.Add(this.cbReplaceAllDataFileForecast);
-            this.gbPaths.Controls.Add(this.cbReplaceAllDataFileBudget);
             this.gbPaths.Controls.Add(this.lblFileBudgetPath);
             this.gbPaths.Controls.Add(this.btnSelectFileBudget);
             this.gbPaths.Controls.Add(this.cmbFileBudgetPath);
@@ -679,7 +639,7 @@
             this.gbPaths.Controls.Add(this.btnSelectFileSuperDettagli);
             this.gbPaths.Location = new System.Drawing.Point(3, 27);
             this.gbPaths.Name = "gbPaths";
-            this.gbPaths.Size = new System.Drawing.Size(1584, 151);
+            this.gbPaths.Size = new System.Drawing.Size(1157, 151);
             this.gbPaths.TabIndex = 50;
             this.gbPaths.TabStop = false;
             this.gbPaths.Text = "Paths";
@@ -688,45 +648,12 @@
             // 
             this.cbReplaceAllDataFileSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbReplaceAllDataFileSuperDettagli.AutoSize = true;
-            this.cbReplaceAllDataFileSuperDettagli.Location = new System.Drawing.Point(1388, 97);
+            this.cbReplaceAllDataFileSuperDettagli.Location = new System.Drawing.Point(961, 97);
             this.cbReplaceAllDataFileSuperDettagli.Name = "cbReplaceAllDataFileSuperDettagli";
             this.cbReplaceAllDataFileSuperDettagli.Size = new System.Drawing.Size(90, 17);
             this.cbReplaceAllDataFileSuperDettagli.TabIndex = 13;
             this.cbReplaceAllDataFileSuperDettagli.Text = "Replace data";
             this.cbReplaceAllDataFileSuperDettagli.UseVisualStyleBackColor = true;
-            // 
-            // cbReplaceAllDataFileRunRate
-            // 
-            this.cbReplaceAllDataFileRunRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbReplaceAllDataFileRunRate.AutoSize = true;
-            this.cbReplaceAllDataFileRunRate.Location = new System.Drawing.Point(1388, 71);
-            this.cbReplaceAllDataFileRunRate.Name = "cbReplaceAllDataFileRunRate";
-            this.cbReplaceAllDataFileRunRate.Size = new System.Drawing.Size(90, 17);
-            this.cbReplaceAllDataFileRunRate.TabIndex = 9;
-            this.cbReplaceAllDataFileRunRate.Text = "Replace data";
-            this.cbReplaceAllDataFileRunRate.UseVisualStyleBackColor = true;
-            // 
-            // cbReplaceAllDataFileForecast
-            // 
-            this.cbReplaceAllDataFileForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbReplaceAllDataFileForecast.AutoSize = true;
-            this.cbReplaceAllDataFileForecast.Location = new System.Drawing.Point(1388, 44);
-            this.cbReplaceAllDataFileForecast.Name = "cbReplaceAllDataFileForecast";
-            this.cbReplaceAllDataFileForecast.Size = new System.Drawing.Size(90, 17);
-            this.cbReplaceAllDataFileForecast.TabIndex = 5;
-            this.cbReplaceAllDataFileForecast.Text = "Replace data";
-            this.cbReplaceAllDataFileForecast.UseVisualStyleBackColor = true;
-            // 
-            // cbReplaceAllDataFileBudget
-            // 
-            this.cbReplaceAllDataFileBudget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbReplaceAllDataFileBudget.AutoSize = true;
-            this.cbReplaceAllDataFileBudget.Location = new System.Drawing.Point(1388, 18);
-            this.cbReplaceAllDataFileBudget.Name = "cbReplaceAllDataFileBudget";
-            this.cbReplaceAllDataFileBudget.Size = new System.Drawing.Size(90, 17);
-            this.cbReplaceAllDataFileBudget.TabIndex = 1;
-            this.cbReplaceAllDataFileBudget.Text = "Replace data";
-            this.cbReplaceAllDataFileBudget.UseVisualStyleBackColor = true;
             // 
             // gbOptions
             // 
@@ -740,7 +667,7 @@
             this.gbOptions.Controls.Add(this.btnOpenCalendar);
             this.gbOptions.Location = new System.Drawing.Point(3, 213);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(1584, 292);
+            this.gbOptions.Size = new System.Drawing.Size(1157, 292);
             this.gbOptions.TabIndex = 51;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Options";
@@ -748,13 +675,51 @@
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(1467, 184);
+            this.btnNext.Location = new System.Drawing.Point(1040, 184);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(120, 30);
-            this.btnNext.TabIndex = 52;
-            this.btnNext.Text = "&Next >>";
+            this.btnNext.TabIndex = 20;
+            this.btnNext.Text = "&Validate input";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnNextBackgroundWorker
+            // 
+            this.btnNextBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnNextBackgroundWorker_DoWork);
+            this.btnNextBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnNextBackgroundWorker_RunWorkerCompleted);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1178, 24);
+            this.menuStrip1.TabIndex = 53;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearPathsHistoryToolStripMenuItem,
+            this.openSouceFilesFolderToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
+            this.toolStripMenuItem1.Text = "&Options";
+            // 
+            // clearPathsHistoryToolStripMenuItem
+            // 
+            this.clearPathsHistoryToolStripMenuItem.Name = "clearPathsHistoryToolStripMenuItem";
+            this.clearPathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.clearPathsHistoryToolStripMenuItem.Text = "&Clear paths history";
+            this.clearPathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearPathsHistoryToolStripMenuItem_Click);
+            // 
+            // openSouceFilesFolderToolStripMenuItem
+            // 
+            this.openSouceFilesFolderToolStripMenuItem.Name = "openSouceFilesFolderToolStripMenuItem";
+            this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.openSouceFilesFolderToolStripMenuItem.Text = "Open &Souce files folder";
+            this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
             // 
             // bfbDestFolder
             // 
@@ -766,7 +731,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1605, 924);
+            this.ClientSize = new System.Drawing.Size(1178, 924);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.gbPaths);
@@ -776,22 +741,21 @@
             this.Controls.Add(this.wbExecutionResult);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(1000, 650);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PowerPoint Generator";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).EndInit();
             this.pnlCalendar.ResumeLayout(false);
             this.gbPaths.ResumeLayout(false);
             this.gbPaths.PerformLayout();
             this.gbOptions.ResumeLayout(false);
             this.gbOptions.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -807,9 +771,6 @@
         private System.Windows.Forms.Label lblFileBudgetPath;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClear;
         private System.Windows.Forms.ComboBox cmbDestinationFolderPath;
         private System.Windows.Forms.Button btnSelectDestinationFolder;
         private System.Windows.Forms.Label lblCartellaOutputPath;
@@ -817,7 +778,6 @@
         private System.Windows.Forms.Button btnOpenDestFolder;
         private System.Windows.Forms.Button btnOpenFileBudget;
         private System.Windows.Forms.WebBrowser wbExecutionResult;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.ComponentModel.BackgroundWorker btnCreatePresentationBackgroundWorker;
         private System.Windows.Forms.LinkLabel btnCopyError;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
@@ -840,7 +800,6 @@
         private System.Windows.Forms.Button btnSelectFileRunRate;
         private System.Windows.Forms.Label lblFileRunRatePath;
         private System.Windows.Forms.Button btnCreaPresentazione;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenConfigFolder;
         private System.Windows.Forms.Label lblFiltriApplicabili;
         private System.Windows.Forms.DataGridView dgvFiltri;
         private System.Windows.Forms.LinkLabel btnClear;
@@ -857,10 +816,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Campo;
         private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValoriSelezionati;
-        private System.Windows.Forms.CheckBox cbReplaceAllDataFileBudget;
         private System.Windows.Forms.CheckBox cbReplaceAllDataFileSuperDettagli;
-        private System.Windows.Forms.CheckBox cbReplaceAllDataFileRunRate;
-        private System.Windows.Forms.CheckBox cbReplaceAllDataFileForecast;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem clearPathsHistoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openSouceFilesFolderToolStripMenuItem;
     }
 }
 

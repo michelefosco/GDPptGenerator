@@ -1,4 +1,5 @@
-﻿using FilesEditor.Enums;
+﻿using FilesEditor.Entities.Exceptions;
+using FilesEditor.Enums;
 using System.Collections.Generic;
 
 namespace FilesEditor.Entities.MethodsArgs
@@ -8,7 +9,9 @@ namespace FilesEditor.Entities.MethodsArgs
         public ValidaSourceFilesOutput(EsitiFinali esito) : base(esito)
         { }
 
-        public UserOptions UserOptions;
+        public ValidaSourceFilesOutput(ManagedException managedException) : base(managedException)
+        { }
 
+        public UserOptions UserOptions;
     }
 }
