@@ -28,6 +28,7 @@ namespace PptGeneratorGUI
 
         private bool _inputValidato = false;
 
+        #region HTML elements
         private const string _newlineHTML = @"<BR />";
         private const string _boldHTML = @"<B>{0}</B>";
         private const string _hyperlinkHTML = @"<a style=""color: blue;"" href=""{0}"">{1}</a>";
@@ -71,6 +72,7 @@ th, td {{
  </body>
 </html>";
 
+        #endregion
 
         #region Selected paths
         public string SelectedFileBudgetPath
@@ -128,6 +130,18 @@ th, td {{
                 cmbDestinationFolderPath.Text = value;
             }
         }
+
+        private string SourceFilesFolderPath
+        {
+            get
+            {
+                string exePath = Assembly.GetExecutingAssembly().Location;
+                string exeDir = Path.GetDirectoryName(exePath);
+                var folderPath = Path.Combine(exeDir, "SourceFiles");
+                return folderPath;
+            }
+        }
+
         #endregion
 
         public MainForm()
@@ -142,70 +156,6 @@ th, td {{
 
             lblVersion.Text = $"Versione: {GetVersion()}";
         }
-
-        //private void InstallEventHanlders()
-        //{
-        //    // punsalte Next" --> eseguzione dell'attività
-        //    btnNextBackgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
-        //    {
-        //        try
-        //        {
-        //            var input = e.Argument as ValidaSourceFilesInput;
-        //            var output = Editor.ValidaSourceFiles(input);
-        //            e.Result = new object[] { input, output };
-        //        }
-        //        //catch (ManagedException mEx)
-        //        //{
-        //        //    SetStatusLabel("Elaborazione terminata con errori");
-
-        //        //    SetOutputMessage(mEx);
-        //        //    btnCopyError.Visible = true;
-        //        //}
-        //        catch (Exception ex)
-        //        {
-        //            showExpetion(ex);
-        //        }
-        //    };
-
-        //    // punsalte Next" --> completamento dell'attività
-        //    btnNextBackgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
-        //    {
-        //        try
-        //        {
-        //            var outputAndInput = e.Result as object[];
-        //            var input = outputAndInput[0] as ValidaSourceFilesInput;
-        //            var output = outputAndInput[1] as ValidaSourceFilesOutput;
-
-        //            btnNext.Enabled = true;
-
-        //            //todo valida input
-        //            _inputValidato = true;
-
-        //            if (_inputValidato)
-        //            {
-        //                _fieldFilters = output.UserOptions.Applicablefilters;
-        //                BuildFiltersArea(_fieldFilters);
-        //            }
-        //            RefreshUI(false);
-        //        }
-        //        catch (ManagedException mEx)
-        //        {
-        //            SetStatusLabel("Elaborazione terminata con errori");
-
-        //            SetOutputMessage(mEx);
-        //            btnCopyError.Visible = true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            showExpetion(ex);
-
-        //            SetStatusLabel("Elaborazione terminata con errori");
-
-        //            SetOutputMessage(ex);
-        //            btnCopyError.Visible = true;
-        //        }
-        //    };
-        //}
 
         private void SetDefaultsFor_ReplaceAll_CheckBoxes()
         {
@@ -311,6 +261,25 @@ th, td {{
 
         #region Gestione history combo boxes
         private PathsHistory _pathFileHistory;
+        private void FillComboBoxes()
+        {
+            LoadFileHistory();
+
+            cmbFileBudgetPath.Items.Clear();
+            cmbFileBudgetPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
+
+            cmbFileForecastPath.Items.Clear();
+            cmbFileForecastPath.Items.AddRange(_pathFileHistory.ForecastPaths.ToArray());
+
+            cmbFileSuperDettagliPath.Items.Clear();
+            cmbFileSuperDettagliPath.Items.AddRange(_pathFileHistory.SuperDettagliPaths.ToArray());
+
+            cmbFileRunRatePath.Items.Clear();
+            cmbFileRunRatePath.Items.AddRange(_pathFileHistory.RunRatePaths.ToArray());
+
+            cmbDestinationFolderPath.Items.Clear();
+            cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
+        }
         private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -337,25 +306,7 @@ th, td {{
         {
             _pathFileHistory = new PathsHistory(GetFileHistoryFileName());
         }
-        private void FillComboBoxes()
-        {
-            LoadFileHistory();
 
-            cmbFileBudgetPath.Items.Clear();
-            cmbFileBudgetPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
-
-            cmbFileForecastPath.Items.Clear();
-            cmbFileForecastPath.Items.AddRange(_pathFileHistory.ForecastPaths.ToArray());
-
-            cmbFileSuperDettagliPath.Items.Clear();
-            cmbFileSuperDettagliPath.Items.AddRange(_pathFileHistory.SuperDettagliPaths.ToArray());
-
-            cmbFileRunRatePath.Items.Clear();
-            cmbFileRunRatePath.Items.AddRange(_pathFileHistory.RunRatePaths.ToArray());
-
-            cmbDestinationFolderPath.Items.Clear();
-            cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
-        }
         private void AddPathsInXmlFileHistory()
         {
             _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRunRatePath, SelectedDestinationFolderPath);
@@ -467,408 +418,12 @@ th, td {{
                 return false;
         }
 
-        private void SetOutputMessage(string message)
-        {
-            string messageToHTML = message;
-            string htmlMessage = string.Format(_htmlBody, messageToHTML);
-
-            SetOutputMessageHTML(htmlMessage);
-            btnClear.Visible = true;
-        }
-
-        private void SetOutputMessageHTML(string htmlMessage)
-        {
-            wbExecutionResult.DocumentText = htmlMessage;
-        }
-
-        private void SetOutputMessage(Exception ex)
-        {
-            string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Errore:"));
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += StringToHTML(ex.Message);
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-
-            htmlErrorMessage += GetInvisibleErrorDetails(ex);
-
-            SetOutputMessage(htmlErrorMessage);
-        }
-
-        private void SetOutputMessage(ManagedException mEx)
-        {
-            string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Errore:"));
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += StringToHTML(GetHTMLBold(mEx.UserMessage));
-
-            if (!string.IsNullOrEmpty(mEx.FilePath))
-            {
-                htmlErrorMessage += _newlineHTML;
-                htmlErrorMessage += _newlineHTML;
-                htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(mEx.FilePath, mEx.FilePath);
-                //htmlErrorMessage += _spaceHTML;
-                //htmlErrorMessage += GetHTMLDeleteFileHyperLink(mEx.PercorsoFile);
-            }
-            else
-            {
-                switch (mEx.FileType)
-                {
-                    case FileTypes.DataSource_Template:
-                        htmlErrorMessage += _newlineHTML;
-                        htmlErrorMessage += _newlineHTML;
-                        //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");
-                        break;
-
-                        //case TipologiaCartelle.FileDiTipo2:
-                        //    htmlErrorMessage += _newlineHTML;
-                        //    htmlErrorMessage += _newlineHTML;
-                        //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
-                        //    break;
-                }
-            }
-
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-
-            //Tabella con dati aggiuntivi dell'errore
-            string tableHTML = GetHTMLTableRowWithCells("Tipologia errore:", mEx.ErrorType.GetEnumDescription());
-            tableHTML += GetHTMLTableRowWithCells("Tipologia cartella:", mEx.FileType.GetEnumDescription());
-
-            if (!string.IsNullOrEmpty(mEx.WorksheetName))
-            {
-                tableHTML += GetHTMLTableRowWithCells("Nome foglio:", mEx.WorksheetName);
-            }
-
-            if (mEx.CellColumn.HasValue && mEx.CellRow.HasValue)
-            {
-                tableHTML += GetHTMLTableRowWithCells("Cella:", $"{((ColumnIDS)mEx.CellColumn).ToString()}{mEx.CellRow.ToString()}");
-            }
-            else
-            {
-                if (mEx.CellColumn.HasValue)
-                {
-                    tableHTML += GetHTMLTableRowWithCells("Colonna:", ((ColumnIDS)mEx.CellColumn).ToString());
-                }
-
-                if (mEx.CellRow.HasValue)
-                {
-                    tableHTML += GetHTMLTableRowWithCells("Riga:", mEx.CellRow.ToString());
-                }
-            }
-
-            //if (mEx.NomeDatoErrore != NomiDatoErrore.None)
-            //{
-            //    tableHTML += GetHTMLTableRowWithCells("Errore sul dato:", mEx.NomeDatoErrore.GetEnumDescription());
-            //}
-
-            if (!string.IsNullOrEmpty(mEx.Value))
-            {
-                tableHTML += GetHTMLTableRowWithCells("Valore:", mEx.Value);
-            }
-
-            htmlErrorMessage += GetHTMLTable(tableHTML);
-
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += GetInvisibleErrorDetails(mEx);
-
-            SetOutputMessage(htmlErrorMessage);
-        }
-
-        private string StringToHTML(string str)
-        {
-            if (string.IsNullOrEmpty(str))
-                return string.Empty;
-            else
-                return str.Replace("\t", _tabHTML)
-                    .Replace(" ", _spaceHTML)
-                    .Replace("\r\n", _newlineHTML)
-                    .Replace("\n", _newlineHTML);
-        }
-
-        private string GetHTMLHyperLink(string url, string value)
-        {
-            return string.Format(_hyperlinkHTML, GetURLMarker(url), value);
-        }
-
-        private string GetHTMLHyperLinkSetAsImput(string url, string value)
-        {
-            return string.Format(_hyperlinkHTML, GetURLMarkerSetAsImput(url), value);
-        }
-
-        private string GetHTMLDeleteFileHyperLink(string url)
-        {
-            return string.Format(_deleteFileHyperlinkHTML, GetURLMarkerDelete(url), "(Clicca quì per cancellare il file)");
-        }
-
-        private string GetHTMLMoreDetailLink(string caption)
-        {
-            return string.Format(_moreDetailLink, caption);
-        }
-
-        private string GetHTMLBold(string str)
-        {
-            return string.Format(_boldHTML, str);
-        }
-
-        private string GetHTMLRedText(string str)
-        {
-            return string.Format(_redTextHTML, str);
-        }
-
-        private string GetHTMLGreenText(string str)
-        {
-            return string.Format(_greenTextHTML, str);
-        }
-
-        private string GetHTMLTable(string innerTableHTML)
-        {
-            return string.Format(_tableHTML, innerTableHTML);
-        }
-
-        private string GetHTMLTableRow(string innerRowHTML)
-        {
-            return string.Format(_trHTML, innerRowHTML);
-        }
-
-        private string GetHTMLTableCell(string innerCellHTML)
-        {
-            return string.Format(_tdHTML, innerCellHTML);
-        }
-
-        private string GetHTMLTableRowWithCells(string cell1Value, string cell2Value)
-        {
-            return GetHTMLTableRow(GetHTMLTableCell(cell1Value) + GetHTMLTableCell(GetHTMLBold(cell2Value)));
-        }
-
-        private void DeleteFile(string fullFileName)
-        {
-            try
-            {
-                File.Delete(fullFileName);
-            }
-            catch
-            {
-                MessageBox.Show($"Impossibile eliminare il file {fullFileName}, probabilmente è aperto o in uso, chiudere il file e riprovare.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        private void ClearOutputArea()
-        {
-            if (wbExecutionResult.Document != null)
-            {
-                SetOutputMessage(" ");
-            }
-
-            btnClear.Visible = false;
-            btnCopyError.Visible = false;
-        }
-
-        private string CreateOutputMessageSuccessHTMLDelete(string message, string nomeFornitore, string reportFile, string newReportFile)
-        {
-            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += @"Eliminato il fornitore """;
-            outputMessage += GetHTMLBold(nomeFornitore);
-            outputMessage += @"""";
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold("É stato generato il file: ");
-            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
-
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold(GetHTMLHyperLinkSetAsImput(newReportFile, "Imposta il file generato come file di input"));
-
-            return outputMessage;
-        }
-
-        private string CreateOutputMessageSuccessHTMLUpdate(string message, string nomeFornitore, string nuovoNomeFornitore, string reportFile, string newReportFile)
-        {
-            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += @"Modificato il nome del fornitore """;
-            outputMessage += GetHTMLBold(nomeFornitore);
-            outputMessage += @""" in """;
-            outputMessage += GetHTMLBold(nuovoNomeFornitore);
-            outputMessage += @"""";
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold("É stato generato il file: ");
-            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
-
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold(GetHTMLHyperLinkSetAsImput(newReportFile, "Imposta il file generato come file di input"));
-
-            return outputMessage;
-        }
-
-        private string CreateOutputMessageSuccessHTML(string message, string controllerFile, string reportFile, string newReportFile, string debugFile/*, List<RigaSpeseSkippata> righeSkippate*/)
-        {
-            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-
-            outputMessage += GetHTMLBold("É stato generato il file: ");
-            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
-
-            if (IsDebugModeEnabled())
-            {
-                outputMessage += _newlineHTML;
-                outputMessage += _newlineHTML;
-                outputMessage += GetHTMLBold("É stato generato il file di DEBUG: ");
-                outputMessage += GetHTMLHyperLink(debugFile, debugFile);
-            }
-
-            //if (righeSkippate != null && righeSkippate.Count > 0)
-            //{
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += GetHTMLBold("Attenzione, Alcune righe sono state scartate.");
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += GetHTMLBold("Maggiori dettagli nel file di debug o di seguito.");
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += GetHTMLMoreDetailLink($"Mostra maggiori dettagli ({righeSkippate.Count})");
-            //    outputMessage += _newlineHTML;
-
-            //    string moreDetails = string.Empty;
-            //    foreach (RigaSpeseSkippata rigaSkippata in righeSkippate)
-            //    {
-            //        moreDetails += $"Nome foglio: {rigaSkippata.Foglio}, Cella: {((ColumnIDS)rigaSkippata.Colonna).ToString()}{rigaSkippata.Riga}, Dato: \"{rigaSkippata.DatoNonValido}\"";
-            //        moreDetails += _newlineHTML;
-            //    }
-
-            //    outputMessage += GetInvisibleSPAN(moreDetails);
-            //}
-
-            return outputMessage;
-        }
-
-
-
-
-        private string SourceFilesFolderPath
-        {
-            get
-            {
-                string exePath = Assembly.GetExecutingAssembly().Location;
-                string exeDir = Path.GetDirectoryName(exePath);
-                var folderPath = Path.Combine(exeDir, "SourceFiles");
-                return folderPath;
-            }
-        }
-
-        private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            string url = e.Url.OriginalString;
-            if (url.StartsWith(GetURLMarker(string.Empty)))
-            {
-                url = HttpUtility.UrlDecode(url);
-                url = url.Substring(GetURLMarker(string.Empty).Length);
-
-                e.Cancel = true;
-
-                //Se il file non è più esistente mostro un messaggio di errore
-                if (File.Exists(url))
-                    System.Diagnostics.Process.Start(url);
-                else
-                    MessageBox.Show($"Impossibile aprire il file {url}, probabilmente non è più presente sul disco.", "Impossibile aprire il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (url.StartsWith(GetURLMarkerSetAsImput(string.Empty)))
-            {
-                url = HttpUtility.UrlDecode(url);
-                url = url.Substring(GetURLMarkerSetAsImput(string.Empty).Length);
-
-                e.Cancel = true;
-
-                //SelectedReportFilePath = url;
-                RefreshUI(false);
-            }
-            //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
-            //{
-            //    url = HttpUtility.UrlDecode(url);
-            //    url = url.Substring(GetURLMarkerDelete(string.Empty).Length);
-
-            //    e.Cancel = true;
-
-            //    //Se il file non è più esistente mostro un messaggio di errore
-            //    if (File.Exists(url))
-            //        try
-            //        {
-            //            File.Delete(url);
-            //            MessageBox.Show($"Il file {url} è stato eliminato.", "File eliminato", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        }
-            //        catch 
-            //        {
-            //            MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente è aperto, chiudere il file e riprovare.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-            //    else
-            //        MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente non è più presente sul disco.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-
-        }
-
-
-        private string GetURLMarker(string url)
-        {
-            return "file-" + url;
-        }
-
-        private string GetURLMarkerSetAsImput(string url)
-        {
-            return "input-" + url;
-        }
-
-        private string GetURLMarkerDelete(string url)
-        {
-            return "filedelete-" + url;
-        }
-
-        private string GetInvisibleErrorDetails(Exception ex)
-        {
-            return GetInvisibleSPAN(StringToHTML($"Versione: {GetVersion()}\r\nErrore completo:\r\n{ex}"));
-        }
-
-        private string GetInvisibleSPAN(string innerHtml)
-        {
-            return string.Format(_invisibleSpanHTML, innerHtml);
-        }
-
-        private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Windows.Forms.Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
-            MessageBox.Show("Errore copiato negli appunti", "Errore copiato negli appunti", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnClear_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ClearOutputArea();
-        }
-
 
 
         private string GetVersion()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
-
-
-        private void ResetSelectedReportAndDestFolder()
-        {
-            SelectedFileBudgetPath = string.Empty;
-            SelectedFileForecastPath = string.Empty;
-            SelectedFileSuperDettagliPath = string.Empty;
-            SelectedFileRunRatePath = string.Empty;
-            SelectedDestinationFolderPath = string.Empty;
-
-            RefreshUI(true);
-        }
-
 
 
 
@@ -1219,51 +774,13 @@ th, td {{
         }
         #endregion
 
-        private void showExpetion(Exception ex)
-        {
-                        // todo: translate
-            SetStatusLabel("Elaborazione terminata con errori");
-
-            if (ex is ManagedException mEx)
-            { SetOutputMessage(mEx); }
-            else
-            { SetOutputMessage(ex); }
-
-            btnCopyError.Visible = true;
-        }
-
-        //private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    var input = e.Argument as GetUserOptionsFromDataSourceInput;
-        //    var output = Info.GetUserOptionsFromDataSource(input);
-
-        //    e.Result = new object[] { input, output };
-        //}
-
-        //private void btnNextBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    btnNext.Enabled = true;
-
-        //    //todo valida input
-        //    _inputValidato = true;
-
-        //    if (_inputValidato)
-        //    {
-        //        BuildFiltersArea(null);
-        //        //
-
-        //    }
-
-        //    RefreshUI(false);
-        //}
-
 
         #region CreaPresentazione
         private void btnBuildPresentation_Click(object sender, EventArgs e)
         {
             buildPresentation();
         }
-        
+
         private void buildPresentation()
         {
             //var backgroundWorker = new BackgroundWorker();
@@ -1453,5 +970,400 @@ th, td {{
         }
 
 
+        #region Gestione output area
+        private void showExpetion(Exception ex)
+        {
+            // todo: translate
+            SetStatusLabel("Processing completed with errors.");
+
+            if (ex is ManagedException mEx)
+            { SetOutputMessage(mEx); }
+            else
+            { SetOutputMessage(ex); }
+
+            btnCopyError.Visible = true;
+        }
+
+        private void SetOutputMessage(string message)
+        {
+            string messageToHTML = message;
+            string htmlMessage = string.Format(_htmlBody, messageToHTML);
+
+            SetOutputMessageHTML(htmlMessage);
+            btnClear.Visible = true;
+        }
+
+        private void SetOutputMessageHTML(string htmlMessage)
+        {
+            wbExecutionResult.DocumentText = htmlMessage;
+        }
+
+        private void SetOutputMessage(Exception ex)
+        {
+            string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Error:"));
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += StringToHTML(ex.Message);
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += _newlineHTML;
+
+            htmlErrorMessage += GetInvisibleErrorDetails(ex);
+
+            SetOutputMessage(htmlErrorMessage);
+        }
+
+        private void SetOutputMessage(ManagedException mEx)
+        {
+            string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Error:"));
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += StringToHTML(GetHTMLBold(mEx.UserMessage));
+
+            if (!string.IsNullOrEmpty(mEx.FilePath))
+            {
+                htmlErrorMessage += _newlineHTML;
+                htmlErrorMessage += _newlineHTML;
+                htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(mEx.FilePath, mEx.FilePath);
+                //htmlErrorMessage += _spaceHTML;
+                //htmlErrorMessage += GetHTMLDeleteFileHyperLink(mEx.PercorsoFile);
+            }
+            else
+            {
+                switch (mEx.FileType)
+                {
+                    case FileTypes.DataSource_Template:
+                        htmlErrorMessage += _newlineHTML;
+                        htmlErrorMessage += _newlineHTML;
+                        //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");
+                        break;
+
+                        //case TipologiaCartelle.FileDiTipo2:
+                        //    htmlErrorMessage += _newlineHTML;
+                        //    htmlErrorMessage += _newlineHTML;
+                        //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
+                        //    break;
+                }
+            }
+
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += _newlineHTML;
+
+            //Tabella con dati aggiuntivi dell'errore
+            string tableHTML = GetHTMLTableRowWithCells("Error type: ", mEx.ErrorType.GetEnumDescription());
+            tableHTML += GetHTMLTableRowWithCells("File type:", mEx.FileType.GetEnumDescription());
+
+            if (!string.IsNullOrEmpty(mEx.WorksheetName))
+            {
+                tableHTML += GetHTMLTableRowWithCells("Worksheet name:", mEx.WorksheetName);
+            }
+
+            if (mEx.CellColumn.HasValue && mEx.CellRow.HasValue)
+            {
+                tableHTML += GetHTMLTableRowWithCells("Cell:", $"{((ColumnIDS)mEx.CellColumn).ToString()}{mEx.CellRow.ToString()}");
+            }
+            else
+            {
+                if (mEx.CellColumn.HasValue)
+                {
+                    tableHTML += GetHTMLTableRowWithCells("Column:", ((ColumnIDS)mEx.CellColumn).ToString());
+                }
+
+                if (mEx.CellRow.HasValue)
+                {
+                    tableHTML += GetHTMLTableRowWithCells("Row:", mEx.CellRow.ToString());
+                }
+            }
+
+            //if (mEx.NomeDatoErrore != NomiDatoErrore.None)
+            //{
+            //    tableHTML += GetHTMLTableRowWithCells("Errore sul dato:", mEx.NomeDatoErrore.GetEnumDescription());
+            //}
+
+            if (!string.IsNullOrEmpty(mEx.Value))
+            {
+                tableHTML += GetHTMLTableRowWithCells("Value:", mEx.Value);
+            }
+
+            htmlErrorMessage += GetHTMLTable(tableHTML);
+
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += _newlineHTML;
+            htmlErrorMessage += GetInvisibleErrorDetails(mEx);
+
+            SetOutputMessage(htmlErrorMessage);
+        }
+
+        private string StringToHTML(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return string.Empty;
+            else
+                return str.Replace("\t", _tabHTML)
+                    .Replace(" ", _spaceHTML)
+                    .Replace("\r\n", _newlineHTML)
+                    .Replace("\n", _newlineHTML);
+        }
+
+        private string GetHTMLHyperLink(string url, string value)
+        {
+            return string.Format(_hyperlinkHTML, GetURLMarker(url), value);
+        }
+
+        private string GetHTMLHyperLinkSetAsImput(string url, string value)
+        {
+            return string.Format(_hyperlinkHTML, GetURLMarkerSetAsImput(url), value);
+        }
+
+        private string GetHTMLDeleteFileHyperLink(string url)
+        {
+            return string.Format(_deleteFileHyperlinkHTML, GetURLMarkerDelete(url), "(Clicca quì per cancellare il file)");
+        }
+
+        private string GetHTMLMoreDetailLink(string caption)
+        {
+            return string.Format(_moreDetailLink, caption);
+        }
+
+        private string GetHTMLBold(string str)
+        {
+            return string.Format(_boldHTML, str);
+        }
+
+        private string GetHTMLRedText(string str)
+        {
+            return string.Format(_redTextHTML, str);
+        }
+
+        private string GetHTMLGreenText(string str)
+        {
+            return string.Format(_greenTextHTML, str);
+        }
+
+        private string GetHTMLTable(string innerTableHTML)
+        {
+            return string.Format(_tableHTML, innerTableHTML);
+        }
+
+        private string GetHTMLTableRow(string innerRowHTML)
+        {
+            return string.Format(_trHTML, innerRowHTML);
+        }
+
+        private string GetHTMLTableCell(string innerCellHTML)
+        {
+            return string.Format(_tdHTML, innerCellHTML);
+        }
+
+        private string GetHTMLTableRowWithCells(string cell1Value, string cell2Value)
+        {
+            return GetHTMLTableRow(GetHTMLTableCell(cell1Value) + GetHTMLTableCell(GetHTMLBold(cell2Value)));
+        }
+
+        private void DeleteFile(string fullFileName)
+        {
+            try
+            {
+                File.Delete(fullFileName);
+            }
+            catch
+            {
+                MessageBox.Show($"Impossibile eliminare il file {fullFileName}, probabilmente è aperto o in uso, chiudere il file e riprovare.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void ClearOutputArea()
+        {
+            if (wbExecutionResult.Document != null)
+            {
+                SetOutputMessage(" ");
+            }
+
+            btnClear.Visible = false;
+            btnCopyError.Visible = false;
+        }
+
+        private string CreateOutputMessageSuccessHTMLDelete(string message, string nomeFornitore, string reportFile, string newReportFile)
+        {
+            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
+            outputMessage += _newlineHTML;
+            outputMessage += _newlineHTML;
+            outputMessage += @"Eliminato il fornitore """;
+            outputMessage += GetHTMLBold(nomeFornitore);
+            outputMessage += @"""";
+            outputMessage += _newlineHTML;
+            outputMessage += GetHTMLBold("É stato generato il file: ");
+            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
+
+            outputMessage += _newlineHTML;
+            outputMessage += _newlineHTML;
+            outputMessage += GetHTMLBold(GetHTMLHyperLinkSetAsImput(newReportFile, "Imposta il file generato come file di input"));
+
+            return outputMessage;
+        }
+
+        private string CreateOutputMessageSuccessHTMLUpdate(string message, string nomeFornitore, string nuovoNomeFornitore, string reportFile, string newReportFile)
+        {
+            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
+            outputMessage += _newlineHTML;
+            outputMessage += _newlineHTML;
+            outputMessage += @"Modificato il nome del fornitore """;
+            outputMessage += GetHTMLBold(nomeFornitore);
+            outputMessage += @""" in """;
+            outputMessage += GetHTMLBold(nuovoNomeFornitore);
+            outputMessage += @"""";
+            outputMessage += _newlineHTML;
+            outputMessage += GetHTMLBold("É stato generato il file: ");
+            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
+
+            outputMessage += _newlineHTML;
+            outputMessage += _newlineHTML;
+            outputMessage += GetHTMLBold(GetHTMLHyperLinkSetAsImput(newReportFile, "Imposta il file generato come file di input"));
+
+            return outputMessage;
+        }
+
+        private string CreateOutputMessageSuccessHTML(string message, string controllerFile, string reportFile, string newReportFile, string debugFile/*, List<RigaSpeseSkippata> righeSkippate*/)
+        {
+            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
+            outputMessage += _newlineHTML;
+            outputMessage += _newlineHTML;
+
+            outputMessage += GetHTMLBold("É stato generato il file: ");
+            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
+
+            if (IsDebugModeEnabled())
+            {
+                outputMessage += _newlineHTML;
+                outputMessage += _newlineHTML;
+                outputMessage += GetHTMLBold("É stato generato il file di DEBUG: ");
+                outputMessage += GetHTMLHyperLink(debugFile, debugFile);
+            }
+
+            //if (righeSkippate != null && righeSkippate.Count > 0)
+            //{
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += GetHTMLBold("Attenzione, Alcune righe sono state scartate.");
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += GetHTMLBold("Maggiori dettagli nel file di debug o di seguito.");
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += _newlineHTML;
+            //    outputMessage += GetHTMLMoreDetailLink($"Mostra maggiori dettagli ({righeSkippate.Count})");
+            //    outputMessage += _newlineHTML;
+
+            //    string moreDetails = string.Empty;
+            //    foreach (RigaSpeseSkippata rigaSkippata in righeSkippate)
+            //    {
+            //        moreDetails += $"Nome foglio: {rigaSkippata.Foglio}, Cella: {((ColumnIDS)rigaSkippata.Colonna).ToString()}{rigaSkippata.Riga}, Dato: \"{rigaSkippata.DatoNonValido}\"";
+            //        moreDetails += _newlineHTML;
+            //    }
+
+            //    outputMessage += GetInvisibleSPAN(moreDetails);
+            //}
+
+            return outputMessage;
+        }
+
+        private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            string url = e.Url.OriginalString;
+            if (url.StartsWith(GetURLMarker(string.Empty)))
+            {
+                url = HttpUtility.UrlDecode(url);
+                url = url.Substring(GetURLMarker(string.Empty).Length);
+
+                e.Cancel = true;
+
+                //Se il file non è più esistente mostro un messaggio di errore
+                if (File.Exists(url))
+                    System.Diagnostics.Process.Start(url);
+                else
+                    MessageBox.Show($"Impossibile aprire il file {url}, probabilmente non è più presente sul disco.", "Impossibile aprire il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (url.StartsWith(GetURLMarkerSetAsImput(string.Empty)))
+            {
+                url = HttpUtility.UrlDecode(url);
+                url = url.Substring(GetURLMarkerSetAsImput(string.Empty).Length);
+
+                e.Cancel = true;
+
+                //SelectedReportFilePath = url;
+                RefreshUI(false);
+            }
+            //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
+            //{
+            //    url = HttpUtility.UrlDecode(url);
+            //    url = url.Substring(GetURLMarkerDelete(string.Empty).Length);
+
+            //    e.Cancel = true;
+
+            //    //Se il file non è più esistente mostro un messaggio di errore
+            //    if (File.Exists(url))
+            //        try
+            //        {
+            //            File.Delete(url);
+            //            MessageBox.Show($"Il file {url} è stato eliminato.", "File eliminato", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        }
+            //        catch 
+            //        {
+            //            MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente è aperto, chiudere il file e riprovare.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        }
+            //    else
+            //        MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente non è più presente sul disco.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+
+        }
+
+        private string GetURLMarker(string url)
+        {
+            return "file-" + url;
+        }
+
+        private string GetURLMarkerSetAsImput(string url)
+        {
+            return "input-" + url;
+        }
+
+        private string GetURLMarkerDelete(string url)
+        {
+            return "filedelete-" + url;
+        }
+
+        private string GetInvisibleErrorDetails(Exception ex)
+        {
+            return GetInvisibleSPAN(StringToHTML($"Versione: {GetVersion()}\r\nErrore completo:\r\n{ex}"));
+        }
+
+        private string GetInvisibleSPAN(string innerHtml)
+        {
+            return string.Format(_invisibleSpanHTML, innerHtml);
+        }
+
+        private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Windows.Forms.Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
+            MessageBox.Show("Errore copiato negli appunti", "Errore copiato negli appunti", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnClear_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ClearOutputArea();
+        }
+
+
+        private void ResetSelectedReportAndDestFolder()
+        {
+            SelectedFileBudgetPath = string.Empty;
+            SelectedFileForecastPath = string.Empty;
+            SelectedFileSuperDettagliPath = string.Empty;
+            SelectedFileRunRatePath = string.Empty;
+            SelectedDestinationFolderPath = string.Empty;
+
+            RefreshUI(true);
+        }
+
+        #endregion
     }
 }
