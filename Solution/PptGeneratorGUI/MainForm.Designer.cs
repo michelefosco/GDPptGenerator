@@ -61,7 +61,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbDestinationFolderPath = new System.Windows.Forms.ComboBox();
             this.wbExecutionResult = new System.Windows.Forms.WebBrowser();
-            this.btnCreatePresentationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.buildPresentationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.btnCopyError = new System.Windows.Forms.LinkLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.cmbFileForecastPath = new System.Windows.Forms.ComboBox();
@@ -70,7 +70,7 @@
             this.lblFileSuperDettagliPath = new System.Windows.Forms.Label();
             this.cmbFileRunRatePath = new System.Windows.Forms.ComboBox();
             this.lblFileRunRatePath = new System.Windows.Forms.Label();
-            this.btnCreaPresentazione = new System.Windows.Forms.Button();
+            this.btnBuildPresentation = new System.Windows.Forms.Button();
             this.lblFiltriApplicabili = new System.Windows.Forms.Label();
             this.dgvFiltri = new System.Windows.Forms.DataGridView();
             this.Tabella = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -405,10 +405,10 @@
             this.wbExecutionResult.TabIndex = 25;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating_1);
             // 
-            // btnCreatePresentationBackgroundWorker
+            // buildPresentationBackgroundWorker
             // 
-            this.btnCreatePresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnCreatePresentationBackgroundWorker_DoWork);
-            this.btnCreatePresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnCreatePresentationBackgroundWorker_RunWorkerCompleted);
+            this.buildPresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.buildPresentationBackgroundWorker_DoWork);
+            this.buildPresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.buildPresentationBackgroundWorker_RunWorkerCompleted);
             // 
             // btnCopyError
             // 
@@ -497,16 +497,16 @@
             this.lblFileRunRatePath.TabIndex = 36;
             this.lblFileRunRatePath.Text = "\"Run rate\" file:";
             // 
-            // btnCreaPresentazione
+            // btnBuildPresentation
             // 
-            this.btnCreaPresentazione.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreaPresentazione.Location = new System.Drawing.Point(1040, 511);
-            this.btnCreaPresentazione.Name = "btnCreaPresentazione";
-            this.btnCreaPresentazione.Size = new System.Drawing.Size(120, 30);
-            this.btnCreaPresentazione.TabIndex = 24;
-            this.btnCreaPresentazione.Text = "Build &Presentation";
-            this.btnCreaPresentazione.UseVisualStyleBackColor = true;
-            this.btnCreaPresentazione.Click += new System.EventHandler(this.btnCreaPresentazione_Click);
+            this.btnBuildPresentation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBuildPresentation.Location = new System.Drawing.Point(1040, 511);
+            this.btnBuildPresentation.Name = "btnBuildPresentation";
+            this.btnBuildPresentation.Size = new System.Drawing.Size(120, 30);
+            this.btnBuildPresentation.TabIndex = 24;
+            this.btnBuildPresentation.Text = "Build &Presentation";
+            this.btnBuildPresentation.UseVisualStyleBackColor = true;
+            this.btnBuildPresentation.Click += new System.EventHandler(this.btnBuildPresentation_Click);
             // 
             // lblFiltriApplicabili
             // 
@@ -735,7 +735,7 @@
             this.Controls.Add(this.btnValidaInput);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.gbPaths);
-            this.Controls.Add(this.btnCreaPresentazione);
+            this.Controls.Add(this.btnBuildPresentation);
             this.Controls.Add(this.btnCopyError);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.wbExecutionResult);
@@ -778,7 +778,7 @@
         private System.Windows.Forms.Button btnOpenDestFolder;
         private System.Windows.Forms.Button btnOpenFileBudget;
         private System.Windows.Forms.WebBrowser wbExecutionResult;
-        private System.ComponentModel.BackgroundWorker btnCreatePresentationBackgroundWorker;
+        private System.ComponentModel.BackgroundWorker buildPresentationBackgroundWorker;
         private System.Windows.Forms.LinkLabel btnCopyError;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser bfbDestFolder;
@@ -799,7 +799,7 @@
         private System.Windows.Forms.ComboBox cmbFileRunRatePath;
         private System.Windows.Forms.Button btnSelectFileRunRate;
         private System.Windows.Forms.Label lblFileRunRatePath;
-        private System.Windows.Forms.Button btnCreaPresentazione;
+        private System.Windows.Forms.Button btnBuildPresentation;
         private System.Windows.Forms.Label lblFiltriApplicabili;
         private System.Windows.Forms.DataGridView dgvFiltri;
         private System.Windows.Forms.LinkLabel btnClear;

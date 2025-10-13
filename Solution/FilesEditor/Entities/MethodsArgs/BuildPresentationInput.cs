@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace FilesEditor.Entities.MethodsArgs
 {
-    public class CreatePresentationsInput
+    public class BuildPresentationInput
     {
         public string OutputFolder { get; private set; }
         public string TmpFolder { get; private set; }
@@ -19,7 +18,7 @@ namespace FilesEditor.Entities.MethodsArgs
         //public bool EvidenziaErroriNelFileDiInput { get; private set; }
 
 
-        public CreatePresentationsInput(
+        public BuildPresentationInput(
             string outputFolder,
             string tmpFolder,
             string templatesFolder,

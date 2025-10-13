@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FilesEditor.Steps.CreatePresentation
+namespace FilesEditor.Steps.BuildPresentation
 {
     //todo: rendere internal ma accessibile ai test
     abstract public class Step_Base
@@ -18,9 +18,9 @@ namespace FilesEditor.Steps.CreatePresentation
             Context = context;
         }
 
-        internal abstract CreatePresentationsOutput DoSpecificTask();
+        internal abstract BuildPresentationOutput DoSpecificTask();
 
-        internal CreatePresentationsOutput Do()
+        internal BuildPresentationOutput Do()
         {
             try
             {
@@ -28,8 +28,8 @@ namespace FilesEditor.Steps.CreatePresentation
             }
             catch (ManagedException managedException)
             {
-                return new CreatePresentationsOutput(managedException);
-                //Context.CreatePresentationsOutput.SettaManagedException(ex);
+                return new BuildPresentationOutput(managedException);
+                //Context.BuildPresentationOutput.SettaManagedException(ex);
                 //return FinalizzaOutput(EsitiFinali.Failure);
             }
         }
@@ -41,16 +41,16 @@ namespace FilesEditor.Steps.CreatePresentation
             //Context.FileDebugHelper?.LogWarning(warningMessage);
         }
 
-        internal CreatePresentationsOutput FinalizzaOutput(EsitiFinali esitofinale)
+        internal BuildPresentationOutput FinalizzaOutput(EsitiFinali esitofinale)
         {
-            Context.CreatePresentationsOutput.SettaEsitoFinale(esitofinale);
+            Context.BuildPresentationOutput.SettaEsitoFinale(esitofinale);
 
             //Context.FileDebugHelper?.LogCreateFileVendutoInput(Context.CreateFileVendutoInput);
             //Context.FileDebugHelper?.LogCreateFileVendutoOutput(Context.CreateFileVendutoOutput);
             //Context.FileDebugHelper?.Beautify();
             //Context.FileDebugHelper?.Save();
 
-            return Context.CreatePresentationsOutput;
+            return Context.BuildPresentationOutput;
         }
 
 

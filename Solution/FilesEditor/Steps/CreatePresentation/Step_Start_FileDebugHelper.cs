@@ -4,7 +4,7 @@ using FilesEditor.Entities.MethodsArgs;
 using System.IO;
 
 
-namespace FilesEditor.Steps.CreatePresentation
+namespace FilesEditor.Steps.BuildPresentation
 {
     /// <summary>
     /// Avvio il logging sul file "Debug"
@@ -15,7 +15,7 @@ namespace FilesEditor.Steps.CreatePresentation
         public Step_Start_FileDebugHelper(StepContext context) : base(context)
         { }
 
-        internal override CreatePresentationsOutput DoSpecificTask()
+        internal override BuildPresentationOutput DoSpecificTask()
         {
             inizializzaDebugInfoLogger();
             return null; // Step intermedio, non ritorna alcun esito
@@ -23,12 +23,12 @@ namespace FilesEditor.Steps.CreatePresentation
 
         private void inizializzaDebugInfoLogger()
         {
-            if (File.Exists(Context.CreatePresentationsInput.FileDebug_FilePath))
+            if (File.Exists(Context.BuildPresentationInput.FileDebug_FilePath))
             {
-                File.Delete(Context.CreatePresentationsInput.FileDebug_FilePath);
+                File.Delete(Context.BuildPresentationInput.FileDebug_FilePath);
             }
-            Context.DebugInfoLogger = new FileDebugHelper(Context.CreatePresentationsInput.FileDebug_FilePath, Context.Configurazione.AutoSaveDebugFile);
-            Context.DebugInfoLogger.LogCreatePresentationsInput(Context.CreatePresentationsInput);
+            Context.DebugInfoLogger = new FileDebugHelper(Context.BuildPresentationInput.FileDebug_FilePath, Context.Configurazione.AutoSaveDebugFile);
+            Context.DebugInfoLogger.LogBuildPresentationInput(Context.BuildPresentationInput);
         }
     }
 }

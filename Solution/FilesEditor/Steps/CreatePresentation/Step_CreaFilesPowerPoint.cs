@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FilesEditor.Steps.CreatePresentation
+namespace FilesEditor.Steps.BuildPresentation
 {
     internal class Step_CreaFilesPowerPoint : Step_Base
     {
         public Step_CreaFilesPowerPoint(StepContext context) : base(context)
         { }
 
-        internal override CreatePresentationsOutput DoSpecificTask()
+        internal override BuildPresentationOutput DoSpecificTask()
         {
             creazionePowerPoint();
             return null; // Step intermedio, non ritorna alcun esito

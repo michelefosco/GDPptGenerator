@@ -2,7 +2,7 @@
 using FilesEditor.Enums;
 using FilesEditor.Entities.MethodsArgs;
 
-namespace FilesEditor.Steps.CreatePresentation
+namespace FilesEditor.Steps.BuildPresentation
 {
     /// <summary>
     /// Step che se raggiungo indica l'esito Success dell'intero processo
@@ -12,7 +12,7 @@ namespace FilesEditor.Steps.CreatePresentation
         public Step_EsitoFinaleSuccess(StepContext context) : base(context)
         { }
 
-        internal override CreatePresentationsOutput DoSpecificTask()
+        internal override BuildPresentationOutput DoSpecificTask()
         {
             return FinalizzaOutput(EsitiFinali.Success);
         }

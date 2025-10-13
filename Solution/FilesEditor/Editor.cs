@@ -5,7 +5,7 @@ using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
-using FilesEditor.Steps.CreatePresentation;
+using FilesEditor.Steps.BuildPresentation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,23 +15,23 @@ namespace FilesEditor
 {
     public class Editor
     {
-        #region CreatePresentations
-        public static CreatePresentationsOutput CreatePresentations(CreatePresentationsInput createPresentationsInput)
+        #region Build presentation
+        public static BuildPresentationOutput BuildPresentation(BuildPresentationInput buildPresentationInput)
         {
             var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
-            return createPresentations(createPresentationsInput, configurazione);
+            return buildPresentation(buildPresentationInput, configurazione);
         }
 
-        public static CreatePresentationsOutput CreatePresentations(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
+        public static BuildPresentationOutput BuildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
         {
             if (configurazione == null)
             { throw new ArgumentNullException(nameof(configurazione)); }
-            return createPresentations(createPresentationsInput, configurazione);
+            return buildPresentation(buildPresentationInput, configurazione);
         }
 
-        private static CreatePresentationsOutput createPresentations(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
+        private static BuildPresentationOutput buildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
         {
-            var context = new StepContext(createPresentationsInput, configurazione);
+            var context = new StepContext(buildPresentationInput, configurazione);
             var stepsSequence = new List<Step_Base>
                 {
                     new Step_PredisponiTmpFolder(context),
@@ -41,10 +41,10 @@ namespace FilesEditor
                     new Step_CreaFilesPowerPoint(context),
                     new Step_EsitoFinaleSuccess(context),
                  };
-            return createPresentationsRunStepSequence(stepsSequence, context);
+            return buildPresentationRunStepSequence(stepsSequence, context);
         }
 
-        private static CreatePresentationsOutput createPresentationsRunStepSequence(List<Step_Base> stepsSequence, StepContext context)
+        private static BuildPresentationOutput buildPresentationRunStepSequence(List<Step_Base> stepsSequence, StepContext context)
         {
             foreach (var step in stepsSequence)
             {

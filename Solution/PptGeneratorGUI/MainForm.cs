@@ -259,20 +259,20 @@ th, td {{
 
             if (allValid)
             {
-                btnCreaPresentazione.Enabled = _inputValidato;
+                btnBuildPresentation.Enabled = _inputValidato;
                 gbOptions.Enabled = _inputValidato;
 
                 //todo:
-                toolTipDefault.SetToolTip(btnCreaPresentazione, "Avvia l'elaborazione del report");
+                toolTipDefault.SetToolTip(btnBuildPresentation, "Avvia l'elaborazione del report");
                 SetStatusLabel("File di input e cartella di destinazione selezionati, è possibile avviare l'elaborazione");
             }
             else
             {
 
-                btnCreaPresentazione.Enabled = false;
+                btnBuildPresentation.Enabled = false;
                 gbOptions.Enabled = false;
                 //todo:
-                toolTipDefault.SetToolTip(btnCreaPresentazione, "Selezionare il file controller, il file report e la cartella di destinazione");
+                toolTipDefault.SetToolTip(btnBuildPresentation, "Selezionare il file controller, il file report e la cartella di destinazione");
                 SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
             }
         }
@@ -1259,50 +1259,50 @@ th, td {{
 
 
         #region CreaPresentazione
-        private void btnCreaPresentazione_Click(object sender, EventArgs e)
+        private void btnBuildPresentation_Click(object sender, EventArgs e)
         {
-            createPresentation();
+            buildPresentation();
         }
-
-        private void createPresentation()
+        
+        private void buildPresentation()
         {
-            var backgroundWorker = new BackgroundWorker();
+            //var backgroundWorker = new BackgroundWorker();
 
-            backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
-            {
-                var createPresentationsInput = e.Argument as CreatePresentationsInput;
-                var output = Editor.CreatePresentations(createPresentationsInput);
-                e.Result = new object[] { createPresentationsInput, output };
-            };
+            //backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
+            //{
+            //    var buildPresentationInput = e.Argument as BuildPresentationInput;
+            //    var output = Editor.BuildPresentation(buildPresentationInput);
+            //    e.Result = new object[] { buildPresentationInput, output };
+            //};
 
-            backgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
-            {
-                toolStripProgressBar.Visible = false;
-                btnCreaPresentazione.Enabled = true;
+            //backgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
+            //{
+            //    toolStripProgressBar.Visible = false;
+            //    btnCreaPresentazione.Enabled = true;
 
-                var outputAndInput = e.Result as object[];
+            //    var outputAndInput = e.Result as object[];
 
-                var input = outputAndInput[0] as CreatePresentationsInput;
-                var output = outputAndInput[1] as CreatePresentationsOutput;
+            //    var input = outputAndInput[0] as BuildPresentationInput;
+            //    var output = outputAndInput[1] as BuildPresentationOutput;
 
-                if (output.Esito == EsitiFinali.Success)
-                {
-                    string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
-                    SetOutputMessage(message);
-                    SetStatusLabel("Elaborazione terminata con successo");
+            //    if (output.Esito == EsitiFinali.Success)
+            //    {
+            //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
+            //        SetOutputMessage(message);
+            //        SetStatusLabel("Elaborazione terminata con successo");
 
-                    // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-                    _debugFileName = input.FileDebug_FilePath;
-                    btnCopyError.Visible = false;
-                }
-                else //FAIL
-                {
-                    //Mostrare eventuali dati nel fail
-                    SetStatusLabel("Elaborazione terminata con errori");
-                    SetOutputMessage(output.ManagedException);
-                    btnCopyError.Visible = true;
-                }
-            };
+            //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+            //        _debugFileName = input.FileDebug_FilePath;
+            //        btnCopyError.Visible = false;
+            //    }
+            //    else //FAIL
+            //    {
+            //        //Mostrare eventuali dati nel fail
+            //        SetStatusLabel("Elaborazione terminata con errori");
+            //        SetOutputMessage(output.ManagedException);
+            //        btnCopyError.Visible = true;
+            //    }
+            //};
 
 
 
@@ -1332,7 +1332,7 @@ th, td {{
                 var tmpFolder = Path.Combine(SelectedDestinationFolderPath, FilesEditor.Constants.FolderNames.TMP_FOLDER_FOR_GENERATED_FILES);
                 _debugFileName = Path.Combine(tmpFolder, "Debugfile.xlsx");
 
-                var createPresentationsInput = new CreatePresentationsInput(
+                var buildPresentationInput = new BuildPresentationInput(
                             outputFolder: SelectedDestinationFolderPath,
                             tmpFolder: tmpFolder,
                             templatesFolder: SourceFilesFolderPath,
@@ -1345,9 +1345,9 @@ th, td {{
                 try
                 {
                     toolStripProgressBar.Visible = true;
-                    btnCreaPresentazione.Enabled = false;
-                    //btnCreatePresentationBackgroundWorker.RunWorkerAsync(createPresentationsInput);
-                    backgroundWorker.RunWorkerAsync(createPresentationsInput);
+                    btnBuildPresentation.Enabled = false;
+                    //btnBuildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
+                    buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
                 }
                 catch (ManagedException mEx)
                 {
@@ -1370,15 +1370,51 @@ th, td {{
             }
         }
 
+        private void buildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var buildPresentationInput = e.Argument as BuildPresentationInput;
+            var output = Editor.BuildPresentation(buildPresentationInput);
+            e.Result = new object[] { buildPresentationInput, output };
+        }
 
-        //private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void buildPresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            toolStripProgressBar.Visible = false;
+            btnBuildPresentation.Enabled = true;
+
+            var outputAndInput = e.Result as object[];
+
+            var input = outputAndInput[0] as BuildPresentationInput;
+            var output = outputAndInput[1] as BuildPresentationOutput;
+
+            if (output.Esito == EsitiFinali.Success)
+            {
+                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
+                SetOutputMessage(message);
+                SetStatusLabel("Elaborazione terminata con successo");
+
+                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
+                _debugFileName = input.FileDebug_FilePath;
+                btnCopyError.Visible = false;
+            }
+            else //FAIL
+            {
+                //Mostrare eventuali dati nel fail
+                SetStatusLabel("Elaborazione terminata con errori");
+                SetOutputMessage(output.ManagedException);
+                btnCopyError.Visible = true;
+            }
+        }
+
+
+        //private void btnBuildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         //{
-        //    var createPresentationsInput = e.Argument as CreatePresentationsInput;
-        //    var output = Editor.CreatePresentations(createPresentationsInput);
-        //    e.Result = new object[] { createPresentationsInput, output };
+        //    var buildPresentationInput = e.Argument as BuildPresentationInput;
+        //    var output = Editor.BuildPresentation(buildPresentationInput);
+        //    e.Result = new object[] { buildPresentationInput, output };
         //}
 
-        //private void btnCreatePresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //private void btnBuildPresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         //{
 
         //    toolStripProgressBar.Visible = false;
@@ -1386,8 +1422,8 @@ th, td {{
 
         //    var outputAndInput = e.Result as object[];
 
-        //    var input = outputAndInput[0] as CreatePresentationsInput;
-        //    var output = outputAndInput[1] as CreatePresentationsOutput;
+        //    var input = outputAndInput[0] as BuildPresentationInput;
+        //    var output = outputAndInput[1] as BuildPresentationOutput;
 
         //    if (output.Esito == EsitiFinali.Success)
         //    {
@@ -1408,15 +1444,6 @@ th, td {{
         //    }
         //}
         #endregion
-
-
-        private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-        }
-        private void btnCreatePresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-
-        }
 
 
         private void openSouceFilesFolderToolStripMenuItem_Click(object sender, EventArgs e)

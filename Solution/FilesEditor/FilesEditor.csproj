@@ -151,8 +151,8 @@
     <Compile Include="Enums\ValueHeaders.cs" />
     <Compile Include="Steps\CreatePresentation\Step_AggiornaDataSource.cs" />
     <Compile Include="Steps\CreatePresentation\Step_Base.cs" />
-    <Compile Include="Entities\MethodsArgs\CreatePresentationsInput.cs" />
-    <Compile Include="Entities\MethodsArgs\CreatePresentationsOutput.cs" />
+    <Compile Include="Entities\MethodsArgs\BuildPresentationInput.cs" />
+    <Compile Include="Entities\MethodsArgs\BuildPresentationOutput.cs" />
     <Compile Include="Enums\ColumnIDS.cs" />
     <Compile Include="Enums\EsitiFinali.cs" />
     <Compile Include="Enums\ExtensionMethods.cs" />

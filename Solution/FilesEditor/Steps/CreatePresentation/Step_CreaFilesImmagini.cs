@@ -9,14 +9,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace FilesEditor.Steps.CreatePresentation
+namespace FilesEditor.Steps.BuildPresentation
 {
     internal class Step_CreaFilesImmagini : Step_Base
     {
         public Step_CreaFilesImmagini(StepContext context) : base(context)
         { }
 
-        internal override CreatePresentationsOutput DoSpecificTask()
+        internal override BuildPresentationOutput DoSpecificTask()
         {
             creaFilesImmagini();
             return null; // Step intermedio, non ritorna alcun esito

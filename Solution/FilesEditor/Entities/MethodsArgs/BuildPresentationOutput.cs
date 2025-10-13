@@ -1,17 +1,14 @@
 ﻿using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
-using System.Collections.Generic;
-
 
 namespace FilesEditor.Entities.MethodsArgs
 {
-
-    public class CreatePresentationsOutput : UserInterfaceIOutputBase
+    public class BuildPresentationOutput : UserInterfaceIOutputBase
     {
-        public CreatePresentationsOutput(EsitiFinali esito) : base(esito)
+        public BuildPresentationOutput(EsitiFinali esito) : base(esito)
         { }
 
-        public CreatePresentationsOutput(ManagedException managedException) : base(managedException)
+        public BuildPresentationOutput(ManagedException managedException) : base(managedException)
         { }
 
         //public List<Reparto> RepartiCensitiInController { get; private set; }

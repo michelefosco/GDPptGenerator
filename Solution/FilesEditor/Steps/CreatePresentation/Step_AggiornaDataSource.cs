@@ -2,14 +2,14 @@
 using FilesEditor.Entities.MethodsArgs;
 using System.IO;
 
-namespace FilesEditor.Steps.CreatePresentation
+namespace FilesEditor.Steps.BuildPresentation
 {
     internal class Step_AggiornaDataSource : Step_Base
     {
         public Step_AggiornaDataSource(StepContext context) : base(context)
         { }
 
-        internal override CreatePresentationsOutput DoSpecificTask()
+        internal override BuildPresentationOutput DoSpecificTask()
         {
             aggiornaDataSource();
             return null; // Step intermedio, non ritorna alcun esito

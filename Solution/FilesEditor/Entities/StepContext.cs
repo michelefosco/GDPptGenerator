@@ -9,8 +9,8 @@ namespace FilesEditor.Entities
     {
         public readonly Configurazione Configurazione;
         //
-        public readonly CreatePresentationsInput CreatePresentationsInput;
-        public readonly CreatePresentationsOutput CreatePresentationsOutput;    // oggetto di output, qui vengono messe tutte le informazioni di output utili per interfaccia e controlli dei test
+        public readonly BuildPresentationInput BuildPresentationInput;
+        public readonly BuildPresentationOutput BuildPresentationOutput;    // oggetto di output, qui vengono messe tutte le informazioni di output utili per interfaccia e controlli dei test
         //
         public FileDebugHelper DebugInfoLogger = new FileDebugHelper(null);
         //public InfoFileController InfoFileController;
@@ -28,17 +28,17 @@ namespace FilesEditor.Entities
         public List<ItemToExport> ItemsToExportAsImage;
         //public List<SlideToGenerate> SlideToGenerateList;
         //
-        public StepContext(CreatePresentationsInput createPresentationsInput, Configurazione configurazione)
+        public StepContext(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
         {
             Configurazione = configurazione;
             //
-            CreatePresentationsInput = createPresentationsInput;
+            BuildPresentationInput = buildPresentationInput;
             //
-            OutputFolder = createPresentationsInput.OutputFolder;
-            TmpFolder = createPresentationsInput.TmpFolder;
-            TemplatesFolder = createPresentationsInput.TemplatesFolder;
+            OutputFolder = buildPresentationInput.OutputFolder;
+            TmpFolder = buildPresentationInput.TmpFolder;
+            TemplatesFolder = buildPresentationInput.TemplatesFolder;
             //
-            CreatePresentationsOutput = new CreatePresentationsOutput(EsitiFinali.Undefined);
+            BuildPresentationOutput = new BuildPresentationOutput(EsitiFinali.Undefined);
         }
     }
 }
