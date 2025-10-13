@@ -94,7 +94,7 @@ namespace FilesEditor.Helpers
             //_epPlusHelper.AddNewContentRow(worksheetName, "FileController_FilePath", updateReportsInput.FileController_FilePath);
             //_epPlusHelper.AddNewContentRow(worksheetName, "FileReport_FilePath", updateReportsInput.FileReport_FilePath);
             //_epPlusHelper.AddNewContentRow(worksheetName, "NewReport_FilePath", updateReportsInput.NewReport_FilePath);
-            //_epPlusHelper.AddNewContentRow(worksheetName, "FileDebugPath", updateReportsInput.FileDebugPath);
+            //_epPlusHelper.AddNewContentRow(worksheetName, "FileDebug_FilePath", updateReportsInput.FileDebug_FilePath);
             //_epPlusHelper.AddNewContentRow(worksheetName, "FornitoriDaAggiungere", "Vedo foglio dedicato");
 
             AutoSave();

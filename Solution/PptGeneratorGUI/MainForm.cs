@@ -826,12 +826,12 @@ th, td {{
 
             //    if (output.Esito == EsitiFinali.Success)
             //    {
-            //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebugPath/*, output.RigheSpesaSkippate*/);
+            //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
             //        SetOutputMessage(message);
             //        SetStatusLabel("Elaborazione terminata con successo");
 
             //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-            //        _debugFileName = input.FileDebugPath;
+            //        _debugFileName = input.FileDebug_FilePath;
             //        btnCopyError.Visible = false;
             //    }
             //    else //FAIL
@@ -962,12 +962,12 @@ th, td {{
 
         //    if (output.Esito == EsitiFinali.Success)
         //    {
-        //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebugPath, output.RigheSpesaSkippate);
+        //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
         //        SetOutputMessage(message);
         //        SetStatusLabel("Elaborazione terminata con successo");
 
         //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-        //        _debugFileName = input.FileDebugPath;
+        //        _debugFileName = input.FileDebug_FilePath;
         //        btnCopyError.Visible = false;
         //    }
         //    else //FAIL

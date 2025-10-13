@@ -170,6 +170,11 @@
     <Compile Include="Steps\BuildPresentation\Step_EsitoFinaleSuccess.cs" />
     <Compile Include="Steps\BuildPresentation\Step_Start_FileDebugHelper.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesOutput.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\Step_EsitoFinaleSuccess.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\Step_Start_FileDebugHelper.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\Step_LetturaUserOptions.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\Step_ValidazioniPreliminari_InputFiles.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\ValidaSourceFiles_StepBase.cs" />
     <Compile Include="Steps\StepBase.cs" />
   </ItemGroup>
   <ItemGroup>

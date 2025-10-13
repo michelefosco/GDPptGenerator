@@ -2,7 +2,7 @@
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 
-namespace FilesEditor.Steps.BuildPresentation 
+namespace FilesEditor.Steps.BuildPresentation
 {
     //todo: rendere internal ma accessibile ai test
     abstract public class BuildPresentation_StepBase : StepBase
@@ -23,8 +23,6 @@ namespace FilesEditor.Steps.BuildPresentation
             catch (ManagedException managedException)
             {
                 return new BuildPresentationOutput(managedException);
-                //Context.BuildPresentationOutput.SettaManagedException(ex);
-                //return FinalizzaOutput(EsitiFinali.Failure);
             }
         }
     }

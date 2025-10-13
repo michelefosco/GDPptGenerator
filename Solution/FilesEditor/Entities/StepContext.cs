@@ -5,22 +5,32 @@ using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
-    public class StepContext: UserInterfaceInputBase
+    public class StepContext : UserInterfaceInputBase
     {
         public readonly Configurazione Configurazione;
         public FileDebugHelper DebugInfoLogger = new FileDebugHelper(null);
         //
-//        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
+        //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         //
         public string OutputDataSourceFilePath;
-
+        public UserOptions UserOptions;
 
         public EsitiFinali Esito { get; private set; }
 
         // public string PowerPointOutputFile;
         public List<ItemToExport> ItemsToExportAsImage;
         //public List<SlideToGenerate> SlideToGenerateList;
-        //
+
+        // Specifici di BuildPresentation
+        //   bool replaceAllData_FileSuperDettagli,
+        //DateTime periodDate
+
+
+        // Specifici di ValidaSourceFilesInput
+        public string FileBudgetPath { get; private set; }
+        public string FileForecastPath { get; private set; }
+        public string FileSuperDettagliPath { get; private set; }
+        public string FileRunRatePath { get; private set; }
 
         public StepContext(Configurazione configurazione)
         {
@@ -47,6 +57,11 @@ namespace FilesEditor.Entities
             base.TmpFolder = input.TmpFolder;
             base.SourceFilesFolder = input.SourceFilesFolder;
             base.FileDebugPath = input.FileDebugPath;
+            //
+            FileBudgetPath = input.FileBudgetPath;
+            FileForecastPath = input.FileForecastPath;
+            FileSuperDettagliPath = input.FileSuperDettagliPath;
+            FileRunRatePath = input.FileRunRatePath;
         }
     }
 }
