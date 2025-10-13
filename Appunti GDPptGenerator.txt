@@ -19,7 +19,10 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 
 -------------------- Todo
+- Trasformare ValidateInput in steps 
+- Lettura della lista di slided da stampare dal file excel anche per la stampa delle presentazione
 - Mandare prima versione per test UI
+- Rimuovere file .txt della precedente gestione della presentazione
 - Add try catch for managedExpetions and output in interfaccia
 - Test con formule
 - Test con filtri

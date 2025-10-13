@@ -11,7 +11,7 @@ using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesImmagini : Step_Base
+    internal class Step_CreaFilesImmagini : BuildPresentation_StepBase
     {
         public Step_CreaFilesImmagini(StepContext context) : base(context)
         { }

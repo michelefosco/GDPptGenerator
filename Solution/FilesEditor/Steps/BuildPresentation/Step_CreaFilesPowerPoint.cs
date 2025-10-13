@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesPowerPoint : Step_Base
+    internal class Step_CreaFilesPowerPoint : BuildPresentation_StepBase
     {
         public Step_CreaFilesPowerPoint(StepContext context) : base(context)
         { }

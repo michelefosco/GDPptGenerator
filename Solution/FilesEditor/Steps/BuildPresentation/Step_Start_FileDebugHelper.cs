@@ -9,7 +9,7 @@ namespace FilesEditor.Steps.BuildPresentation
     /// <summary>
     /// Avvio il logging sul file "Debug"
     /// </summary>
-    internal class Step_Start_FileDebugHelper : Step_Base
+    internal class Step_Start_FileDebugHelper : BuildPresentation_StepBase
     {
 
         public Step_Start_FileDebugHelper(StepContext context) : base(context)

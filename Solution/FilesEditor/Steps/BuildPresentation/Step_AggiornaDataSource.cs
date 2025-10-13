@@ -4,7 +4,7 @@ using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_AggiornaDataSource : Step_Base
+    internal class Step_AggiornaDataSource : BuildPresentation_StepBase
     {
         public Step_AggiornaDataSource(StepContext context) : base(context)
         { }

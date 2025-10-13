@@ -1,40 +1,14 @@
-﻿
-using FilesEditor.Entities;
-using FilesEditor.Entities.Exceptions;
-using FilesEditor.Entities.MethodsArgs;
-using FilesEditor.Enums;
+﻿using FilesEditor.Entities;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FilesEditor.Steps.BuildPresentation
+namespace FilesEditor.Steps
 {
     //todo: rendere internal ma accessibile ai test
-    abstract public class Step_Base
+    abstract public class StepBase
     {
-        internal readonly StepContext Context;
-
-        internal Step_Base(StepContext context)
-        {
-            Context = context;
-        }
-
-        internal abstract BuildPresentationOutput DoSpecificTask();
-
-        internal BuildPresentationOutput Do()
-        {
-            try
-            {
-                return DoSpecificTask();
-            }
-            catch (ManagedException managedException)
-            {
-                return new BuildPresentationOutput(managedException);
-                //Context.BuildPresentationOutput.SettaManagedException(ex);
-                //return FinalizzaOutput(EsitiFinali.Failure);
-            }
-        }
-
+        internal StepContext Context;
 
         internal void AddWarning(string warningMessage)
         {

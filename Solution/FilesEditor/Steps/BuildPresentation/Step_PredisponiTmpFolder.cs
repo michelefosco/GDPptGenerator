@@ -4,7 +4,7 @@ using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_PredisponiTmpFolder : Step_Base
+    internal class Step_PredisponiTmpFolder : BuildPresentation_StepBase
     {
         public Step_PredisponiTmpFolder(StepContext context) : base(context)
         { }

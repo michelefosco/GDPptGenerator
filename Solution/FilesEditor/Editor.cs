@@ -33,7 +33,7 @@ namespace FilesEditor
         {
             var context = new StepContext(configurazione);
             context.SetContextFromInput(buildPresentationInput);
-            var stepsSequence = new List<Step_Base>
+            var stepsSequence = new List<BuildPresentation_StepBase>
                 {
                     new Step_PredisponiTmpFolder(context),
                     new Step_Start_FileDebugHelper(context),
@@ -45,7 +45,7 @@ namespace FilesEditor
             return buildPresentationRunStepSequence(stepsSequence, context);
         }
 
-        private static BuildPresentationOutput buildPresentationRunStepSequence(List<Step_Base> stepsSequence, StepContext context)
+        private static BuildPresentationOutput buildPresentationRunStepSequence(List<BuildPresentation_StepBase> stepsSequence, StepContext context)
         {
             foreach (var step in stepsSequence)
             {
