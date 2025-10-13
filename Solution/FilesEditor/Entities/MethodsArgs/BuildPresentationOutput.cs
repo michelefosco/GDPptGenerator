@@ -3,10 +3,12 @@ using FilesEditor.Enums;
 
 namespace FilesEditor.Entities.MethodsArgs
 {
-    public class BuildPresentationOutput : UserInterfaceIOutputBase
+    public class BuildPresentationOutput : UserInterfaceOutputBase
     {
-        public BuildPresentationOutput(EsitiFinali esito) : base(esito)
-        { }
+        public BuildPresentationOutput(StepContext context) : base(context.Esito)
+        { 
+        
+        }
 
         public BuildPresentationOutput(ManagedException managedException) : base(managedException)
         { }

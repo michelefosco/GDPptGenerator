@@ -22,7 +22,7 @@ namespace PptGeneratorGUI
     public partial class MainForm : Form
     {
 
-        private string _debugFileName;
+       // private string _debugFileName;
         private DateTime _selectedDatePeriodo;
         private List<InputDataFilters_Items> _fieldFilters;
 
@@ -141,6 +141,24 @@ th, td {{
                 return folderPath;
             }
         }
+
+
+        private string TmpFolder
+        {
+            get
+            {
+                return Path.Combine(SelectedDestinationFolderPath, FolderNames.TMP_FOLDER_FOR_GENERATED_FILES); ;
+            }
+        }
+
+        private string DebugFilePath
+        {
+            get
+            {
+                return Path.Combine(TmpFolder, "Debugfile.xlsx");
+            }
+        }
+
 
         #endregion
 
@@ -724,8 +742,12 @@ th, td {{
 
             // input per la chiamata al backend
             var validaSourceFilesInput = new ValidaSourceFilesInput(
+                    // proprietà classe base
                     destinationFolder: SelectedDestinationFolderPath,
+                    tmpFolder: TmpFolder,
                     sourceFilesFolderPath: SourceFilesFolderPath,
+                    fileDebugPath: DebugFilePath,
+                    //
                     fileBudgetPath: SelectedFileBudgetPath,
                     fileForecastPath: SelectedFileForecastPath,
                     fileSuperDettagliPath: SelectedFileSuperDettagliPath,
@@ -804,12 +826,12 @@ th, td {{
 
             //    if (output.Esito == EsitiFinali.Success)
             //    {
-            //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
+            //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebugPath/*, output.RigheSpesaSkippate*/);
             //        SetOutputMessage(message);
             //        SetStatusLabel("Elaborazione terminata con successo");
 
             //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-            //        _debugFileName = input.FileDebug_FilePath;
+            //        _debugFileName = input.FileDebugPath;
             //        btnCopyError.Visible = false;
             //    }
             //    else //FAIL
@@ -846,19 +868,18 @@ th, td {{
                 SetStatusLabel("Elaborazione in corso...");
 
 
-                var tmpFolder = Path.Combine(SelectedDestinationFolderPath, FilesEditor.Constants.FolderNames.TMP_FOLDER_FOR_GENERATED_FILES);
-                _debugFileName = Path.Combine(tmpFolder, "Debugfile.xlsx");
+
 
                 var buildPresentationInput = new BuildPresentationInput(
-                            outputFolder: SelectedDestinationFolderPath,
-                            tmpFolder: tmpFolder,
-                            templatesFolder: SourceFilesFolderPath,
-                            fileDebug_FilePath: _debugFileName,
-                            //replaceAllData_FileBudget: cbReplaceAllDataFileBudget.Checked,
-                            //replaceAllData_FileForecast: cbReplaceAllDataFileForecast.Checked,
-                            replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
-                            periodDate: _selectedDatePeriodo
-                            );
+                    // proprietà classe base
+                    destinationFolder: SelectedDestinationFolderPath,
+                    tmpFolder: TmpFolder,
+                    sourceFilesFolderPath: SourceFilesFolderPath,
+                    fileDebugPath: DebugFilePath,
+                    //
+                    replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
+                    periodDate: _selectedDatePeriodo
+                    );
                 try
                 {
                     toolStripProgressBar.Visible = true;
@@ -906,12 +927,9 @@ th, td {{
 
             if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
+                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebugPath/*, output.RigheSpesaSkippate*/);
                 SetOutputMessage(message);
                 SetStatusLabel("Elaborazione terminata con successo");
-
-                // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-                _debugFileName = input.FileDebug_FilePath;
                 btnCopyError.Visible = false;
             }
             else //FAIL
@@ -944,12 +962,12 @@ th, td {{
 
         //    if (output.Esito == EsitiFinali.Success)
         //    {
-        //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
+        //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebugPath, output.RigheSpesaSkippate);
         //        SetOutputMessage(message);
         //        SetStatusLabel("Elaborazione terminata con successo");
 
         //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-        //        _debugFileName = input.FileDebug_FilePath;
+        //        _debugFileName = input.FileDebugPath;
         //        btnCopyError.Visible = false;
         //    }
         //    else //FAIL

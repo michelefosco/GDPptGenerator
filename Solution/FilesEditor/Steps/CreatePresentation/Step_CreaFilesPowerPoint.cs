@@ -25,7 +25,7 @@ namespace FilesEditor.Steps.BuildPresentation
         const int SLIDE_TEMPLATE_1_INDEX = 3;
         private void creazionePowerPoint()
         {
-            var powerPointStructFiles = GetFilesListFromFolder(Context.TemplatesFolder, FileNames.FILTRO_NOME_FILE_PPT_STRUTTURA);
+            var powerPointStructFiles = GetFilesListFromFolder(Context.SourceFilesFolder, FileNames.FILTRO_NOME_FILE_PPT_STRUTTURA);
 
             foreach (var percorsoFile in powerPointStructFiles)
             {
@@ -34,7 +34,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
                 #region Predispongo il file di output
                 var suffisso = Path.GetFileNameWithoutExtension(percorsoFile).Replace("PowerPoint_Struttura", "");
-                var outputfilePath = $"{Context.OutputFolder}\\Output{suffisso}.pptx";
+                var outputfilePath = $"{Context.DestinationFolder}\\Output{suffisso}.pptx";
                 // ripulisco il possibile file di output
                 if (File.Exists(outputfilePath))
                 { File.Delete(outputfilePath); }
@@ -42,7 +42,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
                 #region Copio il template nella cartella di output
-                var percorsoFileTemplatePowerPoint = Path.Combine(Context.TemplatesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+                var percorsoFileTemplatePowerPoint = Path.Combine(Context.SourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
                 File.Copy(percorsoFileTemplatePowerPoint, outputfilePath);
                 var pres = new ShapeCrawler.Presentation(outputfilePath);
                 #endregion

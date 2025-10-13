@@ -31,7 +31,8 @@ namespace FilesEditor
 
         private static BuildPresentationOutput buildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
         {
-            var context = new StepContext(buildPresentationInput, configurazione);
+            var context = new StepContext(configurazione);
+            context.SetContextFromInput(buildPresentationInput);
             var stepsSequence = new List<Step_Base>
                 {
                     new Step_PredisponiTmpFolder(context),
@@ -116,7 +117,7 @@ namespace FilesEditor
         #region Lettura da DataSource_Template
         private static UserOptions getUserOptions(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
         {
-            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.SourceFilesFolderPath, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+            var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
@@ -384,9 +385,6 @@ namespace FilesEditor
             return slideToGenerateList;
         }
         #endregion
-
-
-
 
 
         #region Utilities

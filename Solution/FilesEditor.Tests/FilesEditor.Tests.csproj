@@ -51,7 +51,8 @@
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
     <Compile Include="Constants\TestPaths.cs" />
-    <Compile Include="ScenariCompleti_Tests.cs" />
+    <Compile Include="ScenariCompleti\BuildPresentation_Tests.cs" />
+    <Compile Include="ScenariCompleti\ValidaSourceFiles_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

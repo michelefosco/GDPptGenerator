@@ -1,11 +1,15 @@
-﻿using System;
+﻿using FilesEditor.Entities.MethodsArgs;
+using System;
 
 namespace FilesEditor.Entities
 {
-    public class ValidaSourceFilesInput
+    public class ValidaSourceFilesInput : UserInterfaceInputBase
     {
-        public string DestinationFolder { get; private set; }
-        public string SourceFilesFolderPath { get; private set; }
+        //public string DestinationFolder { get; private set; }
+        //public string TmpFolder { get; private set; }
+        //public string SourceFilesFolderPath { get; private set; }
+
+
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }
@@ -18,18 +22,26 @@ namespace FilesEditor.Entities
 
 
         public ValidaSourceFilesInput(
-                 string destinationFolder,
-                 string sourceFilesFolderPath,
-                 string fileBudgetPath,
-                 string fileForecastPath,
-                 string fileSuperDettagliPath,
-                 string fileRunRatePath
+                string sourceFilesFolderPath,
+                string destinationFolder,
+                string tmpFolder,
+                string fileDebugPath,
+                //
+                string fileBudgetPath,
+                string fileForecastPath,
+                string fileSuperDettagliPath,
+                string fileRunRatePath
             )
         {
-            if (string.IsNullOrWhiteSpace(destinationFolder))
-                throw new ArgumentNullException(nameof(destinationFolder));
             if (string.IsNullOrWhiteSpace(sourceFilesFolderPath))
                 throw new ArgumentNullException(nameof(sourceFilesFolderPath));
+            if (string.IsNullOrWhiteSpace(destinationFolder))
+                throw new ArgumentNullException(nameof(destinationFolder));
+            if (string.IsNullOrWhiteSpace(tmpFolder))
+                throw new ArgumentNullException(nameof(tmpFolder));
+            if (string.IsNullOrWhiteSpace(fileDebugPath))
+                throw new ArgumentNullException(nameof(fileDebugPath));
+            //
             if (string.IsNullOrWhiteSpace(fileBudgetPath))
                 throw new ArgumentNullException(nameof(fileBudgetPath));
             if (string.IsNullOrWhiteSpace(fileForecastPath))
@@ -38,9 +50,14 @@ namespace FilesEditor.Entities
                 throw new ArgumentNullException(nameof(fileSuperDettagliPath));
             if (string.IsNullOrWhiteSpace(fileRunRatePath))
                 throw new ArgumentNullException(nameof(fileRunRatePath));
+            
+            // Properies base class
+            base.SourceFilesFolder = sourceFilesFolderPath;
+            base.DestinationFolder = destinationFolder;
+            base.TmpFolder = tmpFolder;
+            base.FileDebugPath = fileDebugPath;
 
-            DestinationFolder = destinationFolder;
-            SourceFilesFolderPath = sourceFilesFolderPath;
+            //
             FileBudgetPath = fileBudgetPath;
             FileForecastPath = fileForecastPath;
             FileSuperDettagliPath = fileSuperDettagliPath;

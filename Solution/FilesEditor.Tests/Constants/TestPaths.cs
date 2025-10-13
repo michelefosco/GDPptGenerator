@@ -16,6 +16,7 @@ namespace FilesEditor.Tests.Constants
         public const string INPUT_RUNRATE_FILE = "InputFiles\\RunRate.xlsx";
         //
         public const string OUTPUT_FOLDER = "";
+        public const string TMP_FOLDER = "Tmp";        
         public const string OUTPUT_DEBUGFILE = "Debugfile.xlsx";
 
 

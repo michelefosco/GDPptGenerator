@@ -1,4 +1,5 @@
-﻿using FilesEditor.Entities;
+﻿
+using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
@@ -39,18 +40,6 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             //Context.UpdateReportsOutput.Warnings.Add(warningMessage);
             //Context.FileDebugHelper?.LogWarning(warningMessage);
-        }
-
-        internal BuildPresentationOutput FinalizzaOutput(EsitiFinali esitofinale)
-        {
-            Context.BuildPresentationOutput.SettaEsitoFinale(esitofinale);
-
-            //Context.FileDebugHelper?.LogCreateFileVendutoInput(Context.CreateFileVendutoInput);
-            //Context.FileDebugHelper?.LogCreateFileVendutoOutput(Context.CreateFileVendutoOutput);
-            //Context.FileDebugHelper?.Beautify();
-            //Context.FileDebugHelper?.Save();
-
-            return Context.BuildPresentationOutput;
         }
 
 

@@ -14,7 +14,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override BuildPresentationOutput DoSpecificTask()
         {
-            return FinalizzaOutput(EsitiFinali.Success);
+            Context.SettaEsitoFinale(EsitiFinali.Success);
+            return new BuildPresentationOutput(Context);
         }
     }
 }

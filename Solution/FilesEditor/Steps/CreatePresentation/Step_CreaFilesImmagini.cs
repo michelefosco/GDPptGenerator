@@ -34,7 +34,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void creaListaImmaginiDaGenerare()
         {
-            string percorsoFile = Path.Combine(Context.TemplatesFolder, Constants.FileNames.DATASOURCE_PRINT_AREAS_FILENAME);
+            string percorsoFile = Path.Combine(Context.SourceFilesFolder, Constants.FileNames.DATASOURCE_PRINT_AREAS_FILENAME);
 
             if (File.Exists(percorsoFile))
             {
@@ -67,7 +67,7 @@ namespace FilesEditor.Steps.BuildPresentation
         private void generaImmagini()
         {
             // Carica il workbook
-            Workbook workbook = new Workbook(Context.ExcelDataSourceFile);
+            Workbook workbook = new Workbook(Context.OutputDataSourceFilePath);
 
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {

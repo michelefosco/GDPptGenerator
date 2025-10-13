@@ -10,9 +10,8 @@ File di input:
 
 
 -------------------- Domande per Francesco
-- Il campo Typo layout nella configruazione deve essere obbligatorio? O possiamo usare horisontal come default (in caso in cui fosse blank?)
-- il campo "Table" (colonna K) nella presentazione potrebbe essere un menù dei 4 possibili valori? Cosi da blindare ulteriormente
-- Sto aggiunndo la configurabilità dell'append/sostituisci completamente le tabelle di input, quali sono gli attuali valori predefiniti?
+- Riusciamo a vincolare maggiormente il foglio Excel? Protezioni?
+
 
 
 -------------------- Info
@@ -20,13 +19,15 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 
 -------------------- Todo
+- Mandare prima versione per test UI
 - Add try catch for managedExpetions and output in interfaccia
 - Test con formule
 - Test con filtri
-- 
-- Ritoccare offerta?
+- Gestione versioning del file datasource
+- Logica append/replace dei dati si duperdettagli
+- tabelle anagrafiche per Business TMP e una per il campo Categoria (aggiungere due fogli con tabelle "Valore grezzo" e "Valore da sostituire"
 - In configruazione mettere opzionale append o sostituzione completa tabella (bool SvuotaTabella prima di aggiornare)0'
-- Riusciamo a vincolare maggiormente il foglio Excel? Protezioni?
+- Vincolare maggiormente il foglio Excel? Protezioni?
 - Codice per distribuire fino a 3 slides
 - Selezione del periodo
 - Aggiornare variabili foglio nome in base al periodo

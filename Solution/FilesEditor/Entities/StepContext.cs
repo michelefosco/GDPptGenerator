@@ -5,40 +5,48 @@ using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
-    internal class StepContext
+    public class StepContext: UserInterfaceInputBase
     {
         public readonly Configurazione Configurazione;
-        //
-        public readonly BuildPresentationInput BuildPresentationInput;
-        public readonly BuildPresentationOutput BuildPresentationOutput;    // oggetto di output, qui vengono messe tutte le informazioni di output utili per interfaccia e controlli dei test
-        //
         public FileDebugHelper DebugInfoLogger = new FileDebugHelper(null);
-        //public InfoFileController InfoFileController;
-        //public InfoFileReport InfoFileReport;
         //
-        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
+//        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         //
-        public string TemplatesFolder;
-        public string ExcelDataSourceFile;
+        public string OutputDataSourceFilePath;
 
-        public string OutputFolder;
-        public string TmpFolder;
+
+        public EsitiFinali Esito { get; private set; }
+
         // public string PowerPointOutputFile;
-
         public List<ItemToExport> ItemsToExportAsImage;
         //public List<SlideToGenerate> SlideToGenerateList;
         //
-        public StepContext(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
+
+        public StepContext(Configurazione configurazione)
         {
             Configurazione = configurazione;
-            //
-            BuildPresentationInput = buildPresentationInput;
-            //
-            OutputFolder = buildPresentationInput.OutputFolder;
-            TmpFolder = buildPresentationInput.TmpFolder;
-            TemplatesFolder = buildPresentationInput.TemplatesFolder;
-            //
-            BuildPresentationOutput = new BuildPresentationOutput(EsitiFinali.Undefined);
+        }
+
+        public void SettaEsitoFinale(EsitiFinali esito)
+        {
+            Esito = esito;
+        }
+        public void SetContextFromInput(BuildPresentationInput input)
+        {
+            if (input == null) { return; }
+            base.DestinationFolder = input.DestinationFolder;
+            base.TmpFolder = input.TmpFolder;
+            base.SourceFilesFolder = input.SourceFilesFolder;
+            base.FileDebugPath = input.FileDebugPath;
+        }
+
+        public void SetContextFromInput(ValidaSourceFilesInput input)
+        {
+            if (input == null) { return; }
+            base.DestinationFolder = input.DestinationFolder;
+            base.TmpFolder = input.TmpFolder;
+            base.SourceFilesFolder = input.SourceFilesFolder;
+            base.FileDebugPath = input.FileDebugPath;
         }
     }
 }

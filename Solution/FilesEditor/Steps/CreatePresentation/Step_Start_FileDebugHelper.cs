@@ -23,12 +23,13 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void inizializzaDebugInfoLogger()
         {
-            if (File.Exists(Context.BuildPresentationInput.FileDebug_FilePath))
+            if (File.Exists(Context.FileDebugPath))
             {
-                File.Delete(Context.BuildPresentationInput.FileDebug_FilePath);
+                File.Delete(Context.FileDebugPath);
             }
-            Context.DebugInfoLogger = new FileDebugHelper(Context.BuildPresentationInput.FileDebug_FilePath, Context.Configurazione.AutoSaveDebugFile);
-            Context.DebugInfoLogger.LogBuildPresentationInput(Context.BuildPresentationInput);
+            Context.DebugInfoLogger = new FileDebugHelper(Context.FileDebugPath, Context.Configurazione.AutoSaveDebugFile);
+            //todo: considere se rimettere in fuzione questo
+         //   Context.DebugInfoLogger.LogBuildPresentationInput(Context.BuildPresentationInput);
         }
     }
 }
