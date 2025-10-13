@@ -83,8 +83,8 @@
             this.gbPaths = new System.Windows.Forms.GroupBox();
             this.cbReplaceAllDataFileSuperDettagli = new System.Windows.Forms.CheckBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.btnNextBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.btnValidaInput = new System.Windows.Forms.Button();
+            this.validaInputBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -672,21 +672,21 @@
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Options";
             // 
-            // btnNext
+            // btnValidaInput
             // 
-            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(1040, 184);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(120, 30);
-            this.btnNext.TabIndex = 20;
-            this.btnNext.Text = "&Validate input";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            this.btnValidaInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnValidaInput.Location = new System.Drawing.Point(1040, 184);
+            this.btnValidaInput.Name = "btnValidaInput";
+            this.btnValidaInput.Size = new System.Drawing.Size(120, 30);
+            this.btnValidaInput.TabIndex = 20;
+            this.btnValidaInput.Text = "&Validate input";
+            this.btnValidaInput.UseVisualStyleBackColor = true;
+            this.btnValidaInput.Click += new System.EventHandler(this.btnValidaInput_Click);
             // 
-            // btnNextBackgroundWorker
+            // validaInputBackgroundWorker
             // 
-            this.btnNextBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.btnNextBackgroundWorker_DoWork);
-            this.btnNextBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.btnNextBackgroundWorker_RunWorkerCompleted);
+            this.validaInputBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.validaInputBackgroundWorker_DoWork);
+            this.validaInputBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.validaInputBackgroundWorker_RunWorkerCompleted);
             // 
             // menuStrip1
             // 
@@ -732,7 +732,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1178, 924);
-            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnValidaInput);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.gbPaths);
             this.Controls.Add(this.btnCreaPresentazione);
@@ -810,8 +810,8 @@
         private System.Windows.Forms.Panel pnlCalendar;
         private System.Windows.Forms.GroupBox gbPaths;
         private System.Windows.Forms.GroupBox gbOptions;
-        private System.Windows.Forms.Button btnNext;
-        private System.ComponentModel.BackgroundWorker btnNextBackgroundWorker;
+        private System.Windows.Forms.Button btnValidaInput;
+        private System.ComponentModel.BackgroundWorker validaInputBackgroundWorker;
         private System.Windows.Forms.DataGridViewTextBoxColumn Tabella;
         private System.Windows.Forms.DataGridViewTextBoxColumn Campo;
         private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;

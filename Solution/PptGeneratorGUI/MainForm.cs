@@ -209,11 +209,6 @@ th, td {{
 
         private void SetDefaultsFor_ReplaceAll_CheckBoxes()
         {
-            // Todo: leggere da config??
-
-            //cbReplaceAllDataFileBudget.Checked = false;
-            //cbReplaceAllDataFileForecast.Checked = false;
-            //cbReplaceAllDataFileRunRate.Checked = false;
             cbReplaceAllDataFileSuperDettagli.Checked = true;
         }
 
@@ -260,7 +255,7 @@ th, td {{
 
 
             var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid;
-            btnNext.Enabled = allValid;
+            btnValidaInput.Enabled = allValid;
 
             if (allValid)
             {
@@ -1100,12 +1095,12 @@ th, td {{
         #endregion
 
 
-        private void btnNext_Click(object sender, EventArgs e)
+        #region Valida Input
+        private void btnValidaInput_Click(object sender, EventArgs e)
         {
-            btnNext.Enabled = false;
+            btnValidaInput.Enabled = false;
             validaFileDiInput();
         }
-
 
         private void validaFileDiInput()
         {
@@ -1182,13 +1177,47 @@ th, td {{
                     fileRunRatePath: SelectedFileRunRatePath);
             try
             {
-                btnNextBackgroundWorker.RunWorkerAsync(validaSourceFilesInput);
+                validaInputBackgroundWorker.RunWorkerAsync(validaSourceFilesInput);
             }
             catch (Exception ex)
             {
                 showExpetion(ex);
             }
         }
+
+        private void validaInputBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var input = e.Argument as ValidaSourceFilesInput;
+            var output = Editor.ValidaSourceFiles(input);
+            e.Result = new object[] { input, output };
+        }
+
+        private void validaInputBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var outputAndInput = e.Result as object[];
+            var input = outputAndInput[0] as ValidaSourceFilesInput;
+            var output = outputAndInput[1] as ValidaSourceFilesOutput;
+
+            if (output.Esito == EsitiFinali.Success)
+            {
+                SetStatusLabel("Elaborazione terminata con successo");
+                //todo valida input
+                _inputValidato = true;
+                _fieldFilters = output.UserOptions.Applicablefilters;
+                BuildFiltersArea(_fieldFilters);
+            }
+            else
+            {
+                SetStatusLabel("Elaborazione terminata con errori");
+                SetOutputMessage(output.ManagedException);
+                btnCopyError.Visible = true;
+                //todo valida input
+                _inputValidato = false;
+            }
+
+            RefreshUI(resetInputValidato: false);
+        }
+        #endregion
 
         private void showExpetion(Exception ex)
         {
@@ -1380,38 +1409,6 @@ th, td {{
         //}
         #endregion
 
-        private void btnNextBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            var input = e.Argument as ValidaSourceFilesInput;
-            var output = Editor.ValidaSourceFiles(input);
-            e.Result = new object[] { input, output };
-        }
-
-        private void btnNextBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            var outputAndInput = e.Result as object[];
-            var input = outputAndInput[0] as ValidaSourceFilesInput;
-            var output = outputAndInput[1] as ValidaSourceFilesOutput;
-
-            if(output.Esito == EsitiFinali.Success)
-            {
-                SetStatusLabel("Elaborazione terminata con successo");
-                //todo valida input
-                _inputValidato = true;
-                _fieldFilters = output.UserOptions.Applicablefilters;
-                BuildFiltersArea(_fieldFilters);
-            }
-            else
-            {
-                SetStatusLabel("Elaborazione terminata con errori");
-                SetOutputMessage(output.ManagedException);
-                btnCopyError.Visible = true;
-                //todo valida input
-                _inputValidato = false;
-            }
-
-            RefreshUI(resetInputValidato: false);
-        }
 
         private void btnCreatePresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
