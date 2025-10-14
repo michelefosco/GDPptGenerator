@@ -149,6 +149,8 @@ namespace FilesEditor.Steps.BuildPresentation
                 //}
 
                 pres.Save(outputfilePath);
+
+                Context.OutputFilePathLists.Add(outputfilePath);
                 #endregion
             }
         }

@@ -19,14 +19,13 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 
 -------------------- Todo
-- rename DATASOURCE_TEMPLATE_PPT_CONFIG_ in better
-- Lettura della lista di slided da stampare dal file excel anche per la stampa delle presentazione
-- Rimuovere file .txt della precedente gestione della presentazione
-- Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
-
-- Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
+- TRaduzione messaggi status bar
+- Move HTML helpers
 - Step backup DataSource prima di cominiciare
+- Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
+- Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
 - Rimouvere constati per datasoure e datasource template (semplificare)
+- Rivedere nomi steps e aggiungere commento in cima alla classe
 
 - Mandare prima versione per test UI
 - Test con formule

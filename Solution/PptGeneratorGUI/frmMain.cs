@@ -24,7 +24,7 @@ namespace PptGeneratorGUI
     public partial class frmMain : Form
     {
 
-       // private string _debugFileName;
+        // private string _debugFileName;
         private DateTime _selectedDatePeriodo;
         private List<InputDataFilters_Item> _applicablefilters;
 
@@ -270,7 +270,7 @@ th, td {{
 
                     // assegno il filtro da modificare
                     var tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
-                    var campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();                 
+                    var campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
                     frmSelectFilters.FilterToManage = _applicablefilters.First(_ => _.Table.ToString() == tabella && _.FieldName == campo);
 
                     // apro il form di selezione
@@ -703,7 +703,7 @@ th, td {{
             //    }
             //    //catch (ManagedException mEx)
             //    //{
-            //    //    SetStatusLabel("Elaborazione terminata con errori");
+            //    //    SetStatusLabel("Processing completed with errors");
 
             //    //    SetOutputMessage(mEx);
             //    //    btnCopyError.Visible = true;
@@ -737,7 +737,7 @@ th, td {{
             //    }
             //    catch (ManagedException mEx)
             //    {
-            //        SetStatusLabel("Elaborazione terminata con errori");
+            //        SetStatusLabel("Processing completed with errors");
 
             //        SetOutputMessage(mEx);
             //        btnCopyError.Visible = true;
@@ -746,7 +746,7 @@ th, td {{
             //    {
             //        showExpetion(ex);
 
-            //        SetStatusLabel("Elaborazione terminata con errori");
+            //        SetStatusLabel("Processing completed with errors");
 
             //        SetOutputMessage(ex);
             //        btnCopyError.Visible = true;
@@ -792,7 +792,7 @@ th, td {{
 
             if (output.Esito == EsitiFinali.Success)
             {
-                SetStatusLabel("Elaborazione terminata con successo");
+                SetStatusLabel("Processing completed successfully");
                 //todo valida input
                 _inputValidato = true;
                 _applicablefilters = output.Applicablefilters;
@@ -800,7 +800,7 @@ th, td {{
             }
             else
             {
-                SetStatusLabel("Elaborazione terminata con errori");
+                SetStatusLabel("Processing completed with errors");
                 SetOutputMessage(output.ManagedException);
                 btnCopyError.Visible = true;
                 //todo valida input
@@ -841,9 +841,9 @@ th, td {{
 
             //    if (output.Esito == EsitiFinali.Success)
             //    {
-            //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
+            //        string message = CreateOutputMessageSuccessHTML("Processing completed successfully", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
             //        SetOutputMessage(message);
-            //        SetStatusLabel("Elaborazione terminata con successo");
+            //        SetStatusLabel("Processing completed successfully");
 
             //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
             //        _debugFileName = input.FileDebug_FilePath;
@@ -852,7 +852,7 @@ th, td {{
             //    else //FAIL
             //    {
             //        //Mostrare eventuali dati nel fail
-            //        SetStatusLabel("Elaborazione terminata con errori");
+            //        SetStatusLabel("Processing completed with errors");
             //        SetOutputMessage(output.ManagedException);
             //        btnCopyError.Visible = true;
             //    }
@@ -866,7 +866,7 @@ th, td {{
             bool isRunRatePathValid = IsRunRatePathValid();
             bool isDestFolderValid = IsDestFolderValid();
 
-            if (/*isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && */isDestFolderValid)
+            if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid)
             {
                 ClearOutputArea();
                 AddPathsInXmlFileHistory();
@@ -883,32 +883,28 @@ th, td {{
                 SetStatusLabel("Elaborazione in corso...");
 
 
-
+                toolStripProgressBar.Visible = true;
+                btnBuildPresentation.Enabled = false;
 
                 var buildPresentationInput = new BuildPresentationInput(
                     // proprietà classe base
                     sourceFilesFolderPath: SourceFilesFolderPath,
                     destinationFolder: SelectedDestinationFolderPath,
-                    tmpFolder: TmpFolder,                    
+                    tmpFolder: TmpFolder,
                     fileDebugPath: DebugFilePath,
                     //
                     replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
                     periodDate: _selectedDatePeriodo,
                     applicablefilters: _applicablefilters
                     );
+
                 try
                 {
-                    toolStripProgressBar.Visible = true;
-                    btnBuildPresentation.Enabled = false;
-                    //btnBuildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
                     buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
                 }
                 catch (Exception ex)
                 {
-                    SetStatusLabel("Elaborazione terminata con errori");
-
-                    SetOutputMessage(ex);
-                    btnCopyError.Visible = true;
+                    showExpetion(ex);
                 }
             }
             else
@@ -936,15 +932,15 @@ th, td {{
 
             if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebugPath/*, output.RigheSpesaSkippate*/);
+                string message = CreateOutputMessageSuccessHTML("Processing completed successfully", DebugFilePath, output.OutputFilePathLists );
                 SetOutputMessage(message);
-                SetStatusLabel("Elaborazione terminata con successo");
+                SetStatusLabel("Processing completed successfully");
                 btnCopyError.Visible = false;
             }
             else //FAIL
             {
                 //Mostrare eventuali dati nel fail
-                SetStatusLabel("Elaborazione terminata con errori");
+                SetStatusLabel("Processing completed with errors");
                 SetOutputMessage(output.ManagedException);
                 btnCopyError.Visible = true;
             }
@@ -971,9 +967,9 @@ th, td {{
 
         //    if (output.Esito == EsitiFinali.Success)
         //    {
-        //        string message = CreateOutputMessageSuccessHTML("Elaborazione terminata con successo", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
+        //        string message = CreateOutputMessageSuccessHTML("Processing completed successfully", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
         //        SetOutputMessage(message);
-        //        SetStatusLabel("Elaborazione terminata con successo");
+        //        SetStatusLabel("Processing completed successfully");
 
         //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
         //        _debugFileName = input.FileDebug_FilePath;
@@ -982,7 +978,7 @@ th, td {{
         //    else //FAIL
         //    {
         //        //Mostrare eventuali dati nel fail
-        //        SetStatusLabel("Elaborazione terminata con errori");
+        //        SetStatusLabel("Processing completed with errors");
         //        SetOutputMessage(output.ManagedException);
         //        btnCopyError.Visible = true;
         //    }
@@ -1054,22 +1050,23 @@ th, td {{
                 //htmlErrorMessage += _spaceHTML;
                 //htmlErrorMessage += GetHTMLDeleteFileHyperLink(mEx.PercorsoFile);
             }
-            else
+            switch (mEx.FileType)
             {
-                switch (mEx.FileType)
-                {
-                    case FileTypes.DataSource:
-                        htmlErrorMessage += _newlineHTML;
-                        htmlErrorMessage += _newlineHTML;
-                        //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");
-                        break;
+                case FileTypes.Undefined:
+                case FileTypes.Directory:
+                    break;
 
-                        //case TipologiaCartelle.FileDiTipo2:
-                        //    htmlErrorMessage += _newlineHTML;
-                        //    htmlErrorMessage += _newlineHTML;
-                        //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
-                        //    break;
-                }
+                default:
+                    htmlErrorMessage += _newlineHTML;
+                    htmlErrorMessage += _newlineHTML;
+                    htmlErrorMessage += StringToHTML("File types: ") + GetHTMLBold(mEx.FileType.ToString());
+                    break;
+
+                    //case TipologiaCartelle.FileDiTipo2:
+                    //    htmlErrorMessage += _newlineHTML;
+                    //    htmlErrorMessage += _newlineHTML;
+                    //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
+                    //    break;
             }
 
             htmlErrorMessage += _newlineHTML;
@@ -1210,60 +1207,25 @@ th, td {{
             btnCopyError.Visible = false;
         }
 
-        private string CreateOutputMessageSuccessHTMLDelete(string message, string nomeFornitore, string reportFile, string newReportFile)
-        {
-            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += @"Eliminato il fornitore """;
-            outputMessage += GetHTMLBold(nomeFornitore);
-            outputMessage += @"""";
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold("É stato generato il file: ");
-            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
-
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold(GetHTMLHyperLinkSetAsImput(newReportFile, "Imposta il file generato come file di input"));
-
-            return outputMessage;
-        }
-
-        private string CreateOutputMessageSuccessHTMLUpdate(string message, string nomeFornitore, string nuovoNomeFornitore, string reportFile, string newReportFile)
-        {
-            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += @"Modificato il nome del fornitore """;
-            outputMessage += GetHTMLBold(nomeFornitore);
-            outputMessage += @""" in """;
-            outputMessage += GetHTMLBold(nuovoNomeFornitore);
-            outputMessage += @"""";
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold("É stato generato il file: ");
-            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
-
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
-            outputMessage += GetHTMLBold(GetHTMLHyperLinkSetAsImput(newReportFile, "Imposta il file generato come file di input"));
-
-            return outputMessage;
-        }
-
-        private string CreateOutputMessageSuccessHTML(string message, string controllerFile, string reportFile, string newReportFile, string debugFile/*, List<RigaSpeseSkippata> righeSkippate*/)
+        private string CreateOutputMessageSuccessHTML(string message, string debugFile, List<string> outputFilePathLists)
         {
             string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
             outputMessage += _newlineHTML;
             outputMessage += _newlineHTML;
 
-            outputMessage += GetHTMLBold("É stato generato il file: ");
-            outputMessage += GetHTMLHyperLink(newReportFile, newReportFile);
+            foreach (var path in outputFilePathLists)
+            {
+                outputMessage += GetHTMLBold("Presentation file created: ");
+                outputMessage += GetHTMLHyperLink(path, path);
+                outputMessage += _newlineHTML;
+            }
+
 
             if (IsDebugModeEnabled())
             {
                 outputMessage += _newlineHTML;
                 outputMessage += _newlineHTML;
-                outputMessage += GetHTMLBold("É stato generato il file di DEBUG: ");
+                outputMessage += GetHTMLBold("Debug file created: ");
                 outputMessage += GetHTMLHyperLink(debugFile, debugFile);
             }
 

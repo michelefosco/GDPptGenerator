@@ -4,9 +4,9 @@ namespace FilesEditor.Enums
 {
     public enum FileTypes
     {
-        Undefined = 0,
+        Undefined,
 
-        Directory = 0,
+        Directory,
 
         [Description("Debug")]
         Debug,

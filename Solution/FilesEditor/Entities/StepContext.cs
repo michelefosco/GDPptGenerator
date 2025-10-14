@@ -25,7 +25,7 @@ namespace FilesEditor.Entities
         public string FileSuperDettagliPath { get; private set; }
         public string FileRunRatePath { get; private set; }
 
-
+        public List<string> OutputFilePathLists = new List<string>();
 
         public StepContext(Configurazione configurazione)
         {
