@@ -239,15 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\CalendarIcon.png" />
-    <Content Include="SourceFiles\DataSource_PrintAreas.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SourceFiles\PowerPoint_Struttura_Bis.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SourceFiles\PowerPoint_Struttura.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="SourceFiles\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

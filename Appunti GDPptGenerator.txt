@@ -19,14 +19,16 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 
 -------------------- Todo
-- form interfaccia per Scelta filtri
-- Eliminare Try catch superflui per lasciare passare l'eccezione in un unico punto (    abstract public class BuildPresentation_StepBase : StepBase)
-
-- ValidaSourceFiles --> VaòodateSourceFiles
+- rename DATASOURCE_TEMPLATE_PPT_CONFIG_ in better
 - Lettura della lista di slided da stampare dal file excel anche per la stampa delle presentazione
-- Mandare prima versione per test UI
 - Rimuovere file .txt della precedente gestione della presentazione
-- Add try catch for managedExpetions and output in interfaccia
+- Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
+
+- Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
+- Step backup DataSource prima di cominiciare
+- Rimouvere constati per datasoure e datasource template (semplificare)
+
+- Mandare prima versione per test UI
 - Test con formule
 - Test con filtri
 - Gestione versioning del file datasource

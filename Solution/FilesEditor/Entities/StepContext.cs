@@ -19,7 +19,7 @@ namespace FilesEditor.Entities
         public bool ReplaceAllData_FileSuperDettagli { get; private set; }
         public DateTime PeriodDate { get; private set; }
 
-        public List<ItemToExport> ItemsToExportAsImage;
+        public List<ItemToExport> ItemsToExportAsImage = new List<ItemToExport>();
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }

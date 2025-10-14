@@ -22,6 +22,10 @@ namespace FilesEditor.Helpers
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_3_COL = (int)ColumnIDS.E;
             configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL = (int)ColumnIDS.F;
 
+            // PrinteAreas
+            configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW = 2;
+            configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL = (int)ColumnIDS.B;
+
 
             // Input file input Superdettagli
             configurazione.SUPERDETTAGLI_HEADERS_ROW = 1;

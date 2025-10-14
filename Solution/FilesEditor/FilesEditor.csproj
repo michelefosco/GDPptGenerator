@@ -162,7 +162,9 @@
     <Compile Include="Helpers\ValueHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmagini - Copy.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmagini.cs" />
+    <Compile Include="Steps\BuildPresentation\Backup Step_CreaFilesPowerPoint - Copy.cs" />
     <Compile Include="Steps\BuildPresentation\Step_PredisponiTmpFolder.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesPowerPoint.cs" />
     <Compile Include="Steps\Step_EsitoFinaleSuccess.cs" />

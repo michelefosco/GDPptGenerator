@@ -6,12 +6,12 @@
 
         #region DataSource Template
 
-        // "Filtri"
+        // Configurazione - Filtri
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL { get; set; }
 
-        // "Slide da generare
+        // Configurazione - Slide da generare
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_DATA_ROW { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL { get; set; }
@@ -19,6 +19,12 @@
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_2_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_3_COL { get; set; }
         public int DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL { get; set; }
+
+
+        // PrinteAreas
+        public int DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW { get; set; }
+        public int DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL { get; set; }
+
 
 
         //

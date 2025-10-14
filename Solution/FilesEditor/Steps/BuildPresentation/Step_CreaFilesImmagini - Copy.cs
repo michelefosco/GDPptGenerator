@@ -1,21 +1,20 @@
 ﻿using Aspose.Cells;
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Rendering;
-using FilesEditor.Constants;
 using FilesEditor.Entities;
-using FilesEditor.Entities.Exceptions;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesImmagini : StepBase
+    internal class BK_Step_CreaFilesImmagini:StepBase
     {
-        public Step_CreaFilesImmagini(StepContext context) : base(context)
+        public BK_Step_CreaFilesImmagini(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
@@ -24,7 +23,6 @@ namespace FilesEditor.Steps.BuildPresentation
             return EsitiFinali.Undefined;
         }
 
-        //todo: dividere in due diversi steps
         private void creaFilesImmagini()
         {
             // Lettura del file di testo con le aree di stampa e creazione della lista delle immagini da generare
@@ -37,42 +35,40 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void creaListaImmaginiDaGenerare()
         {
-            var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
-            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
+            string percorsoFile = Path.Combine(Context.SourceFilesFolder, Constants.FileNames.DATASOURCE_PRINT_AREAS_FILENAME);
 
-            var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
-            foreach (var imageId in imageIds)
+            if (File.Exists(percorsoFile))
             {
-                ThrowExpetionsForMissingWorksheet(ePPlusHelper, imageId, FileTypes.DataSource_Template);
-                
-                var printArea = ePPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
-                // check sul campo "Print Area"
-                if (string.IsNullOrWhiteSpace(printArea))
-                {
-                    throw new ManagedException(
-                        filePath: ePPlusHelper.FilePathInUse,
-                        fileType: FileTypes.DataSource,
-                        //
-                        worksheetName: imageId,
-                        cellRow: Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW,
-                        cellColumn: Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL,
-                        valueHeader: ValueHeaders.None,
-                        value: null,
-                        //
-                        errorType: ErrorTypes.MissingValue,
-                        userMessage: $"Print area not defined for sheet '{imageId}'."
-                        );
-                }
+                Context.ItemsToExportAsImage = new List<ItemToExport>();
 
-                Context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = imageId, PrintArea = printArea, });
+                // Legge tutte le righe del file
+                string[] righe = File.ReadAllLines(percorsoFile);
+
+                foreach (string riga in righe)
+                {
+                    // Divide la riga nei campi separati da ";"
+                    string[] campi = riga.Split(';');
+
+
+                    //todo: ragionare su queste trasformazioni
+                    var imageId = campi[0].Trim().ToLower();
+                    var sheet = campi[1].Trim();
+                    var printArea = campi[2].Trim().ToUpper();
+
+                    Context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = sheet, PrintArea = printArea, });
+                }
+            }
+            else
+            {
+                //todo: eccezione managed
+                Console.WriteLine("Il file non esiste!");
             }
         }
 
-        //todo: usare interepo anziche apose
         private void generaImmagini()
         {
             // Carica il workbook
-            Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook(Context.OutputDataSourceFilePath);
+            Workbook workbook = new Workbook(Context.OutputDataSourceFilePath);
 
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {

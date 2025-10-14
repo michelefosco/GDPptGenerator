@@ -32,8 +32,9 @@ namespace FilesEditor.Steps
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
 
             var slidesToGenerate = getSildeToGenerate(ePPlusHelper, Context.Configurazione);
-            Context.SildeToGenerate = slidesToGenerate;            
+            Context.SildeToGenerate = slidesToGenerate;
         }
+
         private  List<SlideToGenerate> getSildeToGenerate(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
@@ -80,8 +81,19 @@ namespace FilesEditor.Steps
                 {
                     if (!printableWorksheets.Any(n => n.Equals(item, StringComparison.InvariantCultureIgnoreCase)))
                     {
-                        //todo: Sollevare eccezione Managed
-                        throw new Exception("Elemento da stampare non valido");
+                        throw new ManagedException(
+                            filePath: ePPlusHelper.FilePathInUse,
+                            fileType: FileTypes.DataSource,
+                            //
+                            worksheetName: item,
+                            cellRow: null,
+                            cellColumn: null,
+                            valueHeader: ValueHeaders.None,
+                            value: item,
+                            //
+                            errorType: ErrorTypes.MissingWorksheet,
+                            userMessage: $"The item '{item}', which is included in the configuration for slide generation, does not have a corresponding worksheet in the DataSource Excel file."
+                            );
                     }
                 }
 

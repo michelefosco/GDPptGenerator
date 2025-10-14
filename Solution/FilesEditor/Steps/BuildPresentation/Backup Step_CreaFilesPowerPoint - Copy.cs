@@ -10,9 +10,9 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesPowerPoint : StepBase
+    internal class BK_Step_CreaFilesPowerPoint : StepBase
     {
-        public Step_CreaFilesPowerPoint(StepContext context) : base(context)
+        public BK_Step_CreaFilesPowerPoint(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
@@ -25,17 +25,17 @@ namespace FilesEditor.Steps.BuildPresentation
         const int SLIDE_TEMPLATE_1_INDEX = 3;
         private void creazionePowerPoint()
         {
-            var outputFileNames = Context.SildeToGenerate.Select(s => s.OutputFileName).Distinct().ToList();
 
-            foreach (var outputFileName in outputFileNames)
+            var powerPointStructFiles = GetFilesListFromFolder(Context.SourceFilesFolder, FileNames.FILTRO_NOME_FILE_PPT_STRUTTURA);
+
+            foreach (var percorsoFile in powerPointStructFiles)
             {
-                var slideToGenerateList = Context.SildeToGenerate.Where(s => s.OutputFileName == outputFileName).ToList();
+                var slideToGenerateList = getListaSlidesDaFile(percorsoFile);
+
 
                 #region Predispongo il file di output
-                var outputfilePath = Path.Combine(Context.DestinationFolder, outputFileName);
-                if (outputfilePath.EndsWith(".pptx", StringComparison.InvariantCultureIgnoreCase) == false)
-                { outputfilePath = outputFileName + ".pptx"; }
-
+                var suffisso = Path.GetFileNameWithoutExtension(percorsoFile).Replace("PowerPoint_Struttura", "");
+                var outputfilePath = $"{Context.DestinationFolder}\\Output{suffisso}.pptx";
                 // ripulisco il possibile file di output
                 if (File.Exists(outputfilePath))
                 { File.Delete(outputfilePath); }
@@ -121,9 +121,8 @@ namespace FilesEditor.Steps.BuildPresentation
                                 break;
 
                             case 3:
-                                //throw new NotImplementedException("Caso con 3 immagini per slide in orizontale non ancora gestito");
-                                break;
-
+                                throw new NotImplementedException("Caso con 3 immagini per slide in orizontale non ancora gestito");
+                                
                             default:
                                 throw new ArgumentOutOfRangeException("Numero di immagini per slide non gestito");
                         }
@@ -174,8 +173,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
                 //todo: ragionare su queste trasformazioni
-                var slideType = (LayoutTypes)int.Parse(campi[0].Trim());
-                var title = campi[1].Trim();
+                var slideType = (LayoutTypes) int.Parse(campi[0].Trim());
+                var title = campi[1].Trim();                             
 
                 var contents = new List<string>();
                 var content1 = campi[2].Trim().ToUpper();
@@ -192,7 +191,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     OutputFileName = "Presentazione.pptx", //todo: read from excel
                     Title = title,
                     LayoutType = slideType,
-                    Contents = contents
+                    Contents = contents           
                 });
             }
 
