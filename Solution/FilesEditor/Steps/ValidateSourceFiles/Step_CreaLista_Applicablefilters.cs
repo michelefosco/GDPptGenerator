@@ -44,11 +44,11 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             var filtriPossibili = new List<InputDataFilters_Item>();
 
-            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW;
+            var rigaCorrente = configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW;
             while (true)
             {
-                var table = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL);
-                var field = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL);
+                var table = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_FILTERS_TABLE_COL);
+                var field = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_FILTERS_FIELD_COL);
                 if (allNulls(table, field))
                 { break; }
 
@@ -84,7 +84,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 filePath: Context.FileSuperDettagliPath,
                                 worksheetName: WorksheetNames.SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,
-                                headersRow: Context.Configurazione.SUPERDETTAGLI_HEADERS_ROW,
+                                headersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.FORECAST:
@@ -92,7 +92,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 filePath: Context.FileForecastPath,
                                 worksheetName: WorksheetNames.FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
-                                headersRow: Context.Configurazione.FORECAST_HEADERS_ROW,
+                                headersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.BUDGET:
@@ -100,7 +100,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 filePath: Context.FileBudgetPath,
                                 worksheetName: WorksheetNames.BUDGET_DATA,
                                 fileType: FileTypes.Budget,
-                                headersRow: Context.Configurazione.BUDGET_HEADERS_ROW,
+                                headersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.RUNRATE:
@@ -108,7 +108,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 filePath: Context.FileRunRatePath,
                                 worksheetName: WorksheetNames.RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
-                                headersRow: Context.Configurazione.RUNRATE_HEADERS_ROW,
+                                headersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
 

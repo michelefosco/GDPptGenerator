@@ -9,18 +9,18 @@ namespace FilesEditor.Helpers
             var configurazione = new Configurazione();
 
             // Filtri
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW = 4;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_TABLE_COL = (int)ColumnIDS.K;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIELD_COL = (int)ColumnIDS.L;
+            configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW = 4;
+            configurazione.DATASOURCE_CONFIG_FILTERS_TABLE_COL = (int)ColumnIDS.K;
+            configurazione.DATASOURCE_CONFIG_FILTERS_FIELD_COL = (int)ColumnIDS.L;
 
             // Slide da generare
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_DATA_ROW = 4;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL = (int)ColumnIDS.A;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL = (int)ColumnIDS.B;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL = (int)ColumnIDS.C;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_2_COL = (int)ColumnIDS.D;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_3_COL = (int)ColumnIDS.E;
-            configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL = (int)ColumnIDS.F;
+            configurazione.DATASOURCE_CONFIG_SLIDES_FIRST_DATA_ROW = 4;
+            configurazione.DATASOURCE_CONFIG_SLIDES_POWERPOINTFILE_COL = (int)ColumnIDS.A;
+            configurazione.DATASOURCE_CONFIG_SLIDES_TITLE_COL = (int)ColumnIDS.B;
+            configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_1_COL = (int)ColumnIDS.C;
+            configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_2_COL = (int)ColumnIDS.D;
+            configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_3_COL = (int)ColumnIDS.E;
+            configurazione.DATASOURCE_CONFIG_SLIDES_LAYOUT_COL = (int)ColumnIDS.F;
 
             // PrinteAreas
             configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW = 2;
@@ -28,16 +28,16 @@ namespace FilesEditor.Helpers
 
 
             // Input file input Superdettagli
-            configurazione.SUPERDETTAGLI_HEADERS_ROW = 1;
+            configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
 
             // Input file input Budget
-            configurazione.BUDGET_HEADERS_ROW = 2;
+            configurazione.INPUT_FILES_BUDGET_HEADERS_ROW = 2;
 
             // Input file input Forecast
-            configurazione.FORECAST_HEADERS_ROW = 3;
+            configurazione.INPUT_FILES_FORECAST_HEADERS_ROW = 3;
 
             // Input file input Superdettagli
-            configurazione.RUNRATE_HEADERS_ROW = 1;
+            configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW = 1;
 
 
             //#region Cartella "Controller"

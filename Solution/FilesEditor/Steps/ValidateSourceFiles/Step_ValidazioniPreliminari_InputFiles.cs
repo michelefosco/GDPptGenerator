@@ -33,7 +33,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             var fileType = FileTypes.SuperDettagli;
             var worksheetName = WorksheetNames.SUPERDETTAGLI_DATA;
-            var headersRow = configurazione.SUPERDETTAGLI_HEADERS_ROW;
+            var headersRow = configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW;
             //todo: aggiungere un certo numero di colonne uniche di questo foglio
             var expectedHeadersColumns = new List<string> { "Distinzione produttive indirette vs improduttive" };
 
@@ -43,7 +43,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             var fileType = FileTypes.Budget;
             var worksheetName = WorksheetNames.BUDGET_DATA;
-            var headersRow = configurazione.BUDGET_HEADERS_ROW;
+            var headersRow = configurazione.INPUT_FILES_BUDGET_HEADERS_ROW;
             //todo: aggiungere un certo numero di colonne uniche di questo foglio
             var expectedHeadersColumns = new List<string> { "Macro categoria_new", "Strut.Eng" };
 
@@ -53,7 +53,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             var fileType = FileTypes.Forecast;
             var worksheetName = WorksheetNames.FORECAST_DATA;
-            var headersRow = configurazione.FORECAST_HEADERS_ROW;
+            var headersRow = configurazione.INPUT_FILES_FORECAST_HEADERS_ROW;
             //todo: aggiungere un certo numero di colonne uniche di questo foglio
             var expectedHeadersColumns = new List<string> { "ENG TOB Totale_", "ENG LPP - INT_" };
 
@@ -63,7 +63,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             var fileType = FileTypes.RunRate;
             var worksheetName = WorksheetNames.RUN_RATE_DATA;
-            var headersRow = configurazione.RUNRATE_HEADERS_ROW;
+            var headersRow = configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW;
             //todo: aggiungere un certo numero di colonne uniche di questo foglio
             var expectedHeadersColumns = new List<string> { "01", "02" };
 

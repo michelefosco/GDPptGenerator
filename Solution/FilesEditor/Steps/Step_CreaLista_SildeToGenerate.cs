@@ -47,15 +47,15 @@ namespace FilesEditor.Steps
 
             var slideToGenerateList = new List<SlideToGenerate>();
 
-            var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_FIRST_DATA_ROW;
+            var rigaCorrente = configurazione.DATASOURCE_CONFIG_SLIDES_FIRST_DATA_ROW;
             while (true)
             {
-                var outputFileName = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL);
-                var title = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL);
-                var content1 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL);
-                var content2 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_2_COL);
-                var content3 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_3_COL);
-                var layout = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL);
+                var outputFileName = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_SLIDES_POWERPOINTFILE_COL);
+                var title = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_SLIDES_TITLE_COL);
+                var content1 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_1_COL);
+                var content2 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_2_COL);
+                var content3 = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_3_COL);
+                var layout = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_SLIDES_LAYOUT_COL);
 
                 // mi fermo quando la riga è competamente a null
                 if (allNulls(outputFileName, title, content1, content2, content3, layout))
@@ -64,16 +64,16 @@ namespace FilesEditor.Steps
                 //verifico i campi obbligatori
                 // check sul campo "Powerpoint File"
                 ManagedException.ThrowIfMissingMandatoryValue(outputFileName, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
-                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL,
+                    configurazione.DATASOURCE_CONFIG_SLIDES_POWERPOINTFILE_COL,
                     ValueHeaders.TableName);
                 // check sul campo "Title"
                 ManagedException.ThrowIfMissingMandatoryValue(title, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
-                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL,
+                    configurazione.DATASOURCE_CONFIG_SLIDES_TITLE_COL,
                     ValueHeaders.SlideTitle);
 
                 // check sul campo "Content 1"
                 ManagedException.ThrowIfMissingMandatoryValue(content1, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
-                    configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL,
+                    configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_1_COL,
                     ValueHeaders.SlideTitle);
 
                 var contents = new List<string>() { content1 };
@@ -105,7 +105,7 @@ namespace FilesEditor.Steps
                 {
                     // check sul campo "Layout"
                     ManagedException.ThrowIfMissingMandatoryValue(layout, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
-                        configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL,
+                        configurazione.DATASOURCE_CONFIG_SLIDES_LAYOUT_COL,
                         ValueHeaders.SlideLayout);
                 }
                 //todo: chiedere info a Francesco su questo uso del default
