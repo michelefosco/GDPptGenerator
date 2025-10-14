@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace FilesEditor.Entities.MethodsArgs
 {
-    public class ValidaSourceFilesOutput : UserInterfaceOutputBase
+    public class ValidateSourceFilesOutput : UserInterfaceOutputBase
     {
         public List<InputDataFilters_Item> Applicablefilters;
 
-        public ValidaSourceFilesOutput(StepContext context) : base(context.Esito)
+        public ValidateSourceFilesOutput(StepContext context) : base(context.Esito)
         {
             Applicablefilters = context.Applicablefilters;
         }
 
-        public ValidaSourceFilesOutput(ManagedException managedException) : base(managedException)
+        public ValidateSourceFilesOutput(ManagedException managedException) : base(managedException)
         {
         }
     }

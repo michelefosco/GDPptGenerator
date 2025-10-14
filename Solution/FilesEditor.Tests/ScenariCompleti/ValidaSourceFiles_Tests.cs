@@ -9,7 +9,7 @@ using System.IO;
 namespace FilesEditor.Tests
 {
     [TestClass]
-    public class ValidaSourceFiles_Tests : BaseTest
+    public class ValidateSourceFiles_Tests : BaseTest
     {
         [TestMethod]
         public void Scenario_OK_01()
@@ -27,7 +27,7 @@ namespace FilesEditor.Tests
             string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
 
 
-            var input = new ValidaSourceFilesInput(
+            var input = new ValidateSourceFilesInput(
                     sourceFilesFolderPath: sourceFilesFolderPath,
                     destinationFolder: destinationFolder,
                     tmpFolder: tmpFolder,
@@ -39,7 +39,7 @@ namespace FilesEditor.Tests
                     fileRunRatePath: fileRunRatePat
                     );
 
-            var output = Editor.ValidaSourceFiles(input);
+            var output = Editor.ValidateSourceFiles(input);
 
             // test base
             Assert.IsNotNull(output);

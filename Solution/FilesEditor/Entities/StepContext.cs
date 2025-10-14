@@ -50,7 +50,7 @@ namespace FilesEditor.Entities
             Applicablefilters = input.Applicablefilters ?? new List<InputDataFilters_Item>();
         }
 
-        public void SetContextFromInput(ValidaSourceFilesInput input)
+        public void SetContextFromInput(ValidateSourceFilesInput input)
         {
             if (input == null) { return; }
             base.DestinationFolder = input.DestinationFolder;

@@ -146,7 +146,7 @@
     <Compile Include="Entities\_RigaSpeseSkippata.cs" />
     <Compile Include="Entities\SlideToGenerate.cs" />
     <Compile Include="Entities\StepContext.cs" />
-    <Compile Include="Entities\MethodsArgs\ValidaSourceFilesInput.cs" />
+    <Compile Include="Entities\MethodsArgs\ValidateSourceFilesInput.cs" />
     <Compile Include="Enums\LayoutTypes.cs" />
     <Compile Include="Enums\ValueHeaders.cs" />
     <Compile Include="Steps\BuildPresentation\Step_AggiornaDataSource.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesPowerPoint.cs" />
     <Compile Include="Steps\Step_EsitoFinaleSuccess.cs" />
     <Compile Include="Steps\Step_Start_FileDebugHelper.cs" />
-    <Compile Include="Entities\MethodsArgs\ValidaSourceFilesOutput.cs" />
+    <Compile Include="Entities\MethodsArgs\ValidateSourceFilesOutput.cs" />
     <Compile Include="Steps\ValidateSourceFiles\Step_Lettura_Applicablefilters.cs" />
     <Compile Include="Steps\Step_Lettura_SildeToGenerate.cs" />
     <Compile Include="Steps\ValidateSourceFiles\Step_ValidazioniPreliminari_InputFiles.cs" />

@@ -3,14 +3,14 @@ using System;
 
 namespace FilesEditor.Entities
 {
-    public class ValidaSourceFilesInput : UserInterfaceInputBase
+    public class ValidateSourceFilesInput : UserInterfaceInputBase
     {
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }
         public string FileRunRatePath { get; private set; }
 
-        public ValidaSourceFilesInput(
+        public ValidateSourceFilesInput(
                 string sourceFilesFolderPath,
                 string destinationFolder,
                 string tmpFolder,

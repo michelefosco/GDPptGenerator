@@ -13,7 +13,6 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.SettaEsitoFinale(EsitiFinali.Success);
             return EsitiFinali.Success;
         }
     }

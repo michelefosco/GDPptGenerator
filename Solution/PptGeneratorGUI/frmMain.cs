@@ -697,8 +697,8 @@ th, td {{
             //{
             //    try
             //    {
-            //        var input = e.Argument as ValidaSourceFilesInput;
-            //        var output = Editor.ValidaSourceFiles(input);
+            //        var input = e.Argument as ValidateSourceFilesInput;
+            //        var output = Editor.ValidateSourceFiles(input);
             //        e.Result = new object[] { input, output };
             //    }
             //    //catch (ManagedException mEx)
@@ -720,8 +720,8 @@ th, td {{
             //    try
             //    {
             //        var outputAndInput = e.Result as object[];
-            //        var input = outputAndInput[0] as ValidaSourceFilesInput;
-            //        var output = outputAndInput[1] as ValidaSourceFilesOutput;
+            //        var input = outputAndInput[0] as ValidateSourceFilesInput;
+            //        var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
             //        btnNext.Enabled = true;
 
@@ -756,7 +756,7 @@ th, td {{
             //toolStripProgressBar.Visible = true;
 
             // input per la chiamata al backend
-            var validaSourceFilesInput = new ValidaSourceFilesInput(
+            var validateSourceFilesInput = new ValidateSourceFilesInput(
                     // proprietà classe base
                     destinationFolder: SelectedDestinationFolderPath,
                     tmpFolder: TmpFolder,
@@ -769,7 +769,7 @@ th, td {{
                     fileRunRatePath: SelectedFileRunRatePath);
             try
             {
-                validaInputBackgroundWorker.RunWorkerAsync(validaSourceFilesInput);
+                validaInputBackgroundWorker.RunWorkerAsync(validateSourceFilesInput);
             }
             catch (Exception ex)
             {
@@ -779,16 +779,16 @@ th, td {{
 
         private void validaInputBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var input = e.Argument as ValidaSourceFilesInput;
-            var output = Editor.ValidaSourceFiles(input);
+            var input = e.Argument as ValidateSourceFilesInput;
+            var output = Editor.ValidateSourceFiles(input);
             e.Result = new object[] { input, output };
         }
 
         private void validaInputBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             var outputAndInput = e.Result as object[];
-            var input = outputAndInput[0] as ValidaSourceFilesInput;
-            var output = outputAndInput[1] as ValidaSourceFilesOutput;
+            var input = outputAndInput[0] as ValidateSourceFilesInput;
+            var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
             if (output.Esito == EsitiFinali.Success)
             {
@@ -902,13 +902,6 @@ th, td {{
                     btnBuildPresentation.Enabled = false;
                     //btnBuildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
                     buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
-                }
-                catch (ManagedException mEx)
-                {
-                    SetStatusLabel("Elaborazione terminata con errori");
-
-                    SetOutputMessage(mEx);
-                    btnCopyError.Visible = true;
                 }
                 catch (Exception ex)
                 {

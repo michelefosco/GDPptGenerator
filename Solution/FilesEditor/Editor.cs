@@ -1,6 +1,4 @@
-﻿using EPPlusExtensions;
-using FilesEditor.Constants;
-using FilesEditor.Entities;
+﻿using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
@@ -10,8 +8,6 @@ using FilesEditor.Steps.BuildPresentation;
 using FilesEditor.Steps.ValidateSourceFiles;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace FilesEditor
 {
@@ -48,6 +44,7 @@ namespace FilesEditor
                     new Step_EsitoFinaleSuccess(context)
                  };
                 var esitoFinale = runStepSequence(stepsSequence, context);
+                context.SettaEsitoFinale(esitoFinale);
                 return new BuildPresentationOutput(context);
             }
             catch (ManagedException managedException)
@@ -76,26 +73,26 @@ namespace FilesEditor
         #endregion
 
 
-        #region ValidaSourceFiles
-        public static ValidaSourceFilesOutput ValidaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput)
+        #region ValidateSourceFiles
+        public static ValidateSourceFilesOutput ValidateSourceFiles(ValidateSourceFilesInput validateSourceFilesInput)
         {
             var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
-            return validaSourceFiles(validaSourceFilesInput, configurazione);
+            return validateSourceFiles(validateSourceFilesInput, configurazione);
         }
 
-        public static ValidaSourceFilesOutput ValidaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
+        public static ValidateSourceFilesOutput ValidateSourceFiles(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         {
             if (configurazione == null)
             { throw new ArgumentNullException(nameof(configurazione)); }
-            return validaSourceFiles(validaSourceFilesInput, configurazione);
+            return validateSourceFiles(validateSourceFilesInput, configurazione);
         }
 
-        private static ValidaSourceFilesOutput validaSourceFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
+        private static ValidateSourceFilesOutput validateSourceFiles(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         {
             try
             {
                 var context = new StepContext(configurazione);
-                context.SetContextFromInput(validaSourceFilesInput);
+                context.SetContextFromInput(validateSourceFilesInput);
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_DebugInfoLogger(context),
@@ -105,11 +102,12 @@ namespace FilesEditor
                     new Step_EsitoFinaleSuccess(context)
                  };
                 var esitoFinale = runStepSequence(stepsSequence, context);
-                return new ValidaSourceFilesOutput(context);
+                context.SettaEsitoFinale(esitoFinale);
+                return new ValidateSourceFilesOutput(context);
             }
             catch (ManagedException managedException)
             {
-                return new ValidaSourceFilesOutput(managedException);
+                return new ValidateSourceFilesOutput(managedException);
             }
             catch (Exception ex)
             {
@@ -126,7 +124,7 @@ namespace FilesEditor
                 //    errorType: ErrorTypes.UnhandledException,
                 //    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
                 //    );
-                return new ValidaSourceFilesOutput(new ManagedException(ex));
+                return new ValidateSourceFilesOutput(new ManagedException(ex));
             }
         }
         #endregion
@@ -145,12 +143,12 @@ namespace FilesEditor
         }
 
         //#region Validazioni preliminari sui file di input
-        //private static void validazioniPreliminari_InputFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
+        //private static void validazioniPreliminari_InputFiles(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         //{
-        //    validazioniPreliminari_InputFiles_SuperDettagli(validaSourceFilesInput.FileSuperDettagliPath, configurazione);
-        //    validazioniPreliminari_InputFiles_Budget(validaSourceFilesInput.FileBudgetPath, configurazione);
-        //    validazioniPreliminari_InputFiles_Forecast(validaSourceFilesInput.FileForecastPath, configurazione);
-        //    validazioniPreliminari_InputFiles_RunRate(validaSourceFilesInput.FileRunRatePath, configurazione);
+        //    validazioniPreliminari_InputFiles_SuperDettagli(validateSourceFilesInput.FileSuperDettagliPath, configurazione);
+        //    validazioniPreliminari_InputFiles_Budget(validateSourceFilesInput.FileBudgetPath, configurazione);
+        //    validazioniPreliminari_InputFiles_Forecast(validateSourceFilesInput.FileForecastPath, configurazione);
+        //    validazioniPreliminari_InputFiles_RunRate(validateSourceFilesInput.FileRunRatePath, configurazione);
         //}
         //private static void validazioniPreliminari_InputFiles_SuperDettagli(string filePath, Configurazione configurazione)
         //{
@@ -205,16 +203,16 @@ namespace FilesEditor
 
 
         //#region Lettura da DataSource_Template
-        //private static UserOptions getUserOptions(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
+        //private static UserOptions getUserOptions(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         //{
-        //    var dataSourceTemplateFile = Path.Combine(validaSourceFilesInput.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+        //    var dataSourceTemplateFile = Path.Combine(validateSourceFilesInput.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
         //    var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
         //    var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
         //    ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
 
         //    // Validazione dei filtri applicabili e lettura dei loro potenziali valori
         //    var applicableFilters = getApplicableFilters(ePPlusHelper, configurazione);
-        //    fillApplicableFiltersWithValues(applicableFilters, validaSourceFilesInput, configurazione);
+        //    fillApplicableFiltersWithValues(applicableFilters, validateSourceFilesInput, configurazione);
 
         //    var slidesToGenerate = getSildeToGenerate(ePPlusHelper, configurazione);
 
@@ -261,7 +259,7 @@ namespace FilesEditor
         //    return filtriPossibili;
         //}
 
-        //private static void fillApplicableFiltersWithValues(List<InputDataFilters_Items> applicablefilters, ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)
+        //private static void fillApplicableFiltersWithValues(List<InputDataFilters_Items> applicablefilters, ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         //{
         //    foreach (var applicablefilter in applicablefilters)
         //    {
@@ -270,7 +268,7 @@ namespace FilesEditor
 
         //            case InputDataFilters_Tables.SUPERDETTAGLI:
         //                applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
-        //                        filePath: validaSourceFilesInput.FileSuperDettagliPath,
+        //                        filePath: validateSourceFilesInput.FileSuperDettagliPath,
         //                        worksheetName: WorksheetNames.SUPERDETTAGLI_DATA,
         //                        fileType: FileTypes.SuperDettagli,
         //                        headersRow: configurazione.SUPERDETTAGLI_HEADERS_ROW,
@@ -278,7 +276,7 @@ namespace FilesEditor
         //                break;
         //            case InputDataFilters_Tables.FORECAST:
         //                applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
-        //                        filePath: validaSourceFilesInput.FileForecastPath,
+        //                        filePath: validateSourceFilesInput.FileForecastPath,
         //                        worksheetName: WorksheetNames.FORECAST_DATA,
         //                        fileType: FileTypes.Forecast,
         //                        headersRow: configurazione.FORECAST_HEADERS_ROW,
@@ -286,7 +284,7 @@ namespace FilesEditor
         //                break;
         //            case InputDataFilters_Tables.BUDGET:
         //                applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
-        //                        filePath: validaSourceFilesInput.FileBudgetPath,
+        //                        filePath: validateSourceFilesInput.FileBudgetPath,
         //                        worksheetName: WorksheetNames.BUDGET_DATA,
         //                        fileType: FileTypes.Budget,
         //                        headersRow: configurazione.BUDGET_HEADERS_ROW,
@@ -294,7 +292,7 @@ namespace FilesEditor
         //                break;
         //            case InputDataFilters_Tables.RUNRATE:
         //                applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
-        //                        filePath: validaSourceFilesInput.FileRunRatePath,
+        //                        filePath: validateSourceFilesInput.FileRunRatePath,
         //                        worksheetName: WorksheetNames.RUN_RATE_DATA,
         //                        fileType: FileTypes.RunRate,
         //                        headersRow: configurazione.RUNRATE_HEADERS_ROW,
