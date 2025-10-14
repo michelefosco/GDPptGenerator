@@ -2,6 +2,7 @@
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,25 @@ namespace FilesEditor.Steps
     {
         internal StepContext Context;
 
-        internal void AddWarning(string warningMessage)
+        internal StepBase(StepContext context)
         {
-            //Context.UpdateReportsOutput.Warnings.Add(warningMessage);
-            //Context.FileDebugHelper?.LogWarning(warningMessage);
+            Context = context;
         }
 
+        internal abstract EsitiFinali DoSpecificTask();
+
+        internal EsitiFinali Do()
+        {
+            return DoSpecificTask();
+        }
+
+
+        #region Utilities
+        internal void AddWarning(string warningMessage)
+        {
+            Context.Warnings.Add(warningMessage);
+            Context.DebugInfoLogger?.LogWarning(warningMessage);
+        }
 
         /// <summary>
         /// Get all files matching the criteria
@@ -35,15 +49,12 @@ namespace FilesEditor.Steps
                     .Where(_ => !Path.GetFileName(_).StartsWith("~$")).ToList();
             return filePaths;
         }
-
-        #region Utilities
         internal string GetImagePath(string imageId)
         {
             //todo: rivedere questo metodo. non può dipendere dal context
             var imagePath = $"{Context.TmpFolder}\\{imageId}.png";
             return imagePath;
         }
-
         internal static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)
         {
             return (obj1 == null && obj2 == null && obj3 == null && obj4 == null && obj5 == null && obj6 == null);

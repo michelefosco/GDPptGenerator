@@ -2,9 +2,11 @@
 {
     public enum EsitiFinali
     {
-        Undefined,
-        Failure,
-        //DatiMancanti,
-        Success,
+        Undefined = 0,
+        
+        Failure = 10,        
+        DatiMancanti = 11,
+
+        Success = 100,
     }
 }

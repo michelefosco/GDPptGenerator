@@ -147,11 +147,9 @@
     <Compile Include="Entities\SlideToGenerate.cs" />
     <Compile Include="Entities\StepContext.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesInput.cs" />
-    <Compile Include="Entities\UserOptions.cs" />
     <Compile Include="Enums\LayoutTypes.cs" />
     <Compile Include="Enums\ValueHeaders.cs" />
     <Compile Include="Steps\BuildPresentation\Step_AggiornaDataSource.cs" />
-    <Compile Include="Steps\BuildPresentation\BuildPresentation_StepBase.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationInput.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationOutput.cs" />
     <Compile Include="Enums\ColumnIDS.cs" />
@@ -167,14 +165,12 @@
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmagini.cs" />
     <Compile Include="Steps\BuildPresentation\Step_PredisponiTmpFolder.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesPowerPoint.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_EsitoFinaleSuccess.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_Start_FileDebugHelper.cs" />
+    <Compile Include="Steps\Step_EsitoFinaleSuccess.cs" />
+    <Compile Include="Steps\Step_Start_FileDebugHelper.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesOutput.cs" />
-    <Compile Include="Steps\ValidateSourceFiles\Step_EsitoFinaleSuccess.cs" />
-    <Compile Include="Steps\ValidateSourceFiles\Step_Start_FileDebugHelper.cs" />
-    <Compile Include="Steps\ValidateSourceFiles\Step_LetturaUserOptions.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\Step_Lettura_Applicablefilters.cs" />
+    <Compile Include="Steps\Step_Lettura_SildeToGenerate.cs" />
     <Compile Include="Steps\ValidateSourceFiles\Step_ValidazioniPreliminari_InputFiles.cs" />
-    <Compile Include="Steps\ValidateSourceFiles\ValidaSourceFiles_StepBase.cs" />
     <Compile Include="Steps\StepBase.cs" />
   </ItemGroup>
   <ItemGroup>

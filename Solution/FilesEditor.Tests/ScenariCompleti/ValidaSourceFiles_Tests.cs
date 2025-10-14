@@ -47,12 +47,10 @@ namespace FilesEditor.Tests
             Assert.IsNull(output.ManagedException);
 
             // test specifici dell'oggetto di output
-            Assert.IsNotNull(output.UserOptions);
-            //
-            Assert.IsNotNull(output.UserOptions.Applicablefilters);
-            Assert.AreEqual(8, output.UserOptions.Applicablefilters.Count);
+            Assert.IsNotNull(output.Applicablefilters);
+            Assert.AreEqual(8, output.Applicablefilters.Count);
 
-            foreach (var filter in output.UserOptions.Applicablefilters)
+            foreach (var filter in output.Applicablefilters)
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(filter.FieldName));
                 Assert.IsNotNull(filter.Values);
@@ -61,11 +59,8 @@ namespace FilesEditor.Tests
             }
 
             // 
-            Assert.AreEqual(1, output.UserOptions.Applicablefilters[0].Values.Count);
-            Assert.AreEqual("K", output.UserOptions.Applicablefilters[0].Values[0]);           
-            //
-            Assert.IsNotNull(output.UserOptions.SildeToGenerate);
-            Assert.AreEqual(18, output.UserOptions.SildeToGenerate.Count);
+            Assert.AreEqual(1, output.Applicablefilters[0].Values.Count);
+            Assert.AreEqual("K", output.Applicablefilters[0].Values[0]);           
         }
     }
 }

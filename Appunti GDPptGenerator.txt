@@ -19,7 +19,9 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 
 -------------------- Todo
-- Trasformare ValidateInput in steps 
+- form interfaccia per Scelta filtri
+- Eliminare Try catch superflui per lasciare passare l'eccezione in un unico punto (    abstract public class BuildPresentation_StepBase : StepBase)
+
 - ValidaSourceFiles --> VaòodateSourceFiles
 - Lettura della lista di slided da stampare dal file excel anche per la stampa delle presentazione
 - Mandare prima versione per test UI

@@ -3,6 +3,7 @@ using Aspose.Cells.Drawing;
 using Aspose.Cells.Rendering;
 using FilesEditor.Entities;
 using FilesEditor.Entities.MethodsArgs;
+using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,15 +12,15 @@ using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesImmagini : BuildPresentation_StepBase
+    internal class Step_CreaFilesImmagini:StepBase
     {
         public Step_CreaFilesImmagini(StepContext context) : base(context)
         { }
 
-        internal override BuildPresentationOutput DoSpecificTask()
+        internal override EsitiFinali DoSpecificTask()
         {
             creaFilesImmagini();
-            return null; // Step intermedio, non ritorna alcun esito
+            return EsitiFinali.Undefined;
         }
 
         private void creaFilesImmagini()

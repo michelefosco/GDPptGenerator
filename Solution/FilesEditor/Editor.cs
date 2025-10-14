@@ -5,6 +5,7 @@ using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
+using FilesEditor.Steps;
 using FilesEditor.Steps.BuildPresentation;
 using FilesEditor.Steps.ValidateSourceFiles;
 using System;
@@ -36,16 +37,18 @@ namespace FilesEditor
             {
                 var context = new StepContext(configurazione);
                 context.SetContextFromInput(buildPresentationInput);
-                var stepsSequence = new List<BuildPresentation_StepBase>
+                var stepsSequence = new List<StepBase>
                 {
                     new Step_PredisponiTmpFolder(context),
-                    new Steps.BuildPresentation.Step_Start_FileDebugHelper(context),
+                    new Step_Start_DebugInfoLogger(context),
+                    new Step_Lettura_SildeToGenerate(context),
                     new Step_AggiornaDataSource(context),
                     new Step_CreaFilesImmagini(context),
                     new Step_CreaFilesPowerPoint(context),
-                    new Steps.BuildPresentation.Step_EsitoFinaleSuccess(context),
+                    new Step_EsitoFinaleSuccess(context)
                  };
-                return buildPresentationRunStepSequence(stepsSequence, context);
+                var esitoFinale = runStepSequence(stepsSequence, context);
+                return new BuildPresentationOutput(context);
             }
             catch (ManagedException managedException)
             {
@@ -53,34 +56,22 @@ namespace FilesEditor
             }
             catch (Exception ex)
             {
-                var managedException = new ManagedException(
-                    filePath: null,
-                    fileType: FileTypes.None,
-                    //
-                    worksheetName: null,
-                    cellRow: null,
-                    cellColumn: null,
-                    valueHeader: ValueHeaders.None,
-                    value: null,
-                    //
-                    errorType: ErrorTypes.UnhandledException,
-                    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
-                    );
-                return new BuildPresentationOutput(managedException);
+                //var managedException = new ManagedException(
+                //    filePath: null,
+                //    fileType: FileTypes.None,
+                //    //
+                //    worksheetName: null,
+                //    cellRow: null,
+                //    cellColumn: null,
+                //    valueHeader: ValueHeaders.None,
+                //    value: null,
+                //    //
+                //    errorType: ErrorTypes.UnhandledException,
+                //    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
+                //    );
+                //return new BuildPresentationOutput(managedException);
+                return new BuildPresentationOutput(new ManagedException(ex));
             }
-        }
-
-        private static BuildPresentationOutput buildPresentationRunStepSequence(List<BuildPresentation_StepBase> stepsSequence, StepContext context)
-        {
-            foreach (var step in stepsSequence)
-            {
-                var stepResult = step.Do();
-
-                if (stepResult != null)
-                { return stepResult; }
-            }
-
-            throw new Exception("The execution ended in an unexpected way.");
         }
         #endregion
 
@@ -105,26 +96,16 @@ namespace FilesEditor
             {
                 var context = new StepContext(configurazione);
                 context.SetContextFromInput(validaSourceFilesInput);
-                var stepsSequence = new List<ValidateSourceFiles_StepBase>
+                var stepsSequence = new List<StepBase>
                 {
-                    new Steps.ValidateSourceFiles.Step_Start_FileDebugHelper(context),
+                    new Step_Start_DebugInfoLogger(context),
                     new Step_ValidazioniPreliminari_InputFiles(context),
-                    new Step_LetturaUserOptions(context),
-                    new Steps.ValidateSourceFiles.Step_EsitoFinaleSuccess(context),
+                    new Step_Lettura_Applicablefilters(context),
+                    new Step_Lettura_SildeToGenerate(context),
+                    new Step_EsitoFinaleSuccess(context)
                  };
-                return validateSourceFilesRunStepSequence(stepsSequence, context);
-
-                //// Validazioni preliminari sui file di input
-                //validazioniPreliminari_InputFiles(validaSourceFilesInput, configurazione);
-
-                //// Lettura Opzione dal datasource
-                //var userOptions = getUserOptions(validaSourceFilesInput, configurazione);
-
-                //var outout = new ValidaSourceFilesOutput(context)
-                //{
-                //    UserOptions = userOptions,
-                //};
-                //return outout;
+                var esitoFinale = runStepSequence(stepsSequence, context);
+                return new ValidaSourceFilesOutput(context);
             }
             catch (ManagedException managedException)
             {
@@ -132,38 +113,36 @@ namespace FilesEditor
             }
             catch (Exception ex)
             {
-                var managedException = new ManagedException(
-                    filePath: null,
-                    fileType: FileTypes.None,
-                    //
-                    worksheetName: null,
-                    cellRow: null,
-                    cellColumn: null,
-                    valueHeader: ValueHeaders.None,
-                    value: null,
-                    //
-                    errorType: ErrorTypes.UnhandledException,
-                    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
-                    );
-                return new ValidaSourceFilesOutput(managedException);
+                //var managedException = new ManagedException(
+                //    filePath: null,
+                //    fileType: FileTypes.None,
+                //    //
+                //    worksheetName: null,
+                //    cellRow: null,
+                //    cellColumn: null,
+                //    valueHeader: ValueHeaders.None,
+                //    value: null,
+                //    //
+                //    errorType: ErrorTypes.UnhandledException,
+                //    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
+                //    );
+                return new ValidaSourceFilesOutput(new ManagedException(ex));
             }
         }
+        #endregion
 
-        private static ValidaSourceFilesOutput validateSourceFilesRunStepSequence(List<ValidateSourceFiles_StepBase> stepsSequence, StepContext context)
+        private static EsitiFinali runStepSequence(List<StepBase> stepsSequence, StepContext context)
         {
             foreach (var step in stepsSequence)
             {
-                var stepResult = step.Do();
+                var esitoStep = step.Do();
 
-                if (stepResult != null)
-                { return stepResult; }
+                if (esitoStep != EsitiFinali.Undefined)
+                { return esitoStep; }
             }
 
             throw new Exception("The execution ended in an unexpected way.");
         }
-        #endregion
-
-
 
         //#region Validazioni preliminari sui file di input
         //private static void validazioniPreliminari_InputFiles(ValidaSourceFilesInput validaSourceFilesInput, Configurazione configurazione)

@@ -1,4 +1,5 @@
 ﻿using FilesEditor.Entities.Exceptions;
+using System.Collections.Generic;
 
 namespace FilesEditor.Entities.MethodsArgs
 {
@@ -6,12 +7,13 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public ValidaSourceFilesOutput(StepContext context) : base(context.Esito)
         {
-            UserOptions = context.UserOptions;
+            Applicablefilters = context.Applicablefilters;
         }
 
         public ValidaSourceFilesOutput(ManagedException managedException) : base(managedException)
         { }
 
-        public UserOptions UserOptions;
+        //public UserOptions UserOptions;
+        public List<InputDataFilters_Items> Applicablefilters;
     }
 }

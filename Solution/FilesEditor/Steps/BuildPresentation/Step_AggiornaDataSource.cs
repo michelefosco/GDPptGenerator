@@ -1,18 +1,19 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Entities.MethodsArgs;
+using FilesEditor.Enums;
 using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_AggiornaDataSource : BuildPresentation_StepBase
+    internal class Step_AggiornaDataSource :StepBase
     {
         public Step_AggiornaDataSource(StepContext context) : base(context)
         { }
 
-        internal override BuildPresentationOutput DoSpecificTask()
+        internal override EsitiFinali DoSpecificTask()
         {
             aggiornaDataSource();
-            return null; // Step intermedio, non ritorna alcun esito
+            return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
         private void aggiornaDataSource()

@@ -24,7 +24,7 @@ namespace PptGeneratorGUI
 
        // private string _debugFileName;
         private DateTime _selectedDatePeriodo;
-        private List<InputDataFilters_Items> _fieldFilters;
+        private List<InputDataFilters_Items> _applicablefilters;
 
         private bool _inputValidato = false;
 
@@ -780,8 +780,8 @@ th, td {{
                 SetStatusLabel("Elaborazione terminata con successo");
                 //todo valida input
                 _inputValidato = true;
-                _fieldFilters = output.UserOptions.Applicablefilters;
-                BuildFiltersArea(_fieldFilters);
+                _applicablefilters = output.Applicablefilters;
+                BuildFiltersArea(_applicablefilters);
             }
             else
             {

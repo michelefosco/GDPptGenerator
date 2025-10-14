@@ -4,9 +4,10 @@ using FilesEditor.Enums;
 using FilesEditor.Entities;
 using System.Collections.Generic;
 using System.IO;
+using System;
 namespace FilesEditor.Helpers
 {
-    public class FileDebugHelper
+    public class DebugInfoLogger
     {
         private class WorkSheetNames
         {
@@ -39,7 +40,7 @@ namespace FilesEditor.Helpers
         private readonly EPPlusHelper _epPlusHelper;
         private readonly bool _autoSave;
 
-        internal FileDebugHelper(string filePath, bool autoSave = false)
+        internal DebugInfoLogger(string filePath, bool autoSave = false)
         {
             if (string.IsNullOrWhiteSpace(filePath))
                 return;
@@ -794,6 +795,12 @@ namespace FilesEditor.Helpers
             {
                 _epPlusHelper.Save();
             }
+        }
+
+        internal void LogWarning(string warningMessage)
+        {
+            //todo: prendere dall'altro helper
+            throw new NotImplementedException();
         }
     }
 }

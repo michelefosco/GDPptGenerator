@@ -1,4 +1,5 @@
-﻿using EPPlusExtensions;
+﻿using DocumentFormat.OpenXml.Presentation;
+using EPPlusExtensions;
 using FilesEditor.Constants;
 using FilesEditor.Enums;
 using System;
@@ -87,6 +88,24 @@ namespace FilesEditor.Entities.Exceptions
             }
 
             return _userMessage;
+        }
+
+
+        public ManagedException(Exception ex)
+        {
+            var managedException = new ManagedException(
+                    filePath: null,
+                    fileType: FileTypes.None,
+                    //
+                    worksheetName: null,
+                    cellRow: null,
+                    cellColumn: null,
+                    valueHeader: ValueHeaders.None,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.UnhandledException,
+                    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
+                    );
         }
 
 

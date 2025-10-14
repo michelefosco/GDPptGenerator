@@ -10,15 +10,15 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesPowerPoint : BuildPresentation_StepBase
+    internal class Step_CreaFilesPowerPoint : StepBase
     {
         public Step_CreaFilesPowerPoint(StepContext context) : base(context)
         { }
 
-        internal override BuildPresentationOutput DoSpecificTask()
+        internal override EsitiFinali DoSpecificTask()
         {
             creazionePowerPoint();
-            return null; // Step intermedio, non ritorna alcun esito
+            return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
         const int NumberOfTemplateSlides = 1;
@@ -121,8 +121,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
                             case 3:
                                 throw new NotImplementedException("Caso con 3 immagini per slide in orizontale non ancora gestito");
-                                break;
-
+                                
                             default:
                                 throw new ArgumentOutOfRangeException("Numero di immagini per slide non gestito");
                         }

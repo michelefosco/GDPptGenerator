@@ -9,15 +9,15 @@ namespace FilesEditor.Steps.ValidateSourceFiles
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_ValidazioniPreliminari_InputFiles : ValidateSourceFiles_StepBase
+    internal class Step_ValidazioniPreliminari_InputFiles : StepBase
     {
         public Step_ValidazioniPreliminari_InputFiles(StepContext context) : base(context)
         { }
 
-        internal override ValidaSourceFilesOutput DoSpecificTask()
+        internal override EsitiFinali DoSpecificTask()
         {
             validazioniPreliminari_InputFiles();
-            return null; // Step intermedio, non ritorna alcun esito
+            return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
 
