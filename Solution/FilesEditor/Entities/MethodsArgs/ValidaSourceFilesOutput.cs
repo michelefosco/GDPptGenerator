@@ -14,6 +14,6 @@ namespace FilesEditor.Entities.MethodsArgs
         { }
 
         //public UserOptions UserOptions;
-        public List<InputDataFilters_Items> Applicablefilters;
+        public List<InputDataFilters_Item> Applicablefilters;
     }
 }

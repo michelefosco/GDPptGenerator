@@ -16,7 +16,7 @@ namespace PptGeneratorGUI
 
             try
             {
-                Application.Run(new MainForm());
+                Application.Run(new frmMain());
             }
             catch (Exception ex)
             {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
-    public class InputDataFilters_Items
+    public class InputDataFilters_Item
     {
         public InputDataFilters_Tables Table { get; set; }
         public string FieldName { get; set; }

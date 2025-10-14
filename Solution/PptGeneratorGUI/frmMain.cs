@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using FilesEditor;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Remoting.Messaging;
@@ -19,12 +21,12 @@ using System.Windows.Forms;
 
 namespace PptGeneratorGUI
 {
-    public partial class MainForm : Form
+    public partial class frmMain : Form
     {
 
        // private string _debugFileName;
         private DateTime _selectedDatePeriodo;
-        private List<InputDataFilters_Items> _applicablefilters;
+        private List<InputDataFilters_Item> _applicablefilters;
 
         private bool _inputValidato = false;
 
@@ -162,7 +164,7 @@ th, td {{
 
         #endregion
 
-        public MainForm()
+        public frmMain()
         {
             InitializeComponent();
 
@@ -245,35 +247,49 @@ th, td {{
             }
         }
 
-        private void BuildFiltersArea(List<InputDataFilters_Items> filtriPossibili)
+        private void BuildFiltersArea()
         {
             dgvFiltri.Rows.Clear();
 
-            foreach (var filtro in filtriPossibili)
+            foreach (var filtro in _applicablefilters)
             {
                 int rowIndex = dgvFiltri.Rows.Add();
                 dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Table}";
-
                 dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.FieldName}";
-
                 dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
-
-                var textFiltriSelezionati = (filtro.SelectedValues.Count == 0)
-                        ? FilesEditor.Constants.Values.ALLFILTERSAPPLIED
-                        : string.Join("; ", filtro.SelectedValues);
-                dgvFiltri.Rows[rowIndex].Cells[3].Value = textFiltriSelezionati;
+                dgvFiltri.Rows[rowIndex].Cells[3].Value = getTextForSelectedValueIntoTheFilter(filtro);
             }
 
             dgvFiltri.CellContentClick += (s, e) =>
             {
                 if (e.ColumnIndex == dgvFiltri.Columns["OpenFiltersSelection"].Index && e.RowIndex >= 0)
                 {
-                    //todo aprire form di selezione 
-                    string tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
-                    string campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
-                    MessageBox.Show($"Hai cliccato sul pulsante della riga: {tabella}-{campo}");
+                    // to prevent extra events during the selection of filters
+                    dgvFiltri.Enabled = false;
+                    var frmSelectFilters = new frmSelectFilters();
+
+                    // assegno il filtro da modificare
+                    var tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
+                    var campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();                 
+                    frmSelectFilters.FilterToManage = _applicablefilters.First(_ => _.Table.ToString() == tabella && _.FieldName == campo);
+
+                    // apro il form di selezione
+                    frmSelectFilters.ShowDialog();
+
+                    // refresh dei valori selezionati
+                    dgvFiltri.Rows[e.RowIndex].Cells[3].Value = getTextForSelectedValueIntoTheFilter(frmSelectFilters.FilterToManage);
+
+                    // riabilito la griglia
+                    dgvFiltri.Enabled = true;
                 }
             };
+
+            string getTextForSelectedValueIntoTheFilter(InputDataFilters_Item filter)
+            {
+                return (filter.SelectedValues.Count == 0)
+                        ? FilesEditor.Constants.Values.ALLFILTERSAPPLIED
+                        : string.Join("; ", filter.SelectedValues);
+            }
         }
 
 
@@ -393,7 +409,6 @@ th, td {{
             return isValid;
         }
         #endregion
-
 
 
         private bool IsDebugModeEnabled()
@@ -781,7 +796,7 @@ th, td {{
                 //todo valida input
                 _inputValidato = true;
                 _applicablefilters = output.Applicablefilters;
-                BuildFiltersArea(_applicablefilters);
+                BuildFiltersArea();
             }
             else
             {
@@ -1383,5 +1398,7 @@ th, td {{
         }
 
         #endregion
+
+
     }
 }

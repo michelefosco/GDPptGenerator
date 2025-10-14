@@ -15,7 +15,7 @@ namespace FilesEditor.Entities
         //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         //
         public string OutputDataSourceFilePath;
-        public List<InputDataFilters_Items> Applicablefilters = new List<InputDataFilters_Items>();
+        public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
         public List<SlideToGenerate> SildeToGenerate = new List<SlideToGenerate>();
 
         public EsitiFinali Esito { get; private set; }

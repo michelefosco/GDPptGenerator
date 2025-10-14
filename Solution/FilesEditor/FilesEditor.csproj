@@ -138,7 +138,7 @@
     <Compile Include="Constants\WorkSheetNames.cs" />
     <Compile Include="Entities\Configurazione.cs" />
     <Compile Include="Entities\Exceptions\ManagedException.cs" />
-    <Compile Include="Entities\InputDataFilters_Items.cs" />
+    <Compile Include="Entities\InputDataFilters_Item.cs" />
     <Compile Include="Entities\MethodsArgs\UserInterfaceInputBase.cs" />
     <Compile Include="Enums\InputDataFilters_Tables.cs" />
     <Compile Include="Entities\ItemToExport.cs" />

@@ -39,10 +39,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         }
 
 
-        private  List<InputDataFilters_Items> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
+        private  List<InputDataFilters_Item> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
-            var filtriPossibili = new List<InputDataFilters_Items>();
+            var filtriPossibili = new List<InputDataFilters_Item>();
 
             var rigaCorrente = configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_FILTERS_FIRST_DATA_ROW;
             while (true)
@@ -57,7 +57,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     //todo: sollevare eccezione Managed
                     throw new Exception("Tipo tabella sconosciuto nella configurazione dei filtri");
                 }
-                filtriPossibili.Add(new InputDataFilters_Items
+                filtriPossibili.Add(new InputDataFilters_Item
                 {
                     Table = parsedTable,
                     FieldName = field,
@@ -72,7 +72,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             return filtriPossibili;
         }
 
-        private  void fillApplicableFiltersWithValues(List<InputDataFilters_Items> applicablefilters)
+        private  void fillApplicableFiltersWithValues(List<InputDataFilters_Item> applicablefilters)
         {
             foreach (var applicablefilter in applicablefilters)
             {
