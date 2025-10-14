@@ -26,7 +26,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private  void creaLista_Applicablefilters()
         {
-            var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+            var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);

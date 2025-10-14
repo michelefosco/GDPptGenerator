@@ -174,7 +174,7 @@ th, td {{
 
             SetDefaultDatePeriodo();
 
-            lblVersion.Text = $"Versione: {GetVersion()}";
+            lblVersion.Text = $"Version: {GetVersion()}";
         }
 
         private void SetDefaultsFor_ReplaceAll_CheckBoxes()
@@ -233,8 +233,8 @@ th, td {{
                 gbOptions.Enabled = _inputValidato;
 
                 //todo:
-                toolTipDefault.SetToolTip(btnBuildPresentation, "Avvia l'elaborazione del report");
-                SetStatusLabel("File di input e cartella di destinazione selezionati, è possibile avviare l'elaborazione");
+                toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
+                SetStatusLabel("Select input file and destination folder, you can start processing");
             }
             else
             {
@@ -790,11 +790,10 @@ th, td {{
             var input = outputAndInput[0] as ValidateSourceFilesInput;
             var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
-            if (output.Esito == EsitiFinali.Success)
+            _inputValidato = (output.Esito == EsitiFinali.Success);
+            if (_inputValidato)
             {
                 SetStatusLabel("Processing completed successfully");
-                //todo valida input
-                _inputValidato = true;
                 _applicablefilters = output.Applicablefilters;
                 BuildFiltersArea();
             }
@@ -803,8 +802,6 @@ th, td {{
                 SetStatusLabel("Processing completed with errors");
                 SetOutputMessage(output.ManagedException);
                 btnCopyError.Visible = true;
-                //todo valida input
-                _inputValidato = false;
             }
 
             RefreshUI(resetInputValidato: false);
@@ -880,8 +877,7 @@ th, td {{
                 cmbDestinationFolderPath.SelectedIndex = 0;
 
                 //Esecuzione Refresher
-                SetStatusLabel("Elaborazione in corso...");
-
+                SetStatusLabel("Processing in progress...");
 
                 toolStripProgressBar.Visible = true;
                 btnBuildPresentation.Enabled = false;
@@ -909,7 +905,7 @@ th, td {{
             }
             else
             {
-                MessageBox.Show("Selezionare i file di input e la cartella di destinazione", "File di input o cartella di destinazione non validi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Select input files and destination folder", "Invalid input file or destination folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1322,7 +1318,7 @@ th, td {{
 
         private string GetInvisibleErrorDetails(Exception ex)
         {
-            return GetInvisibleSPAN(StringToHTML($"Versione: {GetVersion()}\r\nErrore completo:\r\n{ex}"));
+            return GetInvisibleSPAN(StringToHTML($"Version: {GetVersion()}\r\nFull error:\r\n{ex}"));
         }
 
         private string GetInvisibleSPAN(string innerHtml)
@@ -1333,7 +1329,7 @@ th, td {{
         private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Windows.Forms.Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
-            MessageBox.Show("Errore copiato negli appunti", "Errore copiato negli appunti", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Error copied to clipboard", "Error copied to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnClear_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

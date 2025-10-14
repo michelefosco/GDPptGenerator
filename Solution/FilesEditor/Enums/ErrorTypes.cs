@@ -6,11 +6,18 @@ namespace FilesEditor.Enums
     {
         None = 0,
 
-        [Description("Unable to open the file")]
+        [Description("Unable to open a file")]
         UnableToOpenFile,
 
-        [Description("Unable to delete the file")]
+        [Description("Unable to delete a file")]
         UnableToDeleteFile,
+
+        [Description("Unable to delete a folder")]
+        UnableToDeleteFolder,
+
+        [Description("Unable to create a folder")]
+        UnableToCreateFolder,
+
 
         [Description("An expected worksheet is missing")]
         MissingWorksheet,

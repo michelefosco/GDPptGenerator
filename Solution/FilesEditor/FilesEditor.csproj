@@ -149,7 +149,7 @@
     <Compile Include="Entities\MethodsArgs\ValidateSourceFilesInput.cs" />
     <Compile Include="Enums\LayoutTypes.cs" />
     <Compile Include="Enums\ValueHeaders.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_AggiornaDataSource.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_BackupFile_DataSource.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationInput.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationOutput.cs" />
     <Compile Include="Enums\ColumnIDS.cs" />

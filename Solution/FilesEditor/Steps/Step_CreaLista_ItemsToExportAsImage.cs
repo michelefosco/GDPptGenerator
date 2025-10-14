@@ -20,7 +20,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void creaListaImmaginiDaEsportare()
         {
-            var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+            var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_FILENAME);
             var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource);
 
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();

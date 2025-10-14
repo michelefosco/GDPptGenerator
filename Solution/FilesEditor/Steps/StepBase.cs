@@ -77,12 +77,40 @@ namespace FilesEditor.Steps
                         valueHeader: ValueHeaders.None,
                         value: null,
                         //
-                        errorType: ErrorTypes.UnableToDeleteFile,
-                        userMessage: string.Format(UserErrorMessages.UnableToDeleteFile, folderPath)
+                        errorType: ErrorTypes.UnableToDeleteFolder,
+                        userMessage: string.Format(UserErrorMessages.UnableToDeleteFolder, folderPath)
                         );
                 }
             }
         }
+
+        internal void CreaDirectorySeNonEsiste(string folderPath)
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                catch (Exception ex)
+                {
+                    throw new ManagedException(
+                        filePath: folderPath,
+                        fileType: FileTypes.Directory,
+                        //
+                        worksheetName: null,
+                        cellRow: null,
+                        cellColumn: null,
+                        valueHeader: ValueHeaders.None,
+                        value: null,
+                        //
+                        errorType: ErrorTypes.UnableToDeleteFile,
+                        userMessage: string.Format(UserErrorMessages.UnableToCreateFolder, folderPath)
+                        );
+                }
+            }
+        }
+
 
         internal void AddWarning(string warningMessage)
         {

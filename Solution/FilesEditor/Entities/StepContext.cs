@@ -8,25 +8,34 @@ namespace FilesEditor.Entities
 {
     public class StepContext : UserInterfaceInputBase
     {
+        //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         public EsitiFinali Esito { get; private set; }
         public Configurazione Configurazione;
         public DebugInfoLogger DebugInfoLogger = new DebugInfoLogger(null);
         public List<string> Warnings = new List<string>();
-        //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
-        public string OutputDataSourceFilePath;
-        public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
-        public List<SlideToGenerate> SildeToGenerate = new List<SlideToGenerate>();
-        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
-        public DateTime PeriodDate { get; private set; }
 
+        public string DataSourcePath;
+
+        public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
+
+        // presentazioni da generare
+        public List<SlideToGenerate> SildeToGenerate = new List<SlideToGenerate>();
         public List<ItemToExport> ItemsToExportAsImage = new List<ItemToExport>();
+        public List<string> OutputFilePathLists = new List<string>();
+
+        // Input
+        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
+        public DateTime PeriodDate { get; private set; }        
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }
         public string FileRunRatePath { get; private set; }
 
-        public List<string> OutputFilePathLists = new List<string>();
 
+
+        
+        
+        
         public StepContext(Configurazione configurazione)
         {
             Configurazione = configurazione;
