@@ -143,7 +143,7 @@
     <Compile Include="Enums\InputDataFilters_Tables.cs" />
     <Compile Include="Entities\ItemToExport.cs" />
     <Compile Include="Entities\MethodsArgs\UserInterfaceOutputBase.cs" />
-    <Compile Include="Entities\RigaSpeseSkippata.cs" />
+    <Compile Include="Entities\_RigaSpeseSkippata.cs" />
     <Compile Include="Entities\SlideToGenerate.cs" />
     <Compile Include="Entities\StepContext.cs" />
     <Compile Include="Entities\MethodsArgs\ValidaSourceFilesInput.cs" />

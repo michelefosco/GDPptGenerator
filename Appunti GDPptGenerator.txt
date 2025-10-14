@@ -11,7 +11,7 @@ File di input:
 
 -------------------- Domande per Francesco
 - Riusciamo a vincolare maggiormente il foglio Excel? Protezioni?
-
+- In interfaccia vuoi ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel
 
 
 -------------------- Info

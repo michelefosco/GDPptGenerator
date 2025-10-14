@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FilesEditor.Entities.MethodsArgs
 {
@@ -6,7 +7,7 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public bool ReplaceAllData_FileSuperDettagli { get; private set; }
         public DateTime PeriodDate { get; private set; }
-
+        public List<InputDataFilters_Item> Applicablefilters { get; private set; }
 
         public BuildPresentationInput(
                 string sourceFilesFolderPath,
@@ -15,10 +16,11 @@ namespace FilesEditor.Entities.MethodsArgs
                 string fileDebugPath,
                 //
                 bool replaceAllData_FileSuperDettagli,
-                DateTime periodDate
-            //bool evidenziaErroriNelFileDiInput = false
+                DateTime periodDate,
+                List<InputDataFilters_Item> applicablefilters
             )
         {
+            // Properties from the base class
             if (string.IsNullOrWhiteSpace(sourceFilesFolderPath))
                 throw new ArgumentNullException(nameof(sourceFilesFolderPath));
             if (string.IsNullOrWhiteSpace(destinationFolder))
@@ -27,16 +29,21 @@ namespace FilesEditor.Entities.MethodsArgs
                 throw new ArgumentNullException(nameof(tmpFolder));
             if (string.IsNullOrWhiteSpace(fileDebugPath))
                 throw new ArgumentNullException(nameof(fileDebugPath));
+            // Properties of the derived class 
+            //...
 
-            // Properies base class
+
+            // Properties from the base class
             base.SourceFilesFolder = sourceFilesFolderPath;
             base.DestinationFolder = destinationFolder;
             base.TmpFolder = tmpFolder;
             base.FileDebugPath = fileDebugPath;
 
-            //
+            // Properties of the derived class 
             ReplaceAllData_FileSuperDettagli = replaceAllData_FileSuperDettagli;
             PeriodDate = periodDate;
+            //todo utilizzare
+            Applicablefilters = applicablefilters ?? new List<InputDataFilters_Item>();
         }
     }
 }

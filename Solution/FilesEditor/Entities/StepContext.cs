@@ -1,39 +1,31 @@
 ﻿using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
+using System;
 using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
     public class StepContext : UserInterfaceInputBase
     {
-        public readonly Configurazione Configurazione;
+        public EsitiFinali Esito { get; private set; }
+        public Configurazione Configurazione;
         public DebugInfoLogger DebugInfoLogger = new DebugInfoLogger(null);
         public List<string> Warnings = new List<string>();
-
-        //
         //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
-        //
         public string OutputDataSourceFilePath;
         public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
         public List<SlideToGenerate> SildeToGenerate = new List<SlideToGenerate>();
+        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
+        public DateTime PeriodDate { get; private set; }
 
-        public EsitiFinali Esito { get; private set; }
-
-        // public string PowerPointOutputFile;
         public List<ItemToExport> ItemsToExportAsImage;
-        //public List<SlideToGenerate> SlideToGenerateList;
-
-        // Specifici di BuildPresentation
-        //   bool replaceAllData_FileSuperDettagli,
-        //DateTime periodDate
-
-
-        // Specifici di ValidaSourceFilesInput
         public string FileBudgetPath { get; private set; }
         public string FileForecastPath { get; private set; }
         public string FileSuperDettagliPath { get; private set; }
         public string FileRunRatePath { get; private set; }
+
+
 
         public StepContext(Configurazione configurazione)
         {
@@ -44,6 +36,7 @@ namespace FilesEditor.Entities
         {
             Esito = esito;
         }
+   
         public void SetContextFromInput(BuildPresentationInput input)
         {
             if (input == null) { return; }
@@ -51,6 +44,10 @@ namespace FilesEditor.Entities
             base.TmpFolder = input.TmpFolder;
             base.SourceFilesFolder = input.SourceFilesFolder;
             base.FileDebugPath = input.FileDebugPath;
+            //
+            ReplaceAllData_FileSuperDettagli = input.ReplaceAllData_FileSuperDettagli;
+            PeriodDate = input.PeriodDate;
+            Applicablefilters = input.Applicablefilters ?? new List<InputDataFilters_Item>();
         }
 
         public void SetContextFromInput(ValidaSourceFilesInput input)

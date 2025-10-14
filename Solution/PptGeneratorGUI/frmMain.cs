@@ -887,13 +887,14 @@ th, td {{
 
                 var buildPresentationInput = new BuildPresentationInput(
                     // proprietà classe base
-                    destinationFolder: SelectedDestinationFolderPath,
-                    tmpFolder: TmpFolder,
                     sourceFilesFolderPath: SourceFilesFolderPath,
+                    destinationFolder: SelectedDestinationFolderPath,
+                    tmpFolder: TmpFolder,                    
                     fileDebugPath: DebugFilePath,
                     //
                     replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
-                    periodDate: _selectedDatePeriodo
+                    periodDate: _selectedDatePeriodo,
+                    applicablefilters: _applicablefilters
                     );
                 try
                 {

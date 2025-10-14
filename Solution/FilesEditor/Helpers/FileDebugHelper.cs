@@ -647,7 +647,7 @@ namespace FilesEditor.Helpers
         }
 
 
-        internal void LogSpesaSkippate(List<RigaSpeseSkippata> righeSpesaSkippate)
+        internal void LogSpesaSkippate(List<_RigaSpeseSkippata> righeSpesaSkippate)
         {
             if (_epPlusHelper == null) { return; }
 

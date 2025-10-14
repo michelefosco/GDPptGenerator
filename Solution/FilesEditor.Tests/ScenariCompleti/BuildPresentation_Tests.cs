@@ -3,6 +3,7 @@ using FilesEditor.Enums;
 using FilesEditor.Tests.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace FilesEditor.Tests
@@ -26,6 +27,8 @@ namespace FilesEditor.Tests
             string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
             bool replaceAllData_FileSuperDettagli = true;
             DateTime periodDate = DateTime.Today;
+            //todo utilizzare
+            var applicablefilters = new List<InputDataFilters_Item>();
 
             var input = new Entities.MethodsArgs.BuildPresentationInput(
                     sourceFilesFolderPath: sourceFilesFolderPath,
@@ -34,7 +37,8 @@ namespace FilesEditor.Tests
                     fileDebugPath: fileDebugPath,
                     //
                     replaceAllData_FileSuperDettagli: replaceAllData_FileSuperDettagli,
-                    periodDate: periodDate
+                    periodDate: periodDate,
+                    applicablefilters: applicablefilters
                     );
             var output = Editor.BuildPresentation(input);
 

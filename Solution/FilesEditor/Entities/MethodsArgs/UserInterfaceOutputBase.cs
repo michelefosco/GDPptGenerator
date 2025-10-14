@@ -5,6 +5,9 @@ namespace FilesEditor.Entities.MethodsArgs
 {
     public class UserInterfaceOutputBase
     {
+        public ManagedException ManagedException { get; private set; }
+        public EsitiFinali Esito { get; private set; }
+
         public UserInterfaceOutputBase(EsitiFinali esito)
         {
             Esito = esito;
@@ -15,8 +18,5 @@ namespace FilesEditor.Entities.MethodsArgs
             Esito = EsitiFinali.Failure;
             ManagedException = managedException;
         }
-
-        public ManagedException ManagedException { get; private set; }
-        public EsitiFinali Esito { get; private set; }
     }
 }

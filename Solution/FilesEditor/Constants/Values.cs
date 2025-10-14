@@ -2,6 +2,6 @@
 {
     public class Values
     {
-        public const string ALLFILTERSAPPLIED = "All";
+        public const string ALLFILTERSAPPLIED = "<All selected>";
     }
 }

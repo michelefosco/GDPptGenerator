@@ -34,15 +34,39 @@ namespace PptGeneratorGUI
         {
             FilterToManage.SelectedValues.Clear();
             foreach (var item in cblFilters.CheckedItems)
-            {
-                FilterToManage.SelectedValues.Add(item.ToString());
-            }
+            { FilterToManage.SelectedValues.Add(item.ToString()); }
+            
             this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void bntSelectAll_Click(object sender, EventArgs e)
+        {
+            cblFilters_AllItmesChecked(true);
+            //for (int i = 0; i < cblFilters.Items.Count; i++)
+            //{ cblFilters.SetItemChecked(i, true); }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            cblFilters_AllItmesChecked(false);
+            //for (int i = 0; i < cblFilters.Items.Count; i++)
+            //{ cblFilters.SetItemChecked(i, false); }
+        }
+
+        private void cblFilters_AllItmesChecked(bool check)
+        {
+            for (int i = 0; i < cblFilters.Items.Count; i++)
+            { cblFilters.SetItemChecked(i, check); }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
         }
     }
 }

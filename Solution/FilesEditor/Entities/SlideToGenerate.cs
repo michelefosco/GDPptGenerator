@@ -8,7 +8,6 @@ namespace FilesEditor.Entities
         public string OutputFileName;
         public string Title;
         public LayoutTypes LayoutType;
-
         public List<string> Contents;
     }
 }
