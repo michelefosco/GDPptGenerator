@@ -30,6 +30,60 @@ namespace FilesEditor.Steps
 
 
         #region Utilities
+        internal void CancellaFileSeEsiste(string filePath, FileTypes fileType)
+        {
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception ex)
+                {
+                    throw new ManagedException(
+                        filePath: filePath,
+                        fileType: fileType,
+                        //
+                        worksheetName: null,
+                        cellRow: null,
+                        cellColumn: null,
+                        valueHeader: ValueHeaders.None,
+                        value: null,
+                        //
+                        errorType: ErrorTypes.UnableToDeleteFile,
+                        userMessage: string.Format(UserErrorMessages.UnableToDeleteFile, filePath)
+                        );
+                }
+            }
+        }
+
+        internal void CancellaDirectorySeEsiste(string folderPath)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                try
+                {
+                    Directory.Delete(folderPath, true);
+                }
+                catch (Exception ex)
+                {
+                    throw new ManagedException(
+                        filePath: folderPath,
+                        fileType: FileTypes.Directory,
+                        //
+                        worksheetName: null,
+                        cellRow: null,
+                        cellColumn: null,
+                        valueHeader: ValueHeaders.None,
+                        value: null,
+                        //
+                        errorType: ErrorTypes.UnableToDeleteFile,
+                        userMessage: string.Format(UserErrorMessages.UnableToDeleteFile, folderPath)
+                        );
+                }
+            }
+        }
+
         internal void AddWarning(string warningMessage)
         {
             Context.Warnings.Add(warningMessage);

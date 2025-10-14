@@ -20,7 +20,7 @@ namespace FilesEditor.Entities.Exceptions
         public readonly ErrorTypes ErrorType;
         public readonly string UserMessage;
 
-
+        //todo: aggiungere inner exception?
 
         public ManagedException(
                 string filePath,
@@ -95,7 +95,7 @@ namespace FilesEditor.Entities.Exceptions
         {
             var managedException = new ManagedException(
                     filePath: null,
-                    fileType: FileTypes.None,
+                    fileType: FileTypes.Undefined,
                     //
                     worksheetName: null,
                     cellRow: null,

@@ -3,6 +3,9 @@
     public class UserErrorMessages
     {
         public const string UnableToOpenFile = "The selected file could not be opened. Make sure that the file is not already open and that it is in a compatible format.";
+        public const string UnableToDeleteFile = "The tool needs to delete the file '{0}' but this is already in use or protected. Please make sure it is deleted.";
+        
+
         public const string MissingWorksheet = "The worksheet '{0}' is missing";
         public const string MissingValue = "The required value '{0}' is missing";
         

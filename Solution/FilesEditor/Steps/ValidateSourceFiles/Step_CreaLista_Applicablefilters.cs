@@ -12,24 +12,24 @@ namespace FilesEditor.Steps.ValidateSourceFiles
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_Lettura_Applicablefilters : StepBase
+    internal class Step_CreaLista_Applicablefilters : StepBase
     {
-        public Step_Lettura_Applicablefilters(StepContext context) : base(context)
+        public Step_CreaLista_Applicablefilters(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            getDataFromDataSourceFile();
+            creaLista_Applicablefilters();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
 
-        private  void getDataFromDataSourceFile()
+        private  void creaLista_Applicablefilters()
         {
             var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
-            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
+            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
-            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
+            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
             var applicableFilters = getApplicableFilters(ePPlusHelper, Context.Configurazione);

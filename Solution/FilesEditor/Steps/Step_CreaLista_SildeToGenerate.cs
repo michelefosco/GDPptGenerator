@@ -13,23 +13,26 @@ namespace FilesEditor.Steps
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_Lettura_SildeToGenerate : StepBase
+    internal class Step_CreaLista_SildeToGenerate : StepBase
     {
-        public Step_Lettura_SildeToGenerate(StepContext context) : base(context)
+        /// <summary>
+        /// 
+        /// </summary>
+        public Step_CreaLista_SildeToGenerate(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            getDataFromDataSourceFile();
+            creaLista_SildeToGenerate();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
         
-        private  void getDataFromDataSourceFile()
+        private  void creaLista_SildeToGenerate()
         {
             var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
-            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
+            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
-            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
+            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var slidesToGenerate = getSildeToGenerate(ePPlusHelper, Context.Configurazione);
             Context.SildeToGenerate = slidesToGenerate;
@@ -60,16 +63,16 @@ namespace FilesEditor.Steps
 
                 //verifico i campi obbligatori
                 // check sul campo "Powerpoint File"
-                ManagedException.ThrowIfMissingMandatoryValue(outputFileName, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                ManagedException.ThrowIfMissingMandatoryValue(outputFileName, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
                     configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_POWERPOINTFILE_COL,
                     ValueHeaders.TableName);
                 // check sul campo "Title"
-                ManagedException.ThrowIfMissingMandatoryValue(title, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                ManagedException.ThrowIfMissingMandatoryValue(title, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
                     configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_TITLE_COL,
                     ValueHeaders.SlideTitle);
 
                 // check sul campo "Content 1"
-                ManagedException.ThrowIfMissingMandatoryValue(content1, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                ManagedException.ThrowIfMissingMandatoryValue(content1, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
                     configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_CONTENT_1_COL,
                     ValueHeaders.SlideTitle);
 
@@ -101,7 +104,7 @@ namespace FilesEditor.Steps
                 if (contents.Count > 1)
                 {
                     // check sul campo "Layout"
-                    ManagedException.ThrowIfMissingMandatoryValue(layout, ePPlusHelper.FilePathInUse, FileTypes.DataSource_Template, worksheetName, rigaCorrente,
+                    ManagedException.ThrowIfMissingMandatoryValue(layout, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
                         configurazione.DATASOURCE_TEMPLATE_PPT_CONFIG_SLIDES_LAYOUT_COL,
                         ValueHeaders.SlideLayout);
                 }

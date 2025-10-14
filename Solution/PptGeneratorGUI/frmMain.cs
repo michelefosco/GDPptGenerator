@@ -1058,7 +1058,7 @@ th, td {{
             {
                 switch (mEx.FileType)
                 {
-                    case FileTypes.DataSource_Template:
+                    case FileTypes.DataSource:
                         htmlErrorMessage += _newlineHTML;
                         htmlErrorMessage += _newlineHTML;
                         //htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectFileBudgetPath, "");

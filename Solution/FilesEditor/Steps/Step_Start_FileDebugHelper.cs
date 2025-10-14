@@ -3,7 +3,6 @@ using FilesEditor.Helpers;
 using System.IO;
 using FilesEditor.Enums;
 
-
 namespace FilesEditor.Steps
 {
     /// <summary>
@@ -11,22 +10,18 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_Start_DebugInfoLogger : StepBase
     {
-
         public Step_Start_DebugInfoLogger(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            inizializzaDebugInfoLogger();
+            start_DebugInfoLogger();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void inizializzaDebugInfoLogger()
+        private void start_DebugInfoLogger()
         {
-            if (File.Exists(Context.FileDebugPath))
-            {
-                File.Delete(Context.FileDebugPath);
-            }
+            CancellaFileSeEsiste(Context.FileDebugPath, FileTypes.Debug);
             Context.DebugInfoLogger = new DebugInfoLogger(Context.FileDebugPath, Context.Configurazione.AutoSaveDebugFile);
         }
     }

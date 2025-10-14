@@ -2,73 +2,32 @@
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Rendering;
 using FilesEditor.Entities;
-using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class BK_Step_CreaFilesImmagini:StepBase
+    internal class Step_CreaFilesImmaginiDaEsportare : StepBase
     {
-        public BK_Step_CreaFilesImmagini(StepContext context) : base(context)
+        public Step_CreaFilesImmaginiDaEsportare(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            creaFilesImmagini();
-            return EsitiFinali.Undefined;
+            creaFilesImmaginiDaEsportare();
+            return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void creaFilesImmagini()
+        /// <summary>
+        /// Genera le immagini da usarsi nelle slides
+        /// </summary>
+        private void creaFilesImmaginiDaEsportare()
         {
-            // Lettura del file di testo con le aree di stampa e creazione della lista delle immagini da generare
-            creaListaImmaginiDaGenerare();
 
-            // Genera le immagini da usarsi nelle slides
-            generaImmagini();
-        }
-
-
-        private void creaListaImmaginiDaGenerare()
-        {
-            string percorsoFile = Path.Combine(Context.SourceFilesFolder, Constants.FileNames.DATASOURCE_PRINT_AREAS_FILENAME);
-
-            if (File.Exists(percorsoFile))
-            {
-                Context.ItemsToExportAsImage = new List<ItemToExport>();
-
-                // Legge tutte le righe del file
-                string[] righe = File.ReadAllLines(percorsoFile);
-
-                foreach (string riga in righe)
-                {
-                    // Divide la riga nei campi separati da ";"
-                    string[] campi = riga.Split(';');
-
-
-                    //todo: ragionare su queste trasformazioni
-                    var imageId = campi[0].Trim().ToLower();
-                    var sheet = campi[1].Trim();
-                    var printArea = campi[2].Trim().ToUpper();
-
-                    Context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = sheet, PrintArea = printArea, });
-                }
-            }
-            else
-            {
-                //todo: eccezione managed
-                Console.WriteLine("Il file non esiste!");
-            }
-        }
-
-        private void generaImmagini()
-        {
             // Carica il workbook
-            Workbook workbook = new Workbook(Context.OutputDataSourceFilePath);
+            Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook(Context.OutputDataSourceFilePath);
 
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {

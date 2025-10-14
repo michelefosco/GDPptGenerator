@@ -1,6 +1,4 @@
-﻿using FilesEditor.Constants;
-using FilesEditor.Entities;
-using FilesEditor.Entities.MethodsArgs;
+﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
 using ShapeCrawler;
 using System;
@@ -10,20 +8,19 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_CreaFilesPowerPoint : StepBase
+    internal class Step_CreaFiles_Presentazioni : StepBase
     {
-        public Step_CreaFilesPowerPoint(StepContext context) : base(context)
+        public Step_CreaFiles_Presentazioni(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            creazionePowerPoint();
+            creaFiles_Presentazioni();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        const int NumberOfTemplateSlides = 1;
-        const int SLIDE_TEMPLATE_1_INDEX = 3;
-        private void creazionePowerPoint()
+
+        private void creaFiles_Presentazioni()
         {
             var outputFileNames = Context.SildeToGenerate.Select(s => s.OutputFileName).Distinct().ToList();
 
@@ -37,8 +34,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 { outputfilePath = outputFileName + ".pptx"; }
 
                 // ripulisco il possibile file di output
-                if (File.Exists(outputfilePath))
-                { File.Delete(outputfilePath); }
+                CancellaFileSeEsiste(outputfilePath, FileTypes.PresentationOutput);
                 #endregion
 
 
@@ -48,7 +44,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 var pres = new ShapeCrawler.Presentation(outputfilePath);
                 #endregion
 
-
+                int SLIDE_TEMPLATE_1_INDEX = pres.Slides.Count; // la slide template è l'ultima del file
                 const int SpazionIntornoAlleImmagini = 10;
                 const int offSetVerticale = 80;
 

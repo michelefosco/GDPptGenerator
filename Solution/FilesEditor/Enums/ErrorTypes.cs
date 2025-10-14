@@ -9,6 +9,9 @@ namespace FilesEditor.Enums
         [Description("Unable to open the file")]
         UnableToOpenFile,
 
+        [Description("Unable to delete the file")]
+        UnableToDeleteFile,
+
         [Description("An expected worksheet is missing")]
         MissingWorksheet,
 

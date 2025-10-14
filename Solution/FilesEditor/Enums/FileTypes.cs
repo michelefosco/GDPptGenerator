@@ -4,7 +4,9 @@ namespace FilesEditor.Enums
 {
     public enum FileTypes
     {
-        None = 0,
+        Undefined = 0,
+
+        Directory = 0,
 
         [Description("Debug")]
         Debug,
@@ -12,19 +14,22 @@ namespace FilesEditor.Enums
         [Description("File Excel DataSource")]
         DataSource,
 
-        [Description("File Excel DataSource Template")]
-        DataSource_Template,
-
-        [Description("File Excel Super Dettagli")]
+        [Description("File Excel (input) Super Dettagli")]
         SuperDettagli,
 
-        [Description("File Excel Budget")]
+        [Description("File Excel (input) Budget")]
         Budget,
 
-        [Description("File Excel Forecast")]
+        [Description("File Excel (input) Forecast")]
         Forecast,
 
-        [Description("File Excel Run Rate")]
-        RunRate
+        [Description("File Excel (input) Run Rate")]
+        RunRate,
+
+        [Description("File PowerPoint Presentation template")]
+        PresentationTemplate,
+
+        [Description("File PowerPoint Presentation output")]
+        PresentationOutput
     }
 }

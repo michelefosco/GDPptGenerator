@@ -37,11 +37,12 @@ namespace FilesEditor
                 {
                     new Step_PredisponiTmpFolder(context),
                     new Step_Start_DebugInfoLogger(context),
-                    new Step_Lettura_SildeToGenerate(context),
+                    new Step_CreaLista_SildeToGenerate(context),
+                    new Step_CreaLista_ItemsToExportAsImage(context),
                     new Step_AggiornaDataSource(context),
-                    new Step_CreaFilesImmagini(context),
-                    new Step_CreaFilesPowerPoint(context),
-                    new Step_EsitoFinaleSuccess(context)
+                    new Step_CreaFilesImmaginiDaEsportare(context),
+                    new Step_CreaFiles_Presentazioni(context),
+                    new Step_EsitoFinale_Success(context)
                  };
                 var esitoFinale = runStepSequence(stepsSequence, context);
                 context.SettaEsitoFinale(esitoFinale);
@@ -97,9 +98,10 @@ namespace FilesEditor
                 {
                     new Step_Start_DebugInfoLogger(context),
                     new Step_ValidazioniPreliminari_InputFiles(context),
-                    new Step_Lettura_Applicablefilters(context),
-                    new Step_Lettura_SildeToGenerate(context),
-                    new Step_EsitoFinaleSuccess(context)
+                    new Step_CreaLista_Applicablefilters(context),
+                    new Step_CreaLista_SildeToGenerate(context),
+                    new Step_CreaLista_ItemsToExportAsImage(context),
+                    new Step_EsitoFinale_Success(context)
                  };
                 var esitoFinale = runStepSequence(stepsSequence, context);
                 context.SettaEsitoFinale(esitoFinale);

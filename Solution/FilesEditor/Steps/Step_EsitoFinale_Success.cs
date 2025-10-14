@@ -6,9 +6,9 @@ namespace FilesEditor.Steps
     /// <summary>
     /// Step che se raggiunto indica l'esito Success dell'intero processo
     /// </summary>
-    internal class Step_EsitoFinaleSuccess : StepBase
+    internal class Step_EsitoFinale_Success : StepBase
     {
-        public Step_EsitoFinaleSuccess(StepContext context) : base(context)
+        public Step_EsitoFinale_Success(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
