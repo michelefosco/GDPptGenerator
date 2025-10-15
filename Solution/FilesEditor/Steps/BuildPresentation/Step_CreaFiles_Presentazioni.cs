@@ -15,6 +15,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_CreaFiles_Presentazioni", Context);
             creaFiles_Presentazioni();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

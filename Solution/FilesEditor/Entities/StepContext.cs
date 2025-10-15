@@ -8,6 +8,12 @@ namespace FilesEditor.Entities
 {
     public class StepContext : UserInterfaceInputBase
     {
+        // Base class already has these properties
+        // DestinationFolder
+        // TmpFolder
+        // SourceFilesFolder
+        // DebugFilePath
+
         //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         public EsitiFinali Esito { get; private set; }
         public Configurazione Configurazione;
@@ -52,7 +58,7 @@ namespace FilesEditor.Entities
             base.DestinationFolder = input.DestinationFolder;
             base.TmpFolder = input.TmpFolder;
             base.SourceFilesFolder = input.SourceFilesFolder;
-            base.FileDebugPath = input.FileDebugPath;
+            base.DebugFilePath = input.DebugFilePath;
             //
             ReplaceAllData_FileSuperDettagli = input.ReplaceAllData_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
@@ -65,7 +71,7 @@ namespace FilesEditor.Entities
             base.DestinationFolder = input.DestinationFolder;
             base.TmpFolder = input.TmpFolder;
             base.SourceFilesFolder = input.SourceFilesFolder;
-            base.FileDebugPath = input.FileDebugPath;
+            base.DebugFilePath = input.DebugFilePath;
             //
             FileBudgetPath = input.FileBudgetPath;
             FileForecastPath = input.FileForecastPath;

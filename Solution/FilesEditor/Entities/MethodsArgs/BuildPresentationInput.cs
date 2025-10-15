@@ -13,7 +13,7 @@ namespace FilesEditor.Entities.MethodsArgs
                 string sourceFilesFolderPath,
                 string destinationFolder,
                 string tmpFolder,
-                string fileDebugPath,
+                string debugFilePath,
                 //
                 bool replaceAllData_FileSuperDettagli,
                 DateTime periodDate,
@@ -27,8 +27,8 @@ namespace FilesEditor.Entities.MethodsArgs
                 throw new ArgumentNullException(nameof(destinationFolder));
             if (string.IsNullOrWhiteSpace(tmpFolder))
                 throw new ArgumentNullException(nameof(tmpFolder));
-            if (string.IsNullOrWhiteSpace(fileDebugPath))
-                throw new ArgumentNullException(nameof(fileDebugPath));
+            if (string.IsNullOrWhiteSpace(debugFilePath))
+                throw new ArgumentNullException(nameof(debugFilePath));
             // Properties of the derived class 
             //...
 
@@ -37,7 +37,7 @@ namespace FilesEditor.Entities.MethodsArgs
             base.SourceFilesFolder = sourceFilesFolderPath;
             base.DestinationFolder = destinationFolder;
             base.TmpFolder = tmpFolder;
-            base.FileDebugPath = fileDebugPath;
+            base.DebugFilePath = debugFilePath;
 
             // Properties of the derived class 
             ReplaceAllData_FileSuperDettagli = replaceAllData_FileSuperDettagli;

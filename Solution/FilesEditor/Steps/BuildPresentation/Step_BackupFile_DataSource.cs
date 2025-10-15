@@ -11,6 +11,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_BackupFile_DataSource", Context);
             backupFile_DataSource();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

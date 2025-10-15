@@ -375,6 +375,7 @@ namespace EPPlusExtensions
                 _excelPackage = new ExcelPackage(new FileInfo(filePath));
                 _excelPackage.Workbook.Worksheets.Add(firstWorkSheetName);
                 _excelPackage.Save();
+                FilePathInUse = filePath;
                 return true;
             }
             catch (Exception)

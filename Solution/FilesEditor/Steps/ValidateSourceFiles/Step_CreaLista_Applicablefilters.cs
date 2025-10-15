@@ -19,6 +19,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_CreaLista_Applicablefilters", Context);
             creaLista_Applicablefilters();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

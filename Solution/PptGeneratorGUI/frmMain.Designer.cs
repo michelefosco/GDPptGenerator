@@ -78,7 +78,6 @@
             this.Campo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OpenFiltersSelection = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ValoriSelezionati = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnClear = new System.Windows.Forms.LinkLabel();
             this.calendarPeriodo = new System.Windows.Forms.MonthCalendar();
             this.pnlCalendar = new System.Windows.Forms.Panel();
             this.gbPaths = new System.Windows.Forms.GroupBox();
@@ -89,43 +88,15 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
             this.gbPaths.SuspendLayout();
             this.gbOptions.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-
-            // 
-            // toolStripProgressBar
-            // 
-            this.toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripProgressBar.Name = "toolStripProgressBar";
-            this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
-            this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.toolStripProgressBar.Visible = false;
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(45, 17);
-            this.toolStripStatusLabel1.Text = " Status:";
-            // 
-            // txtStatusLabel
-            // 
-            this.txtStatusLabel.Name = "txtStatusLabel";
-            this.txtStatusLabel.Size = new System.Drawing.Size(47, 17);
-            this.txtStatusLabel.Text = "[Status]";
-            // 
-            // lblVersion
-            // 
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(1115, 17);
-            this.lblVersion.Spring = true;
-            this.lblVersion.Text = "[VERSION]";
-            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-
             // 
             // statusStrip
             // 
@@ -153,8 +124,8 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(43, 17);
-            this.toolStripStatusLabel1.Text = "  Stato:";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(48, 17);
+            this.toolStripStatusLabel1.Text = "  Status:";
             // 
             // txtStatusLabel
             // 
@@ -165,7 +136,7 @@
             // lblVersion
             // 
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(876, 17);
+            this.lblVersion.Size = new System.Drawing.Size(1071, 17);
             this.lblVersion.Spring = true;
             this.lblVersion.Text = "[VERSIONE]";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -246,9 +217,9 @@
             this.lblDataPeriodo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDataPeriodo.Location = new System.Drawing.Point(103, 26);
             this.lblDataPeriodo.Name = "lblDataPeriodo";
-            this.lblDataPeriodo.Size = new System.Drawing.Size(108, 13);
+            this.lblDataPeriodo.Size = new System.Drawing.Size(75, 13);
             this.lblDataPeriodo.TabIndex = 21;
-            this.lblDataPeriodo.Text = "[DATA PERIODO]";
+            this.lblDataPeriodo.Text = "99/99/2099";
             this.toolTipDefault.SetToolTip(this.lblDataPeriodo, "Cartella nella quale vettanno salvati i file di output");
             // 
             // label4
@@ -264,7 +235,7 @@
             // btnOpenCalendar
             // 
             this.btnOpenCalendar.Image = global::PptGeneratorGUI.Properties.Resources.CalendarIcon;
-            this.btnOpenCalendar.Location = new System.Drawing.Point(233, 18);
+            this.btnOpenCalendar.Location = new System.Drawing.Point(184, 21);
             this.btnOpenCalendar.Name = "btnOpenCalendar";
             this.btnOpenCalendar.Size = new System.Drawing.Size(29, 23);
             this.btnOpenCalendar.TabIndex = 22;
@@ -473,7 +444,7 @@
             // 
             this.btnCopyError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyError.AutoSize = true;
-            this.btnCopyError.Location = new System.Drawing.Point(1001, 975);
+            this.btnCopyError.Location = new System.Drawing.Point(990, 864);
             this.btnCopyError.Name = "btnCopyError";
             this.btnCopyError.Size = new System.Drawing.Size(148, 13);
             this.btnCopyError.TabIndex = 25;
@@ -627,22 +598,9 @@
             this.ValoriSelezionati.ReadOnly = true;
             this.ValoriSelezionati.Width = 123;
             // 
-            // btnClear
-            // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.AutoSize = true;
-            this.btnClear.Location = new System.Drawing.Point(1044, 587);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(108, 13);
-            this.btnClear.TabIndex = 24;
-            this.btnClear.TabStop = true;
-            this.btnClear.Text = "Clean current session";
-            this.btnClear.Visible = false;
-            this.btnClear.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnClear_LinkClicked);
-            // 
             // calendarPeriodo
             // 
-            this.calendarPeriodo.Location = new System.Drawing.Point(1, 0);
+            this.calendarPeriodo.Location = new System.Drawing.Point(0, 0);
             this.calendarPeriodo.Name = "calendarPeriodo";
             this.calendarPeriodo.TabIndex = 20;
             this.calendarPeriodo.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendarPeriodo_DateSelected);
@@ -650,7 +608,7 @@
             // pnlCalendar
             // 
             this.pnlCalendar.Controls.Add(this.calendarPeriodo);
-            this.pnlCalendar.Location = new System.Drawing.Point(268, 19);
+            this.pnlCalendar.Location = new System.Drawing.Point(219, 23);
             this.pnlCalendar.Name = "pnlCalendar";
             this.pnlCalendar.Size = new System.Drawing.Size(226, 161);
             this.pnlCalendar.TabIndex = 49;
@@ -739,7 +697,8 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearPathsHistoryToolStripMenuItem,
-            this.openSouceFilesFolderToolStripMenuItem});
+            this.openSouceFilesFolderToolStripMenuItem,
+            this.cleanCurrentsessionToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
             this.toolStripMenuItem1.Text = "&Options";
@@ -758,6 +717,13 @@
             this.openSouceFilesFolderToolStripMenuItem.Text = "Open &Souce files folder";
             this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
             // 
+            // cleanCurrentsessionToolStripMenuItem
+            // 
+            this.cleanCurrentsessionToolStripMenuItem.Name = "cleanCurrentsessionToolStripMenuItem";
+            this.cleanCurrentsessionToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.cleanCurrentsessionToolStripMenuItem.Text = "Clean current &session";
+            this.cleanCurrentsessionToolStripMenuItem.Click += new System.EventHandler(this.cleanCurrentsessionToolStripMenuItem_Click);
+            // 
             // bfbDestFolder
             // 
             this.bfbDestFolder.Multiselect = false;
@@ -774,7 +740,6 @@
             this.Controls.Add(this.gbPaths);
             this.Controls.Add(this.btnBuildPresentation);
             this.Controls.Add(this.btnCopyError);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.wbExecutionResult);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.statusStrip);
@@ -785,6 +750,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PowerPoint Generator";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).EndInit();
             this.pnlCalendar.ResumeLayout(false);
             this.gbPaths.ResumeLayout(false);
@@ -839,7 +806,6 @@
         private System.Windows.Forms.Button btnBuildPresentation;
         private System.Windows.Forms.Label lblFiltriApplicabili;
         private System.Windows.Forms.DataGridView dgvFiltri;
-        private System.Windows.Forms.LinkLabel btnClear;
         private System.Windows.Forms.Label lblDataPeriodo;
         private System.Windows.Forms.Button btnOpenCalendar;
         private System.Windows.Forms.MonthCalendar calendarPeriodo;
@@ -858,6 +824,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem clearPathsHistoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSouceFilesFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cleanCurrentsessionToolStripMenuItem;
     }
 }
 

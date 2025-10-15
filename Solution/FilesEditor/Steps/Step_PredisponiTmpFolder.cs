@@ -2,7 +2,7 @@
 using FilesEditor.Enums;
 using System.IO;
 
-namespace FilesEditor.Steps.BuildPresentation
+namespace FilesEditor.Steps
 {
     internal class Step_PredisponiTmpFolder : StepBase
     {
@@ -15,6 +15,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_PredisponiTmpFolder", Context);
             predisponiTmpFolder();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

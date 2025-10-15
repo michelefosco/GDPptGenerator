@@ -7,12 +7,13 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public ManagedException ManagedException { get; private set; }
         public EsitiFinali Esito { get; private set; }
+        public string DebugFilePath { get; set; }
 
-        public UserInterfaceOutputBase(EsitiFinali esito)
+        public UserInterfaceOutputBase(StepContext context)
         {
-            Esito = esito;
+            Esito = context.Esito;
+            DebugFilePath = context.DebugFilePath;
         }
-
         public UserInterfaceOutputBase(ManagedException managedException)
         {
             Esito = EsitiFinali.Failure;

@@ -35,8 +35,8 @@ namespace FilesEditor
                 context.SetContextFromInput(buildPresentationInput);
                 var stepsSequence = new List<StepBase>
                 {
-                    new Step_PredisponiTmpFolder(context),
                     new Step_Start_DebugInfoLogger(context),
+                    new Step_PredisponiTmpFolder(context),
                     new Step_BackupFile_DataSource(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),

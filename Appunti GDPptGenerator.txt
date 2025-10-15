@@ -19,9 +19,11 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 
 -------------------- Todo
-- TRaduzione messaggi status bar
-- Move HTML helpers
+- Traduzione e rivedere messaggi utente nella UI
 - Step backup DataSource prima di cominiciare
+- Move HTML helpers
+- Add logging
+- in UI in caso si successo, link per apertura files
 - Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
 - Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
 - Rimouvere constati per datasoure e datasource template (semplificare)
@@ -51,3 +53,4 @@ Per PowerPoint usata libreria: ShapeCrawler
 - Rename cartella "Configurazione" in "Templates" (anche nel menù a tendina)
 - Verificare che i filtri indicati siano validi esempio che realmente delle colonne nel foglio e che i fogli siano tra quelli possibili
 - Rendere la colonna "fogli" dei filtri un elenco a tendina prefissato
+- Beutify logs

@@ -16,13 +16,16 @@ namespace FilesEditor.Steps
         internal override EsitiFinali DoSpecificTask()
         {
             start_DebugInfoLogger();
+
+            Context.DebugInfoLogger.LogStepContext("Step_Start_DebugInfoLogger", Context);
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
         private void start_DebugInfoLogger()
         {
-            CancellaFileSeEsiste(Context.FileDebugPath, FileTypes.Debug);
-            Context.DebugInfoLogger = new DebugInfoLogger(Context.FileDebugPath, Context.Configurazione.AutoSaveDebugFile);
+            CancellaFileSeEsiste(Context.DebugFilePath, FileTypes.Debug);
+            Context.DebugInfoLogger = new DebugInfoLogger(Context.DebugFilePath, Context.Configurazione.AutoSaveDebugFile);
         }
     }
 }

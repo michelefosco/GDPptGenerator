@@ -18,7 +18,7 @@ namespace FilesEditor.Tests
             string sourceFilesFolderPath = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
             string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
-            string fileDebugPath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
+            string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
 
             // properties specifiche di questo oggetto di input
             string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
@@ -31,7 +31,7 @@ namespace FilesEditor.Tests
                     sourceFilesFolderPath: sourceFilesFolderPath,
                     destinationFolder: destinationFolder,
                     tmpFolder: tmpFolder,
-                    fileDebugPath: fileDebugPath,
+                    debugFilePath: debugFilePath,
                     //
                     fileBudgetPath: fileBudgetPath,
                     fileForecastPath: fileForecastPath,

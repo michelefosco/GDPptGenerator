@@ -7,7 +7,7 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public List<InputDataFilters_Item> Applicablefilters;
 
-        public ValidateSourceFilesOutput(StepContext context) : base(context.Esito)
+        public ValidateSourceFilesOutput(StepContext context) : base(context)
         {
             Applicablefilters = context.Applicablefilters;
         }

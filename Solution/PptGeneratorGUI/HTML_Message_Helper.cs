@@ -45,32 +45,26 @@ namespace PptGeneratorGUI
                 .Replace("\r\n", _newlineHTML)
                 .Replace("\n", _newlineHTML);
         }
-
         public static string GetHTMLHyperLink(string url, string value)
         {
             return string.Format(_hyperlinkHTML, GetURLMarker(url), value);
         }
-
         public static string GetHTMLHyperLinkSetAsImput(string url, string value)
         {
             return string.Format(_hyperlinkHTML, GetURLMarkerSetAsImput(url), value);
         }
-
         public static string GetHTMLDeleteFileHyperLink(string url)
         {
             return string.Format(_deleteFileHyperlinkHTML, GetURLMarkerDelete(url), "(Clicca quì per cancellare il file)");
         }
-
         public static string GetHTMLMoreDetailLink(string caption)
         {
             return string.Format(_moreDetailLink, caption);
         }
-
         public static string GetHTMLBold(string str)
         {
             return string.Format(_boldHTML, str);
         }
-
         public static string GetHTMLRedText(string str)
         {
             return string.Format(_redTextHTML, str);
@@ -91,34 +85,26 @@ namespace PptGeneratorGUI
         {
             return string.Format(_tdHTML, innerCellHTML);
         }
-
         public static string GetHTMLTableRowWithCells(string cell1Value, string cell2Value)
         {
             return GetHTMLTableRow(GetHTMLTableCell(cell1Value) + GetHTMLTableCell(GetHTMLBold(cell2Value)));
         }
-
         public static string GetURLMarker(string url)
         {
             return "file-" + url;
         }
-
         public static string GetURLMarkerSetAsImput(string url)
         {
             return "input-" + url;
         }
-
         public static string GetURLMarkerDelete(string url)
         {
             return "filedelete-" + url;
         }
-
-
-
         public static string GetInvisibleSPAN(string innerHtml)
         {
             return string.Format(_invisibleSpanHTML, innerHtml);
         }
-
         public static string GetHTMLForExpetion(Exception ex)
         {
             string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Error:"));
@@ -132,7 +118,6 @@ namespace PptGeneratorGUI
 
             return htmlErrorMessage;
         }
-
         public static string GetHTMLForExpetion(ManagedException mEx)
         {
             string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Error:"));
@@ -214,13 +199,11 @@ namespace PptGeneratorGUI
 
             return htmlErrorMessage;
         }
-
         public static string GetHTMLForBody(string message)
         {
             string htmlMessage = string.Format(_htmlBody, message);
             return htmlMessage;
         }
-
         public static string GetInvisibleErrorDetails(Exception ex)
         {
             return GetInvisibleSPAN(StringToHTML($"Full error:\r\n{ex}"));

@@ -19,8 +19,8 @@ namespace PptGeneratorGUI
     public partial class frmMain : Form
     {
         // private string _debugFileName;
-        private DateTime _selectedDatePeriodo;
-        private List<InputDataFilters_Item> _applicablefilters;
+        private DateTime _selectedDatePeriodo = DateTime.Today;
+        private List<InputDataFilters_Item> _applicablefilters = new List<InputDataFilters_Item>();
         private bool _inputValidato = false;
 
         #region Selected paths
@@ -104,7 +104,8 @@ namespace PptGeneratorGUI
         {
             get
             {
-                return Path.Combine(TmpFolder, "Debugfile.xlsx");
+                var debugFileName = $"DebugFile_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx";
+                return Path.Combine(SelectedDestinationFolderPath, debugFileName);
             }
         }
 
@@ -134,7 +135,6 @@ namespace PptGeneratorGUI
             RefreshUI(true);
         }
 
-
         private void SetStatusLabel(string status)
         {
             txtStatusLabel.Text = status;
@@ -145,9 +145,11 @@ namespace PptGeneratorGUI
             if (resetInputValidato)
             {
                 _inputValidato = false;
-                gbOptions.Enabled = false;
-                dgvFiltri.Rows.Clear();
+                _applicablefilters = new List<InputDataFilters_Item>();
             }
+
+            gbPaths.Enabled = !_inputValidato;
+            gbOptions.Enabled = _inputValidato;
 
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
@@ -172,31 +174,51 @@ namespace PptGeneratorGUI
 
 
             var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid;
-            btnValidaInput.Enabled = allValid;
+            btnValidaInput.Enabled = allValid && !_inputValidato;
+            MostraNascondiElementiPerInputValidato(_inputValidato);
 
             if (allValid)
             {
-                btnBuildPresentation.Enabled = _inputValidato;
-                gbOptions.Enabled = _inputValidato;
-
-                //todo:
                 toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
                 SetStatusLabel("Select input file and destination folder, you can start processing");
             }
             else
             {
 
-                btnBuildPresentation.Enabled = false;
-                gbOptions.Enabled = false;
-                //todo:
                 toolTipDefault.SetToolTip(btnBuildPresentation, "Selezionare il file controller, il file report e la cartella di destinazione");
                 SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
             }
         }
 
-        private void BuildFiltersArea()
+
+        private void MostraNascondiElementiPerInputValidato(bool inputValidato)
+        {
+            gbOptions.Enabled = inputValidato;
+            btnBuildPresentation.Enabled = _inputValidato;
+
+            if (inputValidato)
+            {
+                //todo:
+                toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
+                SetStatusLabel("Select input file and destination folder, you can start processing");
+            }
+            else
+            {
+                _applicablefilters = new List<InputDataFilters_Item>();
+            }
+
+            RefreshFiltersArea();
+        }
+
+        private void RefreshFiltersArea()
         {
             dgvFiltri.Rows.Clear();
+
+            if (_applicablefilters == null || _applicablefilters.Count == 0)
+            {
+                dgvFiltri.Enabled = false;
+                return;
+            }
 
             foreach (var filtro in _applicablefilters)
             {
@@ -206,6 +228,8 @@ namespace PptGeneratorGUI
                 dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
                 dgvFiltri.Rows[rowIndex].Cells[3].Value = getTextForSelectedValueIntoTheFilter(filtro);
             }
+            dgvFiltri.Enabled = true;
+
 
             dgvFiltri.CellContentClick += (s, e) =>
             {
@@ -242,9 +266,16 @@ namespace PptGeneratorGUI
 
         #region Gestione history combo boxes
         private PathsHistory _pathFileHistory;
-        private void FillComboBoxes()
+        private void FillComboBoxes(bool selectFirstItem = false)
         {
             LoadFileHistory();
+
+            // Disabilito le combobox durante il caricamento per preventire eventi indesiderati
+            cmbFileBudgetPath.Enabled = false;
+            cmbFileForecastPath.Enabled = false;
+            cmbFileSuperDettagliPath.Enabled = false;
+            cmbFileRunRatePath.Enabled = false;
+            cmbDestinationFolderPath.Enabled = false;
 
             cmbFileBudgetPath.Items.Clear();
             cmbFileBudgetPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
@@ -260,16 +291,24 @@ namespace PptGeneratorGUI
 
             cmbDestinationFolderPath.Items.Clear();
             cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
-        }
-        private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+
+            if (selectFirstItem)
             {
-                _pathFileHistory.ClearHistory();
-                FillComboBoxes();
-                RefreshUI(false);
+                cmbFileBudgetPath.SelectedIndex = 0;
+                cmbFileForecastPath.SelectedIndex = 0;
+                cmbFileSuperDettagliPath.SelectedIndex = 0;
+                cmbFileRunRatePath.SelectedIndex = 0;
+                cmbDestinationFolderPath.SelectedIndex = 0;
             }
+
+            // Disabilito le combobox durante il caricamento per preventire eventi indesiderati
+            cmbFileBudgetPath.Enabled = true;
+            cmbFileForecastPath.Enabled = true;
+            cmbFileSuperDettagliPath.Enabled = true;
+            cmbFileRunRatePath.Enabled = true;
+            cmbDestinationFolderPath.Enabled = true;
         }
+
         public string GetLocaLApplicationDataPath()
         {
             string localApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PptGenerator");
@@ -377,34 +416,10 @@ namespace PptGeneratorGUI
                 return false;
         }
 
-
-
-        private bool IsOverwriteEnabled()
-        {
-            string overwriteEnabledConfigValue = ConfigurationManager.AppSettings.Get("OverwriteOutputFile");
-
-            bool configValue = false;
-
-            if (!string.IsNullOrEmpty(overwriteEnabledConfigValue))
-            {
-                if (bool.TryParse(overwriteEnabledConfigValue, out configValue))
-                {
-                    return configValue;
-                }
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
-
-
-
         private string GetVersion()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
-
 
 
         #region Eventi Selezione file/cartella - RefreshUI
@@ -565,8 +580,7 @@ namespace PptGeneratorGUI
             }
             else
             {
-                RefreshUI(false);
-                MessageBox.Show("Cartella non esistente o non valida", "Cartella non valida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Folder does not exist or is invalid.", "Invalid folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -601,7 +615,6 @@ namespace PptGeneratorGUI
             }
             else
             {
-                RefreshUI(false);
                 MessageBox.Show("Percorso del file non valido o file inesistente", "File non valido", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -611,7 +624,7 @@ namespace PptGeneratorGUI
         #region Selezione data periodo
         private void SetDefaultDatePeriodo()
         {
-            _selectedDatePeriodo = DateTime.Now;
+            _selectedDatePeriodo = DateTime.Today;
             lblDataPeriodo.Text = _selectedDatePeriodo.ToShortDateString();
         }
 
@@ -634,6 +647,7 @@ namespace PptGeneratorGUI
         private void btnValidaInput_Click(object sender, EventArgs e)
         {
             btnValidaInput.Enabled = false;
+            ClearOutputArea();
             validaFileDiInput();
         }
 
@@ -708,7 +722,7 @@ namespace PptGeneratorGUI
                     destinationFolder: SelectedDestinationFolderPath,
                     tmpFolder: TmpFolder,
                     sourceFilesFolderPath: SourceFilesFolderPath,
-                    fileDebugPath: DebugFilePath,
+                    debugFilePath: DebugFilePath,
                     //
                     fileBudgetPath: SelectedFileBudgetPath,
                     fileForecastPath: SelectedFileForecastPath,
@@ -738,11 +752,12 @@ namespace PptGeneratorGUI
             var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
             _inputValidato = (output.Esito == EsitiFinali.Success);
+            btnValidaInput.Enabled = _inputValidato;
             if (_inputValidato)
             {
-                SetStatusLabel("Processing completed successfully");
+                gbPaths.Enabled = false;
                 _applicablefilters = output.Applicablefilters;
-                BuildFiltersArea();
+                SetStatusLabel("Processing completed successfully");
             }
             else
             {
@@ -751,7 +766,7 @@ namespace PptGeneratorGUI
                 btnCopyError.Visible = true;
             }
 
-            RefreshUI(resetInputValidato: false);
+            RefreshUI(false);
         }
         #endregion
 
@@ -772,29 +787,31 @@ namespace PptGeneratorGUI
 
             if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid)
             {
+                btnBuildPresentation.Enabled = false;
                 ClearOutputArea();
+
+                // Salvataggio dei percorsi selezionati
                 AddPathsInXmlFileHistory();
-                FillComboBoxes();
+                // Ricaricamento delle combobox
+                FillComboBoxes(selectFirstItem: false);
 
-
-                cmbFileBudgetPath.SelectedIndex = 0;
-                cmbFileForecastPath.SelectedIndex = 0;
-                cmbFileSuperDettagliPath.SelectedIndex = 0;
-                cmbFileRunRatePath.SelectedIndex = 0;
-                cmbDestinationFolderPath.SelectedIndex = 0;
+                //cmbFileBudgetPath.SelectedIndex = 0;
+                //cmbFileForecastPath.SelectedIndex = 0;
+                //cmbFileSuperDettagliPath.SelectedIndex = 0;
+                //cmbFileRunRatePath.SelectedIndex = 0;
+                //cmbDestinationFolderPath.SelectedIndex = 0;
 
                 //Esecuzione Refresher
                 SetStatusLabel("Processing in progress...");
-
                 toolStripProgressBar.Visible = true;
-                btnBuildPresentation.Enabled = false;
+
 
                 var buildPresentationInput = new BuildPresentationInput(
                     // proprietà classe base
                     sourceFilesFolderPath: SourceFilesFolderPath,
                     destinationFolder: SelectedDestinationFolderPath,
                     tmpFolder: TmpFolder,
-                    fileDebugPath: DebugFilePath,
+                    debugFilePath: DebugFilePath,
                     //
                     replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
                     periodDate: _selectedDatePeriodo,
@@ -828,14 +845,14 @@ namespace PptGeneratorGUI
             toolStripProgressBar.Visible = false;
             btnBuildPresentation.Enabled = true;
 
+            // recupero input e output
             var outputAndInput = e.Result as object[];
-
             var input = outputAndInput[0] as BuildPresentationInput;
             var output = outputAndInput[1] as BuildPresentationOutput;
 
             if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML("Processing completed successfully", DebugFilePath, output.OutputFilePathLists);
+                string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists);
                 SetOutputMessage(message);
                 SetStatusLabel("Processing completed successfully");
                 btnCopyError.Visible = false;
@@ -851,11 +868,6 @@ namespace PptGeneratorGUI
         #endregion
 
 
-        private void openSouceFilesFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var folderPath = SourceFilesFolderPath;
-            openFolderForUser(folderPath);
-        }
 
 
         #region Gestione output area
@@ -872,17 +884,7 @@ namespace PptGeneratorGUI
             btnCopyError.Visible = true;
         }
 
-        private void SetOutputMessage(string message)
-        {
-            var htmlMessage = HTML_Message_Helper.GetHTMLForBody(message);
-            SetOutputMessageHTML(htmlMessage);
-            btnClear.Visible = true;
-        }
 
-        private void SetOutputMessageHTML(string htmlMessage)
-        {
-            wbExecutionResult.DocumentText = htmlMessage;
-        }
 
         private void SetOutputMessage(Exception ex)
         {
@@ -896,8 +898,11 @@ namespace PptGeneratorGUI
             SetOutputMessage(htmlErrorMessage);
         }
 
-
-
+        private void SetOutputMessage(string message)
+        {
+            var htmlMessage = HTML_Message_Helper.GetHTMLForBody(message);
+            wbExecutionResult.DocumentText = htmlMessage;
+        }
 
 
         private void DeleteFile(string fullFileName)
@@ -919,14 +924,12 @@ namespace PptGeneratorGUI
             {
                 SetOutputMessage(" ");
             }
-
-            btnClear.Visible = false;
             btnCopyError.Visible = false;
         }
 
-        private string CreateOutputMessageSuccessHTML(string message, string debugFile, List<string> outputFilePathLists)
+        private string CreateOutputMessageSuccessHTML(string debugFilePath, List<string> outputFilePathLists)
         {
-            string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold(message));
+            string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold("Processing completed successfully"));
             outputMessage += HTML_Message_Helper._newlineHTML;
             outputMessage += HTML_Message_Helper._newlineHTML;
 
@@ -937,13 +940,12 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper._newlineHTML;
             }
 
-
             if (IsDebugModeEnabled())
             {
                 outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper.GetHTMLBold("Debug file created: ");
-                outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFile, debugFile);
+                outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFilePath, debugFilePath);
             }
 
             //if (righeSkippate != null && righeSkippate.Count > 0)
@@ -977,25 +979,31 @@ namespace PptGeneratorGUI
             string url = e.Url.OriginalString;
             if (url.StartsWith(HTML_Message_Helper.GetURLMarker(string.Empty)))
             {
+                // Click su link file per l'apertura
+                e.Cancel = true;
+
                 url = HttpUtility.UrlDecode(url);
                 url = url.Substring(HTML_Message_Helper.GetURLMarker(string.Empty).Length);
 
-                e.Cancel = true;
 
-                //Se il file non è più esistente mostro un messaggio di errore
                 if (File.Exists(url))
+                {
                     System.Diagnostics.Process.Start(url);
+                }
                 else
-                    MessageBox.Show($"Impossibile aprire il file {url}, probabilmente non è più presente sul disco.", "Impossibile aprire il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                    //Se il file non è più esistente mostro un messaggio di errore
+                    MessageBox.Show($"Unable to open the file {url}; it is probably no longer present on the disk.", "Unable to open the file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
             else if (url.StartsWith(HTML_Message_Helper.GetURLMarkerSetAsImput(string.Empty)))
             {
+                e.Cancel = true;
+
                 url = HttpUtility.UrlDecode(url);
                 url = url.Substring(HTML_Message_Helper.GetURLMarkerSetAsImput(string.Empty).Length);
 
-                e.Cancel = true;
-
-                //SelectedReportFilePath = url;
                 RefreshUI(false);
             }
             //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
@@ -1026,18 +1034,46 @@ namespace PptGeneratorGUI
 
         private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Windows.Forms.Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
+            Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
             MessageBox.Show("Error copied to clipboard", "Error copied to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        #endregion
 
-        private void btnClear_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+
+        #region Click voci menu a tendina
+        /// <summary>
+        /// Click sul menù a tendina "Open source files folder"
+        /// </summary>
+        private void openSouceFilesFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ClearOutputArea();
+            var folderPath = SourceFilesFolderPath;
+            openFolderForUser(folderPath);
         }
 
-
-        private void ResetSelectedReportAndDestFolder()
+        private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                _pathFileHistory.ClearHistory();
+                FillComboBoxes();
+                RefreshUI(false);
+            }
+        }
+
+        private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cleanCurrentsession();
+        }
+        private void cleanCurrentsession()
+        {
+            _inputValidato = false;
+            _applicablefilters = new List<InputDataFilters_Item>();
+            _selectedDatePeriodo = DateTime.Today;
+
+            ClearOutputArea();
+
+            gbPaths.Enabled = true;
+
             SelectedFileBudgetPath = string.Empty;
             SelectedFileForecastPath = string.Empty;
             SelectedFileSuperDettagliPath = string.Empty;

@@ -163,7 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmaginiDaEsportare.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_PredisponiTmpFolder.cs" />
+    <Compile Include="Steps\Step_PredisponiTmpFolder.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFiles_Presentazioni.cs" />
     <Compile Include="Steps\Step_CreaLista_ItemsToExportAsImage.cs" />
     <Compile Include="Steps\Step_EsitoFinale_Success.cs" />

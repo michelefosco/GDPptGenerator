@@ -16,6 +16,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_ValidazioniPreliminari_InputFiles", Context);
             validazioniPreliminari_InputFiles();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

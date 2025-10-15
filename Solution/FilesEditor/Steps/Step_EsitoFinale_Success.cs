@@ -13,6 +13,7 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_EsitoFinale_Success", Context);
             return EsitiFinali.Success;
         }
     }

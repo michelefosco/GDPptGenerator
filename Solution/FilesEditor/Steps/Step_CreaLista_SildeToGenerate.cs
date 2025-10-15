@@ -23,6 +23,7 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_CreaLista_SildeToGenerate", Context);
             creaLista_SildeToGenerate();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

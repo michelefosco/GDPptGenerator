@@ -5,6 +5,7 @@ using FilesEditor.Entities;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using FilesEditor.Entities.Exceptions;
 namespace FilesEditor.Helpers
 {
     public class DebugInfoLogger
@@ -13,8 +14,10 @@ namespace FilesEditor.Helpers
         {
             // lunghezza massima nome foglio in Excel = 31     "1234567890123456789012345678901"
             public const string Log = "Log";
-            public const string FormuleReportisticaPerCategoria = "ReportisticaPerCategoria";
-            public const string UpdateReportsInput = "UpdateReportsInput";
+            public const string StepContext = "StepContext";
+            public const string Warnings = "Warnings";
+
+
             public const string UpdateReportsOutput = "UpdateReportsOutput";
             public const string RepartiCensitiSuController = "Reparti in controller";
             public const string RepartiCensitiSuReport = "Reparti in report";
@@ -50,13 +53,20 @@ namespace FilesEditor.Helpers
             // Verifica che il file da generare NON esita già
             if (File.Exists(filePath))
             {
-                ////TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_GiaEsistente()
-                //throw new ManagedException(
-                //    tipologiaErrore: ErrorTypes.FileGiaEsistente,
-                //    tipologiaCartella: FileTypes.Debug,
-                //    messaggioPerUtente: UserErrorMessages.FileGiaEsistente,
-                //    percorsoFile: filePath
-                //    );
+                //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_GiaEsistente()
+                throw  new ManagedException(
+                    filePath: filePath,
+                    fileType: FileTypes.Debug,
+                    //
+                    worksheetName: null,
+                    cellRow: null,
+                    cellColumn: null,
+                    valueHeader: ValueHeaders.None,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.FileAlreadyExists,
+                    userMessage: $"The file debug already exists (path: {filePath}"
+                    );
             }
 
             _epPlusHelper = new EPPlusHelper();
@@ -64,12 +74,19 @@ namespace FilesEditor.Helpers
             // Verifica che il file da usarsi per il debug sia stato stato creato correttamente
             if (!_epPlusHelper.Create(filePath, WorkSheetNames.Log))
             {
-            //    //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_ImpossibileDaCreare()
-            //    throw new ManagedException(
-            //        tipologiaErrore: ErrorTypes.ImpossibileCreareFile,
-            //        tipologiaCartella: FileTypes.Debug,
-            //        percorsoFile: filePath
-            //        );
+                throw new ManagedException(
+                    filePath: filePath,
+                    fileType: FileTypes.Debug,
+                    //
+                    worksheetName: null,
+                    cellRow: null,
+                    cellColumn: null,
+                    valueHeader: ValueHeaders.None,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.UnableToCreateFile,
+                    userMessage: $"Unable to create the file (path: {filePath}"
+                    );
             }
         }
 
@@ -674,23 +691,23 @@ namespace FilesEditor.Helpers
             AutoSave();
         }
 
-        internal void LogFormuleReportisticaPerCategoriaIntestazione()
-        {
-            if (_epPlusHelper == null) { return; }
+        //internal void LogFormuleReportisticaPerCategoriaIntestazione()
+        //{
+        //    if (_epPlusHelper == null) { return; }
 
-            var worksheetName = WorkSheetNames.FormuleReportisticaPerCategoria;
+        //    var worksheetName = WorkSheetNames.FormuleReportisticaPerCategoria;
 
-            // riga intestazione
-            _epPlusHelper.AddNewHeaderRow(worksheetName,
-                "Categoria",//#1
-                "Colonna",//#2
-                "Porzione di formula",//#3
-                "Formula con separatore ','",//#4
-                "Formula con separatore ';'"//#5
-                );
+        //    // riga intestazione
+        //    _epPlusHelper.AddNewHeaderRow(worksheetName,
+        //        "Categoria",//#1
+        //        "Colonna",//#2
+        //        "Porzione di formula",//#3
+        //        "Formula con separatore ','",//#4
+        //        "Formula con separatore ';'"//#5
+        //        );
 
-            AutoSave();
-        }
+        //    AutoSave();
+        //}
 
         //internal void LogFormuleReportisticaPerCategoriaRiga(string categoria, string colonna, string formula, int porzioneDiFormula)
         //{
@@ -799,8 +816,24 @@ namespace FilesEditor.Helpers
 
         internal void LogWarning(string warningMessage)
         {
-            //todo: prendere dall'altro helper
-            throw new NotImplementedException();
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetName = WorkSheetNames.Warnings;
+
+            _epPlusHelper.AddNewContentRow(worksheetName, warningMessage);
+        }
+
+        internal void LogStepContext(string stepName, StepContext context)
+        {
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetName = WorkSheetNames.StepContext;
+
+            //todo: aggiungere tutte le properties di StepContext
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileBudgetPath", context.FileBudgetPath);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileForecastPath", context.FileForecastPath);
+
+            AutoSave();
         }
     }
 }

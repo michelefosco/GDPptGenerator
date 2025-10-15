@@ -7,7 +7,7 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public List<string> OutputFilePathLists = new List<string>();
 
-        public BuildPresentationOutput(StepContext context) : base(context.Esito)
+        public BuildPresentationOutput(StepContext context) : base(context)
         {
             OutputFilePathLists = context.OutputFilePathLists;
         }

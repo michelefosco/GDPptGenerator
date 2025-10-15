@@ -18,6 +18,13 @@ namespace FilesEditor.Enums
         [Description("Unable to create a folder")]
         UnableToCreateFolder,
 
+        [Description("File already exists")]
+        FileAlreadyExists,
+
+        [Description("Unable to create the file")]
+        UnableToCreateFile,
+
+
 
         [Description("An expected worksheet is missing")]
         MissingWorksheet,
@@ -28,11 +35,8 @@ namespace FilesEditor.Enums
 
 
 
-        [Description("Impossibile creare il file")]
-        ImpossibileCreareFile,
 
-        [Description("File già esistente")]
-        FileGiaEsistente,
+
 
         [Description("File inesistente")]
         FileMancante,

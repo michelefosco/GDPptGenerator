@@ -14,6 +14,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificTask()
         {
+            Context.DebugInfoLogger.LogStepContext("Step_CreaLista_ItemsToExportAsImage", Context);
             creaListaImmaginiDaEsportare();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
