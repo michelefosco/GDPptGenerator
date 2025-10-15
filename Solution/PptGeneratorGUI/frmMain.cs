@@ -1,12 +1,9 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using FilesEditor;
+﻿using FilesEditor;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
-using ShapeCrawler;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,8 +11,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Windows.Forms;
 
@@ -23,58 +18,10 @@ namespace PptGeneratorGUI
 {
     public partial class frmMain : Form
     {
-
         // private string _debugFileName;
         private DateTime _selectedDatePeriodo;
         private List<InputDataFilters_Item> _applicablefilters;
-
         private bool _inputValidato = false;
-
-        #region HTML elements
-        private const string _newlineHTML = @"<BR />";
-        private const string _boldHTML = @"<B>{0}</B>";
-        private const string _hyperlinkHTML = @"<a style=""color: blue;"" href=""{0}"">{1}</a>";
-        private const string _tabHTML = "&nbsp;&nbsp;&nbsp;";
-        private const string _spaceHTML = "&nbsp;";
-        private const string _redTextHTML = @"<span class=""red"">{0}</span>";
-        private const string _greenTextHTML = @"<span class=""green"">{0}</span>";
-        private const string _tableHTML = "<table>\r\n{0}\r\n</table>";
-        private const string _trHTML = "  <tr>\r\n{0}\r\n  </tr>";
-        private const string _tdHTML = "    <td>{0}</td>";
-        private const string _invisibleSpanHTML = "<span id=\"invisibleSpan\" style=\"display: none;\">{0}</span>";
-        private const string _moreDetailLink = @"<a href=""#"" style=""color: blue;"" onclick=""document.getElementById('invisibleSpan').style.display = 'inline'"">{0}</a>";
-        private const string _deleteFileHyperlinkHTML = @"<a style=""color: red;"" href=""{0}"">{1}</a>";
-        private const string _htmlBody =
- @"<html>
- <head>
-  <style type=""text/css"">
-  body {{
-   font: 11px sans-serif;
-  }}
-  table {{
-   font: 11px sans-serif;
-  }}
-th, td {{
-  padding-right: 10px;
-  }}
- .red {{
-   font-family: sans-serif;
-   color: red;
-   font-size:13px;
-  }}
-  .green {{
-   font-family: sans-serif;
-   color: green;
-   font-size:13px;
-  }}
-  </style>  
- </head>
- <body>
-  {0}
- </body>
-</html>";
-
-        #endregion
 
         #region Selected paths
         public string SelectedFileBudgetPath
@@ -817,46 +764,6 @@ th, td {{
 
         private void buildPresentation()
         {
-            //var backgroundWorker = new BackgroundWorker();
-
-            //backgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
-            //{
-            //    var buildPresentationInput = e.Argument as BuildPresentationInput;
-            //    var output = Editor.BuildPresentation(buildPresentationInput);
-            //    e.Result = new object[] { buildPresentationInput, output };
-            //};
-
-            //backgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
-            //{
-            //    toolStripProgressBar.Visible = false;
-            //    btnCreaPresentazione.Enabled = true;
-
-            //    var outputAndInput = e.Result as object[];
-
-            //    var input = outputAndInput[0] as BuildPresentationInput;
-            //    var output = outputAndInput[1] as BuildPresentationOutput;
-
-            //    if (output.Esito == EsitiFinali.Success)
-            //    {
-            //        string message = CreateOutputMessageSuccessHTML("Processing completed successfully", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath/*, output.RigheSpesaSkippate*/);
-            //        SetOutputMessage(message);
-            //        SetStatusLabel("Processing completed successfully");
-
-            //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-            //        _debugFileName = input.FileDebug_FilePath;
-            //        btnCopyError.Visible = false;
-            //    }
-            //    else //FAIL
-            //    {
-            //        //Mostrare eventuali dati nel fail
-            //        SetStatusLabel("Processing completed with errors");
-            //        SetOutputMessage(output.ManagedException);
-            //        btnCopyError.Visible = true;
-            //    }
-            //};
-
-
-
             bool isBudgetPathValid = IsBudgetPathValid();
             bool isForecastPathValid = IsForecastPathValid();
             bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
@@ -928,7 +835,7 @@ th, td {{
 
             if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML("Processing completed successfully", DebugFilePath, output.OutputFilePathLists );
+                string message = CreateOutputMessageSuccessHTML("Processing completed successfully", DebugFilePath, output.OutputFilePathLists);
                 SetOutputMessage(message);
                 SetStatusLabel("Processing completed successfully");
                 btnCopyError.Visible = false;
@@ -941,44 +848,6 @@ th, td {{
                 btnCopyError.Visible = true;
             }
         }
-
-
-        //private void btnBuildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    var buildPresentationInput = e.Argument as BuildPresentationInput;
-        //    var output = Editor.BuildPresentation(buildPresentationInput);
-        //    e.Result = new object[] { buildPresentationInput, output };
-        //}
-
-        //private void btnBuildPresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-
-        //    toolStripProgressBar.Visible = false;
-        //    btnCreaPresentazione.Enabled = true;
-
-        //    var outputAndInput = e.Result as object[];
-
-        //    var input = outputAndInput[0] as BuildPresentationInput;
-        //    var output = outputAndInput[1] as BuildPresentationOutput;
-
-        //    if (output.Esito == EsitiFinali.Success)
-        //    {
-        //        string message = CreateOutputMessageSuccessHTML("Processing completed successfully", "..", "SelectedReportFilePath", "updateReportsInput.NewReport_FilePath", input.FileDebug_FilePath, output.RigheSpesaSkippate);
-        //        SetOutputMessage(message);
-        //        SetStatusLabel("Processing completed successfully");
-
-        //        // _generatedReportFileName = updateReportsInput.NewReport_FilePath;
-        //        _debugFileName = input.FileDebug_FilePath;
-        //        btnCopyError.Visible = false;
-        //    }
-        //    else //FAIL
-        //    {
-        //        //Mostrare eventuali dati nel fail
-        //        SetStatusLabel("Processing completed with errors");
-        //        SetOutputMessage(output.ManagedException);
-        //        btnCopyError.Visible = true;
-        //    }
-        //}
         #endregion
 
 
@@ -1005,9 +874,7 @@ th, td {{
 
         private void SetOutputMessage(string message)
         {
-            string messageToHTML = message;
-            string htmlMessage = string.Format(_htmlBody, messageToHTML);
-
+            var htmlMessage = HTML_Message_Helper.GetHTMLForBody(message);
             SetOutputMessageHTML(htmlMessage);
             btnClear.Visible = true;
         }
@@ -1019,165 +886,19 @@ th, td {{
 
         private void SetOutputMessage(Exception ex)
         {
-            string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Error:"));
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += StringToHTML(ex.Message);
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-
-            htmlErrorMessage += GetInvisibleErrorDetails(ex);
-
+            string htmlErrorMessage = HTML_Message_Helper.GetHTMLForExpetion(ex);
             SetOutputMessage(htmlErrorMessage);
         }
 
         private void SetOutputMessage(ManagedException mEx)
         {
-            string htmlErrorMessage = GetHTMLRedText(GetHTMLBold("Error:"));
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += StringToHTML(GetHTMLBold(mEx.UserMessage));
-
-            if (!string.IsNullOrEmpty(mEx.FilePath))
-            {
-                htmlErrorMessage += _newlineHTML;
-                htmlErrorMessage += _newlineHTML;
-                htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(mEx.FilePath, mEx.FilePath);
-                //htmlErrorMessage += _spaceHTML;
-                //htmlErrorMessage += GetHTMLDeleteFileHyperLink(mEx.PercorsoFile);
-            }
-            switch (mEx.FileType)
-            {
-                case FileTypes.Undefined:
-                case FileTypes.Directory:
-                    break;
-
-                default:
-                    htmlErrorMessage += _newlineHTML;
-                    htmlErrorMessage += _newlineHTML;
-                    htmlErrorMessage += StringToHTML("File types: ") + GetHTMLBold(mEx.FileType.ToString());
-                    break;
-
-                    //case TipologiaCartelle.FileDiTipo2:
-                    //    htmlErrorMessage += _newlineHTML;
-                    //    htmlErrorMessage += _newlineHTML;
-                    //    htmlErrorMessage += StringToHTML("File: ") + GetHTMLHyperLink(SelectedControllerFilePath, SelectedControllerFilePath);
-                    //    break;
-            }
-
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-
-            //Tabella con dati aggiuntivi dell'errore
-            string tableHTML = GetHTMLTableRowWithCells("Error type: ", mEx.ErrorType.GetEnumDescription());
-            tableHTML += GetHTMLTableRowWithCells("File type:", mEx.FileType.GetEnumDescription());
-
-            if (!string.IsNullOrEmpty(mEx.WorksheetName))
-            {
-                tableHTML += GetHTMLTableRowWithCells("Worksheet name:", mEx.WorksheetName);
-            }
-
-            if (mEx.CellColumn.HasValue && mEx.CellRow.HasValue)
-            {
-                tableHTML += GetHTMLTableRowWithCells("Cell:", $"{((ColumnIDS)mEx.CellColumn).ToString()}{mEx.CellRow.ToString()}");
-            }
-            else
-            {
-                if (mEx.CellColumn.HasValue)
-                {
-                    tableHTML += GetHTMLTableRowWithCells("Column:", ((ColumnIDS)mEx.CellColumn).ToString());
-                }
-
-                if (mEx.CellRow.HasValue)
-                {
-                    tableHTML += GetHTMLTableRowWithCells("Row:", mEx.CellRow.ToString());
-                }
-            }
-
-            //if (mEx.NomeDatoErrore != NomiDatoErrore.None)
-            //{
-            //    tableHTML += GetHTMLTableRowWithCells("Errore sul dato:", mEx.NomeDatoErrore.GetEnumDescription());
-            //}
-
-            if (!string.IsNullOrEmpty(mEx.Value))
-            {
-                tableHTML += GetHTMLTableRowWithCells("Value:", mEx.Value);
-            }
-
-            htmlErrorMessage += GetHTMLTable(tableHTML);
-
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += _newlineHTML;
-            htmlErrorMessage += GetInvisibleErrorDetails(mEx);
-
+            string htmlErrorMessage = HTML_Message_Helper.GetHTMLForExpetion(mEx);
             SetOutputMessage(htmlErrorMessage);
         }
 
-        private string StringToHTML(string str)
-        {
-            if (string.IsNullOrEmpty(str))
-                return string.Empty;
-            else
-                return str.Replace("\t", _tabHTML)
-                    .Replace(" ", _spaceHTML)
-                    .Replace("\r\n", _newlineHTML)
-                    .Replace("\n", _newlineHTML);
-        }
 
-        private string GetHTMLHyperLink(string url, string value)
-        {
-            return string.Format(_hyperlinkHTML, GetURLMarker(url), value);
-        }
 
-        private string GetHTMLHyperLinkSetAsImput(string url, string value)
-        {
-            return string.Format(_hyperlinkHTML, GetURLMarkerSetAsImput(url), value);
-        }
 
-        private string GetHTMLDeleteFileHyperLink(string url)
-        {
-            return string.Format(_deleteFileHyperlinkHTML, GetURLMarkerDelete(url), "(Clicca quì per cancellare il file)");
-        }
-
-        private string GetHTMLMoreDetailLink(string caption)
-        {
-            return string.Format(_moreDetailLink, caption);
-        }
-
-        private string GetHTMLBold(string str)
-        {
-            return string.Format(_boldHTML, str);
-        }
-
-        private string GetHTMLRedText(string str)
-        {
-            return string.Format(_redTextHTML, str);
-        }
-
-        private string GetHTMLGreenText(string str)
-        {
-            return string.Format(_greenTextHTML, str);
-        }
-
-        private string GetHTMLTable(string innerTableHTML)
-        {
-            return string.Format(_tableHTML, innerTableHTML);
-        }
-
-        private string GetHTMLTableRow(string innerRowHTML)
-        {
-            return string.Format(_trHTML, innerRowHTML);
-        }
-
-        private string GetHTMLTableCell(string innerCellHTML)
-        {
-            return string.Format(_tdHTML, innerCellHTML);
-        }
-
-        private string GetHTMLTableRowWithCells(string cell1Value, string cell2Value)
-        {
-            return GetHTMLTableRow(GetHTMLTableCell(cell1Value) + GetHTMLTableCell(GetHTMLBold(cell2Value)));
-        }
 
         private void DeleteFile(string fullFileName)
         {
@@ -1205,24 +926,24 @@ th, td {{
 
         private string CreateOutputMessageSuccessHTML(string message, string debugFile, List<string> outputFilePathLists)
         {
-            string outputMessage = GetHTMLGreenText(GetHTMLBold(message));
-            outputMessage += _newlineHTML;
-            outputMessage += _newlineHTML;
+            string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold(message));
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper._newlineHTML;
 
             foreach (var path in outputFilePathLists)
             {
-                outputMessage += GetHTMLBold("Presentation file created: ");
-                outputMessage += GetHTMLHyperLink(path, path);
-                outputMessage += _newlineHTML;
+                outputMessage += HTML_Message_Helper.GetHTMLBold("Presentation file created: ");
+                outputMessage += HTML_Message_Helper.GetHTMLHyperLink(path, path);
+                outputMessage += HTML_Message_Helper._newlineHTML;
             }
 
 
             if (IsDebugModeEnabled())
             {
-                outputMessage += _newlineHTML;
-                outputMessage += _newlineHTML;
-                outputMessage += GetHTMLBold("Debug file created: ");
-                outputMessage += GetHTMLHyperLink(debugFile, debugFile);
+                outputMessage += HTML_Message_Helper._newlineHTML;
+                outputMessage += HTML_Message_Helper._newlineHTML;
+                outputMessage += HTML_Message_Helper.GetHTMLBold("Debug file created: ");
+                outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFile, debugFile);
             }
 
             //if (righeSkippate != null && righeSkippate.Count > 0)
@@ -1254,10 +975,10 @@ th, td {{
         private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
         {
             string url = e.Url.OriginalString;
-            if (url.StartsWith(GetURLMarker(string.Empty)))
+            if (url.StartsWith(HTML_Message_Helper.GetURLMarker(string.Empty)))
             {
                 url = HttpUtility.UrlDecode(url);
-                url = url.Substring(GetURLMarker(string.Empty).Length);
+                url = url.Substring(HTML_Message_Helper.GetURLMarker(string.Empty).Length);
 
                 e.Cancel = true;
 
@@ -1267,10 +988,10 @@ th, td {{
                 else
                     MessageBox.Show($"Impossibile aprire il file {url}, probabilmente non è più presente sul disco.", "Impossibile aprire il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (url.StartsWith(GetURLMarkerSetAsImput(string.Empty)))
+            else if (url.StartsWith(HTML_Message_Helper.GetURLMarkerSetAsImput(string.Empty)))
             {
                 url = HttpUtility.UrlDecode(url);
-                url = url.Substring(GetURLMarkerSetAsImput(string.Empty).Length);
+                url = url.Substring(HTML_Message_Helper.GetURLMarkerSetAsImput(string.Empty).Length);
 
                 e.Cancel = true;
 
@@ -1301,30 +1022,7 @@ th, td {{
 
         }
 
-        private string GetURLMarker(string url)
-        {
-            return "file-" + url;
-        }
 
-        private string GetURLMarkerSetAsImput(string url)
-        {
-            return "input-" + url;
-        }
-
-        private string GetURLMarkerDelete(string url)
-        {
-            return "filedelete-" + url;
-        }
-
-        private string GetInvisibleErrorDetails(Exception ex)
-        {
-            return GetInvisibleSPAN(StringToHTML($"Version: {GetVersion()}\r\nFull error:\r\n{ex}"));
-        }
-
-        private string GetInvisibleSPAN(string innerHtml)
-        {
-            return string.Format(_invisibleSpanHTML, innerHtml);
-        }
 
         private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1348,9 +1046,6 @@ th, td {{
 
             RefreshUI(true);
         }
-
         #endregion
-
-
     }
 }
