@@ -90,6 +90,7 @@
             this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.openDataSouceExcelFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -696,9 +697,10 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearPathsHistoryToolStripMenuItem,
+            this.openDataSouceExcelFileToolStripMenuItem,
+            this.cleanCurrentsessionToolStripMenuItem,
             this.openSouceFilesFolderToolStripMenuItem,
-            this.cleanCurrentsessionToolStripMenuItem});
+            this.clearPathsHistoryToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
             this.toolStripMenuItem1.Text = "&Options";
@@ -706,21 +708,21 @@
             // clearPathsHistoryToolStripMenuItem
             // 
             this.clearPathsHistoryToolStripMenuItem.Name = "clearPathsHistoryToolStripMenuItem";
-            this.clearPathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.clearPathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.clearPathsHistoryToolStripMenuItem.Text = "&Clear paths history";
             this.clearPathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearPathsHistoryToolStripMenuItem_Click);
             // 
             // openSouceFilesFolderToolStripMenuItem
             // 
             this.openSouceFilesFolderToolStripMenuItem.Name = "openSouceFilesFolderToolStripMenuItem";
-            this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.openSouceFilesFolderToolStripMenuItem.Text = "Open &Souce files folder";
             this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
             // 
             // cleanCurrentsessionToolStripMenuItem
             // 
             this.cleanCurrentsessionToolStripMenuItem.Name = "cleanCurrentsessionToolStripMenuItem";
-            this.cleanCurrentsessionToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.cleanCurrentsessionToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.cleanCurrentsessionToolStripMenuItem.Text = "Clean current &session";
             this.cleanCurrentsessionToolStripMenuItem.Click += new System.EventHandler(this.cleanCurrentsessionToolStripMenuItem_Click);
             // 
@@ -729,6 +731,13 @@
             this.bfbDestFolder.Multiselect = false;
             this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
             this.bfbDestFolder.Title = "Please select a folder...";
+            // 
+            // openDataSouceExcelFileToolStripMenuItem
+            // 
+            this.openDataSouceExcelFileToolStripMenuItem.Name = "openDataSouceExcelFileToolStripMenuItem";
+            this.openDataSouceExcelFileToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.openDataSouceExcelFileToolStripMenuItem.Text = "Open &DataSouce Excel file";
+            this.openDataSouceExcelFileToolStripMenuItem.Click += new System.EventHandler(this.openDataSouceExcelFileToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -825,6 +834,7 @@
         private System.Windows.Forms.ToolStripMenuItem clearPathsHistoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSouceFilesFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cleanCurrentsessionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openDataSouceExcelFileToolStripMenuItem;
     }
 }
 

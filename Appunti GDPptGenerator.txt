@@ -10,7 +10,7 @@ File di input:
 
 
 -------------------- Domande per Francesco
-- Riusciamo a vincolare maggiormente il foglio Excel? Protezioni?
+- Nell'ultima version del file DataSource ricevuto le colonne da aggionare per il figlio Budget sono identiche a quelle del fogli Forecast. Però mentre per quest'ultimo c'è una corrispondenza 1 a 1 con il file di input Excel. Mentre per budget sono tutti in pò stravolti.
 - In interfaccia vuoi ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel
 
 
@@ -20,15 +20,18 @@ Per PowerPoint usata libreria: ShapeCrawler
 
 -------------------- Todo
 - Traduzione e rivedere messaggi utente nella UI
+- Mostrare warning in interfaccia
+- Aggiungere istruzioni per la compilazione della tabella Alias in excel
 - Step backup DataSource prima di cominiciare
 - Move HTML helpers
 - Add logging
+- Lettura tabelle alias
 - in UI in caso si successo, link per apertura files
 - Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
 - Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
 - Rimouvere constati per datasoure e datasource template (semplificare)
 - Rivedere nomi steps e aggiungere commento in cima alla classe
-
+- Dopo la versione definitiva dei file di input aggiungere più test la validazione degli headers
 - Mandare prima versione per test UI
 - Test con formule
 - Test con filtri

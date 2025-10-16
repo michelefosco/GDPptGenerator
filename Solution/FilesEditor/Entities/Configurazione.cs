@@ -26,8 +26,17 @@
         public int DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL { get; set; }
 
 
+        // Alias-Business TMP
+        public int DATASOURCE_ALIAS_BUSINESS_TMP_FIRST_DATA_ROW { get; set; }
+        public int DATASOURCE_ALIAS_BUSINESS_TMP_RAW_VALUES_COL { get; set; }
+        public int DATASOURCE_ALIAS_BUSINESS_TMP_NEW_VALUES_COL { get; set; }
 
-   
+
+        // Alias-Categoria
+        public int DATASOURCE_ALIAS_CATEGORIA_FIRST_DATA_ROW { get; set; }
+        public int DATASOURCE_ALIAS_CATEGORIA_TMP_RAW_VALUES_COL { get; set; }
+        public int DATASOURCE_ALIAS_CATEGORIA_TMP_NEW_VALUES_COL { get; set; }
+
 
         //public int INPUT_FILES_SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
         //public int INPUT_FILES_BUDGET_FIRST_DATA_ROW { get; set; }

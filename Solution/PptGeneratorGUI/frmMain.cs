@@ -23,8 +23,8 @@ namespace PptGeneratorGUI
         private List<InputDataFilters_Item> _applicablefilters = new List<InputDataFilters_Item>();
         private bool _inputValidato = false;
 
-        #region Selected paths
-        public string SelectedFileBudgetPath
+        #region Files and folders paths
+        private string SelectedFileBudgetPath
         {
             get
             {
@@ -35,7 +35,7 @@ namespace PptGeneratorGUI
                 cmbFileBudgetPath.Text = value;
             }
         }
-        public string SelectedFileForecastPath
+        private string SelectedFileForecastPath
         {
             get
             {
@@ -46,7 +46,7 @@ namespace PptGeneratorGUI
                 cmbFileForecastPath.Text = value;
             }
         }
-        public string SelectedFileSuperDettagliPath
+        private string SelectedFileSuperDettagliPath
         {
             get
             {
@@ -57,7 +57,7 @@ namespace PptGeneratorGUI
                 cmbFileSuperDettagliPath.Text = value;
             }
         }
-        public string SelectedFileRunRatePath
+        private string SelectedFileRunRatePath
         {
             get
             {
@@ -68,7 +68,7 @@ namespace PptGeneratorGUI
                 cmbFileRunRatePath.Text = value;
             }
         }
-        public string SelectedDestinationFolderPath
+        private string SelectedDestinationFolderPath
         {
             get
             {
@@ -79,27 +79,13 @@ namespace PptGeneratorGUI
                 cmbDestinationFolderPath.Text = value;
             }
         }
-
-        private string SourceFilesFolderPath
-        {
-            get
-            {
-                string exePath = Assembly.GetExecutingAssembly().Location;
-                string exeDir = Path.GetDirectoryName(exePath);
-                var folderPath = Path.Combine(exeDir, "SourceFiles");
-                return folderPath;
-            }
-        }
-
-
-        private string TmpFolder
+        private string TmpFolderPath
         {
             get
             {
                 return Path.Combine(SelectedDestinationFolderPath, FolderNames.TMP_FOLDER_FOR_GENERATED_FILES); ;
             }
         }
-
         private string DebugFilePath
         {
             get
@@ -108,7 +94,16 @@ namespace PptGeneratorGUI
                 return Path.Combine(SelectedDestinationFolderPath, debugFileName);
             }
         }
-
+        private string DataSourceFilePath
+        {
+            get
+            {
+                string exePath = Assembly.GetExecutingAssembly().Location;
+                string exeDir = Path.GetDirectoryName(exePath);
+                var sourceFilesFolder = Path.Combine(exeDir, "SourceFiles");
+                return Path.Combine(sourceFilesFolder, FileNames.DATA_SOURCE_FILENAME);
+            }
+        }
 
         #endregion
 
@@ -720,8 +715,8 @@ namespace PptGeneratorGUI
             var validateSourceFilesInput = new ValidateSourceFilesInput(
                     // proprietà classe base
                     destinationFolder: SelectedDestinationFolderPath,
-                    tmpFolder: TmpFolder,
-                    sourceFilesFolderPath: SourceFilesFolderPath,
+                    tmpFolder: TmpFolderPath,
+                    dataSourceFilePath: DataSourceFilePath,
                     debugFilePath: DebugFilePath,
                     //
                     fileBudgetPath: SelectedFileBudgetPath,
@@ -808,9 +803,9 @@ namespace PptGeneratorGUI
 
                 var buildPresentationInput = new BuildPresentationInput(
                     // proprietà classe base
-                    sourceFilesFolderPath: SourceFilesFolderPath,
+                    dataSourceFilePath: DataSourceFilePath,
                     destinationFolder: SelectedDestinationFolderPath,
-                    tmpFolder: TmpFolder,
+                    tmpFolder: TmpFolderPath,
                     debugFilePath: DebugFilePath,
                     //
                     replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
@@ -852,7 +847,7 @@ namespace PptGeneratorGUI
 
             if (output.Esito == EsitiFinali.Success)
             {
-                string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists);
+                string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
                 SetOutputMessage(message);
                 SetStatusLabel("Processing completed successfully");
                 btnCopyError.Visible = false;
@@ -927,7 +922,7 @@ namespace PptGeneratorGUI
             btnCopyError.Visible = false;
         }
 
-        private string CreateOutputMessageSuccessHTML(string debugFilePath, List<string> outputFilePathLists)
+        private string CreateOutputMessageSuccessHTML(string debugFilePath, List<string> outputFilePathLists, List<string> warnings)
         {
             string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold("Processing completed successfully"));
             outputMessage += HTML_Message_Helper._newlineHTML;
@@ -947,6 +942,8 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper.GetHTMLBold("Debug file created: ");
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFilePath, debugFilePath);
             }
+
+            outputMessage += HTML_Message_Helper.GeneraHtmlPerWarning(warnings);
 
             //if (righeSkippate != null && righeSkippate.Count > 0)
             //{
@@ -973,6 +970,8 @@ namespace PptGeneratorGUI
 
             return outputMessage;
         }
+
+
 
         private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
         {
@@ -1041,13 +1040,18 @@ namespace PptGeneratorGUI
 
 
         #region Click voci menu a tendina
+        private void openDataSouceExcelFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openExcelForUser(DataSourceFilePath);
+        }
+
         /// <summary>
         /// Click sul menù a tendina "Open source files folder"
         /// </summary>
         private void openSouceFilesFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var folderPath = SourceFilesFolderPath;
-            openFolderForUser(folderPath);
+            var dataSourceFolderPath = Path.GetDirectoryName(DataSourceFilePath);
+            openFolderForUser(dataSourceFolderPath);
         }
 
         private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)

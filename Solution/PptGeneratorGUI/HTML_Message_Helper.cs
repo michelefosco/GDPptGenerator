@@ -1,6 +1,8 @@
 ﻿using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PptGeneratorGUI
 {
@@ -207,6 +209,25 @@ namespace PptGeneratorGUI
         public static string GetInvisibleErrorDetails(Exception ex)
         {
             return GetInvisibleSPAN(StringToHTML($"Full error:\r\n{ex}"));
+        }
+        public static string GeneraHtmlPerWarning(List<string> warnings)
+        {
+            if (warnings == null || !warnings.Any())
+            { return string.Empty; }
+
+            string outputMessage = "";
+            outputMessage += _newlineHTML + _newlineHTML + _newlineHTML;
+            outputMessage += GetHTMLBold($"Warnings were reported during the processing:");
+
+            //Elenco dei warnings
+            outputMessage += "<UL>";
+            foreach (var warning in warnings)
+            {
+                outputMessage += $"<li>{warning}</li>";
+            }
+            outputMessage += "</UL>";
+
+            return outputMessage;
         }
     }
 }

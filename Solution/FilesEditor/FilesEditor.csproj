@@ -136,6 +136,7 @@
     <Compile Include="Constants\Numbers.cs" />
     <Compile Include="Constants\Values.cs" />
     <Compile Include="Constants\WorkSheetNames.cs" />
+    <Compile Include="Entities\AliasDefinition.cs" />
     <Compile Include="Entities\Configurazione.cs" />
     <Compile Include="Entities\Exceptions\ManagedException.cs" />
     <Compile Include="Entities\InputDataFilters_Item.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmaginiDaEsportare.cs" />
+    <Compile Include="Steps\Step_CreaListe_Alias.cs" />
     <Compile Include="Steps\Step_PredisponiTmpFolder.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFiles_Presentazioni.cs" />
     <Compile Include="Steps\Step_CreaLista_ItemsToExportAsImage.cs" />

@@ -28,7 +28,7 @@ namespace FilesEditor.Steps.BuildPresentation
         {
 
             // Carica il workbook
-            Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook(Context.DataSourcePath);
+            Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook(Context.DataSourceFilePath);
 
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {

@@ -11,7 +11,7 @@ namespace FilesEditor.Entities
         public string FileRunRatePath { get; private set; }
 
         public ValidateSourceFilesInput(
-                string sourceFilesFolderPath,
+                string dataSourceFilePath,
                 string destinationFolder,
                 string tmpFolder,
                 string debugFilePath,
@@ -23,8 +23,8 @@ namespace FilesEditor.Entities
             )
         {
             // Properties from the base class
-            if (string.IsNullOrWhiteSpace(sourceFilesFolderPath))
-                throw new ArgumentNullException(nameof(sourceFilesFolderPath));
+            if (string.IsNullOrWhiteSpace(dataSourceFilePath))
+                throw new ArgumentNullException(nameof(dataSourceFilePath));
             if (string.IsNullOrWhiteSpace(destinationFolder))
                 throw new ArgumentNullException(nameof(destinationFolder));
             if (string.IsNullOrWhiteSpace(tmpFolder))
@@ -42,7 +42,7 @@ namespace FilesEditor.Entities
                 throw new ArgumentNullException(nameof(fileRunRatePath));
 
             // Properties from the base class
-            base.SourceFilesFolder = sourceFilesFolderPath;
+            base.DataSourceFilePath = dataSourceFilePath;
             base.DestinationFolder = destinationFolder;
             base.TmpFolder = tmpFolder;
             base.DebugFilePath = debugFilePath;

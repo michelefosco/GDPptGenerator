@@ -180,8 +180,8 @@ namespace FilesEditor
         //#region Lettura da DataSource_Template
         //private static UserOptions getUserOptions(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         //{
-        //    var dataSourceTemplateFile = Path.Combine(validateSourceFilesInput.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
-        //    var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource_Template);
+        //    var dataSourcePath = Path.Combine(validateSourceFilesInput.SourceFilesFolder, FileNames.DATA_SOURCE_TEMPLATE_FILENAME);
+        //    var ePPlusHelper = GetHelperForExistingFile(dataSourcePath, FileTypes.DataSource_Template);
         //    var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
         //    ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource_Template);
 

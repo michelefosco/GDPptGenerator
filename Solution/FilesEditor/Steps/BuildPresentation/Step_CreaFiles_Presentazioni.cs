@@ -40,7 +40,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
                 #region Copio il template nella cartella di output
-                var percorsoFileTemplatePowerPoint = Path.Combine(Context.SourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+                var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
+                var percorsoFileTemplatePowerPoint = Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
                 File.Copy(percorsoFileTemplatePowerPoint, outputfilePath);
                 var pres = new ShapeCrawler.Presentation(outputfilePath);
                 #endregion

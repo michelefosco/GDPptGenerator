@@ -11,16 +11,15 @@ namespace FilesEditor.Entities
         // Base class already has these properties
         // DestinationFolder
         // TmpFolder
-        // SourceFilesFolder
+        // DataSourceFilePath
         // DebugFilePath
+
 
         //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         public EsitiFinali Esito { get; private set; }
         public Configurazione Configurazione;
         public DebugInfoLogger DebugInfoLogger = new DebugInfoLogger(null);
         public List<string> Warnings = new List<string>();
-
-        public string DataSourcePath;
 
         public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
 
@@ -57,7 +56,7 @@ namespace FilesEditor.Entities
             if (input == null) { return; }
             base.DestinationFolder = input.DestinationFolder;
             base.TmpFolder = input.TmpFolder;
-            base.SourceFilesFolder = input.SourceFilesFolder;
+            base.DataSourceFilePath = input.DataSourceFilePath;
             base.DebugFilePath = input.DebugFilePath;
             //
             ReplaceAllData_FileSuperDettagli = input.ReplaceAllData_FileSuperDettagli;
@@ -70,7 +69,7 @@ namespace FilesEditor.Entities
             if (input == null) { return; }
             base.DestinationFolder = input.DestinationFolder;
             base.TmpFolder = input.TmpFolder;
-            base.SourceFilesFolder = input.SourceFilesFolder;
+            base.DataSourceFilePath = input.DataSourceFilePath;
             base.DebugFilePath = input.DebugFilePath;
             //
             FileBudgetPath = input.FileBudgetPath;

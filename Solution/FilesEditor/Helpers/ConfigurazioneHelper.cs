@@ -27,6 +27,19 @@ namespace FilesEditor.Helpers
             configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL = (int)ColumnIDS.B;
 
 
+            // Alias-Business TMP
+            configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_FIRST_DATA_ROW = 3;
+            configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_RAW_VALUES_COL = 1;
+            configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_NEW_VALUES_COL = 2;
+
+
+            // Alias-Categoria
+            configurazione.DATASOURCE_ALIAS_CATEGORIA_FIRST_DATA_ROW = 3;
+            configurazione.DATASOURCE_ALIAS_CATEGORIA_TMP_RAW_VALUES_COL = 1;
+            configurazione.DATASOURCE_ALIAS_CATEGORIA_TMP_NEW_VALUES_COL = 2;
+
+
+
             // Input file input Superdettagli
             configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
 

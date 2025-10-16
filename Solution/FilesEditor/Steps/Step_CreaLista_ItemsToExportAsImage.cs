@@ -5,7 +5,7 @@ using FilesEditor.Enums;
 using System.IO;
 using System.Linq;
 
-namespace FilesEditor.Steps.BuildPresentation
+namespace FilesEditor.Steps
 {
     internal class Step_CreaLista_ItemsToExportAsImage : StepBase
     {
@@ -21,14 +21,13 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void creaListaImmaginiDaEsportare()
         {
-            var dataSourceTemplateFile = Path.Combine(Context.SourceFilesFolder, FileNames.DATA_SOURCE_FILENAME);
-            var ePPlusHelper = GetHelperForExistingFile(dataSourceTemplateFile, FileTypes.DataSource);
+            var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)
             {
                 ThrowExpetionsForMissingWorksheet(ePPlusHelper, imageId, FileTypes.DataSource);
-                
+
                 var printArea = ePPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
                 // check sul campo "Print Area"
                 if (string.IsNullOrWhiteSpace(printArea))

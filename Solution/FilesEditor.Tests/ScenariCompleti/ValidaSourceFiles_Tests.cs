@@ -15,7 +15,8 @@ namespace FilesEditor.Tests
         public void Scenario_OK_01()
         {
             // properties base class
-            string sourceFilesFolderPath = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
+            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
+            string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATA_SOURCE_FILENAME);
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
             string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
             string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
@@ -28,7 +29,7 @@ namespace FilesEditor.Tests
 
 
             var input = new ValidateSourceFilesInput(
-                    sourceFilesFolderPath: sourceFilesFolderPath,
+                    dataSourceFilePath: dataSourceFilePath,
                     destinationFolder: destinationFolder,
                     tmpFolder: tmpFolder,
                     debugFilePath: debugFilePath,
@@ -48,7 +49,7 @@ namespace FilesEditor.Tests
 
             // test specifici dell'oggetto di output
             Assert.IsNotNull(output.Applicablefilters);
-            Assert.AreEqual(8, output.Applicablefilters.Count);
+            Assert.AreEqual(7, output.Applicablefilters.Count);
 
             foreach (var filter in output.Applicablefilters)
             {

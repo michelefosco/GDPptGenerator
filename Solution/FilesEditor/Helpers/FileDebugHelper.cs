@@ -1,11 +1,12 @@
 ﻿using EPPlusExtensions;
+using FilesEditor.Entities;
+using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
-using FilesEditor.Entities;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System;
-using FilesEditor.Entities.Exceptions;
+using System.Linq;
 namespace FilesEditor.Helpers
 {
     public class DebugInfoLogger
@@ -176,6 +177,31 @@ namespace FilesEditor.Helpers
                 {
                     _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", buildPresentationOutput.ManagedException.InnerException.ToString());
                 }
+            }
+
+            AutoSave();
+        }
+
+        internal void LogAlias(List<AliasDefinition> aliasDefinitions, string fieldName)
+        {
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetName = $"Alias for {fieldName}";
+
+            // riga intestazione
+            _epPlusHelper.AddNewHeaderRow(worksheetName,
+                "Raw Value",        //#1
+                "Is reg. expres.",  //#2
+                "New Value"         //#3
+                );
+
+            foreach (var aliasDefinition in aliasDefinitions)
+            {
+                _epPlusHelper.AddNewContentRow(worksheetName,
+                    aliasDefinition.RawValue,               //#1
+                    aliasDefinition.IsRegularExpression,    //#2
+                    aliasDefinition.NewValue                //#3
+                    );
             }
 
             AutoSave();
