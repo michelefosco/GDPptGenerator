@@ -125,7 +125,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var ePPlusHelper = GetHelperForExistingFile(filePath, fileType);
 
             // Controllo che l'header per la colonna che si sta tentando di esista
-            ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, new List<string> { headerValue });
+            var errorMessage = $"The configuration inside the file DataSource includes the filter: '{fileType} - {headerValue}'.\r\nThe worksheet '{worksheetName}' does not contain the corresponding header ('{headerValue}')";
+            ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, new List<string> { headerValue }, errorMessage);
 
             var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue);
             return values.Distinct().OrderBy(n => n).ToList(); ;

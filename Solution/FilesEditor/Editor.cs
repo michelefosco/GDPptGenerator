@@ -54,20 +54,6 @@ namespace FilesEditor
             }
             catch (Exception ex)
             {
-                //var managedException = new ManagedException(
-                //    filePath: null,
-                //    fileType: FileTypes.None,
-                //    //
-                //    worksheetName: null,
-                //    cellRow: null,
-                //    cellColumn: null,
-                //    valueHeader: ValueHeaders.None,
-                //    value: null,
-                //    //
-                //    errorType: ErrorTypes.UnhandledException,
-                //    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
-                //    );
-                //return new BuildPresentationOutput(managedException);
                 return new BuildPresentationOutput(new ManagedException(ex));
             }
         }
@@ -113,19 +99,6 @@ namespace FilesEditor
             }
             catch (Exception ex)
             {
-                //var managedException = new ManagedException(
-                //    filePath: null,
-                //    fileType: FileTypes.None,
-                //    //
-                //    worksheetName: null,
-                //    cellRow: null,
-                //    cellColumn: null,
-                //    valueHeader: ValueHeaders.None,
-                //    value: null,
-                //    //
-                //    errorType: ErrorTypes.UnhandledException,
-                //    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
-                //    );
                 return new ValidateSourceFilesOutput(new ManagedException(ex));
             }
         }

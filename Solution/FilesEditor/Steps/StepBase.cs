@@ -182,13 +182,19 @@ namespace FilesEditor.Steps
                     );
             }
         }
-        internal void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, List<string> expectedColumns)
+        internal void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, List<string> expectedColumns, string ovverideMessage = "")
         {
+
             var columnsList = ePPlusHelper.GetHeaders(worksheetName, rowWithHeaders);
             foreach (var expectedColumn in expectedColumns)
             {
                 if (!columnsList.Any(_ => _.Equals(expectedColumn, StringComparison.InvariantCultureIgnoreCase)))
                 {
+
+                    var errorMessage = string.IsNullOrEmpty(ovverideMessage) 
+                        ? $"The file '{fileType}' does not have one of the expected headers ('{expectedColumn}')"
+                        : ovverideMessage;
+
                     throw new ManagedException(
                             filePath: ePPlusHelper.FilePathInUse,
                             fileType: fileType,
@@ -200,7 +206,7 @@ namespace FilesEditor.Steps
                             value: null,
                             //
                             errorType: ErrorTypes.MissingValue,
-                            userMessage: $"The file '{fileType}' does not have one of the expected headers ('{expectedColumn}')"
+                            userMessage: errorMessage
                             );
                 }
             }
