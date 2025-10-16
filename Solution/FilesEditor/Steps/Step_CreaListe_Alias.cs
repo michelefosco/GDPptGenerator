@@ -26,19 +26,17 @@ namespace FilesEditor.Steps
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
-            var alias_BusinesTMP = creaLista_Alias_BusinesTMP(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP);
-            creaLista_Alias_Categoria();
-
-            ePPlusHelper.Close();
+            Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP);
+            Context.AliasDefinitions_Categoria = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_CATEGORIA);
         } 
 
-        private List<AliasDefinition> creaLista_Alias_BusinesTMP(EPPlusHelper ePPlusHelper, string worksheetName)
+        private List<AliasDefinition> readAliasFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName)
         {
           //  var worksheetName = WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
-            var firstRow = Context.Configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_FIRST_DATA_ROW;
-            var lastRow = ePPlusHelper.GetLastUsedRowForColumn(worksheetName, firstRow, Context.Configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_NEW_VALUES_COL);
+            var firstRow = Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_FIRST_DATA_ROW;
+            var lastRow = ePPlusHelper.GetLastUsedRowForColumn(worksheetName, firstRow, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL);
 
             // mi posizione sulla riga precedente a quella da cui partire
             var currentRowNumber = firstRow - 1;
@@ -51,10 +49,10 @@ namespace FilesEditor.Steps
                 // mi posiziono sulla prossima riga da leggere
                 currentRowNumber++;
 
-                var rawValues = ePPlusHelper.GetString(worksheetName, currentRowNumber, Context.Configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_RAW_VALUES_COL);
-                var newValue = ePPlusHelper.GetString(worksheetName, currentRowNumber, Context.Configurazione.DATASOURCE_ALIAS_BUSINESS_TMP_NEW_VALUES_COL);
+                var rawValues = ePPlusHelper.GetString(worksheetName, currentRowNumber, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_RAW_VALUES_COL);
+                var newValue = ePPlusHelper.GetString(worksheetName, currentRowNumber, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL);
 
-                // ignoro le righe vuote (entrambi i campi a null
+                // ignoro le righe vuote (entrambi i campi a null)
                 if (string.IsNullOrEmpty(rawValues) && string.IsNullOrEmpty(newValue))
                 { continue; }
 
@@ -69,7 +67,22 @@ namespace FilesEditor.Steps
                 var rawValuesSplittati = rawValues.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(_ => _.Trim()).Where(_ => !string.IsNullOrWhiteSpace(_)).ToList();
                 foreach (var rawValueSplittato in rawValuesSplittati)
                 {
-                    //todo: checks vari
+                    if(aliasDefinitions.Any(_ => _.RawValue.Equals(rawValueSplittato, StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        throw new ManagedException(
+                                    filePath: ePPlusHelper.FilePathInUse,
+                                    fileType: FileTypes.DataSource,
+                                    //
+                                    worksheetName: worksheetName,
+                                    cellRow: currentRowNumber,
+                                    cellColumn: null,
+                                    valueHeader: ValueHeaders.None,
+                                    value: rawValueSplittato,
+                                    //
+                                    errorType: ErrorTypes.DuplicateValue,
+                                    userMessage:$"The alias '{rawValueSplittato}' is declared more than once in the worksheet '{worksheetName}'.");
+                    }
+
                     aliasDefinitions.Add(new AliasDefinition(
                         rawValue: rawValueSplittato,
                         newValue: newValue));

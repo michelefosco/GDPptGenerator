@@ -11,13 +11,13 @@ namespace FilesEditor.Entities.MethodsArgs
         public string DebugFilePath { get; set; }
         public List<string> Warnings { get; set; }
 
-        public UserInterfaceOutputBase(StepContext context)
+        internal UserInterfaceOutputBase(StepContext context)
         {
             Esito = context.Esito;
             DebugFilePath = context.DebugFilePath;
             Warnings = context.Warnings;
         }
-        public UserInterfaceOutputBase(ManagedException managedException)
+        internal UserInterfaceOutputBase(ManagedException managedException)
         {
             Esito = EsitiFinali.Failure;
             ManagedException = managedException;

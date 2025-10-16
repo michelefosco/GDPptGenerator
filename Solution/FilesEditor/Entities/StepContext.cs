@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FilesEditor.Entities
 {
-    public class StepContext : UserInterfaceInputBase
+    internal class StepContext : UserInterfaceInputBase
     {
         // Base class already has these properties
         // DestinationFolder
@@ -22,6 +22,8 @@ namespace FilesEditor.Entities
         public List<string> Warnings = new List<string>();
 
         public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
+        public List<AliasDefinition> AliasDefinitions_BusinessTMP = new List<AliasDefinition>();
+        public List<AliasDefinition> AliasDefinitions_Categoria = new List<AliasDefinition>();
 
         // presentazioni da generare
         public List<SlideToGenerate> SildeToGenerate = new List<SlideToGenerate>();

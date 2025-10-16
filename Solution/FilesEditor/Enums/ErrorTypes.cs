@@ -32,6 +32,8 @@ namespace FilesEditor.Enums
         [Description("Missing value")]
         MissingValue,
 
+        [Description("Duplicate value")]
+        DuplicateValue,
 
 
 
@@ -53,8 +55,6 @@ namespace FilesEditor.Enums
         [Description("Dato non valido")]
         DatoNonValido,
 
-        [Description("Dato non univoco")]
-        DatoNonUnivoco,
 
         [Description("Errore in una formula")]
         Formula,

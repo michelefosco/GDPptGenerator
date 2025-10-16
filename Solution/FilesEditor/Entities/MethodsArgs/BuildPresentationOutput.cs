@@ -7,12 +7,12 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public List<string> OutputFilePathLists = new List<string>();
 
-        public BuildPresentationOutput(StepContext context) : base(context)
+        internal BuildPresentationOutput(StepContext context) : base(context)
         {
             OutputFilePathLists = context.OutputFilePathLists;
         }
 
-        public BuildPresentationOutput(ManagedException managedException) : base(managedException)
+        internal BuildPresentationOutput(ManagedException managedException) : base(managedException)
         {
         }
     }
