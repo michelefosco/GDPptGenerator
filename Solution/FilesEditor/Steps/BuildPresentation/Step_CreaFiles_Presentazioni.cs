@@ -2,7 +2,6 @@
 using FilesEditor.Enums;
 using ShapeCrawler;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -155,48 +154,6 @@ namespace FilesEditor.Steps.BuildPresentation
                 Context.OutputFilePathLists.Add(outputfilePath);
                 #endregion
             }
-        }
-
-
-        //todo read from Excel
-        private List<SlideToGenerate> getListaSlidesDaFile(string percorsoFile)
-        {
-            var SlideToGenerateList = new List<SlideToGenerate>();
-
-            // Legge tutte le righe del file
-            string[] righe = File.ReadAllLines(percorsoFile);
-
-            foreach (string riga in righe)
-            {
-                // Divide la riga nei campi separati da ";"
-                string[] campi = riga.Split(';');
-
-
-
-                //todo: ragionare su queste trasformazioni
-                var slideType = (LayoutTypes)int.Parse(campi[0].Trim());
-                var title = campi[1].Trim();
-
-                var contents = new List<string>();
-                var content1 = campi[2].Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(content1)) { contents.Add(content1); }
-
-                var content2 = campi[3].Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(content1)) { contents.Add(content2); }
-
-                var content3 = campi[4].Trim().ToLower();
-                if (!string.IsNullOrWhiteSpace(content1)) { contents.Add(content3); }
-
-                SlideToGenerateList.Add(new SlideToGenerate
-                {
-                    OutputFileName = "Presentazione.pptx", //todo: read from excel
-                    Title = title,
-                    LayoutType = slideType,
-                    Contents = contents
-                });
-            }
-
-            return SlideToGenerateList;
         }
 
         private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal imageWidth, decimal imageHeight, decimal imagePostionY, decimal imagePostionX)

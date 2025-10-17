@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PptGeneratorGUI", "PptGener
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesEditor.Tests", "FilesEditor.Tests\FilesEditor.Tests.csproj", "{6B502AFA-9579-4089-9566-B0085D5902D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagesFromExcelGenerator", "ImagesFromExcelGenerator\ImagesFromExcelGenerator.csproj", "{1738964F-8958-4064-B824-419690FD38E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{6B502AFA-9579-4089-9566-B0085D5902D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B502AFA-9579-4089-9566-B0085D5902D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B502AFA-9579-4089-9566-B0085D5902D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1738964F-8958-4064-B824-419690FD38E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1738964F-8958-4064-B824-419690FD38E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1738964F-8958-4064-B824-419690FD38E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1738964F-8958-4064-B824-419690FD38E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

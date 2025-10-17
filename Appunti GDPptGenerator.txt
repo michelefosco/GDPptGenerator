@@ -10,13 +10,13 @@ File di input:
 
 
 -------------------- Domande per Francesco
-- Nell'ultima version del file DataSource ricevuto le colonne da aggionare per il figlio Budget sono identiche a quelle del fogli Forecast. Però mentre per quest'ultimo c'è una corrispondenza 1 a 1 con il file di input Excel. Mentre per budget sono tutti in pò stravolti.
+- Nell'ultima version del file DataSource ricevuto le colonne da aggionare per il foglio Budget sono identiche a quelle del fogli Forecast. Però mentre per quest'ultimo c'è una corrispondenza 1 a 1 con il file di input Excel. Mentre per budget sono tutti in pò stravolti.
 - In interfaccia vuoi ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel
 
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
-
+Microsoft Excel 15.0
 
 -------------------- Todo
 - Traduzione e rivedere messaggi utente nella UI
@@ -24,6 +24,7 @@ Per PowerPoint usata libreria: ShapeCrawler
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
 - Step backup DataSource prima di cominiciare
 - Move HTML helpers
+- Usare interops
 - Add logging
 - Lettura tabelle alias
 - in UI in caso si successo, link per apertura files

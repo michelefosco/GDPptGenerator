@@ -1,4 +1,5 @@
-﻿using FilesEditor;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using FilesEditor;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
@@ -18,7 +19,6 @@ namespace PptGeneratorGUI
 {
     public partial class frmMain : Form
     {
-        // private string _debugFileName;
         private DateTime _selectedDatePeriodo = DateTime.Today;
         private List<InputDataFilters_Item> _applicablefilters = new List<InputDataFilters_Item>();
         private bool _inputValidato = false;
@@ -634,7 +634,6 @@ namespace PptGeneratorGUI
             lblDataPeriodo.Text = calendarPeriodo.SelectionStart.ToShortDateString();
             pnlCalendar.Visible = false;
         }
-
         #endregion
 
 
@@ -648,69 +647,6 @@ namespace PptGeneratorGUI
 
         private void validaFileDiInput()
         {
-            // eseguzione dell'attività
-            //btnNextBackgroundWorker.DoWork += (object sender, DoWorkEventArgs e) =>
-            //{
-            //    try
-            //    {
-            //        var input = e.Argument as ValidateSourceFilesInput;
-            //        var output = Editor.ValidateSourceFiles(input);
-            //        e.Result = new object[] { input, output };
-            //    }
-            //    //catch (ManagedException mEx)
-            //    //{
-            //    //    SetStatusLabel("Processing completed with errors");
-
-            //    //    SetOutputMessage(mEx);
-            //    //    btnCopyError.Visible = true;
-            //    //}
-            //    catch (Exception ex)
-            //    {
-            //        showExpetion(ex);
-            //    }
-            //};
-
-            //// completamento dell'attività
-            //btnNextBackgroundWorker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
-            //{
-            //    try
-            //    {
-            //        var outputAndInput = e.Result as object[];
-            //        var input = outputAndInput[0] as ValidateSourceFilesInput;
-            //        var output = outputAndInput[1] as ValidateSourceFilesOutput;
-
-            //        btnNext.Enabled = true;
-
-            //        //todo valida input
-            //        _inputValidato = true;
-
-            //        if (_inputValidato)
-            //        {
-            //            _fieldFilters = output.UserOptions.Applicablefilters;
-            //            BuildFiltersArea(_fieldFilters);
-            //        }
-            //        RefreshUI(false);
-            //    }
-            //    catch (ManagedException mEx)
-            //    {
-            //        SetStatusLabel("Processing completed with errors");
-
-            //        SetOutputMessage(mEx);
-            //        btnCopyError.Visible = true;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        showExpetion(ex);
-
-            //        SetStatusLabel("Processing completed with errors");
-
-            //        SetOutputMessage(ex);
-            //        btnCopyError.Visible = true;
-            //    }
-            //};
-
-            //toolStripProgressBar.Visible = true;
-
             // input per la chiamata al backend
             var validateSourceFilesInput = new ValidateSourceFilesInput(
                     // proprietà classe base
@@ -747,6 +683,7 @@ namespace PptGeneratorGUI
             var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
             _inputValidato = (output.Esito == EsitiFinali.Success);
+
             btnValidaInput.Enabled = _inputValidato;
             if (_inputValidato)
             {
@@ -883,13 +820,17 @@ namespace PptGeneratorGUI
 
         private void SetOutputMessage(Exception ex)
         {
-            string htmlErrorMessage = HTML_Message_Helper.GetHTMLForExpetion(ex);
+            if (ex == null) return;
+
+            var htmlErrorMessage = HTML_Message_Helper.GetHTMLForExpetion(ex);
             SetOutputMessage(htmlErrorMessage);
         }
 
         private void SetOutputMessage(ManagedException mEx)
         {
-            string htmlErrorMessage = HTML_Message_Helper.GetHTMLForExpetion(mEx);
+            if (mEx == null) return;
+
+            var htmlErrorMessage = HTML_Message_Helper.GetHTMLForExpetion(mEx);
             SetOutputMessage(htmlErrorMessage);
         }
 
@@ -1063,7 +1004,7 @@ namespace PptGeneratorGUI
                 RefreshUI(false);
             }
         }
-
+        
         private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cleanCurrentsession();

@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="TestFiles\InputFiles\Budget.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
