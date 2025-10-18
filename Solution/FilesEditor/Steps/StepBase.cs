@@ -2,7 +2,6 @@
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
-using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using System.Linq;
 
 namespace FilesEditor.Steps
 {
-    //todo: rendere internal ma accessibile ai test
     abstract public class StepBase
     {
         internal StepContext Context;
@@ -131,10 +129,9 @@ namespace FilesEditor.Steps
                     .Where(_ => !Path.GetFileName(_).StartsWith("~$")).ToList();
             return filePaths;
         }
-        internal string GetImagePath(string imageId)
+        internal string GetTmpFolderImagePathByImageId(string tmpFolderPath, string imageId)
         {
-            //todo: rivedere questo metodo. non può dipendere dal context
-            var imagePath = $"{Context.TmpFolder}\\{imageId}.png";
+            var imagePath = $"{tmpFolderPath}\\{imageId}.png";
             return imagePath;
         }
         internal static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)

@@ -6,6 +6,7 @@ namespace FilesEditor.Enums
     {
         None = 0,
 
+        // files and folders errors
         [Description("Unable to open a file")]
         UnableToOpenFile,
 
@@ -25,39 +26,41 @@ namespace FilesEditor.Enums
         UnableToCreateFile,
 
 
-
+        // Working with Excel files errors
         [Description("An expected worksheet is missing")]
         MissingWorksheet,
 
+
+
+        // Data errors
         [Description("Missing value")]
         MissingValue,
 
         [Description("Duplicate value")]
         DuplicateValue,
 
+        [Description("Invalid value")]
+        InvalidValue,
 
 
 
+        // not used yet
 
+        //[Description("File inesistente")]
+        //FileMancante,
 
-        [Description("File inesistente")]
-        FileMancante,
+        //[Description("Formato file errato")]
+        //FormatoFileErrato,
 
-        [Description("Formato file errato")]
-        FormatoFileErrato,
+        //[Description("Foglio mancante")]
+        //FoglioMancante,
 
-        [Description("Foglio mancante")]
-        FoglioMancante,
+        //[Description("Foglio incompleto")]
+        //FoglioIncompleto,
 
-        [Description("Foglio incompleto")]
-        FoglioIncompleto,
+        //[Description("Errore in una formula")]
+        //Formula,
 
-        [Description("Dato non valido")]
-        DatoNonValido,
-
-
-        [Description("Errore in una formula")]
-        Formula,
         UnhandledException
     }
 }

@@ -20,8 +20,6 @@ namespace FilesEditor.Entities.Exceptions
         public readonly ErrorTypes ErrorType;
         public readonly string UserMessage;
 
-        //todo: aggiungere inner exception?
-
         public ManagedException(
                 string filePath,
                 FileTypes fileType,

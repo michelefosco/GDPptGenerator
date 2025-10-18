@@ -158,7 +158,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal imageWidth, decimal imageHeight, decimal imagePostionY, decimal imagePostionX)
         {
-            var imgFilePath = GetImagePath(imageId);
+            var imgFilePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, imageId);
             var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
             slide.Shapes.AddPicture(imgStream);
             imgStream.Close();

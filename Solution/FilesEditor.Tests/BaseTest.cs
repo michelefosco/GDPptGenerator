@@ -20,8 +20,10 @@ namespace FilesEditor.Tests
             var fileDaCancellarePrimaDeiTest = new List<string>
                 {
                 TestPaths.OUTPUT_DEBUGFILE,
-                //TODO: AGGIUNGERE PRESENTAZIONE    
-                //TestPaths.OUTPUT_FILE,
+                // potenziali file di output generati dai test
+                TestPaths.OUTPUT_FOLDER + "\\Engineering KPI_Direzione.pptx",
+                TestPaths.OUTPUT_FOLDER + "\\Engineering KPI_Sales.pptx",
+                TestPaths.OUTPUT_FOLDER + "\\Engineering KPI_Purchase.pptx",
                 };
             foreach (var filename in fileDaCancellarePrimaDeiTest)
             {

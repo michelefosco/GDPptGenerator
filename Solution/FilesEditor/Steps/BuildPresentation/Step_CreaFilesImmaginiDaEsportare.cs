@@ -21,10 +21,11 @@ namespace FilesEditor.Steps.BuildPresentation
         /// </summary>
         private void creaFilesImmaginiDaEsportare()
         {
-            Exporter imgExporter = new Exporter(Context.DataSourceFilePath);
+            ImageExporter imgExporter = new ImageExporter(Context.DataSourceFilePath);
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {
-                imgExporter.ExportImages(itemsToExportAsImage.Sheet, itemsToExportAsImage.PrintArea, GetImagePath(itemsToExportAsImage.ImageId));
+                var imagePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, itemsToExportAsImage.ImageId);
+                imgExporter.ExportImages(itemsToExportAsImage.Sheet, itemsToExportAsImage.PrintArea, imagePath);
             }
         }
     }

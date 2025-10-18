@@ -193,9 +193,8 @@ namespace PptGeneratorGUI
 
             if (inputValidato)
             {
-                //todo:
                 toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
-                SetStatusLabel("Select input file and destination folder, you can start processing");
+                SetStatusLabel("Select filters and other options and press 'Build Presentation' button.");
             }
             else
             {
@@ -805,7 +804,6 @@ namespace PptGeneratorGUI
         #region Gestione output area
         private void showExpetion(Exception ex)
         {
-            // todo: translate
             SetStatusLabel("Processing completed with errors.");
 
             if (ex is ManagedException mEx)

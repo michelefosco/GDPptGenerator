@@ -302,30 +302,35 @@ namespace EPPlusExtensions
             return values;
         }
 
-        public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, int colFrom = 1)
+        public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExpeptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
+            List<string> columnValues = null;
 
-
-            for (int colonnaCorrente = colFrom; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
+            for (int colonnaCorrente = startHearderSearchFromColumn; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
             {
-                var value = currentWorksheet.Cells[headersRow, colonnaCorrente].Value.ToString();
-                if (value.Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
+                var currentHeadr = currentWorksheet.Cells[headersRow, colonnaCorrente].Value.ToString();
+                if (currentHeadr.Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
                 {
                     // ho trovato la colonna che mi interessa, leggo i valori
-                    var values = new List<string>();
+                    columnValues = new List<string>();
                     for (int rigaCorrente = headersRow + 1; rigaCorrente <= currentWorksheet.Dimension.End.Row; rigaCorrente++)
                     {
                         var cellValue = currentWorksheet.Cells[rigaCorrente, colonnaCorrente].Value;
                         if (cellValue != null)
-                        { values.Add(cellValue.ToString()); }
+                        {
+                            columnValues.Add(cellValue.ToString());
+                        }
                     }
-                    return values;
                 }
             }
 
-            //todo: se arrivo qui non ho trovato l'header che andava prima controllato
-            throw new Exception($"Header '{headerValue}' not found in worksheet '{worksheetName}'");
+            if (columnValues == null & throwExpeptionForMissingHeaders)
+            {
+                throw new Exception($"Header '{headerValue}' not found in worksheet '{worksheetName}'");
+            }
+
+            return columnValues;
         }
 
         public string GetFormula(string worksheetName, int row, int col)

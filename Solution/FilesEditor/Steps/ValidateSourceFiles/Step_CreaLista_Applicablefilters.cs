@@ -1,6 +1,7 @@
 ﻿using EPPlusExtensions;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
+using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         }
 
 
-        private  void creaLista_Applicablefilters()
+        private void creaLista_Applicablefilters()
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
@@ -39,7 +40,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         }
 
 
-        private  List<InputDataFilters_Item> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
+        private List<InputDataFilters_Item> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             var filtriPossibili = new List<InputDataFilters_Item>();
@@ -54,8 +55,19 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
                 if (!Enum.TryParse(table, out InputDataFilters_Tables parsedTable))
                 {
-                    //todo: sollevare eccezione Managed
-                    throw new Exception("Tipo tabella sconosciuto nella configurazione dei filtri");
+                    throw new ManagedException(
+                        filePath: ePPlusHelper.FilePathInUse,
+                        fileType: FileTypes.DataSource,
+                        //
+                        worksheetName: worksheetName,
+                        cellRow: rigaCorrente,
+                        cellColumn: configurazione.DATASOURCE_CONFIG_FILTERS_TABLE_COL,
+                        valueHeader: ValueHeaders.None,
+                        value: table,
+                        //
+                        errorType: ErrorTypes.InvalidValue,
+                        userMessage: string.Format(UserErrorMessages.InvalidValue, table)
+                        );
                 }
                 filtriPossibili.Add(new InputDataFilters_Item
                 {
@@ -72,7 +84,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             return filtriPossibili;
         }
 
-        private  void fillApplicableFiltersWithValues(List<InputDataFilters_Item> applicablefilters)
+        private void fillApplicableFiltersWithValues(List<InputDataFilters_Item> applicablefilters)
         {
             foreach (var applicablefilter in applicablefilters)
             {
@@ -119,7 +131,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
         }
 
-        private  List<string> fillApplicableFiltersWithValues_FromFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
+        private List<string> fillApplicableFiltersWithValues_FromFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
         {
             var ePPlusHelper = GetHelperForExistingFile(filePath, fileType);
 

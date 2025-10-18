@@ -9,11 +9,11 @@ using System.Drawing.Imaging;
 
 namespace ImagesFromExcelGenerator
 {
-    public class Exporter
+    public class ImageExporter
     {
         Workbook workbook;
 
-        public Exporter(string excelFilePath)
+        public ImageExporter(string excelFilePath)
         {
             // Carica il workbook
             workbook = new Aspose.Cells.Workbook(excelFilePath);

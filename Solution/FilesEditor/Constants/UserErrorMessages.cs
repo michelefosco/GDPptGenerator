@@ -9,7 +9,8 @@
 
         public const string MissingWorksheet = "The worksheet '{0}' is missing";
         public const string MissingValue = "The required value '{0}' is missing";
-        
+        public const string InvalidValue = "Invalid value '{0}'";
+
 
 
         //public const string FoglioMancante = "Nella cartella '{0}' risulta mancare il foglio '{1}'";

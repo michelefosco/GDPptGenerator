@@ -55,7 +55,7 @@ namespace FilesEditor.Helpers
             if (File.Exists(filePath))
             {
                 //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_GiaEsistente()
-                throw  new ManagedException(
+                throw new ManagedException(
                     filePath: filePath,
                     fileType: FileTypes.Debug,
                     //
@@ -106,7 +106,7 @@ namespace FilesEditor.Helpers
         {
             if (_epPlusHelper == null) { return; }
 
-         //   var worksheetName = WorkSheetNames.UpdateReportsInput;
+            //   var worksheetName = WorkSheetNames.UpdateReportsInput;
 
             //_epPlusHelper.AddNewContentRow(worksheetName, "Periodo", updateReportsInput.Periodo);
             //_epPlusHelper.AddNewContentRow(worksheetName, "DataAggiornamento", updateReportsInput.DataAggiornamento.ToShortDateString());
@@ -849,6 +849,7 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, warningMessage);
         }
 
+
         internal void LogStepContext(string stepName, StepContext context)
         {
             if (_epPlusHelper == null) { return; }
@@ -856,8 +857,26 @@ namespace FilesEditor.Helpers
             var worksheetName = WorkSheetNames.StepContext;
 
             //todo: aggiungere tutte le properties di StepContext
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Esito", context.Esito);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DestinationFolder", context.DestinationFolder);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "TmpFolder", context.TmpFolder);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DataSourceFilePath", context.DataSourceFilePath);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DebugFilePath", context.DebugFilePath);
+            //
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ReplaceAllData_FileSuperDettagli", context.ReplaceAllData_FileSuperDettagli);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "PeriodDate", context.PeriodDate);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileBudgetPath", context.FileBudgetPath);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileForecastPath", context.FileForecastPath);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileSuperDettagliPath", context.FileSuperDettagliPath);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileRunRatePath", context.FileRunRatePath);
+            //
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Warnings (count)", context.Warnings.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Applicablefilters (count)", context.Applicablefilters.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_BusinessTMP (count)", context.AliasDefinitions_BusinessTMP.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_Categoria (count)", context.AliasDefinitions_Categoria.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "SildeToGenerate (count)", context.SildeToGenerate.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ItemsToExportAsImage (count)", context.ItemsToExportAsImage.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "OutputFilePathLists (count)", context.OutputFilePathLists.Count);
 
             AutoSave();
         }

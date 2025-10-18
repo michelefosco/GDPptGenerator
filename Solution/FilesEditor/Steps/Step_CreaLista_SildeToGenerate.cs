@@ -43,7 +43,6 @@ namespace FilesEditor.Steps
             var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
             var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATA_SOURCE_TEMPLATE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-            //todo: lettura dei workshitt names con elementi stampabili
 
             var slideToGenerateList = new List<SlideToGenerate>();
 
@@ -88,8 +87,8 @@ namespace FilesEditor.Steps
                             filePath: ePPlusHelper.FilePathInUse,
                             fileType: FileTypes.DataSource,
                             //
-                            worksheetName: item,
-                            cellRow: null,
+                            worksheetName: worksheetName,
+                            cellRow: rigaCorrente,
                             cellColumn: null,
                             valueHeader: ValueHeaders.None,
                             value: item,
@@ -108,10 +107,9 @@ namespace FilesEditor.Steps
                         Context.Configurazione.DATASOURCE_CONFIG_SLIDES_LAYOUT_COL,
                         ValueHeaders.SlideLayout);
                 }
-                //todo: chiedere info a Francesco su questo uso del default
+
                 if (layout == null)
                 { layout = LayoutTypes.Horizontal.ToString(); }
-
 
                 if (Enum.TryParse(layout, out LayoutTypes layoutType))
                 {
@@ -119,9 +117,19 @@ namespace FilesEditor.Steps
                 }
                 else
                 {
-                    // Sollevare eccezione Managed
-                    //todo:
-                    throw new Exception("Tipo layout sconosciuto");
+                    throw new ManagedException(
+                        filePath: ePPlusHelper.FilePathInUse,
+                        fileType: FileTypes.DataSource,
+                        //
+                        worksheetName: worksheetName,
+                        cellRow: rigaCorrente,
+                        cellColumn: Context.Configurazione.DATASOURCE_CONFIG_SLIDES_LAYOUT_COL,
+                        valueHeader: ValueHeaders.None,
+                        value: layout,
+                        //
+                        errorType: ErrorTypes.MissingWorksheet,
+                        userMessage: $"Invali layout type '{layout}'"
+                        );
                 }
 
 
