@@ -216,16 +216,23 @@ namespace PptGeneratorGUI
             { return string.Empty; }
 
             string outputMessage = "";
-            outputMessage += _newlineHTML + _newlineHTML + _newlineHTML;
+           // outputMessage += _newlineHTML + _newlineHTML + _newlineHTML;
             outputMessage += GetHTMLBold($"Warnings were reported during the processing:");
+            outputMessage += _newlineHTML;
 
             //Elenco dei warnings
-            outputMessage += "<UL>";
             foreach (var warning in warnings)
             {
-                outputMessage += $"<li>{warning}</li>";
+                outputMessage += $" - {warning}";
+                outputMessage += _newlineHTML;
             }
-            outputMessage += "</UL>";
+
+            //outputMessage += "<UL>";
+            //foreach (var warning in warnings)
+            //{
+            //    outputMessage += $"<li>{warning}</li>";
+            //}
+            //outputMessage += "</UL>";
 
             return outputMessage;
         }

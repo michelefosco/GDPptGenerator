@@ -865,15 +865,24 @@ namespace PptGeneratorGUI
         {
             string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold("Processing completed successfully"));
             outputMessage += HTML_Message_Helper._newlineHTML;
-            outputMessage += HTML_Message_Helper._newlineHTML;
 
+            // elenco delle presentazioni create
             foreach (var path in outputFilePathLists)
             {
+                outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper.GetHTMLBold("Presentation file created: ");
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(path, path);
-                outputMessage += HTML_Message_Helper._newlineHTML;
             }
 
+            // link alla cartella di output
+            var outputfolder = Path.GetDirectoryName(outputFilePathLists.First());
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper.GetHTMLBold("Output folder: ");
+            outputMessage += HTML_Message_Helper.GetHTMLHyperLink(outputfolder, outputfolder);
+
+
+            // link al file di debug
             if (IsDebugModeEnabled())
             {
                 outputMessage += HTML_Message_Helper._newlineHTML;
@@ -882,7 +891,13 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFilePath, debugFilePath);
             }
 
-            outputMessage += HTML_Message_Helper.GeneraHtmlPerWarning(warnings);
+            if (warnings.Count > 0)
+            {
+                outputMessage += HTML_Message_Helper._newlineHTML;
+                outputMessage += HTML_Message_Helper._newlineHTML;
+                outputMessage += HTML_Message_Helper.GeneraHtmlPerWarning(warnings);
+            }
+              
 
             //if (righeSkippate != null && righeSkippate.Count > 0)
             //{
@@ -924,7 +939,7 @@ namespace PptGeneratorGUI
                 url = url.Substring(HTML_Message_Helper.GetURLMarker(string.Empty).Length);
 
 
-                if (File.Exists(url))
+                if (File.Exists(url) || Directory.Exists(url))
                 {
                     System.Diagnostics.Process.Start(url);
                 }
@@ -1002,7 +1017,7 @@ namespace PptGeneratorGUI
                 RefreshUI(false);
             }
         }
-        
+
         private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cleanCurrentsession();
