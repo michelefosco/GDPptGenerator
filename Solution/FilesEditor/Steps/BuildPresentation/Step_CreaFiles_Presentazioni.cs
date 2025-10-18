@@ -46,39 +46,18 @@ namespace FilesEditor.Steps.BuildPresentation
                 var pres = new ShapeCrawler.Presentation(outputfilePath);
                 #endregion
 
-                //todo: creazione slide "Indice"
-                int SLIDE_INDEX_POSITION = 2;
-                var titleIndex = 1;
+                #region Preparo la slide "indice" con la lista dei titoli delle slides
+                int SLIDE_INDEX_POSITION = 2;               
                 var slide = pres.Slide(SLIDE_INDEX_POSITION);
-                var titlesListBox = slide.GetTextBoxes().LastOrDefault();
+                var titlesListBox = slide.GetTextBoxes().LastOrDefault();                
+                var titleIndex = 1;
                 foreach (var slideToGenerate in slideToGenerateList)
                 {
                     titlesListBox.Paragraphs.Add(slideToGenerate.Title, titleIndex);
                     titleIndex++;
-
-                    //slide.Shapes.AddShape(100, 100, 400, 200,Geometry.Rectangle);
-                    //var autoShape = slide.Shapes[slide.Shapes.Count - 1];// as IAutoShape;
-                    //var paragraphCollection = autoShape.TextFrame.Paragraphs;
-
-                    //// Add first bullet point
-                    //var p1 = paragraphCollection.Add();
-                    //p1.Text = "First bullet item";
-                    //p1.TextFormat.Bullet.Type = BulletType.None; // Enable bullet
-                    //p1.TextFormat.Bullet.Character = '•'; // Bullet symbol
-
-                    //// Add second bullet point
-                    //var p2 = paragraphCollection.Add();
-                    //p2.Text = "Second bullet item";
-                    //p2.TextFormat.Bullet.Type = BulletType.None;
-                    //p2.TextFormat.Bullet.Character = '•';
-
-                    //// Add third bullet point
-                    //var p3 = paragraphCollection.Add();
-                    //p3.Text = "Third bullet item";
-                    //p3.TextFormat.Bullet.Type = BulletType.None;
-                    //p3.TextFormat.Bullet.Character = '•';
                 }
                 titlesListBox.Paragraphs[0].Remove(); // rimuovo il testo di default
+                #endregion
 
                 #region predispongo le slides duplicando quella template (ovvero l'ultima del file)
                 int SLIDE_TEMPLATE_POSITION = pres.Slides.Count; // la slide template è l'ultima del file
