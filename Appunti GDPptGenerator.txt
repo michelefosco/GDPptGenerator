@@ -12,22 +12,24 @@ File di input:
 -------------------- Domande per Francesco
 - Nell'ultima version del file DataSource ricevuto le colonne da aggionare per il foglio Budget sono identiche a quelle del fogli Forecast. Però mentre per quest'ultimo c'è una corrispondenza 1 a 1 con il file di input Excel. Mentre per budget sono tutti in pò stravolti.
 - In interfaccia vuoi ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel
-
+- Chiedere Francesco: "Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD"
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
 Microsoft Excel 15.0
 
 -------------------- Todo
+- in UI in caso si successo, link per apertura file di output
 - Traduzione e rivedere messaggi utente nella UI
-- Mostrare warning in interfaccia
+- Usare interops
+- Step clean up con cancellazione delle cartella temporanea
+- Add logging
+- meglio PNG format
+- Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
 - Step backup DataSource prima di cominiciare
 - Move HTML helpers
-- Usare interops
-- Add logging
-- Lettura tabelle alias
-- in UI in caso si successo, link per apertura files
+
 - Applicazione degli alias ai dati letti
 - Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
 - Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
