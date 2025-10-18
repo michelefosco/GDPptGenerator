@@ -13,54 +13,6 @@ namespace FilesEditor
 {
     public class Editor
     {
-        #region Build presentation
-        public static BuildPresentationOutput BuildPresentation(BuildPresentationInput buildPresentationInput)
-        {
-            var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
-            return buildPresentation(buildPresentationInput, configurazione);
-        }
-
-        public static BuildPresentationOutput BuildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
-        {
-            if (configurazione == null)
-            { throw new ArgumentNullException(nameof(configurazione)); }
-            return buildPresentation(buildPresentationInput, configurazione);
-        }
-
-        private static BuildPresentationOutput buildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
-        {
-            try
-            {
-                var context = new StepContext(configurazione);
-                context.SetContextFromInput(buildPresentationInput);
-                var stepsSequence = new List<StepBase>
-                {
-                    new Step_Start_DebugInfoLogger(context),
-                    new Step_PredisponiTmpFolder(context),
-                    new Step_BackupFile_DataSource(context),
-                    new Step_CreaListe_Alias(context),
-                    new Step_CreaLista_SildeToGenerate(context),
-                    new Step_CreaLista_ItemsToExportAsImage(context),
-                    new Step_CreaFilesImmaginiDaEsportare(context),
-                    new Step_CreaFiles_Presentazioni(context),
-                    new Step_EsitoFinale_Success(context)
-                 };
-                var esitoFinale = runStepSequence(stepsSequence, context);
-                context.SettaEsitoFinale(esitoFinale);
-                return new BuildPresentationOutput(context);
-            }
-            catch (ManagedException managedException)
-            {
-                return new BuildPresentationOutput(managedException);
-            }
-            catch (Exception ex)
-            {
-                return new BuildPresentationOutput(new ManagedException(ex));
-            }
-        }
-        #endregion
-
-
         #region ValidateSourceFiles
         public static ValidateSourceFilesOutput ValidateSourceFiles(ValidateSourceFilesInput validateSourceFilesInput)
         {
@@ -84,11 +36,12 @@ namespace FilesEditor
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_DebugInfoLogger(context),
-                    new Step_ValidazioniPreliminari_InputFiles(context),                   
+                    new Step_ValidazioniPreliminari_InputFiles(context),
                     new Step_CreaLista_Applicablefilters(context),
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
+                    new Step_TmpFolder_Pulizia(context),
                     new Step_EsitoFinale_Success(context)
                  };
                 var esitoFinale = runStepSequence(stepsSequence, context);
@@ -102,6 +55,55 @@ namespace FilesEditor
             catch (Exception ex)
             {
                 return new ValidateSourceFilesOutput(new ManagedException(ex));
+            }
+        }
+        #endregion
+
+
+        #region Build presentation
+        public static BuildPresentationOutput BuildPresentation(BuildPresentationInput buildPresentationInput)
+        {
+            var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
+            return buildPresentation(buildPresentationInput, configurazione);
+        }
+
+        public static BuildPresentationOutput BuildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
+        {
+            if (configurazione == null)
+            { throw new ArgumentNullException(nameof(configurazione)); }
+            return buildPresentation(buildPresentationInput, configurazione);
+        }
+
+        private static BuildPresentationOutput buildPresentation(BuildPresentationInput buildPresentationInput, Configurazione configurazione)
+        {
+            try
+            {
+                var context = new StepContext(configurazione);
+                context.SetContextFromInput(buildPresentationInput);
+                var stepsSequence = new List<StepBase>
+                {
+                    new Step_Start_DebugInfoLogger(context),
+                    new Step_TmpFolder_Predisposizione(context),
+                    new Step_BackupFile_DataSource(context),
+                    new Step_CreaListe_Alias(context),
+                    new Step_CreaLista_SildeToGenerate(context),
+                    new Step_CreaLista_ItemsToExportAsImage(context),
+                    new Step_CreaFilesImmaginiDaEsportare(context),
+                    new Step_CreaFiles_Presentazioni(context),
+                    new Step_TmpFolder_Pulizia(context),
+                    new Step_EsitoFinale_Success(context)
+                 };
+                var esitoFinale = runStepSequence(stepsSequence, context);
+                context.SettaEsitoFinale(esitoFinale);
+                return new BuildPresentationOutput(context);
+            }
+            catch (ManagedException managedException)
+            {
+                return new BuildPresentationOutput(managedException);
+            }
+            catch (Exception ex)
+            {
+                return new BuildPresentationOutput(new ManagedException(ex));
             }
         }
         #endregion

@@ -4,13 +4,13 @@ using System.IO;
 
 namespace FilesEditor.Steps
 {
-    internal class Step_PredisponiTmpFolder : StepBase
+    internal class Step_TmpFolder_Predisposizione : StepBase
     {
         /// <summary>
         /// Predisposizione della cartella temporanea per la generazione dei file di presentazione.
         /// </summary>
         /// <param name="context"></param>
-        public Step_PredisponiTmpFolder(StepContext context) : base(context)
+        public Step_TmpFolder_Predisposizione(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
