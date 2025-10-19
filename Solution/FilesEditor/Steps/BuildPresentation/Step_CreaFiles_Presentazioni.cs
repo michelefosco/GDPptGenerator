@@ -1,8 +1,10 @@
-﻿using DocumentFormat.OpenXml.Vml;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Vml;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
 using ShapeCrawler;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -29,27 +31,23 @@ namespace FilesEditor.Steps.BuildPresentation
             {
                 var slideToGenerateList = Context.SildeToGenerate.Where(s => s.OutputFileName == outputFileName).ToList();
 
-                #region Predispongo il file di output
-                var outputfilePath = System.IO.Path.Combine(Context.DestinationFolder, outputFileName);
-                if (outputfilePath.EndsWith(".pptx", StringComparison.InvariantCultureIgnoreCase) == false)
-                { outputfilePath = outputFileName + ".pptx"; }
-
-                // ripulisco il possibile file di output
-                CancellaFileSeEsiste(outputfilePath, FileTypes.PresentationOutput);
+                #region Ottengo i percorsi dei file
+                var outputfilePath = GetOutputFilePath(Context.DestinationFolder, outputFileName);
+                var percorsoFileTemplatePowerPoint = GetTemplateFilePath(Context.DataSourceFilePath);
                 #endregion
-
 
                 #region Copio il template nella cartella di output
-                var sourceFilesFolder = System.IO.Path.GetDirectoryName(Context.DataSourceFilePath);
-                var percorsoFileTemplatePowerPoint = System.IO.Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+                // ripulisco il possibile file di output
+                CancellaFileSeEsiste(outputfilePath, FileTypes.PresentationOutput);
                 File.Copy(percorsoFileTemplatePowerPoint, outputfilePath);
-                var pres = new ShapeCrawler.Presentation(outputfilePath);
                 #endregion
 
+                var pres = new ShapeCrawler.Presentation(outputfilePath);
+
                 #region Preparo la slide "indice" con la lista dei titoli delle slides
-                int SLIDE_INDEX_POSITION = 2;               
+                int SLIDE_INDEX_POSITION = 2;
                 var slide = pres.Slide(SLIDE_INDEX_POSITION);
-                var titlesListBox = slide.GetTextBoxes().LastOrDefault();                
+                var titlesListBox = slide.GetTextBoxes().LastOrDefault();
                 var titleIndex = 1;
                 foreach (var slideToGenerate in slideToGenerateList)
                 {
@@ -67,17 +65,23 @@ namespace FilesEditor.Steps.BuildPresentation
                 }
                 #endregion
 
-                const int SpazionIntornoAlleImmagini = 10;
-                const int offSetVerticale = 80;
+
+                var pizexlPerCm = 28.35;
+
+                const int spazioneDiSeparazioneOrizzontaleTraDueImmagini = 80;
+                const int spazioneDiSeparazioneVerticaleTraDueImmagini = 50;
+                //
+                int offSetVerticale = (int)(2.59 * pizexlPerCm);
+                int offSetOrizzontale = (int)(1.05 * pizexlPerCm);
+                //
+                var totalAvailableWidth = (int)(27.4 * pizexlPerCm);
+                var totalAvailableHeight = (int)(12.6 * pizexlPerCm);
+
                 int slideToEditIndex = SLIDE_TEMPLATE_POSITION;
                 foreach (var slideToGenerate in slideToGenerateList)
                 {
-                    //#region Duplico la slide template
-                    //pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_1_INDEX), pres.Slides.Count + 1);
-                    //var slideToEdit = pres.Slide(pres.Slides.Count);
-                    //#endregion
-
                     var slideToEdit = pres.Slide(slideToEditIndex);
+
                     #region Modifico la textbox del titolo
                     var titleTextBox = slideToEdit.GetTextBoxes().FirstOrDefault(tb => tb.Text.Contains("Titolo"));
                     if (titleTextBox != null)
@@ -86,65 +90,95 @@ namespace FilesEditor.Steps.BuildPresentation
                     }
                     #endregion
 
-
                     #region Aggiungo le immagini in base al tipo di slide
-                    decimal imageWidth;
-                    decimal imageHeight;
-                    int numeroImmaginiInOrizzontale;
-                    int numeroImmaginiInVerticale;
+                    // dimensioni del riquadro contenente un immagine
+                    decimal boxWidth;
+                    decimal boxHeight;
+                    //
+                    decimal boxPostionX;
+                    decimal boxPostionY;
 
-                    if (slideToGenerate.LayoutType == LayoutTypes.Horizontal)
+                    // somma degli spazi usati per separare le immagini
+                    int spaceUsedToSeparateImages;
+
+                    var numeroImmagini = slideToGenerate.Contents.Count();
+
+                    switch (numeroImmagini)
                     {
-                        switch (slideToGenerate.Contents.Count())
-                        {
-                            case 1:
-                                // un'unica immagine che occupa tutta la slide
-                                numeroImmaginiInVerticale = 1;
-                                numeroImmaginiInOrizzontale = 1;
-                                imageWidth = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
-                                imageHeight = (pres.SlideHeight - offSetVerticale) / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
-                                AddImageToTheSlide(slide: slideToEdit,
-                                                imageId: slideToGenerate.Contents[0],
-                                                imageWidth: imageWidth,
-                                                imageHeight: imageHeight,
-                                                imagePostionY: offSetVerticale + SpazionIntornoAlleImmagini,
-                                                imagePostionX: SpazionIntornoAlleImmagini);
-                                break;
+                        case 1:
+                            // Spazio massimo a disposizione per le immagini
+                            boxWidth = totalAvailableWidth;
+                            boxHeight = totalAvailableHeight;
+                            // posizione del box
+                            boxPostionY = offSetVerticale;
+                            boxPostionX = offSetOrizzontale;
 
-                            case 2:
-                                // 2 immagini sulla stessa riga
-                                numeroImmaginiInVerticale = 1;
-                                numeroImmaginiInOrizzontale = 2;
-                                imageWidth = pres.SlideWidth / numeroImmaginiInOrizzontale - SpazionIntornoAlleImmagini * 2;
-                                imageHeight = (pres.SlideHeight - offSetVerticale) / numeroImmaginiInVerticale - SpazionIntornoAlleImmagini * 2;
-                                AddImageToTheSlide(slide: slideToEdit,
-                                             imageId: slideToGenerate.Contents[0],
-                                             imageWidth: imageWidth,
-                                             imageHeight: imageHeight,
-                                             imagePostionY: offSetVerticale + SpazionIntornoAlleImmagini,
-                                             imagePostionX: SpazionIntornoAlleImmagini);
-                                AddImageToTheSlide(slide: slideToEdit,
-                                            imageId: slideToGenerate.Contents[1],
-                                            imageWidth: imageWidth,
-                                            imageHeight: imageHeight,
-                                            imagePostionY: offSetVerticale + SpazionIntornoAlleImmagini,
-                                            imagePostionX: imageWidth + (SpazionIntornoAlleImmagini * 3));
-                                break;
+                            AddImageToTheSlide(slide: slideToEdit,
+                                            imageId: slideToGenerate.Contents[0],
+                                        boxWidth: boxWidth,
+                                        boxHeight: boxHeight,
+                                        boxPostionX: boxPostionX,
+                                        boxPostionY: boxPostionY
+                                        );
+                            break;
 
-                            case 3:
-                                //throw new NotImplementedException("Caso con 3 immagini per slide in orizontale non ancora gestito");
-                                break;
+                        case 2:
+                        case 3:
+                            if (slideToGenerate.LayoutType == LayoutTypes.Horizontal)
+                            {
+                                // spazio totale usato per lo spazio tra le immagini
+                                spaceUsedToSeparateImages = spazioneDiSeparazioneOrizzontaleTraDueImmagini * (numeroImmagini - 1);
 
-                            default:
-                                throw new ArgumentOutOfRangeException("Numero di immagini per slide non gestito");
-                        }
+                                // Spazio massimo a disposizione per le immagini
+                                boxWidth = (totalAvailableWidth - spaceUsedToSeparateImages) / numeroImmagini;
+                                boxHeight = totalAvailableHeight;
 
+                                for (var imagePosition = 0; imagePosition < numeroImmagini; imagePosition++)
+                                {
+                                    // posizione del box
+                                    boxPostionX = offSetOrizzontale + (boxWidth * imagePosition) + (spazioneDiSeparazioneOrizzontaleTraDueImmagini * imagePosition);
+                                    boxPostionY = offSetVerticale; // costante per tutte le immagini
 
+                                    AddImageToTheSlide(
+                                        slide: slideToEdit,
+                                        imageId: slideToGenerate.Contents[imagePosition],
+                                        boxWidth: boxWidth,
+                                        boxHeight: boxHeight,
+                                        boxPostionX: boxPostionX,
+                                        boxPostionY: boxPostionY
+                                        );
+                                }
+                            }
+                            else
+                            {
+                                // spazio totale usato per lo spazio tra le immagini
+                                spaceUsedToSeparateImages = spazioneDiSeparazioneVerticaleTraDueImmagini * (numeroImmagini - 1);
+
+                                // Spazio massimo a disposizione per le immagini
+                                boxWidth = totalAvailableWidth;
+                                boxHeight = (totalAvailableHeight - spaceUsedToSeparateImages) / numeroImmagini;
+
+                                for (var imagePosition = 0; imagePosition < numeroImmagini; imagePosition++)
+                                {
+                                    // posizione del box
+                                    boxPostionX = offSetOrizzontale; // costante per tutte le immagini
+                                    boxPostionY = offSetVerticale + (boxHeight * imagePosition) + (spazioneDiSeparazioneVerticaleTraDueImmagini * imagePosition);
+
+                                    AddImageToTheSlide(
+                                        slide: slideToEdit,
+                                        imageId: slideToGenerate.Contents[imagePosition],
+                                        boxWidth: boxWidth,
+                                        boxHeight: boxHeight,
+                                        boxPostionX: boxPostionX,
+                                        boxPostionY: boxPostionY
+                                        );
+                                }
+                            }
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException("Numero di immagini per slide non gestito");
                     }
-                    if (slideToGenerate.LayoutType == LayoutTypes.Vertical)
-                    {
-                    }
-
                     #endregion
 
                     slideToEditIndex++;
@@ -170,20 +204,41 @@ namespace FilesEditor.Steps.BuildPresentation
             }
         }
 
-        private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal imageWidth, decimal imageHeight, decimal imagePostionY, decimal imagePostionX)
+        private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
         {
             var imgFilePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, imageId);
             var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
             slide.Shapes.AddPicture(imgStream);
             imgStream.Close();
 
+            using (Image img = Image.FromFile(imgFilePath))
+            {
+                Console.WriteLine($"Width: {img.Width}px");
+                Console.WriteLine($"Height: {img.Height}px");
+            }
+
             var shape = slide.Shapes[slide.Shapes.Count - 1];
-            shape.Width = imageWidth;
-            shape.Height = imageHeight;
-            shape.Y = imagePostionY;
-            shape.X = imagePostionX;
+            shape.Width = boxWidth;
+            shape.Height = boxHeight;
+            shape.Y = boxPostionY;
+            shape.X = boxPostionX;
 
             return shape;
+        }
+
+
+        private string GetTemplateFilePath(string dataSourceFilePath)
+        {
+            var sourceFilesFolder = System.IO.Path.GetDirectoryName(Context.DataSourceFilePath);
+            var percorsoFileTemplatePowerPoint = System.IO.Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+            return percorsoFileTemplatePowerPoint;
+        }
+        private string GetOutputFilePath(string destinationFolder, string outputFileName)
+        {
+            var outputfilePath = System.IO.Path.Combine(Context.DestinationFolder, outputFileName);
+            if (outputfilePath.EndsWith(".pptx", StringComparison.InvariantCultureIgnoreCase) == false)
+            { outputfilePath = outputFileName + ".pptx"; }
+            return outputfilePath;
         }
     }
 }
