@@ -54,10 +54,10 @@ namespace ImagesFromExcelGenerator
             using (Bitmap original = new Bitmap(inputPath))
             {
                 // Definisci i margini da tagliare
-                int top = 70;
-                int left = 66;
-                int right = 65;
-                int bottom = 68;
+                int top = 72;
+                int left = 68;
+                int right = 67;
+                int bottom = 72;
 
                 // Calcola la nuova area utile
                 int newWidth = original.Width - left - right;

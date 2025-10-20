@@ -74,10 +74,6 @@
             this.lblFileRunRatePath = new System.Windows.Forms.Label();
             this.lblFiltriApplicabili = new System.Windows.Forms.Label();
             this.dgvFiltri = new System.Windows.Forms.DataGridView();
-            this.Tabella = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Campo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OpenFiltersSelection = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ValoriSelezionati = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.calendarPeriodo = new System.Windows.Forms.MonthCalendar();
             this.pnlCalendar = new System.Windows.Forms.Panel();
             this.gbPaths = new System.Windows.Forms.GroupBox();
@@ -86,11 +82,15 @@
             this.validaInputBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.openDataSouceExcelFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Field = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OpenFiltersSelection = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.SelectedValues = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -557,10 +557,10 @@
             this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Tabella,
-            this.Campo,
+            this.Table,
+            this.Field,
             this.OpenFiltersSelection,
-            this.ValoriSelezionati});
+            this.SelectedValues});
             this.dgvFiltri.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvFiltri.Location = new System.Drawing.Point(105, 47);
             this.dgvFiltri.Name = "dgvFiltri";
@@ -569,35 +569,6 @@
             this.dgvFiltri.ShowEditingIcon = false;
             this.dgvFiltri.Size = new System.Drawing.Size(1059, 268);
             this.dgvFiltri.TabIndex = 23;
-            // 
-            // Tabella
-            // 
-            this.Tabella.HeaderText = "Table";
-            this.Tabella.Name = "Tabella";
-            this.Tabella.ReadOnly = true;
-            this.Tabella.Width = 64;
-            // 
-            // Campo
-            // 
-            this.Campo.HeaderText = "Field";
-            this.Campo.Name = "Campo";
-            this.Campo.ReadOnly = true;
-            this.Campo.Width = 59;
-            // 
-            // OpenFiltersSelection
-            // 
-            this.OpenFiltersSelection.HeaderText = "";
-            this.OpenFiltersSelection.Name = "OpenFiltersSelection";
-            this.OpenFiltersSelection.ReadOnly = true;
-            this.OpenFiltersSelection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.OpenFiltersSelection.Width = 5;
-            // 
-            // ValoriSelezionati
-            // 
-            this.ValoriSelezionati.HeaderText = "Selected values";
-            this.ValoriSelezionati.Name = "ValoriSelezionati";
-            this.ValoriSelezionati.ReadOnly = true;
-            this.ValoriSelezionati.Width = 123;
             // 
             // calendarPeriodo
             // 
@@ -705,19 +676,12 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
             this.toolStripMenuItem1.Text = "&Options";
             // 
-            // clearPathsHistoryToolStripMenuItem
+            // openDataSouceExcelFileToolStripMenuItem
             // 
-            this.clearPathsHistoryToolStripMenuItem.Name = "clearPathsHistoryToolStripMenuItem";
-            this.clearPathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.clearPathsHistoryToolStripMenuItem.Text = "&Clear paths history";
-            this.clearPathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearPathsHistoryToolStripMenuItem_Click);
-            // 
-            // openSouceFilesFolderToolStripMenuItem
-            // 
-            this.openSouceFilesFolderToolStripMenuItem.Name = "openSouceFilesFolderToolStripMenuItem";
-            this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.openSouceFilesFolderToolStripMenuItem.Text = "Open &Souce files folder";
-            this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
+            this.openDataSouceExcelFileToolStripMenuItem.Name = "openDataSouceExcelFileToolStripMenuItem";
+            this.openDataSouceExcelFileToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.openDataSouceExcelFileToolStripMenuItem.Text = "Open &DataSouce Excel file";
+            this.openDataSouceExcelFileToolStripMenuItem.Click += new System.EventHandler(this.openDataSouceExcelFileToolStripMenuItem_Click);
             // 
             // cleanCurrentsessionToolStripMenuItem
             // 
@@ -726,18 +690,54 @@
             this.cleanCurrentsessionToolStripMenuItem.Text = "Clean current &session";
             this.cleanCurrentsessionToolStripMenuItem.Click += new System.EventHandler(this.cleanCurrentsessionToolStripMenuItem_Click);
             // 
+            // openSouceFilesFolderToolStripMenuItem
+            // 
+            this.openSouceFilesFolderToolStripMenuItem.Name = "openSouceFilesFolderToolStripMenuItem";
+            this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.openSouceFilesFolderToolStripMenuItem.Text = "Open &Souce files folder";
+            this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
+            // 
+            // clearPathsHistoryToolStripMenuItem
+            // 
+            this.clearPathsHistoryToolStripMenuItem.Name = "clearPathsHistoryToolStripMenuItem";
+            this.clearPathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.clearPathsHistoryToolStripMenuItem.Text = "&Clear paths history";
+            this.clearPathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearPathsHistoryToolStripMenuItem_Click);
+            // 
             // bfbDestFolder
             // 
             this.bfbDestFolder.Multiselect = false;
             this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
             this.bfbDestFolder.Title = "Please select a folder...";
             // 
-            // openDataSouceExcelFileToolStripMenuItem
+            // Table
             // 
-            this.openDataSouceExcelFileToolStripMenuItem.Name = "openDataSouceExcelFileToolStripMenuItem";
-            this.openDataSouceExcelFileToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.openDataSouceExcelFileToolStripMenuItem.Text = "Open &DataSouce Excel file";
-            this.openDataSouceExcelFileToolStripMenuItem.Click += new System.EventHandler(this.openDataSouceExcelFileToolStripMenuItem_Click);
+            this.Table.HeaderText = "Table";
+            this.Table.Name = "Table";
+            this.Table.ReadOnly = true;
+            this.Table.Width = 64;
+            // 
+            // Field
+            // 
+            this.Field.HeaderText = "Field";
+            this.Field.Name = "Field";
+            this.Field.ReadOnly = true;
+            this.Field.Width = 59;
+            // 
+            // OpenFiltersSelection
+            // 
+            this.OpenFiltersSelection.HeaderText = "";
+            this.OpenFiltersSelection.Name = "OpenFiltersSelection";
+            this.OpenFiltersSelection.ReadOnly = true;
+            this.OpenFiltersSelection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.OpenFiltersSelection.Width = 5;
+            // 
+            // SelectedValues
+            // 
+            this.SelectedValues.HeaderText = "Selected values";
+            this.SelectedValues.Name = "SelectedValues";
+            this.SelectedValues.ReadOnly = true;
+            this.SelectedValues.Width = 123;
             // 
             // frmMain
             // 
@@ -824,10 +824,6 @@
         private System.Windows.Forms.GroupBox gbOptions;
         private System.Windows.Forms.Button btnValidaInput;
         private System.ComponentModel.BackgroundWorker validaInputBackgroundWorker;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tabella;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Campo;
-        private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValoriSelezionati;
         private System.Windows.Forms.CheckBox cbReplaceAllDataFileSuperDettagli;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
@@ -835,6 +831,10 @@
         private System.Windows.Forms.ToolStripMenuItem openSouceFilesFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cleanCurrentsessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openDataSouceExcelFileToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Table;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Field;
+        private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SelectedValues;
     }
 }
 

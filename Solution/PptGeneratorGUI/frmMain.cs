@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using FilesEditor;
+﻿using FilesEditor;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
@@ -175,13 +174,13 @@ namespace PptGeneratorGUI
             if (allValid)
             {
                 toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
-                SetStatusLabel("Select input file and destination folder, you can start processing");
+                SetStatusLabel("Input file and destination folder selected. You can start processing");
             }
             else
             {
 
-                toolTipDefault.SetToolTip(btnBuildPresentation, "Selezionare il file controller, il file report e la cartella di destinazione");
-                SetStatusLabel("Selezionare i file di input e la cartella di destinazione");
+                toolTipDefault.SetToolTip(btnBuildPresentation, "Select input files and output folder");
+                SetStatusLabel("Select input files and output folder");
             }
         }
 
@@ -198,6 +197,7 @@ namespace PptGeneratorGUI
             }
             else
             {
+                SetStatusLabel("");
                 _applicablefilters = new List<InputDataFilters_Item>();
             }
 
@@ -206,6 +206,11 @@ namespace PptGeneratorGUI
 
         private void RefreshFiltersArea()
         {
+            const int tableColumnIndex = 0;
+            const int fieldColumnIndex = 1;
+            const int selectButtonColumnIndex = 2;
+            const int selectedValuesColumnIndex = 3;
+
             dgvFiltri.Rows.Clear();
 
             if (_applicablefilters == null || _applicablefilters.Count == 0)
@@ -217,10 +222,10 @@ namespace PptGeneratorGUI
             foreach (var filtro in _applicablefilters)
             {
                 int rowIndex = dgvFiltri.Rows.Add();
-                dgvFiltri.Rows[rowIndex].Cells[0].Value = $"{filtro.Table}";
-                dgvFiltri.Rows[rowIndex].Cells[1].Value = $"{filtro.FieldName}";
-                dgvFiltri.Rows[rowIndex].Cells[2].Value = $"Select values";
-                dgvFiltri.Rows[rowIndex].Cells[3].Value = getTextForSelectedValueIntoTheFilter(filtro);
+                dgvFiltri.Rows[rowIndex].Cells[tableColumnIndex].Value = $"{filtro.Table}";
+                dgvFiltri.Rows[rowIndex].Cells[fieldColumnIndex].Value = $"{filtro.FieldName}";
+                dgvFiltri.Rows[rowIndex].Cells[selectButtonColumnIndex].Value = $"Select values";
+                dgvFiltri.Rows[rowIndex].Cells[selectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(filtro);
             }
             dgvFiltri.Enabled = true;
 
@@ -234,15 +239,15 @@ namespace PptGeneratorGUI
                     var frmSelectFilters = new frmSelectFilters();
 
                     // assegno il filtro da modificare
-                    var tabella = dgvFiltri.Rows[e.RowIndex].Cells["Tabella"].Value.ToString();
-                    var campo = dgvFiltri.Rows[e.RowIndex].Cells["Campo"].Value.ToString();
-                    frmSelectFilters.FilterToManage = _applicablefilters.First(_ => _.Table.ToString() == tabella && _.FieldName == campo);
+                    var table = dgvFiltri.Rows[e.RowIndex].Cells[tableColumnIndex].Value.ToString();
+                    var field = dgvFiltri.Rows[e.RowIndex].Cells[fieldColumnIndex].Value.ToString();
+                    frmSelectFilters.FilterToManage = _applicablefilters.First(_ => _.Table.ToString() == table && _.FieldName == field);
 
                     // apro il form di selezione
                     frmSelectFilters.ShowDialog();
 
                     // refresh dei valori selezionati
-                    dgvFiltri.Rows[e.RowIndex].Cells[3].Value = getTextForSelectedValueIntoTheFilter(frmSelectFilters.FilterToManage);
+                    dgvFiltri.Rows[e.RowIndex].Cells[selectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(frmSelectFilters.FilterToManage);
 
                     // riabilito la griglia
                     dgvFiltri.Enabled = true;
@@ -252,7 +257,7 @@ namespace PptGeneratorGUI
             string getTextForSelectedValueIntoTheFilter(InputDataFilters_Item filter)
             {
                 return (filter.SelectedValues.Count == 0)
-                        ? FilesEditor.Constants.Values.ALLFILTERSAPPLIED
+                        ? Values.ALLFILTERSAPPLIED
                         : string.Join("; ", filter.SelectedValues);
             }
         }
@@ -897,7 +902,7 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper.GeneraHtmlPerWarning(warnings);
             }
-              
+
 
             //if (righeSkippate != null && righeSkippate.Count > 0)
             //{

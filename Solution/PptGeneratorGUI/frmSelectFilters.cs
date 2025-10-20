@@ -16,9 +16,14 @@ namespace PptGeneratorGUI
         }
         private void frmSelectFilters_Load(object sender, EventArgs e)
         {
+            AggiornaTitolo();
+            LoadFilterList();
+        }
+
+        private void AggiornaTitolo()
+        {
             this.Text = $"Select Filters to Apply to '{FilterToManage.Table} - {FilterToManage.FieldName}'";
             this.lblFieldName.Text = $"{FilterToManage.Table} - {FilterToManage.FieldName}";
-            LoadFilterList();
         }
 
         private void LoadFilterList()
@@ -33,9 +38,15 @@ namespace PptGeneratorGUI
         private void btnOk_Click(object sender, EventArgs e)
         {
             FilterToManage.SelectedValues.Clear();
-            foreach (var item in cblFilters.CheckedItems)
-            { FilterToManage.SelectedValues.Add(item.ToString()); }
-            
+
+            // se tutti i valori sono selezionati è equivalente ad non averne, quindi lascio la lista vuota
+            if (cblFilters.CheckedItems.Count != cblFilters.Items.Count)
+            {
+                // collego gli elementi selezionati ai valori del filtro
+                foreach (var item in cblFilters.CheckedItems)
+                { FilterToManage.SelectedValues.Add(item.ToString()); }
+            }
+
             this.Close();
         }
 
@@ -47,26 +58,17 @@ namespace PptGeneratorGUI
         private void bntSelectAll_Click(object sender, EventArgs e)
         {
             cblFilters_AllItmesChecked(true);
-            //for (int i = 0; i < cblFilters.Items.Count; i++)
-            //{ cblFilters.SetItemChecked(i, true); }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             cblFilters_AllItmesChecked(false);
-            //for (int i = 0; i < cblFilters.Items.Count; i++)
-            //{ cblFilters.SetItemChecked(i, false); }
         }
 
         private void cblFilters_AllItmesChecked(bool check)
         {
             for (int i = 0; i < cblFilters.Items.Count; i++)
             { cblFilters.SetItemChecked(i, check); }
-        }
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
         }
     }
 }

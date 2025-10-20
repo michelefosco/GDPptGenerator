@@ -72,10 +72,10 @@ namespace FilesEditor.Steps.BuildPresentation
             // rapporto tra numero di pixel e cm
             var pizexlPerCm = 28.35;
             //
-            int offSetVerticale = (int)(2.59 * pizexlPerCm);
+            int offSetVerticale = (int)(2.6 * pizexlPerCm);
             int offSetOrizzontale = (int)(1.05 * pizexlPerCm);
             //
-            var totalAvailableWidth = (int)(27.4 * pizexlPerCm);
+            var totalAvailableWidth = (int)(27.5 * pizexlPerCm);
             var totalAvailableHeight = (int)(12.6 * pizexlPerCm);
             //
             const int spazioOrizzontaleTraDueImmagini = 2;
