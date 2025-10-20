@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using System.ComponentModel;
 using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation

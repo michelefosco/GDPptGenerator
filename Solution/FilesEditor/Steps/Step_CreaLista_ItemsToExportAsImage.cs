@@ -1,8 +1,6 @@
-﻿using FilesEditor.Constants;
-using FilesEditor.Entities;
+﻿using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
-using System.IO;
 using System.Linq;
 
 namespace FilesEditor.Steps

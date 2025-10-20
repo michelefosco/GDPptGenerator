@@ -36,7 +36,7 @@ namespace FilesEditor.Steps
                 {
                     File.Delete(filePath);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw new ManagedException(
                         filePath: filePath,
@@ -63,7 +63,7 @@ namespace FilesEditor.Steps
                 {
                     Directory.Delete(folderPath, true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw new ManagedException(
                         filePath: folderPath,
@@ -90,7 +90,7 @@ namespace FilesEditor.Steps
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw new ManagedException(
                         filePath: folderPath,
@@ -179,17 +179,16 @@ namespace FilesEditor.Steps
                     );
             }
         }
+        
         internal void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, List<string> expectedColumns, string ovverideMessage = "")
         {
-
             var columnsList = ePPlusHelper.GetHeaders(worksheetName, rowWithHeaders);
             foreach (var expectedColumn in expectedColumns)
             {
                 if (!columnsList.Any(_ => _.Equals(expectedColumn, StringComparison.InvariantCultureIgnoreCase)))
                 {
-
-                    var errorMessage = string.IsNullOrEmpty(ovverideMessage) 
-                        ? $"The file '{fileType}' does not have one of the expected headers ('{expectedColumn}')"
+                    var errorMessage = string.IsNullOrEmpty(ovverideMessage)
+                        ? string.Format(UserErrorMessages.MissingHeader, fileType, expectedColumn, worksheetName)
                         : ovverideMessage;
 
                     throw new ManagedException(
@@ -202,7 +201,7 @@ namespace FilesEditor.Steps
                             valueHeader: ValueHeaders.None,
                             value: null,
                             //
-                            errorType: ErrorTypes.MissingValue,
+                            errorType: ErrorTypes.MissingHeader,
                             userMessage: errorMessage
                             );
                 }

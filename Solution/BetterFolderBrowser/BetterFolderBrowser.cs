@@ -23,14 +23,12 @@
 
 
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Design;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using System.ComponentModel.Design;
-
 using WK.Libraries.BetterFolderBrowserNS.Editors;
 
 namespace WK.Libraries.BetterFolderBrowserNS
@@ -64,8 +62,8 @@ namespace WK.Libraries.BetterFolderBrowserNS
         #endregion
 
         #region Fields
-        
-        private Helpers.BetterFolderBrowserDialog _dialog = 
+
+        private Helpers.BetterFolderBrowserDialog _dialog =
             new Helpers.BetterFolderBrowserDialog();
 
         /// <summary>
@@ -116,7 +114,7 @@ namespace WK.Libraries.BetterFolderBrowserNS
             get { return _dialog.AllowMultiselect; }
             set { _dialog.AllowMultiselect = value; }
         }
-        
+
         #endregion
 
         #region Non-browsable
@@ -287,7 +285,7 @@ namespace WK.Libraries.BetterFolderBrowserNS.Editors
             return value;
         }
     }
-    
+
     /// <summary>
     /// Provides a custom <see cref="BetterFolderBrowser"/> UI Editor
     /// for browsing through folders via the Properties window. 

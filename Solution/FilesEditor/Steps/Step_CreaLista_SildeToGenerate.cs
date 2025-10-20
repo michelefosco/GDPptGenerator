@@ -5,7 +5,6 @@ using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace FilesEditor.Steps
@@ -27,21 +26,21 @@ namespace FilesEditor.Steps
             creaLista_SildeToGenerate();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
-        
-        private  void creaLista_SildeToGenerate()
+
+        private void creaLista_SildeToGenerate()
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var slidesToGenerate = getSildeToGenerate(ePPlusHelper);
             Context.SildeToGenerate = slidesToGenerate;
         }
 
-        private  List<SlideToGenerate> getSildeToGenerate(EPPlusHelper ePPlusHelper)
+        private List<SlideToGenerate> getSildeToGenerate(EPPlusHelper ePPlusHelper)
         {
-            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
-            var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATA_SOURCE_TEMPLATE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
+            var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATA_SOURCE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
 
             var slideToGenerateList = new List<SlideToGenerate>();

@@ -61,14 +61,15 @@ namespace WK.Libraries.BetterFolderBrowserNS.Helpers
         {
             get { return ofd.FileNames; }
         }
-        
+
         /// <summary>
         /// Gets/Sets the initial folder to be selected. A null value selects the current directory.
         /// </summary>
         public string InitialDirectory
         {
             get { return ofd.InitialDirectory; }
-            set {
+            set
+            {
                 ofd.InitialDirectory = (value == null || value.Length == 0) ? Environment.CurrentDirectory : value;
             }
         }

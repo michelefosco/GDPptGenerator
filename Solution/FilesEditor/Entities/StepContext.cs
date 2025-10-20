@@ -13,7 +13,10 @@ namespace FilesEditor.Entities
         // TmpFolder
         // DataSourceFilePath
         // DebugFilePath
-
+        // FileBudgetPath
+        // FileForecastPath
+        // FileSuperDettagliPath
+        // FileRunRatePath
 
         //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         public EsitiFinali Esito { get; private set; }
@@ -32,17 +35,14 @@ namespace FilesEditor.Entities
 
         // Input
         public bool ReplaceAllData_FileSuperDettagli { get; private set; }
-        public DateTime PeriodDate { get; private set; }        
-        public string FileBudgetPath { get; private set; }
-        public string FileForecastPath { get; private set; }
-        public string FileSuperDettagliPath { get; private set; }
-        public string FileRunRatePath { get; private set; }
+        public DateTime PeriodDate { get; private set; }
 
 
 
-        
-        
-        
+
+
+
+
         public StepContext(Configurazione configurazione)
         {
             Configurazione = configurazione;
@@ -52,14 +52,20 @@ namespace FilesEditor.Entities
         {
             Esito = esito;
         }
-   
+
         public void SetContextFromInput(BuildPresentationInput input)
         {
-            if (input == null) { return; }
+            if (input == null) { throw new ArgumentNullException("input"); }
+
             base.DestinationFolder = input.DestinationFolder;
             base.TmpFolder = input.TmpFolder;
             base.DataSourceFilePath = input.DataSourceFilePath;
             base.DebugFilePath = input.DebugFilePath;
+            //
+            base.FileBudgetPath = input.FileBudgetPath;
+            base.FileForecastPath = input.FileForecastPath;
+            base.FileSuperDettagliPath = input.FileSuperDettagliPath;
+            base.FileRunRatePath = input.FileRunRatePath;
             //
             ReplaceAllData_FileSuperDettagli = input.ReplaceAllData_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
@@ -68,16 +74,17 @@ namespace FilesEditor.Entities
 
         public void SetContextFromInput(ValidateSourceFilesInput input)
         {
-            if (input == null) { return; }
+            if (input == null) { throw new ArgumentNullException("input"); }
+
             base.DestinationFolder = input.DestinationFolder;
             base.TmpFolder = input.TmpFolder;
             base.DataSourceFilePath = input.DataSourceFilePath;
             base.DebugFilePath = input.DebugFilePath;
             //
-            FileBudgetPath = input.FileBudgetPath;
-            FileForecastPath = input.FileForecastPath;
-            FileSuperDettagliPath = input.FileSuperDettagliPath;
-            FileRunRatePath = input.FileRunRatePath;
+            base.FileBudgetPath = input.FileBudgetPath;
+            base.FileForecastPath = input.FileForecastPath;
+            base.FileSuperDettagliPath = input.FileSuperDettagliPath;
+            base.FileRunRatePath = input.FileRunRatePath;
         }
     }
 }

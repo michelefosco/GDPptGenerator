@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Xml;
-using System.Configuration;
 
 namespace PptGeneratorGUI
 {

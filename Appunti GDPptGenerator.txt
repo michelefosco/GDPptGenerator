@@ -1,7 +1,7 @@
 -------------------- Varie
 Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
 Dimensioni slide: 			29,691 cm X 16,713 cm
-Dimensioni box immagini:	27,400 cm X 14.500 cm	Rapporto (1 : 2,192)
+Dimensioni box immagini:	27,400 cm X 14.500 cm	Ratio (1 : 2,192)
 File di input: 
 	1) SuperDettagli
 	2) Budget
@@ -19,45 +19,20 @@ Per PowerPoint usata libreria: ShapeCrawler
 Microsoft Excel 15.0
 
 -------------------- Todo
-- in UI in caso si successo, link per apertura file di output
-- Traduzione e rivedere messaggi utente nella UI
-- Usare interops
+- Usare interops per la generazione delle immagini
 - Step clean up con cancellazione delle cartella temporanea
 - Add logging
-- meglio PNG format
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
-- Step backup DataSource prima di cominiciare
-- Move HTML helpers
-
-- Applicazione degli alias ai dati letti
-- Aggiungere dettagli della ManagedExpetion all'otuput (es fileType: FileTypes.DataSource,)
-- Sollevare eccezione per configurazione slide mancante, almeno un file con almeno uno slide
-- Rimouvere constati per datasoure e datasource template (semplificare)
-- Rivedere nomi steps e aggiungere commento in cima alla classe
-- Dopo la versione definitiva dei file di input aggiungere più test la validazione degli headers
-- Mandare prima versione per test UI
 - Test con formule
 - Test con filtri
+- Applicazione degli alias ai dati letti
+- Rivedere nomi steps e aggiungere commento in cima alla classe
+- Dopo la versione definitiva dei file di input aggiungere più test la validazione degli headers
 - Gestione versioning del file datasource
 - Logica append/replace dei dati si duperdettagli
-- tabelle anagrafiche per Business TMP e una per il campo Categoria (aggiungere due fogli con tabelle "Valore grezzo" e "Valore da sostituire"
-- In configruazione mettere opzionale append o sostituzione completa tabella (bool SvuotaTabella prima di aggiornare)0'
-- Vincolare maggiormente il foglio Excel? Protezioni?
-- Codice per distribuire fino a 3 slides
-- Selezione del periodo
 - Aggiornare variabili foglio nome in base al periodo
-- Migliorare aspetto griglia filtri quando disabilitat
 - Applicazione filtri su super dettagli
-- Aggiungere file istruzioni.txt per la configurazione dei file di testo
-- Debug di input
-- Debug di output
-- Verifica esistenza fogli usati in print areas
-- Aggiungere controlli su corretteza dei nomi delle immagini usati nel file delle slide, devono essere indicati nel file PrintAreas
-- Alert per elementi graifici in area di stampa oltre la cornice?
-- Aggiornare la sorgente dati con ultima riga delle tabelle
+- Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle
 - Inserire i dati come Tabella
-- Rename cartella "Configurazione" in "Templates" (anche nel menù a tendina)
-- Verificare che i filtri indicati siano validi esempio che realmente delle colonne nel foglio e che i fogli siano tra quelli possibili
-- Rendere la colonna "fogli" dei filtri un elenco a tendina prefissato
 - Beutify logs

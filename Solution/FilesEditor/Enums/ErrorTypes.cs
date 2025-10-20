@@ -42,6 +42,9 @@ namespace FilesEditor.Enums
         [Description("Invalid value")]
         InvalidValue,
 
+        [Description("Missing header")]
+        MissingHeader,        
+
 
 
         // not used yet

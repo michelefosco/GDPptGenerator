@@ -5,7 +5,6 @@ using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace FilesEditor.Steps
@@ -28,11 +27,11 @@ namespace FilesEditor.Steps
 
             Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP);
             Context.AliasDefinitions_Categoria = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_CATEGORIA);
-        } 
+        }
 
         private List<AliasDefinition> readAliasFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName)
         {
-          //  var worksheetName = WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP;
+            //  var worksheetName = WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var firstRow = Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_FIRST_DATA_ROW;
@@ -67,7 +66,7 @@ namespace FilesEditor.Steps
                 var rawValuesSplittati = rawValues.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(_ => _.Trim()).Where(_ => !string.IsNullOrWhiteSpace(_)).ToList();
                 foreach (var rawValueSplittato in rawValuesSplittati)
                 {
-                    if(aliasDefinitions.Any(_ => _.RawValue.Equals(rawValueSplittato, StringComparison.InvariantCultureIgnoreCase)))
+                    if (aliasDefinitions.Any(_ => _.RawValue.Equals(rawValueSplittato, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         throw new ManagedException(
                                     filePath: ePPlusHelper.FilePathInUse,
@@ -80,7 +79,7 @@ namespace FilesEditor.Steps
                                     value: rawValueSplittato,
                                     //
                                     errorType: ErrorTypes.DuplicateValue,
-                                    userMessage:$"The alias '{rawValueSplittato}' is declared more than once in the worksheet '{worksheetName}'.");
+                                    userMessage: $"The alias '{rawValueSplittato}' is declared more than once in the worksheet '{worksheetName}'.");
                     }
 
                     aliasDefinitions.Add(new AliasDefinition(

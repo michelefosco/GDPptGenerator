@@ -216,7 +216,7 @@ namespace PptGeneratorGUI
             { return string.Empty; }
 
             string outputMessage = "";
-           // outputMessage += _newlineHTML + _newlineHTML + _newlineHTML;
+            // outputMessage += _newlineHTML + _newlineHTML + _newlineHTML;
             outputMessage += GetHTMLBold($"Warnings were reported during the processing:");
             outputMessage += _newlineHTML;
 

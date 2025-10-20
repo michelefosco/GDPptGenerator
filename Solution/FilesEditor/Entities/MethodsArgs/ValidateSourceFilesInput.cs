@@ -5,11 +5,6 @@ namespace FilesEditor.Entities
 {
     public class ValidateSourceFilesInput : UserInterfaceInputBase
     {
-        public string FileBudgetPath { get; private set; }
-        public string FileForecastPath { get; private set; }
-        public string FileSuperDettagliPath { get; private set; }
-        public string FileRunRatePath { get; private set; }
-
         public ValidateSourceFilesInput(
                 string dataSourceFilePath,
                 string destinationFolder,
@@ -31,7 +26,7 @@ namespace FilesEditor.Entities
                 throw new ArgumentNullException(nameof(tmpFolder));
             if (string.IsNullOrWhiteSpace(debugFilePath))
                 throw new ArgumentNullException(nameof(DebugFilePath));
-            // Properties of the derived class 
+            // 
             if (string.IsNullOrWhiteSpace(fileBudgetPath))
                 throw new ArgumentNullException(nameof(fileBudgetPath));
             if (string.IsNullOrWhiteSpace(fileForecastPath))
@@ -46,12 +41,11 @@ namespace FilesEditor.Entities
             base.DestinationFolder = destinationFolder;
             base.TmpFolder = tmpFolder;
             base.DebugFilePath = debugFilePath;
-
-            // Properties of the derived class 
-            FileBudgetPath = fileBudgetPath;
-            FileForecastPath = fileForecastPath;
-            FileSuperDettagliPath = fileSuperDettagliPath;
-            FileRunRatePath = fileRunRatePath;
+            //
+            base.FileBudgetPath = fileBudgetPath;
+            base.FileForecastPath = fileForecastPath;
+            base.FileSuperDettagliPath = fileSuperDettagliPath;
+            base.FileRunRatePath = fileRunRatePath;
         }
     }
 }

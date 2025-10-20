@@ -5,7 +5,6 @@ using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace FilesEditor.Steps.ValidateSourceFiles
@@ -29,7 +28,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         private void creaLista_Applicablefilters()
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
@@ -42,7 +41,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private List<InputDataFilters_Item> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
-            var worksheetName = WorksheetNames.DATA_SOURCE_TEMPLATE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
             var filtriPossibili = new List<InputDataFilters_Item>();
 
             var rigaCorrente = configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW;

@@ -37,6 +37,11 @@ namespace FilesEditor.Tests
                     tmpFolder: tmpFolder,
                     debugFilePath: debugFilePath,
                     //
+                    fileBudgetPath: fileBudgetPath,
+                    fileForecastPath: fileForecastPath,
+                    fileSuperDettagliPath: fileSuperDettagliPath,
+                    fileRunRatePath: fileRunRatePat,
+                    //
                     replaceAllData_FileSuperDettagli: replaceAllData_FileSuperDettagli,
                     periodDate: periodDate,
                     applicablefilters: applicablefilters

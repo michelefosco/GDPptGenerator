@@ -44,7 +44,7 @@ namespace FilesEditor
                     new Step_TmpFolder_Pulizia(context),
                     new Step_EsitoFinale_Success(context)
                  };
-                var esitoFinale = runStepSequence(stepsSequence, context);
+                var esitoFinale = runStepSequence(stepsSequence);
                 context.SettaEsitoFinale(esitoFinale);
                 return new ValidateSourceFilesOutput(context);
             }
@@ -83,17 +83,21 @@ namespace FilesEditor
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_DebugInfoLogger(context),
+                    new Step_ValidazioniPreliminari_InputFiles(context),
                     new Step_TmpFolder_Predisposizione(context),
                     new Step_BackupFile_DataSource(context),
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
+                    new Step_LeggiInputFile_RanRate(context),
+                    //todo: lettura altri file di input se necessari
+                    //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),
                     new Step_CreaFiles_Presentazioni(context),
                     new Step_TmpFolder_Pulizia(context),
                     new Step_EsitoFinale_Success(context)
                  };
-                var esitoFinale = runStepSequence(stepsSequence, context);
+                var esitoFinale = runStepSequence(stepsSequence);
                 context.SettaEsitoFinale(esitoFinale);
                 return new BuildPresentationOutput(context);
             }
@@ -108,7 +112,7 @@ namespace FilesEditor
         }
         #endregion
 
-        private static EsitiFinali runStepSequence(List<StepBase> stepsSequence, StepContext context)
+        private static EsitiFinali runStepSequence(List<StepBase> stepsSequence)
         {
             foreach (var step in stepsSequence)
             {

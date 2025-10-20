@@ -44,8 +44,8 @@ namespace FilesEditor.Tests
 
             // test base
             Assert.IsNotNull(output);
+            Assert.IsNull(output.ManagedException, output.ManagedException?.Message);
             Assert.AreEqual(EsitiFinali.Success, output.Esito);
-            Assert.IsNull(output.ManagedException);
 
             // test specifici dell'oggetto di output
             Assert.IsNotNull(output.Applicablefilters);

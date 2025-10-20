@@ -127,6 +127,18 @@ namespace PptGeneratorGUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             RefreshUI(true);
+
+           // aUecchj();
+        }
+
+        private void aUecchj()
+        {
+            cmbFileBudgetPath.SelectedIndex = 0;
+            cmbFileForecastPath.SelectedIndex = 0;
+            cmbFileRunRatePath.SelectedIndex = 0;
+            cmbFileSuperDettagliPath.SelectedIndex = 0;
+            cmbDestinationFolderPath.SelectedIndex = 0;
+            validaFileDiInput();
         }
 
         private void SetStatusLabel(string status)
@@ -400,7 +412,7 @@ namespace PptGeneratorGUI
         {
             string debugModeEnabledValue = ConfigurationManager.AppSettings.Get("DebugModeEnabled");
 
-            bool configValue = false;
+            bool configValue;
 
             if (!string.IsNullOrEmpty(debugModeEnabledValue))
             {
@@ -749,6 +761,11 @@ namespace PptGeneratorGUI
                     tmpFolder: TmpFolderPath,
                     debugFilePath: DebugFilePath,
                     //
+                    fileBudgetPath: SelectedFileBudgetPath,
+                    fileForecastPath: SelectedFileForecastPath,
+                    fileSuperDettagliPath: SelectedFileSuperDettagliPath,
+                    fileRunRatePath: SelectedFileRunRatePath,
+                    //
                     replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
                     periodDate: _selectedDatePeriodo,
                     applicablefilters: _applicablefilters
@@ -985,7 +1002,6 @@ namespace PptGeneratorGUI
             //    else
             //        MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente non è più presente sul disco.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
-
         }
 
 

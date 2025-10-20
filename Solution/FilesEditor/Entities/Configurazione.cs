@@ -32,6 +32,31 @@
         public int DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL { get; set; }
 
 
+        #region     Headers
+        #region Budgets
+        public int DATASOURCE_BUDGET_HEADERS_ROW { get; set; }
+        public int DATASOURCE_BUDGET_HEADERS_FIRST_COL { get; set; }
+
+        #endregion
+
+        #region Forecast
+        public int DATASOURCE_FORECAST_HEADERS_ROW { get; set; }
+        public int DATASOURCE_FORECAST_HEADERS_FIRST_COL { get; set; }
+
+        #endregion
+
+        #region Run rate
+        public int DATASOURCE_RUNRATE_HEADERS_ROW { get; set; }
+        public int DATASOURCE_RUNRATE_HEADERS_FIRST_COL { get; set; }
+        #endregion
+
+        #region Superdettagli
+        public int DATASOURCE_SUPERDETTAGLI_HEADERS_ROW { get; set; }
+        public int DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
+        #endregion
+
+        #endregion
+
         // Alias-Categoria
         //public int DATASOURCE_ALIAS_CATEGORIA_FIRST_DATA_ROW { get; set; }
         //public int DATASOURCE_ALIAS_CATEGORIA_TMP_RAW_VALUES_COL { get; set; }
@@ -45,22 +70,28 @@
         #endregion
 
 
-        #region Superdettagli
-        public int INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
-        #endregion
+        // ----- INPUT FILES
 
         #region Budgets
         public int INPUT_FILES_BUDGET_HEADERS_ROW { get; set; }
+        public int INPUT_FILES_BUDGET_HEADERS_FIRST_COL { get; set; }
 
         #endregion
 
         #region Forecast
         public int INPUT_FILES_FORECAST_HEADERS_ROW { get; set; }
+        public int INPUT_FILES_FORECAST_HEADERS_FIRST_COL { get; set; }
 
         #endregion
 
         #region Run rate
         public int INPUT_FILES_RUNRATE_HEADERS_ROW { get; set; }
+        public int INPUT_FILES_RUNRATE_HEADERS_FIRST_COL { get; set; }
+        #endregion
+
+        #region Superdettagli
+        public int INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
+        public int INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
         #endregion
     }
 }

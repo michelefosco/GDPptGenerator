@@ -187,7 +187,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
             #region Centro la shape nel box
             // aggiungo alla posizione prevista un'ulteriore spostamento legato alla differenza tra la dimensione prevista (boxWith) e quella assegnata (newWidth) diviso 2 (per distribuire a destra e sinistra lo spazio ricavato)
-            shape.X = boxPostionX + (boxWidth - newWidth) / 2; 
+            shape.X = boxPostionX + (boxWidth - newWidth) / 2;
             shape.Y = boxPostionY + (boxHeight - newHeight) / 2;
             #endregion
 

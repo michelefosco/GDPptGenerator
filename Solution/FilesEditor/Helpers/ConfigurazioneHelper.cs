@@ -33,18 +33,41 @@ namespace FilesEditor.Helpers
             configurazione.DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL = 2;
 
 
-            // Input file input Superdettagli
-            configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
+            configurazione.DATASOURCE_BUDGET_HEADERS_ROW = 2;
+            configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL = (int)ColumnIDS.K;
 
+            // Input file input Forecast
+            configurazione.DATASOURCE_FORECAST_HEADERS_ROW = 3;
+            configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL = (int)ColumnIDS.P;
+
+            // Input file input RunRate
+            configurazione.DATASOURCE_RUNRATE_HEADERS_ROW = 1;
+            configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+
+            // Input file input Superdettagli
+            configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW = 2;
+            configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.AE;
+
+
+
+
+
+            // ----- INPUT FILES
             // Input file input Budget
             configurazione.INPUT_FILES_BUDGET_HEADERS_ROW = 2;
+            configurazione.INPUT_FILES_BUDGET_HEADERS_FIRST_COL = (int)ColumnIDS.A;
 
             // Input file input Forecast
             configurazione.INPUT_FILES_FORECAST_HEADERS_ROW = 3;
+            configurazione.INPUT_FILES_FORECAST_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+
+            // Input file input RunRate
+            configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW = 1;
+            configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL = (int)ColumnIDS.A;
 
             // Input file input Superdettagli
-            configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW = 1;
-
+            configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
+            configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.A;
 
             //#region Cartella "Controller"
             //// Foglio "ACT SOLO CDC"

@@ -3,10 +3,8 @@ using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 namespace FilesEditor.Helpers
 {
     public class DebugInfoLogger
