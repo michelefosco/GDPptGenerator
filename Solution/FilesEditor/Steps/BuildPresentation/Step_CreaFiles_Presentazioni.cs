@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using FilesEditor.Entities;
+﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
 using ShapeCrawler;
 using System;
@@ -152,22 +151,45 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private IShape addImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
         {
+            // calcolo il percoso del file immmagine
             var imgFilePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, imageId);
+
+            // ottengo le dimensioni reali dell'immagine
+            double imgWidth = 0;
+            double imgHeight = 0;
+            using (Image img = Image.FromFile(imgFilePath))
+            {
+                imgWidth = img.Width;
+                imgHeight = img.Height;
+            }
+
+            // Calcola i rapporti e scelgo il più piccolo
+            double ratioX = (double)boxWidth / imgWidth;
+            double ratioY = (double)boxHeight / imgHeight;
+            double ratio = Math.Min(ratioX, ratioY); // Scegli il più piccolo per non uscire dal frame
+
+
+            // Calcolo le uove dimensioni proporzionali
+            int newWidth = (int)(imgWidth * ratio);
+            int newHeight = (int)(imgHeight * ratio);
+
+
+            // aggiungo l'immagine alla slide (in una shape)
             var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
             slide.Shapes.AddPicture(imgStream);
             imgStream.Close();
 
-            using (Image img = Image.FromFile(imgFilePath))
-            {
-                Console.WriteLine($"Width: {img.Width}px");
-                Console.WriteLine($"Height: {img.Height}px");
-            }
 
+            // prendo la shape appena aggiunta e la ridimensiono con le nuove dimensioni calcolate
             var shape = slide.Shapes[slide.Shapes.Count - 1];
-            shape.Width = boxWidth;
-            shape.Height = boxHeight;
-            shape.Y = boxPostionY;
-            shape.X = boxPostionX;
+            shape.Width = newWidth;
+            shape.Height = newHeight;
+
+            #region Centro la shape nel box
+            // aggiungo alla posizione prevista un'ulteriore spostamento legato alla differenza tra la dimensione prevista (boxWith) e quella assegnata (newWidth) diviso 2 (per distribuire a destra e sinistra lo spazio ricavato)
+            shape.X = boxPostionX + (boxWidth - newWidth) / 2; 
+            shape.Y = boxPostionY + (boxHeight - newHeight) / 2;
+            #endregion
 
             return shape;
         }
