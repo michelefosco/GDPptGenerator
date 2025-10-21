@@ -19,6 +19,7 @@ Per PowerPoint usata libreria: ShapeCrawler
 Microsoft Excel 15.0
 
 -------------------- Todo
+- continuare da lettura tramite run rate
 - Usare interops per la generazione delle immagini
 - Step clean up con cancellazione delle cartella temporanea
 - Add logging

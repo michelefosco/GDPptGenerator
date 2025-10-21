@@ -89,7 +89,7 @@ namespace FilesEditor
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
-                    new Step_LeggiInputFile_RanRate(context),
+                    new Step_LeggiInputFiles(context),
                     //todo: lettura altri file di input se necessari
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),

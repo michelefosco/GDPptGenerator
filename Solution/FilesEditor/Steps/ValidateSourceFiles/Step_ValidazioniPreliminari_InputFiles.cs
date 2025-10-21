@@ -1,7 +1,6 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System.Collections.Generic;
 
 namespace FilesEditor.Steps.ValidateSourceFiles
 {
@@ -19,7 +18,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             validazioniPreliminari_InputFiles();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
-
 
         internal void validazioniPreliminari_InputFiles()
         {
@@ -78,11 +76,12 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             string inputFileWorksheetName,
             int inputFileHeadersRow)
         {
-            // leggo la lista degli headers richiesti (ovvero le intestazione delle colonne da leggere dai file di input)
+            #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
             var dataSourceEPPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var expectedHeadersColumns = dataSourceEPPlusHelper.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
+            #endregion
 
-
+            #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
             var inputFileEPPlusHelper = GetHelperForExistingFile(inputFilePath, inputFileType);
 
             // Controllo che ci sia il foglio da cui leggere i dati
@@ -90,6 +89,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
             ThrowExpetionsForMissingHeader(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType, inputFileHeadersRow, expectedHeadersColumns);
+            #endregion
         }
     }
 }

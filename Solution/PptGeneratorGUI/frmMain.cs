@@ -128,7 +128,7 @@ namespace PptGeneratorGUI
         {
             RefreshUI(true);
 
-           // aUecchj();
+            aUecchj();
         }
 
         private void aUecchj()
