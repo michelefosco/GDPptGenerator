@@ -3,6 +3,7 @@ using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,12 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private void creaLista_Applicablefilters()
         {
-            var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            //var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.ePPlusHelperDataSource, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
-            var applicableFilters = getApplicableFilters(ePPlusHelper, Context.Configurazione);
+            var applicableFilters = getApplicableFilters(Context.ePPlusHelperDataSource, Context.Configurazione);
             fillApplicableFiltersWithValues(applicableFilters);
 
             Context.Applicablefilters = applicableFilters;
@@ -135,11 +136,11 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private List<string> fillApplicableFiltersWithValues_FromFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
         {
-            var ePPlusHelper = GetHelperForExistingFile(filePath, fileType);
+            var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
 
             // Controllo che l'header per la colonna che si sta tentando di esista
             var errorMessage = $"The configuration inside the file DataSource includes the filter: '{fileType} - {headerValue}'.\r\nThe worksheet '{worksheetName}' does not contain the corresponding header ('{headerValue}')";
-            ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, new List<string> { headerValue }, errorMessage);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, new List<string> { headerValue }, errorMessage);
 
             var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue);
             return values.Distinct().OrderBy(n => n).ToList(); ;

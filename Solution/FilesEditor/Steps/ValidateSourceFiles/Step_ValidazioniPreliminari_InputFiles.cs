@@ -1,6 +1,7 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 
 namespace FilesEditor.Steps.ValidateSourceFiles
 {
@@ -77,18 +78,18 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             int inputFileHeadersRow)
         {
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
-            var dataSourceEPPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var expectedHeadersColumns = dataSourceEPPlusHelper.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
+           // var dataSourceEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            var expectedHeadersColumns = Context.ePPlusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
-            var inputFileEPPlusHelper = GetHelperForExistingFile(inputFilePath, inputFileType);
+            var inputFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(inputFilePath, inputFileType);
 
             // Controllo che ci sia il foglio da cui leggere i dati
-            ThrowExpetionsForMissingWorksheet(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType);
 
             // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
-            ThrowExpetionsForMissingHeader(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType, inputFileHeadersRow, expectedHeadersColumns);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType, inputFileHeadersRow, expectedHeadersColumns);
             #endregion
         }
     }

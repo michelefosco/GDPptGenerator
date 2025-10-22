@@ -1,4 +1,5 @@
-﻿using FilesEditor.Entities.MethodsArgs;
+﻿using EPPlusExtensions;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using System;
@@ -21,6 +22,22 @@ namespace FilesEditor.Entities
         //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
         public EsitiFinali Esito { get; private set; }
         public Configurazione Configurazione;
+
+        private EPPlusHelper _ePPlusHelperDataSource;
+        public EPPlusHelper ePPlusHelperDataSource
+        {
+            get
+            {
+                if (_ePPlusHelperDataSource == null)
+                {
+                    if (string.IsNullOrEmpty(DataSourceFilePath))
+                    { throw new Exception("Inizializzare 'DataSourceFilePath' prima di usare 'ePPlusHelperDataSource'"); }
+
+                    _ePPlusHelperDataSource = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(DataSourceFilePath, FileTypes.DataSource);
+                }
+                return _ePPlusHelperDataSource;
+            }
+        }
         public DebugInfoLogger DebugInfoLogger = new DebugInfoLogger(null);
         public List<string> Warnings = new List<string>();
 

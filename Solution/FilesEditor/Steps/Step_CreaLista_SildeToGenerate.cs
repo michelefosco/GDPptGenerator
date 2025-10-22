@@ -3,6 +3,7 @@ using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,11 @@ namespace FilesEditor.Steps
 
         private void creaLista_SildeToGenerate()
         {
-            var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.ePPlusHelperDataSource, worksheetName, FileTypes.DataSource);
 
-            var slidesToGenerate = getSildeToGenerate(ePPlusHelper);
+            var slidesToGenerate = getSildeToGenerate(Context.ePPlusHelperDataSource);
             Context.SildeToGenerate = slidesToGenerate;
         }
 

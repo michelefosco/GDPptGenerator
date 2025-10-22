@@ -84,12 +84,13 @@ namespace FilesEditor
                 {
                     new Step_Start_DebugInfoLogger(context),
                     new Step_ValidazioniPreliminari_InputFiles(context),
+                    new Step_VerificaEditabilita_DataSource_File(context),
                     new Step_TmpFolder_Predisposizione(context),
                     new Step_BackupFile_DataSource(context),
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
-                    new Step_LeggiInputFiles(context),
+                    new Step_LetturaDatiDaInputFiles(context),
                     //todo: lettura altri file di input se necessari
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),

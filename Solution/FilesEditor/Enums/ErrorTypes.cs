@@ -10,6 +10,9 @@ namespace FilesEditor.Enums
         [Description("Unable to open a file")]
         UnableToOpenFile,
 
+        [Description("Unable to update a file")]
+        UnableToUpdateFile,
+
         [Description("Unable to delete a file")]
         UnableToDeleteFile,
 

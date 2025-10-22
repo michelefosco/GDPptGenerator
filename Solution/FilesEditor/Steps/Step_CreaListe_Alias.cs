@@ -3,6 +3,7 @@ using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace FilesEditor.Steps
 
         private void creaListe_Alias()
         {
-            var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
             Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP);
             Context.AliasDefinitions_Categoria = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA);
@@ -32,7 +33,7 @@ namespace FilesEditor.Steps
         private List<AliasDefinition> readAliasFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName)
         {
             //  var worksheetName = WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP;
-            ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var firstRow = Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_FIRST_DATA_ROW;
             var lastRow = ePPlusHelper.GetLastUsedRowForColumn(worksheetName, firstRow, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL);

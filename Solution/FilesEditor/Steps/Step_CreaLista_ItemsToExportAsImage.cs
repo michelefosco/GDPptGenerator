@@ -1,6 +1,7 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System.Linq;
 
 namespace FilesEditor.Steps
@@ -19,12 +20,12 @@ namespace FilesEditor.Steps
 
         private void creaListaImmaginiDaEsportare()
         {
-            var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)
             {
-                ThrowExpetionsForMissingWorksheet(ePPlusHelper, imageId, FileTypes.DataSource);
+                EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(ePPlusHelper, imageId, FileTypes.DataSource);
 
                 var printArea = ePPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
                 // check sul campo "Print Area"

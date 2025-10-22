@@ -16,13 +16,14 @@ namespace EPPlusExtensions
 
 
         public string FilePathInUse { get; private set; }
+        public ExcelPackage ExcelPackage { get {return _excelPackage;} }
+
 
         public EPPlusHelper()
         {
             _backgroundColorCellaInEvidenza = System.Drawing.Color.Yellow;
             _backgroundColorCellaInErrore = System.Drawing.Color.Red;
         }
-
 
         public void AddNewHeaderRow(string worksheetName, object value_01, object value_02 = null, object value_03 = null, object value_04 = null, object value_05 = null, object value_06 = null, object value_07 = null, object value_08 = null, object value_09 = null, object value_10 = null, object value_11 = null, object value_12 = null, object value_13 = null, object value_14 = null, object value_15 = null)
         {

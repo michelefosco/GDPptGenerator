@@ -1,4 +1,5 @@
-﻿using FilesEditor.Constants;
+﻿using DocumentFormat.OpenXml.Drawing;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
@@ -10,9 +11,9 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_LeggiInputFiles : StepBase
+    internal class Step_LetturaDatiDaInputFiles : StepBase
     {
-        public Step_LeggiInputFiles(StepContext context) : base(context)
+        public Step_LetturaDatiDaInputFiles(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
@@ -84,10 +85,9 @@ namespace FilesEditor.Steps.BuildPresentation
             )
         {
 
-
-            //todo: try catch del metodo?
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
-            var packageDest = new ExcelPackage(new FileInfo(Context.DataSourceFilePath)); // Sempre datasource
+            //var packageDest = new ExcelPackage(new FileInfo(Context.DataSourceFilePath)); // Sempre datasource
+            var packageDest = Context.ePPlusHelperDataSource.ExcelPackage;  // Sempre datasource
 
             // Foglio sorgente e di destinazione
             var wsSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
@@ -142,24 +142,6 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
-
-            int lastRowDest = wsDest.Dimension.End.Row;
-            int lastColDest = wsDest.Dimension.End.Column;
-            for (int rowDestIndex = destHeaderRow + 1; rowDestIndex <= lastRowDest; rowDestIndex++)
-            {
-                for (int colIndex = destHeaderFirstColumn; colIndex <= lastColDest; colIndex++)
-                {
-                    //ripulisco le righe esistenti
-                    wsDest.Cells[rowDestIndex, colIndex].Clear();
-                }
-
-                //todo: elimiare il foar esterno e svuotare solo il contenuto della prima riga
-                break;
-            }
-            // cancello tutto dalla seconda riga dopo gli headers, risparmio la prima per preservare le formule contenute nella prima riga e poterle duplicare
-            wsDest.DeleteRow(destHeaderRow + 2, lastRowDest, true);
-
-
             #region Preparo una struttura più snella che contenta le informazioni su filtri
             InputDataFilters_Tables inputDataFilters_Table;
             switch (sourceFileType)
@@ -188,6 +170,9 @@ namespace FilesEditor.Steps.BuildPresentation
             // mi posizione sulla riga immediatamente dopo quella degli headers
             int destRowIndex = destHeaderRow + 1;
 
+            var table = wsDest.Tables[0];
+            var tableAdress = table.Address;
+
             // Copia dati riga per riga, rispettando i nomi delle colonne
             for (int rowSourceIndex = souceHeaderRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
             {
@@ -214,6 +199,9 @@ namespace FilesEditor.Steps.BuildPresentation
                 if (skippaRiga)
                 { continue; }
                 #endregion
+
+                // Allungo la tabella di un riga in modo da conservare le formule
+                wsDest.InsertRow(destRowIndex, 1);
 
                 foreach (var kvp in destHeaders)
                 {
@@ -242,10 +230,10 @@ namespace FilesEditor.Steps.BuildPresentation
                 destRowIndex++;
             }
 
-            //todo: allungare tabella con formule
+            // cancello le righe inutilizzate
+            wsDest.DeleteRow(destRowIndex, wsDest.Dimension.End.Row, true);
 
-            // todo: try catch con managed expetion
-            // Salva le modifiche
+            // todo: se possibile portare l'helper nel context e fare un'unica apertura e unico .Save()
             packageDest.Save();
         }
     }

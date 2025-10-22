@@ -46,3 +46,9 @@ quindi un try catch con un save
 - Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle
 - Inserire i dati come Tabella
 - Beutify logs
+
+(Opzionali o per proposte successive)
+- Aggiungere testo "Possibile soluzione" alle properties di ManagedExpetion?
+
+
+

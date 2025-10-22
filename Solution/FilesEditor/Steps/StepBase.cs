@@ -109,12 +109,12 @@ namespace FilesEditor.Steps
             }
         }
 
-
         internal void AddWarning(string warningMessage)
         {
             Context.Warnings.Add(warningMessage);
             Context.DebugInfoLogger?.LogWarning(warningMessage);
         }
+
 
         /// <summary>
         /// Get all files matching the criteria
@@ -129,83 +129,17 @@ namespace FilesEditor.Steps
                     .Where(_ => !Path.GetFileName(_).StartsWith("~$")).ToList();
             return filePaths;
         }
+
         internal string GetTmpFolderImagePathByImageId(string tmpFolderPath, string imageId)
         {
             var imagePath = $"{tmpFolderPath}\\{imageId}.png";
             return imagePath;
         }
+
         internal static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)
         {
             return (obj1 == null && obj2 == null && obj3 == null && obj4 == null && obj5 == null && obj6 == null);
 
-        }
-        internal EPPlusHelper GetHelperForExistingFile(string filePath, FileTypes fileType)
-        {
-            var ePPlusHelper = new EPPlusHelper();
-            if (!ePPlusHelper.Open(filePath))
-            {
-                throw new ManagedException(
-                    filePath: ePPlusHelper.FilePathInUse,
-                    fileType: fileType,
-                    //
-                    worksheetName: null,
-                    cellRow: null,
-                    cellColumn: null,
-                    valueHeader: ValueHeaders.None,
-                    value: null,
-                    //
-                    errorType: ErrorTypes.UnableToOpenFile,
-                    userMessage: UserErrorMessages.UnableToOpenFile
-                    );
-            }
-            return ePPlusHelper;
-        }
-        internal void ThrowExpetionsForMissingWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType)
-        {
-            if (!ePPlusHelper.WorksheetExists(worksheetName))
-            {
-                throw new ManagedException(
-                    filePath: ePPlusHelper.FilePathInUse,
-                    fileType: fileType,
-                    //
-                    worksheetName: worksheetName,
-                    cellRow: null,
-                    cellColumn: null,
-                    valueHeader: ValueHeaders.None,
-                    value: null,
-                    //
-                    errorType: ErrorTypes.MissingWorksheet,
-                    userMessage: string.Format(UserErrorMessages.MissingWorksheet, worksheetName)
-                    );
-            }
-        }
-        
-        internal void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, List<string> expectedColumns, string ovverideMessage = "")
-        {
-            var columnsList = ePPlusHelper.GetHeaders(worksheetName, rowWithHeaders);
-            foreach (var expectedColumn in expectedColumns)
-            {
-                if (!columnsList.Any(_ => _.Equals(expectedColumn, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    var errorMessage = string.IsNullOrEmpty(ovverideMessage)
-                        ? string.Format(UserErrorMessages.MissingHeader, fileType, expectedColumn, worksheetName)
-                        : ovverideMessage;
-
-                    throw new ManagedException(
-                            filePath: ePPlusHelper.FilePathInUse,
-                            fileType: fileType,
-                            //
-                            worksheetName: worksheetName,
-                            cellRow: rowWithHeaders,
-                            cellColumn: null,
-                            valueHeader: ValueHeaders.None,
-                            value: null,
-                            //
-                            errorType: ErrorTypes.MissingHeader,
-                            userMessage: errorMessage
-                            );
-                }
-            }
         }
         #endregion
     }
