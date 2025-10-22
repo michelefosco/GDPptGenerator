@@ -10,18 +10,27 @@ File di input:
 
 
 -------------------- Domande per Francesco
-- Nell'ultima version del file DataSource ricevuto le colonne da aggionare per il foglio Budget sono identiche a quelle del fogli Forecast. Però mentre per quest'ultimo c'è una corrispondenza 1 a 1 con il file di input Excel. Mentre per budget sono tutti in pò stravolti.
-- In interfaccia vuoi ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel
-- Chiedere Francesco: "Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD"
+- Input files con qualche dato più realistico
+- Rivedere intestazione headers in DataSource
+- In interfaccia ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel?
+- Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
 Microsoft Excel 15.0
 
 -------------------- Todo
+//Aggiungere step per la verifica che il file DataSource non sia in uso
+quindi un try catch con un save
+            // Queste due righe, appartentemente superflue, servono per verificare che i 2 file sia accessibili e in caso negativo venga sollevata un'eccezione comprensibile all'utente
+            //var helperSource = GetHelperForExistingFile(sourceFilePath, sourceFileType);
+            var helperDest = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            helperDest.Save();
+
 - continuare da lettura tramite run rate
 - Usare interops per la generazione delle immagini
 - Step clean up con cancellazione delle cartella temporanea
+- allungare tabella con formule
 - Add logging
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel

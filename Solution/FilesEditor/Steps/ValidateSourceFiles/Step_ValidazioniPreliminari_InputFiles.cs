@@ -22,46 +22,46 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         internal void validazioniPreliminari_InputFiles()
         {
             validazioniPreliminari_Comuni(
-                 datasourceWorksheetName: WorksheetNames.DATA_SOURCE_BUDGET_DATA,
+                 datasourceWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL,
                  //
                  inputFilePath: Context.FileBudgetPath,
                  inputFileType: FileTypes.Budget,
-                 inputFileWorksheetName: WorksheetNames.BUDGET_DATA,
+                 inputFileWorksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
                  inputFileHeadersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
-                 datasourceWorksheetName: WorksheetNames.DATA_SOURCE_FORECAST_DATA,
+                 datasourceWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL,
                  //
                  inputFilePath: Context.FileForecastPath,
                  inputFileType: FileTypes.Forecast,
-                 inputFileWorksheetName: WorksheetNames.FORECAST_DATA,
+                 inputFileWorksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
                  inputFileHeadersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
-                 datasourceWorksheetName: WorksheetNames.DATA_SOURCE_RUN_RATE_DATA,
+                 datasourceWorksheetName: WorksheetNames.DATASOURCE_RUN_RATE_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL,
                  //
                  inputFilePath: Context.FileRunRatePath,
                  inputFileType: FileTypes.RunRate,
-                 inputFileWorksheetName: WorksheetNames.RUN_RATE_DATA,
+                 inputFileWorksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
                  inputFileHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
-                 datasourceWorksheetName: WorksheetNames.DATA_SOURCE_SUPERDETTAGLI_DATA,
+                 datasourceWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL,
                  //
                  inputFilePath: Context.FileSuperDettagliPath,
                  inputFileType: FileTypes.SuperDettagli,
-                 inputFileWorksheetName: WorksheetNames.SUPERDETTAGLI_DATA,
+                 inputFileWorksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
                  inputFileHeadersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW
                 );
         }

@@ -3,9 +3,9 @@
     //fare coincidere questi nomi con quelli utilizzabili nel file excel di configurazione
     public enum InputDataFilters_Tables
     {
-        SUPERDETTAGLI,
-        FORECAST,
         BUDGET,
+        FORECAST,
         RUNRATE,
+        SUPERDETTAGLI,
     }
 }

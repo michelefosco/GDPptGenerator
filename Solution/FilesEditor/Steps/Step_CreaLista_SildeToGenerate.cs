@@ -30,7 +30,7 @@ namespace FilesEditor.Steps
         private void creaLista_SildeToGenerate()
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var slidesToGenerate = getSildeToGenerate(ePPlusHelper);
@@ -39,8 +39,8 @@ namespace FilesEditor.Steps
 
         private List<SlideToGenerate> getSildeToGenerate(EPPlusHelper ePPlusHelper)
         {
-            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
-            var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATA_SOURCE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
+            var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATASOURCE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
 
             var slideToGenerateList = new List<SlideToGenerate>();

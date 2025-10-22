@@ -22,11 +22,11 @@ namespace FilesEditor.Steps.BuildPresentation
             leggiInputFile(
                     sourceFileType: FileTypes.Budget,
                     sourceFilePath: Context.FileBudgetPath,
-                    sourceWorksheetName: WorksheetNames.BUDGET_DATA,
+                    sourceWorksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
                     souceHeaderRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
                     sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_FIRST_COL,
                     //
-                    destWorksheetName: WorksheetNames.DATA_SOURCE_BUDGET_DATA,
+                    destWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
                     destHeaderRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
                     destHeaderFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
                 );
@@ -34,11 +34,11 @@ namespace FilesEditor.Steps.BuildPresentation
             leggiInputFile(
                     sourceFileType: FileTypes.Forecast,
                     sourceFilePath: Context.FileForecastPath,
-                    sourceWorksheetName: WorksheetNames.FORECAST_DATA,
+                    sourceWorksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
                     souceHeaderRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
                     sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_FIRST_COL,
                     //
-                    destWorksheetName: WorksheetNames.DATA_SOURCE_FORECAST_DATA,
+                    destWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
                     destHeaderRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
                     destHeaderFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
                 );
@@ -46,11 +46,11 @@ namespace FilesEditor.Steps.BuildPresentation
             leggiInputFile(
                     sourceFileType: FileTypes.RunRate,
                     sourceFilePath: Context.FileRunRatePath,
-                    sourceWorksheetName: WorksheetNames.RUN_RATE_DATA,
+                    sourceWorksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
                     souceHeaderRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
                     sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL,
                     //
-                    destWorksheetName: WorksheetNames.DATA_SOURCE_RUN_RATE_DATA,
+                    destWorksheetName: WorksheetNames.DATASOURCE_RUN_RATE_DATA,
                     destHeaderRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
                     destHeaderFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
                 );
@@ -59,11 +59,11 @@ namespace FilesEditor.Steps.BuildPresentation
             leggiInputFile(
                     sourceFileType: FileTypes.SuperDettagli,
                     sourceFilePath: Context.FileSuperDettagliPath,
-                    sourceWorksheetName: WorksheetNames.SUPERDETTAGLI_DATA,
+                    sourceWorksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
                     souceHeaderRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
                     sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL,
                     //
-                    destWorksheetName: WorksheetNames.DATA_SOURCE_SUPERDETTAGLI_DATA,
+                    destWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
                     destHeaderRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
                     destHeaderFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
                 );
@@ -83,6 +83,9 @@ namespace FilesEditor.Steps.BuildPresentation
                 int destHeaderFirstColumn
             )
         {
+
+
+            //todo: try catch del metodo?
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
             var packageDest = new ExcelPackage(new FileInfo(Context.DataSourceFilePath)); // Sempre datasource
 
@@ -149,7 +152,12 @@ namespace FilesEditor.Steps.BuildPresentation
                     //ripulisco le righe esistenti
                     wsDest.Cells[rowDestIndex, colIndex].Clear();
                 }
+
+                //todo: elimiare il foar esterno e svuotare solo il contenuto della prima riga
+                break;
             }
+            // cancello tutto dalla seconda riga dopo gli headers, risparmio la prima per preservare le formule contenute nella prima riga e poterle duplicare
+            wsDest.DeleteRow(destHeaderRow + 2, lastRowDest, true);
 
 
             #region Preparo una struttura più snella che contenta le informazioni su filtri
@@ -177,16 +185,14 @@ namespace FilesEditor.Steps.BuildPresentation
             // Determina l'ultima riga con dati nel foglio sorgente
             int lastRowSource = wsSource.Dimension.End.Row;
 
-            // mi posizione sulla riga degli headers cosi al primo passaggio sarò già sulla prima riga con i dati
-            int destRowIndex = destHeaderRow;
+            // mi posizione sulla riga immediatamente dopo quella degli headers
+            int destRowIndex = destHeaderRow + 1;
 
             // Copia dati riga per riga, rispettando i nomi delle colonne
             for (int rowSourceIndex = souceHeaderRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
             {
-                // avanzo di una riga
-                destRowIndex++;
-
                 #region verifico che la riga non sia da saltare per via dei filtri non corrispondenti
+                bool skippaRiga = false;
                 if (filters.Any())
                 {
                     foreach (var filter in filters)
@@ -199,9 +205,14 @@ namespace FilesEditor.Steps.BuildPresentation
 
                         // se il valore (non null) non è presente tra i valori selezionati, la riga viene saltata
                         if (value != null && !filter.SelectedValues.Any(_ => _.Equals(value)))
-                        { continue; }
+                        {
+                            skippaRiga = true;
+                            break;
+                        }
                     }
                 }
+                if (skippaRiga)
+                { continue; }
                 #endregion
 
                 foreach (var kvp in destHeaders)
@@ -226,10 +237,14 @@ namespace FilesEditor.Steps.BuildPresentation
                     wsDest.Cells[destRowIndex, destColumnIndex].Value = value;
                     //}
                 }
+
+                // avanzo di una riga
+                destRowIndex++;
             }
 
             //todo: allungare tabella con formule
 
+            // todo: try catch con managed expetion
             // Salva le modifiche
             packageDest.Save();
         }

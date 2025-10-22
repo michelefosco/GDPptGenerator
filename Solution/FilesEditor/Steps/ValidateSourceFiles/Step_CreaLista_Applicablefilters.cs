@@ -28,7 +28,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         private void creaLista_Applicablefilters()
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
@@ -41,7 +41,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private List<InputDataFilters_Item> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
         {
-            var worksheetName = WorksheetNames.DATA_SOURCE_CONFIGURATION;
+            var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
             var filtriPossibili = new List<InputDataFilters_Item>();
 
             var rigaCorrente = configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW;
@@ -80,6 +80,9 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 rigaCorrente++;
             }
 
+            // Ordino i filtri per Tabella e Campo
+            filtriPossibili = filtriPossibili.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList();
+
             return filtriPossibili;
         }
 
@@ -93,7 +96,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.SUPERDETTAGLI:
                         applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
                                 filePath: Context.FileSuperDettagliPath,
-                                worksheetName: WorksheetNames.SUPERDETTAGLI_DATA,
+                                worksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,
                                 headersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
@@ -101,7 +104,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.FORECAST:
                         applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
                                 filePath: Context.FileForecastPath,
-                                worksheetName: WorksheetNames.FORECAST_DATA,
+                                worksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
                                 headersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
@@ -109,7 +112,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.BUDGET:
                         applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
                                 filePath: Context.FileBudgetPath,
-                                worksheetName: WorksheetNames.BUDGET_DATA,
+                                worksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
                                 fileType: FileTypes.Budget,
                                 headersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
@@ -117,7 +120,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.RUNRATE:
                         applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
                                 filePath: Context.FileRunRatePath,
-                                worksheetName: WorksheetNames.RUN_RATE_DATA,
+                                worksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
                                 headersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);

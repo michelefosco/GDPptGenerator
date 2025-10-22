@@ -16,7 +16,7 @@ namespace FilesEditor.Tests
         {
             // properties base class
             string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
-            string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATA_SOURCE_FILENAME);
+            string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
             string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
             string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);

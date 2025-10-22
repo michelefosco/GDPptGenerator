@@ -25,13 +25,13 @@ namespace FilesEditor.Steps
         {
             var ePPlusHelper = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
-            Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP);
-            Context.AliasDefinitions_Categoria = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_CATEGORIA);
+            Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP);
+            Context.AliasDefinitions_Categoria = readAliasFromWorksheet(ePPlusHelper, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA);
         }
 
         private List<AliasDefinition> readAliasFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName)
         {
-            //  var worksheetName = WorksheetNames.DATA_SOURCE_ALIAS_BUSINESS_TMP;
+            //  var worksheetName = WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP;
             ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var firstRow = Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_FIRST_DATA_ROW;

@@ -25,7 +25,7 @@ namespace FilesEditor.Steps.BuildPresentation
             CreaDirectorySeNonEsiste(backupFolder); // creo la cartella            
 
             // percorso file di backup
-            var backupFilePath = Path.Combine(backupFolder, $"{Path.GetFileNameWithoutExtension(Constants.FileNames.DATA_SOURCE_FILENAME)}_Backup_{System.DateTime.Now:yyyyMMdd_HHmmss}{Path.GetExtension(Constants.FileNames.DATA_SOURCE_FILENAME)}");
+            var backupFilePath = Path.Combine(backupFolder, $"{Path.GetFileNameWithoutExtension(Constants.FileNames.DATASOURCE_FILENAME)}_Backup_{System.DateTime.Now:yyyyMMdd_HHmmss}{Path.GetExtension(Constants.FileNames.DATASOURCE_FILENAME)}");
 
             // copio il file
             File.Copy(Context.DataSourceFilePath, backupFilePath, false);

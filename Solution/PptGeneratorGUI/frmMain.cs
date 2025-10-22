@@ -100,7 +100,7 @@ namespace PptGeneratorGUI
                 string exePath = Assembly.GetExecutingAssembly().Location;
                 string exeDir = Path.GetDirectoryName(exePath);
                 var sourceFilesFolder = Path.Combine(exeDir, "SourceFiles");
-                return Path.Combine(sourceFilesFolder, FileNames.DATA_SOURCE_FILENAME);
+                return Path.Combine(sourceFilesFolder, FileNames.DATASOURCE_FILENAME);
             }
         }
 
@@ -218,16 +218,19 @@ namespace PptGeneratorGUI
 
         private void RefreshFiltersArea()
         {
+            // posizione dei valori nelle colonne della griglia
             const int tableColumnIndex = 0;
             const int fieldColumnIndex = 1;
             const int selectButtonColumnIndex = 2;
             const int selectedValuesColumnIndex = 3;
 
+            #region Aggiorno il contenuto della cella
+            dgvFiltri.Enabled = false;
             dgvFiltri.Rows.Clear();
 
             if (_applicablefilters == null || _applicablefilters.Count == 0)
             {
-                dgvFiltri.Enabled = false;
+                // esco lasciando la griglia vuota e disabilitata
                 return;
             }
 
@@ -240,8 +243,9 @@ namespace PptGeneratorGUI
                 dgvFiltri.Rows[rowIndex].Cells[selectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(filtro);
             }
             dgvFiltri.Enabled = true;
+            #endregion
 
-
+            #region Evento click sul pulsante
             dgvFiltri.CellContentClick += (s, e) =>
             {
                 if (e.ColumnIndex == dgvFiltri.Columns["OpenFiltersSelection"].Index && e.RowIndex >= 0)
@@ -265,7 +269,9 @@ namespace PptGeneratorGUI
                     dgvFiltri.Enabled = true;
                 }
             };
+            #endregion
 
+            // Organizza il contenuto della cella "Selected value" per il filtro
             string getTextForSelectedValueIntoTheFilter(InputDataFilters_Item filter)
             {
                 return (filter.SelectedValues.Count == 0)
