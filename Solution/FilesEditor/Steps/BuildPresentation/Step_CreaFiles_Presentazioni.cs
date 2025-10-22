@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using ShapeCrawler;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
             #region Copio il template nella cartella di output
             // ripulisco il possibile file di output
-            CancellaFileSeEsiste(outputfilePath, FileTypes.PresentationOutput);
+            FilesAndDirectoriesUtilities.CancellaFileSeEsiste(outputfilePath, FileTypes.PresentationOutput);
             File.Copy(percorsoFileTemplatePowerPoint, outputfilePath);
             #endregion
 

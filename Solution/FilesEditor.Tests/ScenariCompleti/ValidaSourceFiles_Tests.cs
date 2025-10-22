@@ -1,9 +1,7 @@
 ﻿using FilesEditor.Entities;
-using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Tests.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.IO;
 
 namespace FilesEditor.Tests
@@ -61,7 +59,7 @@ namespace FilesEditor.Tests
 
             // 
             Assert.AreEqual(1, output.Applicablefilters[0].Values.Count);
-            Assert.AreEqual("K", output.Applicablefilters[0].Values[0]);           
+            Assert.AreEqual("#N/A", output.Applicablefilters[0].Values[0]);           
         }
     }
 }

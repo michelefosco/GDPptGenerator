@@ -20,19 +20,19 @@ namespace FilesEditor.Steps
 
         private void creaListaImmaginiDaEsportare()
         {
-            var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+           // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)
             {
-                EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(ePPlusHelper, imageId, FileTypes.DataSource);
+                EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.ePPlusHelperDataSource, imageId, FileTypes.DataSource);
 
-                var printArea = ePPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
+                var printArea = Context.ePPlusHelperDataSource.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
                 // check sul campo "Print Area"
                 if (string.IsNullOrWhiteSpace(printArea))
                 {
                     throw new ManagedException(
-                        filePath: ePPlusHelper.FilePathInUse,
+                        filePath: Context.ePPlusHelperDataSource.FilePathInUse,
                         fileType: FileTypes.DataSource,
                         //
                         worksheetName: imageId,

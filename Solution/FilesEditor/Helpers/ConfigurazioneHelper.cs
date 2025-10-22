@@ -1,6 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System.Drawing;
+
 namespace FilesEditor.Helpers
 {
     public class ConfigurazioneHelper
@@ -51,9 +51,7 @@ namespace FilesEditor.Helpers
             #endregion
 
 
-
-
-            // ----- INPUT FILES
+            #region Input files
             // Input file Budget
             configurazione.INPUT_FILES_BUDGET_HEADERS_ROW = 2;
             configurazione.INPUT_FILES_BUDGET_HEADERS_FIRST_COL = (int)ColumnIDS.A;
@@ -69,6 +67,7 @@ namespace FilesEditor.Helpers
             // Input file Superdettagli
             configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
             configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+            #endregion
 
 
             #region Cartella "Debug"

@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
@@ -21,7 +22,7 @@ namespace FilesEditor.Steps.BuildPresentation
             // percorso cartella di backup
             var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
             var backupFolder = Path.Combine(sourceFilesFolder, Constants.FolderNames.DATASOURCE_FILES_BACKUP_FOLDER);
-            CreaDirectorySeNonEsiste(backupFolder); // creo la cartella            
+            FilesAndDirectoriesUtilities.CreaDirectorySeNonEsiste(backupFolder); // creo la cartella            
 
             // percorso file di backup
             var backupFilePath = Path.Combine(backupFolder, $"{Path.GetFileNameWithoutExtension(Constants.FileNames.DATASOURCE_FILENAME)}_Backup_{System.DateTime.Now:yyyyMMdd_HHmmss}{Path.GetExtension(Constants.FileNames.DATASOURCE_FILENAME)}");

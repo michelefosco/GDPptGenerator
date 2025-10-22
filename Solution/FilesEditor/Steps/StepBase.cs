@@ -1,12 +1,5 @@
-﻿using EPPlusExtensions;
-using FilesEditor.Constants;
-using FilesEditor.Entities;
-using FilesEditor.Entities.Exceptions;
+﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace FilesEditor.Steps
 {
@@ -28,87 +21,6 @@ namespace FilesEditor.Steps
 
 
         #region Utilities
-        internal void CancellaFileSeEsiste(string filePath, FileTypes fileType)
-        {
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    File.Delete(filePath);
-                }
-                catch (Exception)
-                {
-                    throw new ManagedException(
-                        filePath: filePath,
-                        fileType: fileType,
-                        //
-                        worksheetName: null,
-                        cellRow: null,
-                        cellColumn: null,
-                        valueHeader: ValueHeaders.None,
-                        value: null,
-                        //
-                        errorType: ErrorTypes.UnableToDeleteFile,
-                        userMessage: string.Format(UserErrorMessages.UnableToDeleteFile, filePath)
-                        );
-                }
-            }
-        }
-
-        internal void CancellaDirectorySeEsiste(string folderPath)
-        {
-            if (Directory.Exists(folderPath))
-            {
-                try
-                {
-                    Directory.Delete(folderPath, true);
-                }
-                catch (Exception)
-                {
-                    throw new ManagedException(
-                        filePath: folderPath,
-                        fileType: FileTypes.Directory,
-                        //
-                        worksheetName: null,
-                        cellRow: null,
-                        cellColumn: null,
-                        valueHeader: ValueHeaders.None,
-                        value: null,
-                        //
-                        errorType: ErrorTypes.UnableToDeleteFolder,
-                        userMessage: string.Format(UserErrorMessages.UnableToDeleteFolder, folderPath)
-                        );
-                }
-            }
-        }
-
-        internal void CreaDirectorySeNonEsiste(string folderPath)
-        {
-            if (!Directory.Exists(folderPath))
-            {
-                try
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-                catch (Exception)
-                {
-                    throw new ManagedException(
-                        filePath: folderPath,
-                        fileType: FileTypes.Directory,
-                        //
-                        worksheetName: null,
-                        cellRow: null,
-                        cellColumn: null,
-                        valueHeader: ValueHeaders.None,
-                        value: null,
-                        //
-                        errorType: ErrorTypes.UnableToDeleteFile,
-                        userMessage: string.Format(UserErrorMessages.UnableToCreateFolder, folderPath)
-                        );
-                }
-            }
-        }
-
         internal void AddWarning(string warningMessage)
         {
             Context.Warnings.Add(warningMessage);
@@ -116,30 +28,10 @@ namespace FilesEditor.Steps
         }
 
 
-        /// <summary>
-        /// Get all files matching the criteria
-        /// </summary>
-        /// <param name="folderPath"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        internal List<string> GetFilesListFromFolder(string folderPath, string filter)
-        {
-            // rimuovo dalla lista i file il cui nome inizia con "~$" (ovvero i file temporaranei creati da Excel quando un file è aperto)
-            var filePaths = Directory.GetFiles(folderPath, filter, SearchOption.TopDirectoryOnly)
-                    .Where(_ => !Path.GetFileName(_).StartsWith("~$")).ToList();
-            return filePaths;
-        }
-
         internal string GetTmpFolderImagePathByImageId(string tmpFolderPath, string imageId)
         {
             var imagePath = $"{tmpFolderPath}\\{imageId}.png";
             return imagePath;
-        }
-
-        internal static bool allNulls(object obj1, object obj2, object obj3 = null, object obj4 = null, object obj5 = null, object obj6 = null)
-        {
-            return (obj1 == null && obj2 == null && obj3 == null && obj4 == null && obj5 == null && obj6 == null);
-
         }
         #endregion
     }

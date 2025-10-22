@@ -57,7 +57,7 @@ namespace FilesEditor.Steps
                 var layout = ePPlusHelper.GetString(worksheetName, rigaCorrente, Context.Configurazione.DATASOURCE_CONFIG_SLIDES_LAYOUT_COL);
 
                 // mi fermo quando la riga è competamente a null
-                if (allNulls(outputFileName, title, content1, content2, content3, layout))
+                if (ValuesHelper.AreAllNulls(outputFileName, title, content1, content2, content3, layout))
                 { break; }
 
                 //verifico i campi obbligatori

@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System.IO;
 
 namespace FilesEditor.Steps
@@ -23,7 +24,7 @@ namespace FilesEditor.Steps
         private void predisponiTmpFolder()
         {
             // Rimuovo la cartella se già esistente
-            CancellaDirectorySeEsiste(Context.TmpFolder);
+            FilesAndDirectoriesUtilities.CancellaDirectorySeEsiste(Context.TmpFolder);
 
             // Creo la cartella
             Directory.CreateDirectory(Context.TmpFolder);

@@ -50,7 +50,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             {
                 var table = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_FILTERS_TABLE_COL);
                 var field = ePPlusHelper.GetString(worksheetName, rigaCorrente, configurazione.DATASOURCE_CONFIG_FILTERS_FIELD_COL);
-                if (allNulls(table, field))
+                if (ValuesHelper.AreAllNulls(table, field))
                 { break; }
 
                 if (!Enum.TryParse(table, out InputDataFilters_Tables parsedTable))

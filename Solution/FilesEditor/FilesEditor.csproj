@@ -155,6 +155,8 @@
     <Compile Include="Enums\LayoutTypes.cs" />
     <Compile Include="Enums\ValueHeaders.cs" />
     <Compile Include="Helpers\EPPlusHelperUtilities.cs" />
+    <Compile Include="Helpers\FilesAndDirectoriesUtilities.cs" />
+    <Compile Include="Helpers\ValueHelper.cs" />
     <Compile Include="Steps\BuildPresentation\Step_BackupFile_DataSource.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationInput.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationOutput.cs" />
@@ -165,7 +167,6 @@
     <Compile Include="Enums\ErrorTypes.cs" />
     <Compile Include="Helpers\ConfigurazioneHelper.cs" />
     <Compile Include="Helpers\FileDebugHelper.cs" />
-    <Compile Include="Helpers\ValueHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmaginiDaEsportare.cs" />
