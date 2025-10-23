@@ -27,6 +27,7 @@ quindi un try catch con un save
             var helperDest = GetHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             helperDest.Save();
 
+- Creare due diverse DLL per l'eportazione delle immagini, crare un'interfaccia e istanziare dinamicamente
 - continuare da lettura tramite run rate
 - Usare interops per la generazione delle immagini
 - Step clean up con cancellazione delle cartella temporanea

@@ -195,6 +195,10 @@
       <Project>{b2e0fad0-f0a8-41f5-8f27-5d649af947fb}</Project>
       <Name>EPPlusExtensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\excelImageExtractor\ExcelImageExtractor.csproj">
+      <Project>{76a7d87b-363a-425b-b1a3-aaf279cef80a}</Project>
+      <Name>ExcelImageExtractor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImagesFromExcelGenerator\ImagesFromExcelGenerator.csproj">
       <Project>{1738964f-8958-4064-b824-419690fd38e6}</Project>
       <Name>ImagesFromExcelGenerator</Name>

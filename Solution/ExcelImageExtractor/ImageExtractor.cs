@@ -7,13 +7,13 @@ using System.Drawing.Imaging;
 using System.IO;
 
 
-namespace ImagesFromExcelGenerator
+namespace ExcelImageExtractor
 {
-    public class ImageExporter2
+    public class ImageExtractor
     {
         Workbook workbook;
 
-        public ImageExporter2(string excelFilePath)
+        public ImageExtractor(string excelFilePath)
         {
             // Carica il workbook
             workbook = new Aspose.Cells.Workbook(excelFilePath);
@@ -48,16 +48,21 @@ namespace ImagesFromExcelGenerator
             //File.Delete(toBeChoppedImagePath);
         }
 
+        public void Close()
+        {
+            workbook.Dispose();
+        }
+
 
         private void chopImage(string inputPath, string outputPath)
         {
             using (Bitmap original = new Bitmap(inputPath))
             {
                 // Definisci i margini da tagliare
-                int top = 70;
-                int left = 66;
-                int right = 65;
-                int bottom = 68;
+                int top = 72;
+                int left = 68;
+                int right = 67;
+                int bottom = 72;
 
                 // Calcola la nuova area utile
                 int newWidth = original.Width - left - right;

@@ -1,6 +1,5 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using ImagesFromExcelGenerator;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -21,7 +20,11 @@ namespace FilesEditor.Steps.BuildPresentation
         /// </summary>
         private void creaFilesImmaginiDaEsportare()
         {
-            ImageExporter imgExporter = new ImageExporter(Context.DataSourceFilePath);
+            // Aspose.Cell
+           //var imgExporter = new ExcelImageExtractor.ImageExtractor(Context.DataSourceFilePath);
+
+
+            var imgExporter = new ImagesFromExcelGenerator.ExcelImageSaver(Context.DataSourceFilePath);
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {
                 var imagePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, itemsToExportAsImage.ImageId);
