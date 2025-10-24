@@ -2,6 +2,7 @@
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,14 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_LetturaDatiDaInputFiles : StepBase
+    internal class Step_ImportaDatiDaInputFiles : StepBase
     {
-        public Step_LetturaDatiDaInputFiles(StepContext context) : base(context)
+        public Step_ImportaDatiDaInputFiles(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_LeggiInputFiles", Context);
+            Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDaInputFiles", Context);
 
             leggiInputFile(
                     sourceFileType: FileTypes.Budget,
@@ -83,14 +84,12 @@ namespace FilesEditor.Steps.BuildPresentation
                 int destHeaderFirstColumn
             )
         {
-
+            // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
-            //var packageDest = new ExcelPackage(new FileInfo(Context.DataSourceFilePath)); // Sempre datasource
-            var packageDest = Context.ePPlusHelperDataSource.ExcelPackage;  // Sempre datasource
-
-            // Foglio sorgente e di destinazione
             var wsSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
-            var wsDest = packageDest.Workbook.Worksheets[destWorksheetName];
+
+            // Foglio destinazione
+            var wsDest = Context.ePPlusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
 
             //todo: refacotrying, estrapolare come metodo sull'helper
             // Lettura headers del foglio sorgente
@@ -103,6 +102,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 sourceCol++;
             }
 
+            //todo: refacotrying, estrapolare come metodo sull'helper
             // Lettura headers del foglio di destinazione
             var destHeaders = new Dictionary<string, int>();
             var destCol = destHeaderFirstColumn;
@@ -112,7 +112,6 @@ namespace FilesEditor.Steps.BuildPresentation
                 destHeaders[header] = destCol;
                 destCol++;
             }
-
 
 
             #region Verifico che tutti gli headers presenti nella destinazione sia effettivamente presenti nella sorgente
@@ -204,25 +203,21 @@ namespace FilesEditor.Steps.BuildPresentation
 
                 foreach (var kvp in destHeaders)
                 {
-                    string destHeader = kvp.Key;
-                    int destColumnIndex = kvp.Value;
-
-                    // posso risparmiarmi questo check
-                    //// Se il foglio sorgente ha la stessa colonna, copia il valore
-                    //if (sourceHeaders.ContainsKey(destHeader))
-                    //{
+                    var destHeader = kvp.Key;
+                    var destColumnIndex = kvp.Value;
 
                     // trovo la colonna sorgente usando il nome della colonna di destinazione
-                    int sourceColumnIndex = sourceHeaders[destHeader];
+                    var sourceColumnIndex = sourceHeaders[destHeader];
 
                     // prendo il valore dalla sorgente
-                    var value = wsSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
+                    var valueFromSource = wsSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
 
-
+                    // Vengono valutati gli aliases per i campi "Business TMP" e "Categoria" dei file "Budget" e "Forecast"
+                    if (sourceFileType == FileTypes.Budget || sourceFileType == FileTypes.Forecast)
+                    { valueFromSource = applicaAliasToValue(destHeader, valueFromSource.ToString()); }
 
                     // lo scrivo nella destinazione
-                    wsDest.Cells[destRowIndex, destColumnIndex].Value = value;
-                    //}
+                    wsDest.Cells[destRowIndex, destColumnIndex].Value = valueFromSource;
                 }
 
                 // avanzo di una riga
@@ -232,8 +227,59 @@ namespace FilesEditor.Steps.BuildPresentation
             // cancello le righe inutilizzate
             wsDest.DeleteRow(destRowIndex, wsDest.Dimension.End.Row, true);
 
-            // todo: se possibile portare l'helper nel context e fare un'unica apertura e unico .Save()
-            packageDest.Save();
+            // todo: salvare subito o lasciare tutto l'operazione finale?
+            Context.ePPlusHelperDataSource.ExcelPackage.Save();
+        }
+
+
+        private string applicaAliasToValue( string header, string value)
+        {
+            if (string.IsNullOrEmpty(header))
+            { return value; }
+
+            #region Controllo se il valore appartiene ad uno di quelli interessati da Aliases
+            List<AliasDefinition> aliasesToCheck = null;
+            if (header.Equals(Values.ALIAS_HEADER_BUSINESS_TMP, StringComparison.InvariantCultureIgnoreCase))
+            {
+                aliasesToCheck = Context.AliasDefinitions_BusinessTMP;
+            }
+            else if (header.Equals(Values.ALIAS_HEADER_CATEGORIA, StringComparison.InvariantCultureIgnoreCase))
+            {
+                aliasesToCheck = Context.AliasDefinitions_Categoria;
+            }
+            else
+            {
+                // non è necessario applicare gli alias
+                return value;
+            }
+            #endregion
+
+            // non ci sono aliase da verificare
+            if (aliasesToCheck == null || aliasesToCheck.Count == 0)
+            { return value; }
+
+            #region Cerco un alias che corrisponda
+            // Applico prima gli aliases fissi (senza regular expressions)
+            foreach (AliasDefinition alias in aliasesToCheck.Where(_ => !_.IsRegularExpression))
+            {
+                if (alias.RawValue.Equals(value.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return alias.NewValue;
+                }
+            }
+
+            // Applico poi gli aliases con regular expressions
+            foreach (AliasDefinition alias in aliasesToCheck.Where(_ => _.IsRegularExpression))
+            {
+                if (ValuesHelper.StringMatch(value, alias.RawValue))
+                {
+                    return alias.NewValue;
+                }
+            }
+            #endregion
+
+            // Nessun alias applicato
+            return value;
         }
     }
 }

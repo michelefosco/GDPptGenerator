@@ -129,7 +129,7 @@ namespace PptGeneratorGUI
         {
             RefreshUI(true);
 
-            aUecchj();
+            //aUecchj();
         }
 
         private void aUecchj()
@@ -268,6 +268,7 @@ namespace PptGeneratorGUI
 
                     // riabilito la griglia
                     dgvFiltri.Enabled = true;
+                    frmSelectFilters.Dispose();
                 }
             };
             #endregion

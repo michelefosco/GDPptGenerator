@@ -1,4 +1,6 @@
 ﻿
+using System.Text.RegularExpressions;
+
 namespace FilesEditor.Helpers
 {
     public class ValuesHelper
@@ -14,5 +16,19 @@ namespace FilesEditor.Helpers
                 && obj11 == null && obj12 == null && obj13 == null && obj14 == null && obj15 == null
                 && obj16 == null && obj17 == null && obj18 == null && obj19 == null && obj20 == null;
         }
+
+        /// <summary>
+        /// Restituisce true se 'input' corrisponde al pattern con carattere jolly '*'.
+        /// </summary>
+        internal static bool StringMatch(string input, string pattern)
+        {
+            if (input == null || pattern == null)
+                return false;
+
+            // Escapa i caratteri speciali regex, tranne l'asterisco
+            string regexPattern = "^" + Regex.Escape(pattern).Replace("\\*", ".*") + "$";
+            return Regex.IsMatch(input, regexPattern, RegexOptions.IgnoreCase);
+        }
+
     }
 }
