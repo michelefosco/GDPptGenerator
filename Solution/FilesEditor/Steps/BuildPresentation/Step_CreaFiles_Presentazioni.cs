@@ -154,6 +154,8 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             // calcolo il percoso del file immmagine
             var imgFilePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, imageId);
+            if (!File.Exists(imgFilePath))
+            { throw new Exception($"Il file immagine ('{imgFilePath}') necessario per una delle slide risulta mancante"); }
 
             // ottengo le dimensioni reali dell'immagine
             double imgWidth = 0;
@@ -169,17 +171,14 @@ namespace FilesEditor.Steps.BuildPresentation
             double ratioY = (double)boxHeight / imgHeight;
             double ratio = Math.Min(ratioX, ratioY); // Scegli il più piccolo per non uscire dal frame
 
-
             // Calcolo le uove dimensioni proporzionali
             int newWidth = (int)(imgWidth * ratio);
             int newHeight = (int)(imgHeight * ratio);
-
 
             // aggiungo l'immagine alla slide (in una shape)
             var imgStream = new FileStream(imgFilePath, FileMode.Open, FileAccess.Read);
             slide.Shapes.AddPicture(imgStream);
             imgStream.Close();
-
 
             // prendo la shape appena aggiunta e la ridimensiono con le nuove dimensioni calcolate
             var shape = slide.Shapes[slide.Shapes.Count - 1];
@@ -196,13 +195,13 @@ namespace FilesEditor.Steps.BuildPresentation
         }
         private string getTemplateFilePath(string dataSourceFilePath)
         {
-            var sourceFilesFolder = System.IO.Path.GetDirectoryName(Context.DataSourceFilePath);
+            var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
             var percorsoFileTemplatePowerPoint = System.IO.Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
             return percorsoFileTemplatePowerPoint;
         }
         private string getOutputFilePath(string destinationFolder, string outputFileName)
         {
-            var outputfilePath = System.IO.Path.Combine(Context.DestinationFolder, outputFileName);
+            var outputfilePath = Path.Combine(Context.DestinationFolder, outputFileName);
             if (outputfilePath.EndsWith(".pptx", StringComparison.InvariantCultureIgnoreCase) == false)
             { outputfilePath = outputFileName + ".pptx"; }
             return outputfilePath;

@@ -32,7 +32,7 @@ namespace FilesEditor.Helpers
             return ePPlusHelper;
         }
 
-        static  internal void ThrowExpetionsForMissingWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType)
+        static internal void ThrowExpetionsForMissingWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType)
         {
             if (!ePPlusHelper.WorksheetExists(worksheetName))
             {

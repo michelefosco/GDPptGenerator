@@ -24,7 +24,7 @@ namespace FilesEditor.Steps
 
         private void creaListe_Alias()
         {
-           // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
             Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(Context.ePPlusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP);
             Context.AliasDefinitions_Categoria = readAliasFromWorksheet(Context.ePPlusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA);

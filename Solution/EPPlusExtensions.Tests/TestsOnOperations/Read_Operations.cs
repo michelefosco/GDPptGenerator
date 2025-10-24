@@ -24,7 +24,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
             Assert.IsTrue(listName.Contains("DATIPERPIVOT"));
             Assert.IsTrue(listName.Contains("SHEET3"));
             Assert.IsTrue(listName.Contains("FunzioneGetLastUsedRowForColumn".ToUpper()));
-            Assert.IsTrue(listName.Contains("FunzioneGetFirstRowWithAnyValue".ToUpper()));            
+            Assert.IsTrue(listName.Contains("FunzioneGetFirstRowWithAnyValue".ToUpper()));
         }
 
         [TestMethod]
@@ -79,6 +79,6 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
             // THEN
             Assert.AreEqual(expectedHasWorksheetCells, actualHasWorksheetCells);
         }
-        
+
     }
 }

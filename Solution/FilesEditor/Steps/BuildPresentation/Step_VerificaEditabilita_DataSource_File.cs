@@ -39,7 +39,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     errorType: ErrorTypes.UnableToUpdateFile,
                     userMessage: string.Format(UserErrorMessages.UnableToUpdateFile, Context.ePPlusHelperDataSource.FilePathInUse)
                     );
-            }            
+            }
         }
     }
 }

@@ -21,15 +21,16 @@ namespace FilesEditor.Steps.BuildPresentation
         private void creaFilesImmaginiDaEsportare()
         {
             // Aspose.Cell
-           //var imgExporter = new ExcelImageExtractor.ImageExtractor(Context.DataSourceFilePath);
+            //var imgExporter = new ExcelImageExtractor.ImageExtractor(Context.DataSourceFilePath);
 
+            var imgExporter = new ExcelImageExtractorInterOp.ExcelImageSaver(Context.DataSourceFilePath);
 
-            var imgExporter = new ImagesFromExcelGenerator.ExcelImageSaver(Context.DataSourceFilePath);
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {
                 var imagePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, itemsToExportAsImage.ImageId);
                 imgExporter.ExportImages(itemsToExportAsImage.Sheet, itemsToExportAsImage.PrintArea, imagePath);
             }
+            imgExporter.Close();
         }
     }
 }

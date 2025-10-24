@@ -24,7 +24,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
 
             // WHEN
 
-            var actualLastUsedRowForColumn = ExcelHelper.GetLastUsedRowForColumn("FunzioneGetLastUsedRowForColumn",1 , colonna, ignoreBlanks);
+            var actualLastUsedRowForColumn = ExcelHelper.GetLastUsedRowForColumn("FunzioneGetLastUsedRowForColumn", 1, colonna, ignoreBlanks);
 
             // THEN            
             Assert.AreEqual(expectedLastUsedRowForColumn, actualLastUsedRowForColumn);
@@ -50,6 +50,6 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
             // THEN            
             Assert.AreEqual(expectedLastUsedRowForColumn, actualLastUsedRowForColumn);
         }
-        
+
     }
 }

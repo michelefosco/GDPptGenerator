@@ -16,7 +16,7 @@ namespace EPPlusExtensions
 
 
         public string FilePathInUse { get; private set; }
-        public ExcelPackage ExcelPackage { get {return _excelPackage;} }
+        public ExcelPackage ExcelPackage { get { return _excelPackage; } }
 
 
         public EPPlusHelper()

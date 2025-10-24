@@ -20,7 +20,7 @@ namespace FilesEditor.Steps
 
         private void creaListaImmaginiDaEsportare()
         {
-           // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
+            // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
 
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)

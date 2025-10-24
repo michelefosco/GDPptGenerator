@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ImagesFromExcelGenerator")]
+[assembly: AssemblyTitle("ExcelImageExtractorInterOp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ImagesFromExcelGenerator")]
+[assembly: AssemblyProduct("ExcelImageExtractorInterOp")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1738964f-8958-4064-b824-419690fd38e6")]
+[assembly: Guid("ed445643-e86f-416a-b429-d4c28a1ab5fe")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -53,25 +53,15 @@ namespace FilesEditor.Tests
             Assert.AreEqual(EsitiFinali.Success, output.Esito);
             Assert.IsNull(output.ManagedException);
 
-            // test specifici dell'oggetto di output
-            //
-            //Assert.IsNotNull(buildPresentationOutput.UserOptions.Applicablefilters);
-            //Assert.AreEqual(8, buildPresentationOutput.UserOptions.Applicablefilters.Count);
+            // numero file di output generati
+            Assert.AreEqual(3, output.OutputFilePathLists.Count);
 
-            //foreach (var filter in buildPresentationOutput.UserOptions.Applicablefilters)
-            //{
-            //    Assert.IsFalse(string.IsNullOrWhiteSpace(filter.FieldName));
-            //    Assert.IsNotNull(filter.Values);
-            //    Assert.IsTrue(filter.Values.Count > 0);
-            //    Assert.AreEqual(0, filter.SelectedValues.Count);
-            //}
+            // numero di warnings sollevati
+            Assert.AreEqual(2, output.Warnings.Count);
 
-            //// 
-            //Assert.AreEqual(1, buildPresentationOutput.UserOptions.Applicablefilters[0].Values.Count);
-            //Assert.AreEqual("K", buildPresentationOutput.UserOptions.Applicablefilters[0].Values[0]);           
-            ////
-            //Assert.IsNotNull(buildPresentationOutput.UserOptions.SildeToGenerate);
-            //Assert.AreEqual(18, buildPresentationOutput.UserOptions.SildeToGenerate.Count);
+            // numero di immagini generate su file system
+            var filesInTmpFolder = Directory.GetFiles(tmpFolder);
+            Assert.AreEqual (14, filesInTmpFolder.Length);
         }
     }
 }

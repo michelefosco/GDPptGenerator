@@ -1,6 +1,4 @@
-﻿using EPPlusExtensions.Tests.Constants;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EPPlusExtensions.Tests.TestsOnOperations
 {

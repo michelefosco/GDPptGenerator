@@ -7,6 +7,14 @@ File di input:
 	2) Budget
 	3) Forecast
 	4) Ran Rate
+	
+	
+C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE /regserver
+
+
+-- registrazione dll nella gac
+cd C:\Program Files\Microsoft Office\root\Office16\ADDINS\PowerPivot Excel Add-in
+gacutil /i Microsoft.Office.Interop.Excel.dll /f
 
 
 -------------------- Domande per Francesco

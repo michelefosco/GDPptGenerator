@@ -11,6 +11,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 
@@ -780,6 +781,24 @@ namespace PptGeneratorGUI
                 try
                 {
                     buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
+                    var output = Editor.BuildPresentation(buildPresentationInput);
+                    toolStripProgressBar.Visible = false;
+                    btnBuildPresentation.Enabled = true;
+
+                    if (output.Esito == EsitiFinali.Success)
+                    {
+                        string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
+                        SetOutputMessage(message);
+                        SetStatusLabel("Processing completed successfully");
+                        btnCopyError.Visible = false;
+                    }
+                    else //FAIL
+                    {
+                        //Mostrare eventuali dati nel fail
+                        SetStatusLabel("Processing completed with errors");
+                        SetOutputMessage(output.ManagedException);
+                        btnCopyError.Visible = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -794,35 +813,46 @@ namespace PptGeneratorGUI
 
         private void buildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var buildPresentationInput = e.Argument as BuildPresentationInput;
-            var output = Editor.BuildPresentation(buildPresentationInput);
-            e.Result = new object[] { buildPresentationInput, output };
+            while (!btnBuildPresentation.Enabled)
+            {
+                int a = 1;
+                a= a * -1;
+                //Thread.Sleep(500);
+            }
+
+            // codice funzionantee
+            //var buildPresentationInput = e.Argument as BuildPresentationInput;
+            //var output = Editor.BuildPresentation(buildPresentationInput);
+            //e.Result = new object[] { buildPresentationInput, output };
         }
 
         private void buildPresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             toolStripProgressBar.Visible = false;
-            btnBuildPresentation.Enabled = true;
 
-            // recupero input e output
-            var outputAndInput = e.Result as object[];
-            var input = outputAndInput[0] as BuildPresentationInput;
-            var output = outputAndInput[1] as BuildPresentationOutput;
+            // codice funzionante
+            //toolStripProgressBar.Visible = false;
+            //btnBuildPresentation.Enabled = true;
 
-            if (output.Esito == EsitiFinali.Success)
-            {
-                string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
-                SetOutputMessage(message);
-                SetStatusLabel("Processing completed successfully");
-                btnCopyError.Visible = false;
-            }
-            else //FAIL
-            {
-                //Mostrare eventuali dati nel fail
-                SetStatusLabel("Processing completed with errors");
-                SetOutputMessage(output.ManagedException);
-                btnCopyError.Visible = true;
-            }
+            //// recupero input e output
+            //var outputAndInput = e.Result as object[];
+            //var input = outputAndInput[0] as BuildPresentationInput;
+            //var output = outputAndInput[1] as BuildPresentationOutput;
+
+            //if (output.Esito == EsitiFinali.Success)
+            //{
+            //    string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
+            //    SetOutputMessage(message);
+            //    SetStatusLabel("Processing completed successfully");
+            //    btnCopyError.Visible = false;
+            //}
+            //else //FAIL
+            //{
+            //    //Mostrare eventuali dati nel fail
+            //    SetStatusLabel("Processing completed with errors");
+            //    SetOutputMessage(output.ManagedException);
+            //    btnCopyError.Visible = true;
+            //}
         }
         #endregion
 
