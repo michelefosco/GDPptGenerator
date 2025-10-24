@@ -1,26 +1,27 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using ExcelImageExtractors.Interfaces;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms; // Per Clipboard
 
 
-namespace ExcelImageExtractorInterOp
+namespace ExcelImageExtractors
 {
-    public class ExcelImageSaver
+    public class ImageExtractor : IImageExtractor
     {
         readonly Microsoft.Office.Interop.Excel.Application excelApp = null;
         readonly Workbook workbook = null;
         Worksheet worksheet = null;
 
-        public ExcelImageSaver(string excelFilePath)
+        public ImageExtractor(string excelFilePath)
         {
             excelApp = new Microsoft.Office.Interop.Excel.Application();
             excelApp.Visible = false;
             workbook = excelApp.Workbooks.Open(excelFilePath);
         }
 
-        public void ExportImages(string workSheetName, string rangeAddress, string destinationPath)
+        public void TryToExportToImageFileOnFileSystem(string workSheetName, string rangeAddress, string destinationPath)
         {
             Range range = null;
             try
@@ -45,14 +46,15 @@ namespace ExcelImageExtractorInterOp
                 }
 
                 // Segnalo se l'estrazione dell'immagine non è andata a buon fine
-                if (clipboardImage == null)
-                { throw new Exception($"la Clipboard non contiene un'immagine come previsto per il file '{destinationPath}'"); }
+                //if (clipboardImage == null)
+                //{ throw new Exception($"la Clipboard non contiene un'immagine come previsto per il file '{destinationPath}'"); }
             }
             catch (Exception ex)
             {
-                //todo rimuovere dopo i test
-                var a = ex.Message;
-                var b = ex.InnerException;
+                if (!ex.Message.Equals("CopyPicture method of Range class failed"))
+                {
+                    throw ex;
+                }
             }
             finally
             {
@@ -61,7 +63,6 @@ namespace ExcelImageExtractorInterOp
 
                 if (worksheet != null)
                 { System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet); }
-
             }
         }
 

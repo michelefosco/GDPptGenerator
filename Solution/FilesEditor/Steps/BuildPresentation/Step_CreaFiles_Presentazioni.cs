@@ -152,8 +152,10 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private IShape addImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
         {
-            // calcolo il percoso del file immmagine
-            var imgFilePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, imageId);
+            // Prendo il percoso del file immmagine
+            var imgFilePath = Context.ItemsToExportAsImage.First(_ =>  _.ImageId == imageId).ImageFilePath;
+
+            //todo: serve?
             if (!File.Exists(imgFilePath))
             { throw new Exception($"Il file immagine ('{imgFilePath}') necessario per una delle slide risulta mancante"); }
 

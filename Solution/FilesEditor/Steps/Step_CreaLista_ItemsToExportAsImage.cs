@@ -1,4 +1,5 @@
-﻿using FilesEditor.Entities;
+﻿using FilesEditor.Constants;
+using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
@@ -46,7 +47,14 @@ namespace FilesEditor.Steps
                         );
                 }
 
-                Context.ItemsToExportAsImage.Add(new ItemToExport { ImageId = imageId, Sheet = imageId, PrintArea = printArea, });
+                Context.ItemsToExportAsImage.Add(
+                        new ItemToExport(
+                            workSheetName: imageId,
+                            printArea: printArea,
+                            imageId: imageId,
+                            imageFilePath: GetTmpFolderImagePathByImageId(Context.TmpFolder, imageId)
+                            )
+                    );
             }
         }
     }

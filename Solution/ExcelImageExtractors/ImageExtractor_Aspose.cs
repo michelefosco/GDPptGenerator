@@ -1,25 +1,26 @@
 ﻿using Aspose.Cells;
 using Aspose.Cells.Drawing;
 using Aspose.Cells.Rendering;
+using ExcelImageExtractors.Interfaces;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
 
-namespace ExcelImageExtractor
+namespace ExcelImageExtractors
 {
-    public class ImageExtractor
+    public class ImageExtractor_Aspose : IImageExtractor
     {
         Workbook workbook;
 
-        public ImageExtractor(string excelFilePath)
+        public ImageExtractor_Aspose(string excelFilePath)
         {
             // Carica il workbook
-            workbook = new Aspose.Cells.Workbook(excelFilePath);
+            workbook = new Workbook(excelFilePath);
         }
 
-        public void ExportImages(string workSheetName, string printArea, string destinationPath)
+        public void TryToExportToImageFileOnFileSystem(string workSheetName, string printArea, string destinationPath)
         {
             var worksheet = workbook.Worksheets[workSheetName];
 
@@ -28,14 +29,14 @@ namespace ExcelImageExtractor
 
 
             // Opzioni di rendering in immagine
-            ImageOrPrintOptions imgOptions = new ImageOrPrintOptions
+            var imgOptions = new ImageOrPrintOptions
             {
                 ImageType = ImageType.Png,
                 OnePagePerSheet = true,
                 PrintingPage = PrintingPageType.Default
             };
             // Crea un oggetto SheetRender per il foglio
-            SheetRender sr = new SheetRender(worksheet, imgOptions);
+            var sr = new SheetRender(worksheet, imgOptions);
             //   sr = new SheetRender(worksheetWithPivot, imgOptions);
 
             // Esporta la pivot (tutto il foglio) come immagine
@@ -44,15 +45,13 @@ namespace ExcelImageExtractor
 
             chopImage(toBeChoppedImagePath, destinationPath);
 
-            //todo uncommentare
-            //File.Delete(toBeChoppedImagePath);
+            File.Delete(toBeChoppedImagePath);
         }
 
         public void Close()
         {
             workbook.Dispose();
         }
-
 
         private void chopImage(string inputPath, string outputPath)
         {

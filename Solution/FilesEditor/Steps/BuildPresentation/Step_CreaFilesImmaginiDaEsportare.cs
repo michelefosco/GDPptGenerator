@@ -1,5 +1,8 @@
-﻿using FilesEditor.Entities;
+﻿using ExcelImageExtractors.Interfaces;
+using FilesEditor.Entities;
 using FilesEditor.Enums;
+using System.IO;
+using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -20,17 +23,42 @@ namespace FilesEditor.Steps.BuildPresentation
         /// </summary>
         private void creaFilesImmaginiDaEsportare()
         {
-            // Aspose.Cell
-            //var imgExporter = new ExcelImageExtractor.ImageExtractor(Context.DataSourceFilePath);
-
-            var imgExporter = new ExcelImageExtractorInterOp.ExcelImageSaver(Context.DataSourceFilePath);
-
+            #region Verifico che i file delle immagini da generare per le slide non esistano già
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)
             {
-                var imagePath = GetTmpFolderImagePathByImageId(Context.TmpFolder, itemsToExportAsImage.ImageId);
-                imgExporter.ExportImages(itemsToExportAsImage.Sheet, itemsToExportAsImage.PrintArea, imagePath);
+                if (File.Exists(itemsToExportAsImage.ImageFilePath))
+                {
+                    throw new System.Exception($"The file '{itemsToExportAsImage.ImageFilePath}' should not be there yet!");
+                }
             }
-            imgExporter.Close();
+            #endregion
+
+            // Predisposta la possibilità di usare Aspose.Cell in casi estremi
+            var useIterops = true;
+            var imageExtractor = (useIterops)
+                ? (IImageExtractor)new ExcelImageExtractors.ImageExtractor(Context.DataSourceFilePath)
+                : (IImageExtractor)new ExcelImageExtractors.ImageExtractor_Aspose(Context.DataSourceFilePath);  // Aspose.Cell
+
+            for (int attemptNumber = 1; attemptNumber <= 3; attemptNumber++)
+            {
+                // Processo tutti gli elementi non ancora presenti sul file system
+                foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage.Where(_ => !_.IsPresentOnFileSistem))
+                {
+                    // tento di generare il file, alcune volte potrebbe non funzionare al primo tentativo
+                    imageExtractor.TryToExportToImageFileOnFileSystem(itemsToExportAsImage.WorkSheetName, itemsToExportAsImage.PrintArea, itemsToExportAsImage.ImageFilePath);
+
+                    // verifico la sua presenza su file system ed eventualmente lo marco come "Presente"
+                    if (File.Exists(itemsToExportAsImage.ImageFilePath))
+                    { itemsToExportAsImage.MarkAsPresentOnFileSistem(); }
+                }
+
+                // se tutti i file sono presenti interrompo i tentativi 
+                if (!Context.ItemsToExportAsImage.Any(_ => !_.IsPresentOnFileSistem))
+                { break; }
+            }
+
+            // rilascio le risorse e chiudo il processo di Excel
+            imageExtractor.Close();
         }
     }
 }
