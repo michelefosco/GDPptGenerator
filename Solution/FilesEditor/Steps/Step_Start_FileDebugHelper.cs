@@ -24,7 +24,7 @@ namespace FilesEditor.Steps
         private void start_DebugInfoLogger()
         {
             FilesAndDirectoriesUtilities.CancellaFileSeEsiste(Context.DebugFilePath, FileTypes.Debug);
-            Context.DebugInfoLogger = new DebugInfoLogger(Context.DebugFilePath, Context.Configurazione.AutoSaveDebugFile);
+            Context.SetDebugInfoLogger(new DebugInfoLogger(Context.DebugFilePath, Context.Configurazione.AutoSaveDebugFile));
         }
     }
 }

@@ -26,6 +26,7 @@ gacutil /i Microsoft.Office.Interop.Excel.dll /f
 - Rivedere intestazione headers in DataSource
 - In interfaccia ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel?
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
+- in una mail citi il foglio "Gestione Nomi", lo aggiungiamo al DataSource?
 - Ordine per fattura
 - Nuovo lavoro?
 
@@ -34,6 +35,11 @@ Per PowerPoint usata libreria: ShapeCrawler
 Microsoft Excel 15.0
 
 -------------------- Todo
+- Preferirei la possibilità di inserire la data (identico a programma vendorRefresher) e dopo lo strumento potrà immediatamente capire il mese, il quarter e l'anno 
+	es: 12/02/2025 >> mese 02; quarter Q1; anno 2025
+	Dovrà prendere questi valori e metterli in due variabili di excel (quelle che si trovano in Gestione Nomi)
+	Potrebbe servire anche mettere il mese e l'anno nella prima slide del powerpoint. 
+
 - Applicare gli Alias
 - Logica append/replace dei dati si duperdettagli
 - Aggiornare variabili foglio nome in base al periodo

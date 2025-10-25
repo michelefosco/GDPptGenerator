@@ -7,7 +7,6 @@
         public string DataSourceFilePath { get; set; }
         public string DebugFilePath { get; set; }
 
-
         //
         public string FileBudgetPath { get; set; }
         public string FileForecastPath { get; set; }

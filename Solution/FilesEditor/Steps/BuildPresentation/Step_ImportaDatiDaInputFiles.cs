@@ -89,7 +89,7 @@ namespace FilesEditor.Steps.BuildPresentation
             var wsSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
 
             // Foglio destinazione
-            var wsDest = Context.ePPlusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
+            var wsDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
 
             //todo: refacotrying, estrapolare come metodo sull'helper
             // Lettura headers del foglio sorgente
@@ -163,16 +163,16 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
             // Determina l'ultima riga con dati nel foglio sorgente
-            int lastRowSource = wsSource.Dimension.End.Row;
+            var lastRowSource = wsSource.Dimension.End.Row;
 
             // mi posizione sulla riga immediatamente dopo quella degli headers
-            int destRowIndex = destHeaderRow + 1;
+            var destRowIndex = destHeaderRow + 1;
 
             var table = wsDest.Tables[0];
             var tableAdress = table.Address;
 
             // Copia dati riga per riga, rispettando i nomi delle colonne
-            for (int rowSourceIndex = souceHeaderRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
+            for (var rowSourceIndex = souceHeaderRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
             {
                 #region verifico che la riga non sia da saltare per via dei filtri non corrispondenti
                 bool skippaRiga = false;
@@ -214,7 +214,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
                     // Vengono valutati gli aliases per i campi "Business TMP" e "Categoria" dei file "Budget" e "Forecast"
                     if (sourceFileType == FileTypes.Budget || sourceFileType == FileTypes.Forecast)
-                    { valueFromSource = applicaAliasToValue(destHeader, valueFromSource.ToString()); }
+                    { valueFromSource = ApplicaAliasToValue(destHeader, valueFromSource.ToString()); }
 
                     // lo scrivo nella destinazione
                     wsDest.Cells[destRowIndex, destColumnIndex].Value = valueFromSource;
@@ -228,11 +228,11 @@ namespace FilesEditor.Steps.BuildPresentation
             wsDest.DeleteRow(destRowIndex, wsDest.Dimension.End.Row, true);
 
             // todo: salvare subito o lasciare tutto l'operazione finale?
-            Context.ePPlusHelperDataSource.ExcelPackage.Save();
+            Context.EpplusHelperDataSource.ExcelPackage.Save();
         }
 
 
-        private string applicaAliasToValue( string header, string value)
+        private string ApplicaAliasToValue(string header, string value)
         {
             if (string.IsNullOrEmpty(header))
             { return value; }
@@ -259,22 +259,18 @@ namespace FilesEditor.Steps.BuildPresentation
             { return value; }
 
             #region Cerco un alias che corrisponda
-            // Applico prima gli aliases fissi (senza regular expressions)
+            // Controllo prima gli aliases fissi (senza regular expressions)
             foreach (AliasDefinition alias in aliasesToCheck.Where(_ => !_.IsRegularExpression))
             {
                 if (alias.RawValue.Equals(value.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return alias.NewValue;
-                }
+                { return alias.NewValue; }
             }
 
-            // Applico poi gli aliases con regular expressions
+            // Controllo successivamente gli aliases con regular expressions
             foreach (AliasDefinition alias in aliasesToCheck.Where(_ => _.IsRegularExpression))
             {
                 if (ValuesHelper.StringMatch(value, alias.RawValue))
-                {
-                    return alias.NewValue;
-                }
+                { return alias.NewValue; }
             }
             #endregion
 

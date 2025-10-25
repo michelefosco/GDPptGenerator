@@ -32,19 +32,15 @@ namespace FilesEditor.Steps
         {
             // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.ePPlusHelperDataSource, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.EpplusHelperDataSource, worksheetName, FileTypes.DataSource);
 
-            var slidesToGenerate = getSildeToGenerate(Context.ePPlusHelperDataSource);
-            Context.SildeToGenerate = slidesToGenerate;
+            Fill_SildeToGenerate_FromConfiguration(Context.EpplusHelperDataSource, Context.SildeToGenerate);
         }
 
-        private List<SlideToGenerate> getSildeToGenerate(EPPlusHelper ePPlusHelper)
+        private void Fill_SildeToGenerate_FromConfiguration(EPPlusHelper ePPlusHelper, List<SlideToGenerate> sildeToGenerate)
         {
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
             var printableWorksheets = ePPlusHelper.GetWorksheetNames().Where(n => n.StartsWith(WorksheetNames.DATASOURCE_PRINTABLE_WORKSHEET_NAME_PREFIX, StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-
-            var slideToGenerateList = new List<SlideToGenerate>();
 
             var rigaCorrente = Context.Configurazione.DATASOURCE_CONFIG_SLIDES_FIRST_DATA_ROW;
             while (true)
@@ -134,7 +130,7 @@ namespace FilesEditor.Steps
 
 
                 // aggiungo la slide alla lista di quelle lette
-                slideToGenerateList.Add(new SlideToGenerate
+                sildeToGenerate.Add(new SlideToGenerate
                 {
                     OutputFileName = outputFileName,
                     Title = title,
@@ -145,8 +141,6 @@ namespace FilesEditor.Steps
                 // passo alla riga successiva
                 rigaCorrente++;
             }
-
-            return slideToGenerateList;
         }
     }
 }

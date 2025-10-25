@@ -9,11 +9,9 @@ namespace FilesEditor.Entities
 {
     internal class StepContext : UserInterfaceInputBase
     {
-        // Input
-        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
-        public DateTime PeriodDate { get; private set; }
+        private EPPlusHelper _ePPlusHelperDataSource;
 
-        // Base class already has these properties
+        // Base class properties
         // DestinationFolder
         // TmpFolder
         // DataSourceFilePath
@@ -23,17 +21,23 @@ namespace FilesEditor.Entities
         // FileSuperDettagliPath
         // FileRunRatePath
 
-        //        public Dictionary<string, object> Parameters = new Dictionary<string, object>();
+        // Input specifico di uno o più metodi
+        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
 
+        #region Period
+        public DateTime PeriodDate { get; private set; }
+        public int PeriodYear { get { return PeriodDate.Year; } }
+        public int PeriodMont { get { return PeriodDate.Month; } }
+        public int PeriodQuarter { get { return (int)(PeriodDate.Month / 3) + 1; } }
+        #endregion
 
-        public Configurazione Configurazione;
-
+        public Configurazione Configurazione { get; private set; }
         public EsitiFinali Esito { get; private set; }
-        
 
 
-        private EPPlusHelper _ePPlusHelperDataSource;
-        public EPPlusHelper ePPlusHelperDataSource
+
+
+        public EPPlusHelper EpplusHelperDataSource
         {
             get
             {
@@ -47,40 +51,50 @@ namespace FilesEditor.Entities
                 return _ePPlusHelperDataSource;
             }
         }
-        
-        public DebugInfoLogger DebugInfoLogger = new DebugInfoLogger(null);
-        
-        public List<string> Warnings = new List<string>();
 
-        public List<InputDataFilters_Item> Applicablefilters = new List<InputDataFilters_Item>();
-        
-        public List<AliasDefinition> AliasDefinitions_BusinessTMP = new List<AliasDefinition>();
-        
-        public List<AliasDefinition> AliasDefinitions_Categoria = new List<AliasDefinition>();
+        public DebugInfoLogger DebugInfoLogger { get; private set; }
 
-        public List<SlideToGenerate> SildeToGenerate = new List<SlideToGenerate>();
-        
-        public List<ItemToExport> ItemsToExportAsImage = new List<ItemToExport>();
-        
-        public List<string> OutputFilePathLists = new List<string>();
+        public List<string> Warnings { get; private set; }
 
+        public List<InputDataFilters_Item> Applicablefilters { get; private set; }
 
+        public List<AliasDefinition> AliasDefinitions_BusinessTMP { get; private set; }
 
+        public List<AliasDefinition> AliasDefinitions_Categoria { get; private set; }
 
+        public List<SlideToGenerate> SildeToGenerate { get; private set; }
 
+        public List<ItemToExport> ItemsToExportAsImage { get; private set; }
 
-
+        public List<string> OutputFilePathLists { get; private set; }
 
 
         public StepContext(Configurazione configurazione)
         {
             Configurazione = configurazione;
+            //
+            DebugInfoLogger = new DebugInfoLogger(null);
+            Warnings = new List<string>();
+            Applicablefilters = new List<InputDataFilters_Item>();
+            AliasDefinitions_BusinessTMP = new List<AliasDefinition>();
+            AliasDefinitions_Categoria = new List<AliasDefinition>();
+            SildeToGenerate = new List<SlideToGenerate>();
+            ItemsToExportAsImage = new List<ItemToExport>();
+            OutputFilePathLists = new List<string>();
         }
+
 
         public void SettaEsitoFinale(EsitiFinali esito)
         {
             Esito = esito;
         }
+
+
+        public void SetDebugInfoLogger(DebugInfoLogger debugInfoLogger)
+        {
+            DebugInfoLogger = debugInfoLogger;
+        }
+
 
         public void SetContextFromInput(BuildPresentationInput input)
         {

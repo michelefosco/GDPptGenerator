@@ -1,4 +1,5 @@
-﻿using EPPlusExtensions;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using EPPlusExtensions;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
@@ -24,13 +25,11 @@ namespace FilesEditor.Steps
 
         private void creaListe_Alias()
         {
-            // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-
-            Context.AliasDefinitions_BusinessTMP = readAliasFromWorksheet(Context.ePPlusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP);
-            Context.AliasDefinitions_Categoria = readAliasFromWorksheet(Context.ePPlusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA);
+            FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP, Context.AliasDefinitions_BusinessTMP);
+            FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA, Context.AliasDefinitions_Categoria);
         }
 
-        private List<AliasDefinition> readAliasFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName)
+        private void FillAliasesFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, List<AliasDefinition> aliases)
         {
             //  var worksheetName = WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP;
             EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
@@ -41,7 +40,7 @@ namespace FilesEditor.Steps
             // mi posizione sulla riga precedente a quella da cui partire
             var currentRowNumber = firstRow - 1;
 
-            var aliasDefinitions = new List<AliasDefinition>();
+            // var aliasDefinitions = new List<AliasDefinition>();
 
             // se riga corrente diventa = a lastRow devo fermarmi, in quanto verrebbe incrementata di 1 e si andrebbe oltre l'ultima riga
             while (currentRowNumber < lastRow)
@@ -67,7 +66,7 @@ namespace FilesEditor.Steps
                 var rawValuesSplittati = rawValues.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(_ => _.Trim()).Where(_ => !string.IsNullOrWhiteSpace(_)).ToList();
                 foreach (var rawValueSplittato in rawValuesSplittati)
                 {
-                    if (aliasDefinitions.Any(_ => _.RawValue.Equals(rawValueSplittato, StringComparison.InvariantCultureIgnoreCase)))
+                    if (aliases.Any(_ => _.RawValue.Equals(rawValueSplittato, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         throw new ManagedException(
                                     filePath: ePPlusHelper.FilePathInUse,
@@ -83,15 +82,15 @@ namespace FilesEditor.Steps
                                     userMessage: $"The alias '{rawValueSplittato}' is declared more than once in the worksheet '{worksheetName}'.");
                     }
 
-                    aliasDefinitions.Add(new AliasDefinition(
+                    aliases.Add(new AliasDefinition(
                         rawValue: rawValueSplittato,
                         newValue: newValue));
                 }
             }
 
-            Context.DebugInfoLogger.LogAlias(aliasDefinitions, worksheetName);
+            Context.DebugInfoLogger.LogAlias(aliases, worksheetName);
 
-            return aliasDefinitions;
+            // return aliasDefinitions;
         }
     }
 }

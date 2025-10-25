@@ -30,20 +30,18 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             //var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.ePPlusHelperDataSource, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.EpplusHelperDataSource, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
-            var applicableFilters = getApplicableFilters(Context.ePPlusHelperDataSource, Context.Configurazione);
-            fillApplicableFiltersWithValues(applicableFilters);
-
-            Context.Applicablefilters = applicableFilters;
+            Fill_ApplicableFilters_FromConfigurazione(Context.EpplusHelperDataSource, Context.Configurazione, Context.Applicablefilters);
+            Fill_ApplicableFilters_Values_FromInputfiles(Context.Applicablefilters);
         }
 
 
-        private List<InputDataFilters_Item> getApplicableFilters(EPPlusHelper ePPlusHelper, Configurazione configurazione)
+        private void Fill_ApplicableFilters_FromConfigurazione(EPPlusHelper ePPlusHelper, Configurazione configurazione, List<InputDataFilters_Item> applicablefilters )
         {
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            var filtriPossibili = new List<InputDataFilters_Item>();
+          //  var filtriPossibili = new List<InputDataFilters_Item>();
 
             var rigaCorrente = configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW;
             while (true)
@@ -69,7 +67,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                         userMessage: string.Format(UserErrorMessages.InvalidValue, table)
                         );
                 }
-                filtriPossibili.Add(new InputDataFilters_Item
+                applicablefilters.Add(new InputDataFilters_Item
                 {
                     Table = parsedTable,
                     FieldName = field,
@@ -82,12 +80,12 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
 
             // Ordino i filtri per Tabella e Campo
-            filtriPossibili = filtriPossibili.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList();
+            applicablefilters = applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList();
 
-            return filtriPossibili;
+          //  return filtriPossibili;
         }
 
-        private void fillApplicableFiltersWithValues(List<InputDataFilters_Item> applicablefilters)
+        private void Fill_ApplicableFilters_Values_FromInputfiles(List<InputDataFilters_Item> applicablefilters)
         {
             foreach (var applicablefilter in applicablefilters)
             {

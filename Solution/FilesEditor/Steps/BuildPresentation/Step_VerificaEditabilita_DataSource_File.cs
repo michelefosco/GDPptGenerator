@@ -24,10 +24,10 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void tryToSaveDataSourceFile()
         {
-            if (!Context.ePPlusHelperDataSource.Save())
+            if (!Context.EpplusHelperDataSource.Save())
             {
                 throw new ManagedException(
-                    filePath: Context.ePPlusHelperDataSource.FilePathInUse,
+                    filePath: Context.EpplusHelperDataSource.FilePathInUse,
                     fileType: FileTypes.DataSource,
                     //
                     worksheetName: null,
@@ -37,7 +37,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     value: null,
                     //
                     errorType: ErrorTypes.UnableToUpdateFile,
-                    userMessage: string.Format(UserErrorMessages.UnableToUpdateFile, Context.ePPlusHelperDataSource.FilePathInUse)
+                    userMessage: string.Format(UserErrorMessages.UnableToUpdateFile, Context.EpplusHelperDataSource.FilePathInUse)
                     );
             }
         }

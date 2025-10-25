@@ -79,7 +79,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
             // var dataSourceEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var expectedHeadersColumns = Context.ePPlusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
+            var expectedHeadersColumns = Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
