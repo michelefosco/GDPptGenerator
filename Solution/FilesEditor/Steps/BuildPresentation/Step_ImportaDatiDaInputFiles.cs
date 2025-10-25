@@ -159,7 +159,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            var filters = Context.Applicablefilters.Where(af => af.Table == inputDataFilters_Table && af.SelectedValues.Any()).ToList();
+            var filters = Context.ApplicableFilters.Where(af => af.Table == inputDataFilters_Table && af.SelectedValues.Any()).ToList();
             #endregion
 
             // Determina l'ultima riga con dati nel foglio sorgente

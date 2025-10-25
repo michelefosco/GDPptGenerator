@@ -34,47 +34,55 @@ namespace FilesEditor.Steps.BuildPresentation
             }
         }
 
+
         private void buildPresentation(string outputFileName, List<SlideToGenerate> slideToGenerateList)
         {
-            //var slideToGenerateList = Context.SildeToGenerate.Where(s => s.OutputFileName == outputFileName).ToList();
-
             #region Ottengo i percorsi dei file
             var outputfilePath = getOutputFilePath(Context.DestinationFolder, outputFileName);
-            var percorsoFileTemplatePowerPoint = getTemplateFilePath(Context.DataSourceFilePath);
             #endregion
 
             #region Copio il template nella cartella di output
             // ripulisco il possibile file di output
             FilesAndDirectoriesUtilities.CancellaFileSeEsiste(outputfilePath, FileTypes.PresentationOutput);
-            File.Copy(percorsoFileTemplatePowerPoint, outputfilePath);
+            File.Copy(Context.PowerPointTemplateFilePath, outputfilePath);
             #endregion
 
+            #region Apro la presentazione e setto gli indici
             var pres = new ShapeCrawler.Presentation(outputfilePath);
-
-            #region Preparo la slide "indice" con la lista dei titoli delle slides
+            int SLIDE_TITLE_POSITION = 1;
             int SLIDE_INDEX_POSITION = 2;
-            var slide = pres.Slide(SLIDE_INDEX_POSITION);
-            var titlesListBox = slide.GetTextBoxes().LastOrDefault();
+            var SLIDE_TEMPLATE_POSITION = pres.Slides.Count; // la slide template è l'ultima del file
+            #endregion
+
+            #region Edito la slide "Titolo" con mese ed anno del periodo selezionato in input
+            var slideTitle = pres.Slide(SLIDE_TITLE_POSITION);
+            var slideTitleDateBox = slideTitle.GetTextBoxes()[2];
+            slideTitleDateBox.SetText(Context.PeriodDate.ToString("MM/yyyy"));
+            #endregion
+                        
+            #region Edito la slide "Indice" con la lista dei titoli delle slides
+            var slideIndex = pres.Slide(SLIDE_INDEX_POSITION);
+            var slideIndexTitlesListBox = slideIndex.GetTextBoxes().LastOrDefault();
             var titleIndex = 1;
             foreach (var slideToGenerate in slideToGenerateList)
             {
-                titlesListBox.Paragraphs.Add(slideToGenerate.Title, titleIndex);
+                slideIndexTitlesListBox.Paragraphs.Add(slideToGenerate.Title, titleIndex);
                 titleIndex++;
             }
-            titlesListBox.Paragraphs[0].Remove(); // rimuovo il testo di default
+            slideIndexTitlesListBox.Paragraphs[0].Remove(); // rimuovo il testo di default
             #endregion
 
-            #region predispongo le slides duplicando quella template (ovvero l'ultima del file)
-            var SLIDE_TEMPLATE_POSITION = pres.Slides.Count; // la slide template è l'ultima del file
+            #region Predispongo le slides duplicando quella template (ovvero l'ultima del file)
             for (var j = 1; j <= slideToGenerateList.Count - 1; j++)
             { pres.Slides.Add(pres.Slide(SLIDE_TEMPLATE_POSITION), pres.Slides.Count + 1); }
             #endregion
 
+
             // rapporto tra numero di pixel e cm
             var pizexlPerCm = 28.35;
             //
-            int offSetVerticale = (int)(2.6 * pizexlPerCm);
-            int offSetOrizzontale = (int)(1.05 * pizexlPerCm);
+            var offSetVerticale = (int)(2.6 * pizexlPerCm);
+            var offSetOrizzontale = (int)(1.05 * pizexlPerCm);
             //
             var totalAvailableWidth = (int)(27.5 * pizexlPerCm);
             var totalAvailableHeight = (int)(12.6 * pizexlPerCm);
@@ -153,7 +161,7 @@ namespace FilesEditor.Steps.BuildPresentation
         private IShape addImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
         {
             // Prendo il percoso del file immmagine
-            var imgFilePath = Context.ItemsToExportAsImage.First(_ =>  _.ImageId == imageId).ImageFilePath;
+            var imgFilePath = Context.ItemsToExportAsImage.First(_ => _.ImageId == imageId).ImageFilePath;
 
             //todo: serve?
             if (!File.Exists(imgFilePath))
@@ -195,12 +203,12 @@ namespace FilesEditor.Steps.BuildPresentation
 
             return shape;
         }
-        private string getTemplateFilePath(string dataSourceFilePath)
-        {
-            var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
-            var percorsoFileTemplatePowerPoint = System.IO.Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
-            return percorsoFileTemplatePowerPoint;
-        }
+        //private string getTemplateFilePath(string dataSourceFilePath)
+        //{
+        //    var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
+        //    var percorsoFileTemplatePowerPoint = System.IO.Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+        //    return percorsoFileTemplatePowerPoint;
+        //}
         private string getOutputFilePath(string destinationFolder, string outputFileName)
         {
             var outputfilePath = Path.Combine(Context.DestinationFolder, outputFileName);

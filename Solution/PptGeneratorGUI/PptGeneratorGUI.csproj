@@ -204,8 +204,8 @@
     <None Include="SourceFiles\DataSource.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SourceFiles\PowerPoint_Template - ConAreaRossaSegnaposto.pptx" />
-    <None Include="SourceFiles\PowerPoint_Template.pptx">
+    <None Include="PowerPoint_Template - ConAreaRossaSegnaposto.pptx" />
+    <None Include="PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

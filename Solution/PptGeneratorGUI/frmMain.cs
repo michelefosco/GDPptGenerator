@@ -11,7 +11,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 
@@ -105,6 +104,16 @@ namespace PptGeneratorGUI
             }
         }
 
+        private string PowerPointTemplateFilePath
+        {
+            get
+            {
+                string exePath = Assembly.GetExecutingAssembly().Location;
+                string exeDir = Path.GetDirectoryName(exePath);
+                return Path.Combine(exeDir, FileNames.POWERPOINT_TEMPLATE_FILENAME);
+            }
+        }
+
         #endregion
 
         public frmMain()
@@ -157,13 +166,14 @@ namespace PptGeneratorGUI
 
             gbPaths.Enabled = !_inputValidato;
             gbOptions.Enabled = _inputValidato;
+            btnBuildPresentation.Enabled = _inputValidato;
 
-            bool isBudgetPathValid = IsBudgetPathValid();
-            bool isForecastPathValid = IsForecastPathValid();
-            bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
-            bool isRunRatePathValid = IsRunRatePathValid();
-            bool isDestFolderValid = IsDestFolderValid();
-
+            var isBudgetPathValid = IsBudgetPathValid();
+            var isForecastPathValid = IsForecastPathValid();
+            var isSuperDettagliPathValid = IsSuperDettagliPathValid();
+            var isRunRatePathValid = IsRunRatePathValid();
+            var isDestFolderValid = IsDestFolderValid();
+            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid;
 
             btnOpenFileBudgetFolder.Enabled = isBudgetPathValid;
             btnOpenFileBudget.Enabled = isBudgetPathValid;
@@ -178,43 +188,26 @@ namespace PptGeneratorGUI
             btnOpenFileRunRate.Enabled = isRunRatePathValid;
             //
             btnOpenDestFolder.Enabled = isDestFolderValid;
-
-
-            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid;
+            //
             btnValidaInput.Enabled = allValid && !_inputValidato;
-            MostraNascondiElementiPerInputValidato(_inputValidato);
-
-            if (allValid)
-            {
-                toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
-                SetStatusLabel("Input file and destination folder selected. You can start processing");
-            }
-            else
-            {
-
-                toolTipDefault.SetToolTip(btnBuildPresentation, "Select input files and output folder");
-                SetStatusLabel("Select input files and output folder");
-            }
-        }
-
-
-        private void MostraNascondiElementiPerInputValidato(bool inputValidato)
-        {
-            gbOptions.Enabled = inputValidato;
-            btnBuildPresentation.Enabled = _inputValidato;
-
-            if (inputValidato)
-            {
-                toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
-                SetStatusLabel("Select filters and other options and press 'Build Presentation' button.");
-            }
-            else
-            {
-                SetStatusLabel("");
-                _applicablefilters = new List<InputDataFilters_Item>();
-            }
 
             RefreshFiltersArea();
+
+            if (_inputValidato)
+            {
+                toolTipDefault.SetToolTip(btnBuildPresentation, "Start generating the presentation");
+                SetStatusLabel("Select input files and destination folder are validated. You can start building the presentation");
+            }
+            else if (allValid)
+            {
+                toolTipDefault.SetToolTip(btnValidaInput, "Start validation process");
+                SetStatusLabel("Select input files and destination folder selected. You can start the validation process.");
+            }
+            else
+            {
+                toolTipDefault.SetToolTip(btnValidaInput, "Select input files and destination folder");
+                SetStatusLabel("Select input files and destination folder");
+            }
         }
 
         private void RefreshFiltersArea()
@@ -235,7 +228,7 @@ namespace PptGeneratorGUI
                 return;
             }
 
-            foreach (var filtro in _applicablefilters)
+            foreach (var filtro in _applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList())
             {
                 int rowIndex = dgvFiltri.Rows.Add();
                 dgvFiltri.Rows[rowIndex].Cells[tableColumnIndex].Value = $"{filtro.Table}";
@@ -285,7 +278,7 @@ namespace PptGeneratorGUI
 
         #region Gestione history combo boxes
         private PathsHistory _pathFileHistory;
-        private void FillComboBoxes(bool selectFirstItem = false)
+        private void FillComboBoxes()
         {
             LoadFileHistory();
 
@@ -311,16 +304,7 @@ namespace PptGeneratorGUI
             cmbDestinationFolderPath.Items.Clear();
             cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
 
-            if (selectFirstItem)
-            {
-                cmbFileBudgetPath.SelectedIndex = 0;
-                cmbFileForecastPath.SelectedIndex = 0;
-                cmbFileSuperDettagliPath.SelectedIndex = 0;
-                cmbFileRunRatePath.SelectedIndex = 0;
-                cmbDestinationFolderPath.SelectedIndex = 0;
-            }
-
-            // Disabilito le combobox durante il caricamento per preventire eventi indesiderati
+            // Riattivo le combobox
             cmbFileBudgetPath.Enabled = true;
             cmbFileForecastPath.Enabled = true;
             cmbFileSuperDettagliPath.Enabled = true;
@@ -664,13 +648,14 @@ namespace PptGeneratorGUI
         #region Valida Input
         private void btnValidaInput_Click(object sender, EventArgs e)
         {
-            btnValidaInput.Enabled = false;
-            ClearOutputArea();
             validaFileDiInput();
         }
 
         private void validaFileDiInput()
         {
+            btnValidaInput.Enabled = false;
+            ClearOutputArea();
+
             // input per la chiamata al backend
             var validateSourceFilesInput = new ValidateSourceFilesInput(
                     // proprietà classe base
@@ -713,11 +698,11 @@ namespace PptGeneratorGUI
             {
                 gbPaths.Enabled = false;
                 _applicablefilters = output.Applicablefilters;
-                SetStatusLabel("Processing completed successfully");
+                SetStatusLabel("Input validated successfully");
             }
             else
             {
-                SetStatusLabel("Processing completed with errors");
+                SetStatusLabel("Input validated with errors");
                 SetOutputMessage(output.ManagedException);
                 btnCopyError.Visible = true;
             }
@@ -735,93 +720,66 @@ namespace PptGeneratorGUI
 
         private void buildPresentation()
         {
-            bool isBudgetPathValid = IsBudgetPathValid();
-            bool isForecastPathValid = IsForecastPathValid();
-            bool isSuperDettagliPathValid = IsSuperDettagliPathValid();
-            bool isRunRatePathValid = IsRunRatePathValid();
-            bool isDestFolderValid = IsDestFolderValid();
+            ClearOutputArea();
 
-            if (isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid)
+            btnBuildPresentation.Enabled = false;
+
+            // Salvataggio dei percorsi selezionati
+            AddPathsInXmlFileHistory();
+            // Ricaricamento delle combobox
+            FillComboBoxes();
+
+            SetStatusLabel("Processing in progress...");
+
+            var buildPresentationInput = new BuildPresentationInput(
+                // proprietà classe base
+                dataSourceFilePath: DataSourceFilePath,
+                destinationFolder: SelectedDestinationFolderPath,
+                tmpFolder: TmpFolderPath,
+                debugFilePath: DebugFilePath,
+                //
+                fileBudgetPath: SelectedFileBudgetPath,
+                fileForecastPath: SelectedFileForecastPath,
+                fileSuperDettagliPath: SelectedFileSuperDettagliPath,
+                fileRunRatePath: SelectedFileRunRatePath,
+                 //
+                powerPointTemplateFilePath: PowerPointTemplateFilePath,
+                replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
+                periodDate: _selectedDatePeriodo,
+                applicablefilters: _applicablefilters
+                );
+
+            try
             {
-                btnBuildPresentation.Enabled = false;
-                ClearOutputArea();
+                //buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
+                Application.DoEvents();
+                var output = Editor.BuildPresentation(buildPresentationInput);
+                //  toolStripProgressBar.Visible = false;
+                btnBuildPresentation.Enabled = true;
 
-                // Salvataggio dei percorsi selezionati
-                AddPathsInXmlFileHistory();
-                // Ricaricamento delle combobox
-                FillComboBoxes(selectFirstItem: false);
-
-                //cmbFileBudgetPath.SelectedIndex = 0;
-                //cmbFileForecastPath.SelectedIndex = 0;
-                //cmbFileSuperDettagliPath.SelectedIndex = 0;
-                //cmbFileRunRatePath.SelectedIndex = 0;
-                //cmbDestinationFolderPath.SelectedIndex = 0;
-
-                //Esecuzione Refresher
-                SetStatusLabel("Processing in progress...");
-                toolStripProgressBar.Visible = true;
-
-
-                var buildPresentationInput = new BuildPresentationInput(
-                    // proprietà classe base
-                    dataSourceFilePath: DataSourceFilePath,
-                    destinationFolder: SelectedDestinationFolderPath,
-                    tmpFolder: TmpFolderPath,
-                    debugFilePath: DebugFilePath,
-                    //
-                    fileBudgetPath: SelectedFileBudgetPath,
-                    fileForecastPath: SelectedFileForecastPath,
-                    fileSuperDettagliPath: SelectedFileSuperDettagliPath,
-                    fileRunRatePath: SelectedFileRunRatePath,
-                    //
-                    replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
-                    periodDate: _selectedDatePeriodo,
-                    applicablefilters: _applicablefilters
-                    );
-
-                try
+                if (output.Esito == EsitiFinali.Success)
                 {
-                    buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
-                    var output = Editor.BuildPresentation(buildPresentationInput);
-                    toolStripProgressBar.Visible = false;
-                    btnBuildPresentation.Enabled = true;
-
-                    if (output.Esito == EsitiFinali.Success)
-                    {
-                        string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
-                        SetOutputMessage(message);
-                        SetStatusLabel("Processing completed successfully");
-                        btnCopyError.Visible = false;
-                    }
-                    else //FAIL
-                    {
-                        //Mostrare eventuali dati nel fail
-                        SetStatusLabel("Processing completed with errors");
-                        SetOutputMessage(output.ManagedException);
-                        btnCopyError.Visible = true;
-                    }
+                    string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
+                    SetOutputMessage(message);
+                    SetStatusLabel("Processing completed successfully");
                 }
-                catch (Exception ex)
+                else //FAIL
                 {
-                    showExpetion(ex);
+                    //Mostrare eventuali dati nel fail
+                    SetStatusLabel("Processing completed with errors");
+                    SetOutputMessage(output.ManagedException);
+                    btnCopyError.Visible = true;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Select input files and destination folder", "Invalid input file or destination folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                showExpetion(ex);
             }
+
         }
 
         private void buildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (!btnBuildPresentation.Enabled)
-            {
-                int a = 1;
-                a= a * -1;
-                //Thread.Sleep(500);
-            }
-
-            // codice funzionantee
             //var buildPresentationInput = e.Argument as BuildPresentationInput;
             //var output = Editor.BuildPresentation(buildPresentationInput);
             //e.Result = new object[] { buildPresentationInput, output };
@@ -829,9 +787,6 @@ namespace PptGeneratorGUI
 
         private void buildPresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            toolStripProgressBar.Visible = false;
-
-            // codice funzionante
             //toolStripProgressBar.Visible = false;
             //btnBuildPresentation.Enabled = true;
 
@@ -873,8 +828,6 @@ namespace PptGeneratorGUI
             btnCopyError.Visible = true;
         }
 
-
-
         private void SetOutputMessage(Exception ex)
         {
             if (ex == null) return;
@@ -894,7 +847,9 @@ namespace PptGeneratorGUI
         private void SetOutputMessage(string message)
         {
             var htmlMessage = HTML_Message_Helper.GetHTMLForBody(message);
-            wbExecutionResult.DocumentText = htmlMessage;
+            wbExecutionResult.DocumentText = null;
+            Application.DoEvents();
+            wbExecutionResult.DocumentText = htmlMessage;            
         }
 
 
@@ -913,11 +868,7 @@ namespace PptGeneratorGUI
 
         private void ClearOutputArea()
         {
-            if (wbExecutionResult.Document != null)
-            {
-                SetOutputMessage(" ");
-            }
-            btnCopyError.Visible = false;
+            SetOutputMessage(HTML_Message_Helper._newlineHTML);
         }
 
         private string CreateOutputMessageSuccessHTML(string debugFilePath, List<string> outputFilePathLists, List<string> warnings)
@@ -986,7 +937,62 @@ namespace PptGeneratorGUI
 
 
 
-        private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
+        //private void wbExecutionResult_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
+        //{
+        //    string url = e.Url.OriginalString;
+        //    if (url.StartsWith(HTML_Message_Helper.GetURLMarker(string.Empty)))
+        //    {
+        //        // Click su link file per l'apertura
+        //        e.Cancel = true;
+
+        //        url = HttpUtility.UrlDecode(url);
+        //        url = url.Substring(HTML_Message_Helper.GetURLMarker(string.Empty).Length);
+
+
+        //        if (File.Exists(url) || Directory.Exists(url))
+        //        {
+        //            System.Diagnostics.Process.Start(url);
+        //        }
+        //        else
+        //        {
+        //            //Se il file non è più esistente mostro un messaggio di errore
+        //            MessageBox.Show($"Unable to open the file {url}; it is probably no longer present on the disk.", "Unable to open the file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+
+        //    }
+        //    else if (url.StartsWith(HTML_Message_Helper.GetURLMarkerSetAsImput(string.Empty)))
+        //    {
+        //        e.Cancel = true;
+
+        //        url = HttpUtility.UrlDecode(url);
+        //        url = url.Substring(HTML_Message_Helper.GetURLMarkerSetAsImput(string.Empty).Length);
+
+        //        RefreshUI(false);
+        //    }
+        //    //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
+        //    //{
+        //    //    url = HttpUtility.UrlDecode(url);
+        //    //    url = url.Substring(GetURLMarkerDelete(string.Empty).Length);
+
+        //    //    e.Cancel = true;
+
+        //    //    //Se il file non è più esistente mostro un messaggio di errore
+        //    //    if (File.Exists(url))
+        //    //        try
+        //    //        {
+        //    //            File.Delete(url);
+        //    //            MessageBox.Show($"Il file {url} è stato eliminato.", "File eliminato", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    //        }
+        //    //        catch 
+        //    //        {
+        //    //            MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente è aperto, chiudere il file e riprovare.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    //        }
+        //    //    else
+        //    //        MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente non è più presente sul disco.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    //}
+        //}
+
+        private void wbExecutionResult_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             string url = e.Url.OriginalString;
             if (url.StartsWith(HTML_Message_Helper.GetURLMarker(string.Empty)))
@@ -1018,30 +1024,7 @@ namespace PptGeneratorGUI
 
                 RefreshUI(false);
             }
-            //else if (url.StartsWith(GetURLMarkerDelete(string.Empty)))
-            //{
-            //    url = HttpUtility.UrlDecode(url);
-            //    url = url.Substring(GetURLMarkerDelete(string.Empty).Length);
-
-            //    e.Cancel = true;
-
-            //    //Se il file non è più esistente mostro un messaggio di errore
-            //    if (File.Exists(url))
-            //        try
-            //        {
-            //            File.Delete(url);
-            //            MessageBox.Show($"Il file {url} è stato eliminato.", "File eliminato", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        }
-            //        catch 
-            //        {
-            //            MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente è aperto, chiudere il file e riprovare.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-            //    else
-            //        MessageBox.Show($"Impossibile eliminare il file {url}, probabilmente non è più presente sul disco.", "Impossibile eliminare il file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
         }
-
-
 
         private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1099,5 +1082,7 @@ namespace PptGeneratorGUI
             RefreshUI(true);
         }
         #endregion
+
+
     }
 }

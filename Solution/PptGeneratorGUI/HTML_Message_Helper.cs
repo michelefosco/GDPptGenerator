@@ -15,24 +15,25 @@ namespace PptGeneratorGUI
         public const string _spaceHTML = "&nbsp;";
         public const string _redTextHTML = @"<span class=""red"">{0}</span>";
         public const string _greenTextHTML = @"<span class=""green"">{0}</span>";
-        public const string _tableHTML = "<table>\r\n{0}\r\n</table>";
-        public const string _trHTML = "  <tr>\r\n{0}\r\n  </tr>";
-        public const string _tdHTML = "    <td>{0}</td>";
+        public const string _tableHTML = "<table>{0}</table>";
+        public const string _trHTML = "<tr>{0}</tr>";
+        public const string _tdHTML = "<td>{0}</td>";
         public const string _invisibleSpanHTML = "<span id=\"invisibleSpan\" style=\"display: none;\">{0}</span>";
         public const string _moreDetailLink = @"<a href=""#"" style=""color: blue;"" onclick=""document.getElementById('invisibleSpan').style.display = 'inline'"">{0}</a>";
         public const string _deleteFileHyperlinkHTML = @"<a style=""color: red;"" href=""{0}"">{1}</a>";
-        public const string _htmlBody = @"<html>
-	                                        <head>
-	                                        <style type=""text/css"">
-		                                        body {{ font: 11px sans-serif; }}
-		                                        table {{ font: 11px sans-serif; }}
-		                                        th, td {{ padding-right: 10px; }}
-		                                        .red {{ font-family: sans-serif; color: red; font-size:13px; }}
-		                                        .green {{ font-family: sans-serif; color: green; font-size:13px; }}
-	                                        </style> 
-	                                        </head>
-	                                        <body>{0}</body>
-                                        </html>";
+        public const string _htmlBody = @"<html><head><style type=""text/css"">body {{ font: 11px sans-serif; }} table {{ font: 11px sans-serif; }} th, td {{ padding-right: 10px; }} .red {{ font-family: sans-serif; color: red; font-size:13px; }} .green {{ font-family: sans-serif; color: green; font-size:13px; }}</style></head><body>{0}</body></html>";
+        //public const string _htmlBody = @"<html>
+        //                                 <head>
+        //                                 <style type=""text/css"">
+        //                                  body {{ font: 11px sans-serif; }}
+        //                                  table {{ font: 11px sans-serif; }}
+        //                                  th, td {{ padding-right: 10px; }}
+        //                                  .red {{ font-family: sans-serif; color: red; font-size:13px; }}
+        //                                  .green {{ font-family: sans-serif; color: green; font-size:13px; }}
+        //                                 </style> 
+        //                                 </head>
+        //                                 <body>{0}</body>
+        //                                </html>";
 
 
         public static string StringToHTML(string str)

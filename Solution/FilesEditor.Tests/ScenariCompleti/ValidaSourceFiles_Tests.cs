@@ -59,7 +59,7 @@ namespace FilesEditor.Tests
 
             // 
             Assert.AreEqual(1, output.Applicablefilters[0].Values.Count);
-            Assert.AreEqual("#N/A", output.Applicablefilters[0].Values[0]);
+            Assert.AreEqual("K", output.Applicablefilters[0].Values[0]);
         }
     }
 }

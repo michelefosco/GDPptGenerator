@@ -23,12 +23,13 @@ namespace FilesEditor.Entities
 
         // Input specifico di uno o più metodi
         public bool ReplaceAllData_FileSuperDettagli { get; private set; }
+        public string PowerPointTemplateFilePath { get; private set; }
 
         #region Period
         public DateTime PeriodDate { get; private set; }
         public int PeriodYear { get { return PeriodDate.Year; } }
         public int PeriodMont { get { return PeriodDate.Month; } }
-        public int PeriodQuarter { get { return (int)(PeriodDate.Month / 3) + 1; } }
+        public int PeriodQuarter { get { return (int)((PeriodDate.Month + 2) / 3); } }
         #endregion
 
         public Configurazione Configurazione { get; private set; }
@@ -56,7 +57,7 @@ namespace FilesEditor.Entities
 
         public List<string> Warnings { get; private set; }
 
-        public List<InputDataFilters_Item> Applicablefilters { get; private set; }
+        public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
         public List<AliasDefinition> AliasDefinitions_BusinessTMP { get; private set; }
 
@@ -75,7 +76,7 @@ namespace FilesEditor.Entities
             //
             DebugInfoLogger = new DebugInfoLogger(null);
             Warnings = new List<string>();
-            Applicablefilters = new List<InputDataFilters_Item>();
+            ApplicableFilters = new List<InputDataFilters_Item>();
             AliasDefinitions_BusinessTMP = new List<AliasDefinition>();
             AliasDefinitions_Categoria = new List<AliasDefinition>();
             SildeToGenerate = new List<SlideToGenerate>();
@@ -88,14 +89,10 @@ namespace FilesEditor.Entities
         {
             Esito = esito;
         }
-
-
         public void SetDebugInfoLogger(DebugInfoLogger debugInfoLogger)
         {
             DebugInfoLogger = debugInfoLogger;
         }
-
-
         public void SetContextFromInput(BuildPresentationInput input)
         {
             if (input == null) { throw new ArgumentNullException("input"); }
@@ -110,11 +107,11 @@ namespace FilesEditor.Entities
             base.FileSuperDettagliPath = input.FileSuperDettagliPath;
             base.FileRunRatePath = input.FileRunRatePath;
             //
+            PowerPointTemplateFilePath= input.PowerPointTemplateFilePath;
             ReplaceAllData_FileSuperDettagli = input.ReplaceAllData_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
-            Applicablefilters = input.Applicablefilters ?? new List<InputDataFilters_Item>();
+            ApplicableFilters = input.ApplicableFilters ?? new List<InputDataFilters_Item>();
         }
-
         public void SetContextFromInput(ValidateSourceFilesInput input)
         {
             if (input == null) { throw new ArgumentNullException("input"); }

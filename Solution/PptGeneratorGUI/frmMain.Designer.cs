@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -74,6 +74,10 @@
             this.lblFileRunRatePath = new System.Windows.Forms.Label();
             this.lblFiltriApplicabili = new System.Windows.Forms.Label();
             this.dgvFiltri = new System.Windows.Forms.DataGridView();
+            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Field = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OpenFiltersSelection = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.SelectedValues = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.calendarPeriodo = new System.Windows.Forms.MonthCalendar();
             this.pnlCalendar = new System.Windows.Forms.Panel();
             this.gbPaths = new System.Windows.Forms.GroupBox();
@@ -87,10 +91,6 @@
             this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
-            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Field = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OpenFiltersSelection = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.SelectedValues = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -428,13 +428,15 @@
             this.wbExecutionResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.wbExecutionResult.CausesValidation = false;
             this.wbExecutionResult.IsWebBrowserContextMenuEnabled = false;
             this.wbExecutionResult.Location = new System.Drawing.Point(8, 573);
             this.wbExecutionResult.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbExecutionResult.Name = "wbExecutionResult";
             this.wbExecutionResult.Size = new System.Drawing.Size(1160, 313);
             this.wbExecutionResult.TabIndex = 25;
-            this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating_1);
+            this.wbExecutionResult.WebBrowserShortcutsEnabled = false;
+            this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating);
             // 
             // buildPresentationBackgroundWorker
             // 
@@ -547,14 +549,14 @@
             this.dgvFiltri.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFiltri.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFiltri.CausesValidation = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Table,
@@ -569,6 +571,35 @@
             this.dgvFiltri.ShowEditingIcon = false;
             this.dgvFiltri.Size = new System.Drawing.Size(1059, 268);
             this.dgvFiltri.TabIndex = 23;
+            // 
+            // Table
+            // 
+            this.Table.HeaderText = "Table";
+            this.Table.Name = "Table";
+            this.Table.ReadOnly = true;
+            this.Table.Width = 64;
+            // 
+            // Field
+            // 
+            this.Field.HeaderText = "Field";
+            this.Field.Name = "Field";
+            this.Field.ReadOnly = true;
+            this.Field.Width = 59;
+            // 
+            // OpenFiltersSelection
+            // 
+            this.OpenFiltersSelection.HeaderText = "";
+            this.OpenFiltersSelection.Name = "OpenFiltersSelection";
+            this.OpenFiltersSelection.ReadOnly = true;
+            this.OpenFiltersSelection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.OpenFiltersSelection.Width = 5;
+            // 
+            // SelectedValues
+            // 
+            this.SelectedValues.HeaderText = "Selected values";
+            this.SelectedValues.Name = "SelectedValues";
+            this.SelectedValues.ReadOnly = true;
+            this.SelectedValues.Width = 123;
             // 
             // calendarPeriodo
             // 
@@ -709,35 +740,6 @@
             this.bfbDestFolder.Multiselect = false;
             this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
             this.bfbDestFolder.Title = "Please select a folder...";
-            // 
-            // Table
-            // 
-            this.Table.HeaderText = "Table";
-            this.Table.Name = "Table";
-            this.Table.ReadOnly = true;
-            this.Table.Width = 64;
-            // 
-            // Field
-            // 
-            this.Field.HeaderText = "Field";
-            this.Field.Name = "Field";
-            this.Field.ReadOnly = true;
-            this.Field.Width = 59;
-            // 
-            // OpenFiltersSelection
-            // 
-            this.OpenFiltersSelection.HeaderText = "";
-            this.OpenFiltersSelection.Name = "OpenFiltersSelection";
-            this.OpenFiltersSelection.ReadOnly = true;
-            this.OpenFiltersSelection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.OpenFiltersSelection.Width = 5;
-            // 
-            // SelectedValues
-            // 
-            this.SelectedValues.HeaderText = "Selected values";
-            this.SelectedValues.Name = "SelectedValues";
-            this.SelectedValues.ReadOnly = true;
-            this.SelectedValues.Width = 123;
             // 
             // frmMain
             // 

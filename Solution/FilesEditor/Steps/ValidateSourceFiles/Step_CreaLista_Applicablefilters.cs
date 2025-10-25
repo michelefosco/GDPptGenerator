@@ -33,15 +33,15 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.EpplusHelperDataSource, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
-            Fill_ApplicableFilters_FromConfigurazione(Context.EpplusHelperDataSource, Context.Configurazione, Context.Applicablefilters);
-            Fill_ApplicableFilters_Values_FromInputfiles(Context.Applicablefilters);
+            Fill_ApplicableFilters_FromConfigurazione(Context.EpplusHelperDataSource, Context.Configurazione, Context.ApplicableFilters);
+            FillApplicableFiltersWithValues_FromInputFiles(Context.ApplicableFilters);
         }
 
 
-        private void Fill_ApplicableFilters_FromConfigurazione(EPPlusHelper ePPlusHelper, Configurazione configurazione, List<InputDataFilters_Item> applicablefilters )
+        private void Fill_ApplicableFilters_FromConfigurazione(EPPlusHelper ePPlusHelper, Configurazione configurazione, List<InputDataFilters_Item> applicablefilters)
         {
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-          //  var filtriPossibili = new List<InputDataFilters_Item>();
+            //  var filtriPossibili = new List<InputDataFilters_Item>();
 
             var rigaCorrente = configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW;
             while (true)
@@ -80,12 +80,11 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
 
             // Ordino i filtri per Tabella e Campo
-            applicablefilters = applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList();
-
-          //  return filtriPossibili;
+            // applicablefilters = applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList();
+            // return filtriPossibili;
         }
 
-        private void Fill_ApplicableFilters_Values_FromInputfiles(List<InputDataFilters_Item> applicablefilters)
+        private void FillApplicableFiltersWithValues_FromInputFiles(List<InputDataFilters_Item> applicablefilters)
         {
             foreach (var applicablefilter in applicablefilters)
             {
@@ -93,7 +92,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 {
 
                     case InputDataFilters_Tables.SUPERDETTAGLI:
-                        applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
                                 filePath: Context.FileSuperDettagliPath,
                                 worksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,
@@ -101,7 +100,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.FORECAST:
-                        applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
                                 filePath: Context.FileForecastPath,
                                 worksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
@@ -109,7 +108,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.BUDGET:
-                        applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
                                 filePath: Context.FileBudgetPath,
                                 worksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
                                 fileType: FileTypes.Budget,
@@ -117,7 +116,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.RUNRATE:
-                        applicablefilter.Values = fillApplicableFiltersWithValues_FromFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
                                 filePath: Context.FileRunRatePath,
                                 worksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
@@ -132,7 +131,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
         }
 
-        private List<string> fillApplicableFiltersWithValues_FromFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
+        private List<string> GetApplicableFiltersValues_FromInputFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
         {
             var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
 

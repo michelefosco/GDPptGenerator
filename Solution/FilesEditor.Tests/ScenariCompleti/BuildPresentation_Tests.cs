@@ -17,6 +17,7 @@ namespace FilesEditor.Tests
             // properties base class
             string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
             string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
+            string powerPointTemplateFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
             string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
             string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
@@ -42,6 +43,7 @@ namespace FilesEditor.Tests
                     fileSuperDettagliPath: fileSuperDettagliPath,
                     fileRunRatePath: fileRunRatePat,
                     //
+                    powerPointTemplateFilePath: powerPointTemplateFilePath,
                     replaceAllData_FileSuperDettagli: replaceAllData_FileSuperDettagli,
                     periodDate: periodDate,
                     applicablefilters: applicablefilters
@@ -57,7 +59,7 @@ namespace FilesEditor.Tests
             Assert.AreEqual(3, output.OutputFilePathLists.Count);
 
             // numero di warnings sollevati
-            Assert.AreEqual(2, output.Warnings.Count);
+            Assert.AreEqual(0, output.Warnings.Count);
 
             // numero di immagini generate su file system
             var filesInTmpFolder = Directory.GetFiles(tmpFolder);
