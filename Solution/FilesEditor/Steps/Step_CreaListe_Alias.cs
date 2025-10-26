@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using EPPlusExtensions;
+﻿using EPPlusExtensions;
 using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
@@ -31,16 +30,13 @@ namespace FilesEditor.Steps
 
         private void FillAliasesFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, List<AliasDefinition> aliases)
         {
-            //  var worksheetName = WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP;
             EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(ePPlusHelper, worksheetName, FileTypes.DataSource);
 
             var firstRow = Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_FIRST_DATA_ROW;
             var lastRow = ePPlusHelper.GetLastUsedRowForColumn(worksheetName, firstRow, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL);
 
-            // mi posizione sulla riga precedente a quella da cui partire
+            // mi posiziono sulla riga precedente a quella da cui partire
             var currentRowNumber = firstRow - 1;
-
-            // var aliasDefinitions = new List<AliasDefinition>();
 
             // se riga corrente diventa = a lastRow devo fermarmi, in quanto verrebbe incrementata di 1 e si andrebbe oltre l'ultima riga
             while (currentRowNumber < lastRow)
@@ -48,6 +44,7 @@ namespace FilesEditor.Steps
                 // mi posiziono sulla prossima riga da leggere
                 currentRowNumber++;
 
+                // leggo i valori da cercare e quelli da usarsi come sostituti
                 var rawValues = ePPlusHelper.GetString(worksheetName, currentRowNumber, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_RAW_VALUES_COL);
                 var newValue = ePPlusHelper.GetString(worksheetName, currentRowNumber, Context.Configurazione.DATASOURCE_ALIAS_WORKSHEETS_NEW_VALUES_COL);
 
@@ -55,7 +52,7 @@ namespace FilesEditor.Steps
                 if (string.IsNullOrEmpty(rawValues) && string.IsNullOrEmpty(newValue))
                 { continue; }
 
-
+                // Loggo un warning per ogni alias scritto male
                 if (string.IsNullOrEmpty(rawValues) || string.IsNullOrEmpty(newValue))
                 {
                     AddWarning($"The alias declared in the worksheet '{worksheetName}' at line: {currentRowNumber} is incomplete.");
@@ -89,8 +86,6 @@ namespace FilesEditor.Steps
             }
 
             Context.DebugInfoLogger.LogAlias(aliases, worksheetName);
-
-            // return aliasDefinitions;
         }
     }
 }

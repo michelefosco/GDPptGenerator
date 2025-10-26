@@ -103,7 +103,6 @@ namespace PptGeneratorGUI
                 return Path.Combine(sourceFilesFolder, FileNames.DATASOURCE_FILENAME);
             }
         }
-
         private string PowerPointTemplateFilePath
         {
             get
@@ -113,7 +112,6 @@ namespace PptGeneratorGUI
                 return Path.Combine(exeDir, FileNames.POWERPOINT_TEMPLATE_FILENAME);
             }
         }
-
         #endregion
 
         public frmMain()
@@ -137,18 +135,6 @@ namespace PptGeneratorGUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             RefreshUI(true);
-
-            //aUecchj();
-        }
-
-        private void aUecchj()
-        {
-            cmbFileBudgetPath.SelectedIndex = 0;
-            cmbFileForecastPath.SelectedIndex = 0;
-            cmbFileRunRatePath.SelectedIndex = 0;
-            cmbFileSuperDettagliPath.SelectedIndex = 0;
-            cmbDestinationFolderPath.SelectedIndex = 0;
-            validaFileDiInput();
         }
 
         private void SetStatusLabel(string status)
@@ -691,12 +677,10 @@ namespace PptGeneratorGUI
             var input = outputAndInput[0] as ValidateSourceFilesInput;
             var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
-            _inputValidato = (output.Esito == EsitiFinali.Success);
+            _inputValidato = output.Esito == EsitiFinali.Success;
 
-            btnValidaInput.Enabled = _inputValidato;
             if (_inputValidato)
             {
-                gbPaths.Enabled = false;
                 _applicablefilters = output.Applicablefilters;
                 SetStatusLabel("Input validated successfully");
             }
@@ -876,11 +860,13 @@ namespace PptGeneratorGUI
             string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold("Processing completed successfully"));
             outputMessage += HTML_Message_Helper._newlineHTML;
 
+
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper.GetHTMLBold("Presentations: ");
             // elenco delle presentazioni create
             foreach (var path in outputFilePathLists)
             {
                 outputMessage += HTML_Message_Helper._newlineHTML;
-                outputMessage += HTML_Message_Helper.GetHTMLBold("Presentation file created: ");
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(path, path);
             }
 
@@ -889,6 +875,7 @@ namespace PptGeneratorGUI
             outputMessage += HTML_Message_Helper._newlineHTML;
             outputMessage += HTML_Message_Helper._newlineHTML;
             outputMessage += HTML_Message_Helper.GetHTMLBold("Output folder: ");
+            outputMessage += HTML_Message_Helper._newlineHTML;
             outputMessage += HTML_Message_Helper.GetHTMLHyperLink(outputfolder, outputfolder);
 
 
@@ -897,7 +884,8 @@ namespace PptGeneratorGUI
             {
                 outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper._newlineHTML;
-                outputMessage += HTML_Message_Helper.GetHTMLBold("Debug file created: ");
+                outputMessage += HTML_Message_Helper.GetHTMLBold("Debug file: ");
+                outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFilePath, debugFilePath);
             }
 
@@ -1048,15 +1036,19 @@ namespace PptGeneratorGUI
             var dataSourceFolderPath = Path.GetDirectoryName(DataSourceFilePath);
             openFolderForUser(dataSourceFolderPath);
         }
-
-        private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void loadLastSessionPathsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                _pathFileHistory.ClearHistory();
-                FillComboBoxes();
-                RefreshUI(false);
-            }
+            cleanCurrentsession();
+            selectLatestFilePath();
+        }
+
+        private void selectLatestFilePath()
+        {
+            cmbFileBudgetPath.SelectedIndex = 0;
+            cmbFileForecastPath.SelectedIndex = 0;
+            cmbFileRunRatePath.SelectedIndex = 0;
+            cmbFileSuperDettagliPath.SelectedIndex = 0;
+            cmbDestinationFolderPath.SelectedIndex = 0;
         }
 
         private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1081,8 +1073,15 @@ namespace PptGeneratorGUI
 
             RefreshUI(true);
         }
+        private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                _pathFileHistory.ClearHistory();
+                FillComboBoxes();
+                RefreshUI(false);
+            }
+        }
         #endregion
-
-
     }
 }

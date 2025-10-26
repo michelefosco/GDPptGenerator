@@ -91,6 +91,7 @@
             this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.loadLastSessionPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -700,8 +701,9 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openDataSouceExcelFileToolStripMenuItem,
-            this.cleanCurrentsessionToolStripMenuItem,
             this.openSouceFilesFolderToolStripMenuItem,
+            this.cleanCurrentsessionToolStripMenuItem,
+            this.loadLastSessionPathsToolStripMenuItem,
             this.clearPathsHistoryToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
@@ -725,7 +727,7 @@
             // 
             this.openSouceFilesFolderToolStripMenuItem.Name = "openSouceFilesFolderToolStripMenuItem";
             this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.openSouceFilesFolderToolStripMenuItem.Text = "Open &Souce files folder";
+            this.openSouceFilesFolderToolStripMenuItem.Text = "Open DataSource &Folder";
             this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
             // 
             // clearPathsHistoryToolStripMenuItem
@@ -740,6 +742,13 @@
             this.bfbDestFolder.Multiselect = false;
             this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
             this.bfbDestFolder.Title = "Please select a folder...";
+            // 
+            // loadLastSessionPathsToolStripMenuItem
+            // 
+            this.loadLastSessionPathsToolStripMenuItem.Name = "loadLastSessionPathsToolStripMenuItem";
+            this.loadLastSessionPathsToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.loadLastSessionPathsToolStripMenuItem.Text = "Load last session paths";
+            this.loadLastSessionPathsToolStripMenuItem.Click += new System.EventHandler(this.loadLastSessionPathsToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -837,6 +846,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Field;
         private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
         private System.Windows.Forms.DataGridViewTextBoxColumn SelectedValues;
+        private System.Windows.Forms.ToolStripMenuItem loadLastSessionPathsToolStripMenuItem;
     }
 }
 

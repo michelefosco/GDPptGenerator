@@ -11,25 +11,25 @@ namespace FilesEditor.Enums
         [Description("Debug")]
         Debug,
 
-        [Description("File Excel DataSource")]
+        [Description("DataSource Excel file")]
         DataSource,
 
-        [Description("File Excel (input) Super Dettagli")]
+        [Description("Super Dettagli Excel input file")]
         SuperDettagli,
 
-        [Description("File Excel (input) Budget")]
+        [Description("Budget Excel input file")]
         Budget,
 
-        [Description("File Excel (input) Forecast")]
+        [Description("Forecast Excel input file")]
         Forecast,
 
-        [Description("File Excel (input) Run Rate")]
+        [Description("Run Rate Excel input file")]
         RunRate,
 
-        [Description("File PowerPoint Presentation template")]
+        [Description("PowerPoint presentation template fuke")]
         PresentationTemplate,
 
-        [Description("File PowerPoint Presentation output")]
+        [Description("PowerPoint Presentation output file")]
         PresentationOutput
     }
 }
