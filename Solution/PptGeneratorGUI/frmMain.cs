@@ -1038,14 +1038,14 @@ namespace PptGeneratorGUI
         }
         private void loadLastSessionPathsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cleanCurrentsession();
+            //cleanCurrentsession();
             selectLatestFilePath();
         }
 
         private void selectLatestFilePath()
         {
-            cmbFileBudgetPath.SelectedIndex = 0;
-            cmbFileForecastPath.SelectedIndex = 0;
+            cmbFileBudgetPath.SelectedIndex = 1;
+            cmbFileForecastPath.SelectedIndex = 1;
             cmbFileRunRatePath.SelectedIndex = 0;
             cmbFileSuperDettagliPath.SelectedIndex = 0;
             cmbDestinationFolderPath.SelectedIndex = 0;
