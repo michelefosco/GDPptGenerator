@@ -24,36 +24,36 @@ namespace FilesEditor.Steps.BuildPresentation
                     sourceFileType: FileTypes.Budget,
                     sourceFilePath: Context.FileBudgetPath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
-                    souceHeaderRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
-                    sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_FIRST_COL,
+                    souceHeadersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
+                    sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_FIRST_COL,
                     //
                     destWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
-                    destHeaderRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
-                    destHeaderFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
+                    destHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
+                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
                 );
 
             leggiInputFile(
                     sourceFileType: FileTypes.Forecast,
                     sourceFilePath: Context.FileForecastPath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
-                    souceHeaderRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
-                    sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_FIRST_COL,
+                    souceHeadersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
+                    sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_FIRST_COL,
                     //
                     destWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
-                    destHeaderRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
-                    destHeaderFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
+                    destHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
+                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
                 );
 
             leggiInputFile(
                     sourceFileType: FileTypes.RunRate,
                     sourceFilePath: Context.FileRunRatePath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
-                    souceHeaderRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
-                    sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL,
+                    souceHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
+                    sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL,
                     //
                     destWorksheetName: WorksheetNames.DATASOURCE_RUN_RATE_DATA,
-                    destHeaderRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
-                    destHeaderFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
+                    destHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
+                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
                 );
 
             //todo: gestione particolare per Superdettagli
@@ -61,12 +61,12 @@ namespace FilesEditor.Steps.BuildPresentation
                     sourceFileType: FileTypes.SuperDettagli,
                     sourceFilePath: Context.FileSuperDettagliPath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
-                    souceHeaderRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
-                    sourceHeaderFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL,
+                    souceHeadersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
+                    sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL,
                     //
                     destWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
-                    destHeaderRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
-                    destHeaderFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
+                    destHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
+                    destHeadersFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
                 );
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
@@ -76,58 +76,53 @@ namespace FilesEditor.Steps.BuildPresentation
                 FileTypes sourceFileType,
                 string sourceFilePath,
                 string sourceWorksheetName,
-                int souceHeaderRow,
-                int sourceHeaderFirstColumn,
+                int souceHeadersRow,
+                int sourceHeadersFirstColumn,
                 //
                 string destWorksheetName,
-                int destHeaderRow,
-                int destHeaderFirstColumn
+                int destHeadersRow,
+                int destHeadersFirstColumn
             )
         {
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
-            var wsSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
+            var worksheetSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
 
             // Foglio destinazione
-            var wsDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
+            var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
 
-            //todo: refacotrying, estrapolare come metodo sull'helper
-            // Lettura headers del foglio sorgente
-            var sourceHeaders = new Dictionary<string, int>();
-            var sourceCol = sourceHeaderFirstColumn;
-            while (wsSource.Cells[souceHeaderRow, sourceCol].Value != null)
-            {
-                var header = wsSource.Cells[souceHeaderRow, sourceCol].Text.Trim().ToLower();
-                sourceHeaders[header] = sourceCol;
-                sourceCol++;
-            }
+            #region Lettura degli headers del foglio sorgente e foglio destinazione
+            var sourceHeadersDictionary = GetHeadersDictionary(workSheet: worksheetSource,
+                                        headersRow: souceHeadersRow,
+                                        headerFirstColumn: sourceHeadersFirstColumn);
 
-            //todo: refacotrying, estrapolare come metodo sull'helper
             // Lettura headers del foglio di destinazione
-            var destHeaders = new Dictionary<string, int>();
-            var destCol = destHeaderFirstColumn;
-            while (wsDest.Cells[destHeaderRow, destCol].Value != null)
-            {
-                string header = wsDest.Cells[destHeaderRow, destCol].Text.Trim().ToLower();
-                destHeaders[header] = destCol;
-                destCol++;
-            }
-
+            //var destHeadersDictionary = new Dictionary<string, int>();
+            //var destCol = destHeadersFirstColumn;
+            //while (wsDest.Cells[destHeadersRow, destCol].Value != null)
+            //{
+            //    string header = wsDest.Cells[destHeadersRow, destCol].Text.Trim().ToLower();
+            //    destHeadersDictionary[header] = destCol;
+            //    destCol++;
+            //}
+            var destHeadersDictionary = GetHeadersDictionary(workSheet: worksheetDest,
+                            headersRow: destHeadersRow,
+                            headerFirstColumn: destHeadersFirstColumn);
+            #endregion
 
             #region Verifico che tutti gli headers presenti nella destinazione sia effettivamente presenti nella sorgente
-            foreach (var kvp in destHeaders)
+            foreach (var kvp in destHeadersDictionary)
             {
                 string destHeader = kvp.Key;
-
                 // Se il foglio sorgente non ha tutti gli headers necessari sollevo l'eccezione
-                if (!sourceHeaders.ContainsKey(destHeader))
+                if (!sourceHeadersDictionary.ContainsKey(destHeader))
                 {
                     throw new ManagedException(
                         filePath: sourceFilePath,
                         fileType: sourceFileType,
                         //
                         worksheetName: sourceWorksheetName,
-                        cellRow: souceHeaderRow,
+                        cellRow: souceHeadersRow,
                         cellColumn: null,
                         valueHeader: ValueHeaders.None,
                         value: destHeader,
@@ -138,7 +133,6 @@ namespace FilesEditor.Steps.BuildPresentation
                 }
             }
             #endregion
-
 
             #region Preparo una struttura più snella che contenta le informazioni su filtri
             InputDataFilters_Tables inputDataFilters_Table;
@@ -163,16 +157,16 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
             // Determina l'ultima riga con dati nel foglio sorgente
-            var lastRowSource = wsSource.Dimension.End.Row;
+            var lastRowSource = worksheetSource.Dimension.End.Row;
 
-            // mi posizione sulla riga immediatamente dopo quella degli headers
-            var destRowIndex = destHeaderRow + 1;
+            // mi posizione sulla riga immediatamente dopo quella degli headers della destinazione
+            var destRowIndex = destHeadersRow + 1;
 
-            var table = wsDest.Tables[0];
+            var table = worksheetDest.Tables[0];
             var tableAdress = table.Address;
 
             // Copia dati riga per riga, rispettando i nomi delle colonne
-            for (var rowSourceIndex = souceHeaderRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
+            for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
             {
                 #region verifico che la riga non sia da saltare per via dei filtri non corrispondenti
                 bool skippaRiga = false;
@@ -181,10 +175,10 @@ namespace FilesEditor.Steps.BuildPresentation
                     foreach (var filter in filters)
                     {
                         // trovo la colonna sorgente usando il nome della colonna di destinazione
-                        int sourceColumnIndex = sourceHeaders[filter.FieldName.ToLower()];
+                        int sourceColumnIndex = sourceHeadersDictionary[filter.FieldName.ToLower()];
 
                         // prendo il valore dalla sorgente
-                        var value = wsSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
+                        var value = worksheetSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
 
                         // se il valore (non null) non è presente tra i valori selezionati, la riga viene saltata
                         if (value != null && !filter.SelectedValues.Any(_ => _.Equals(value)))
@@ -199,25 +193,25 @@ namespace FilesEditor.Steps.BuildPresentation
                 #endregion
 
                 // Allungo la tabella di un riga in modo da conservare le formule
-                wsDest.InsertRow(destRowIndex, 1);
+                worksheetDest.InsertRow(destRowIndex, 1);
 
-                foreach (var kvp in destHeaders)
+                foreach (var kvp in destHeadersDictionary)
                 {
                     var destHeader = kvp.Key;
                     var destColumnIndex = kvp.Value;
 
                     // trovo la colonna sorgente usando il nome della colonna di destinazione
-                    var sourceColumnIndex = sourceHeaders[destHeader];
+                    var sourceColumnIndex = sourceHeadersDictionary[destHeader];
 
                     // prendo il valore dalla sorgente
-                    var valueFromSource = wsSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
+                    var valueFromSource = worksheetSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
 
                     // Vengono valutati gli aliases per i campi "Business TMP" e "Categoria" dei file "Budget" e "Forecast"
                     if (sourceFileType == FileTypes.Budget || sourceFileType == FileTypes.Forecast)
                     { valueFromSource = ApplicaAliasToValue(destHeader, valueFromSource.ToString()); }
 
                     // lo scrivo nella destinazione
-                    wsDest.Cells[destRowIndex, destColumnIndex].Value = valueFromSource;
+                    worksheetDest.Cells[destRowIndex, destColumnIndex].Value = valueFromSource;
                 }
 
                 // avanzo di una riga
@@ -225,12 +219,25 @@ namespace FilesEditor.Steps.BuildPresentation
             }
 
             // cancello le righe inutilizzate
-            wsDest.DeleteRow(destRowIndex, wsDest.Dimension.End.Row, true);
+            worksheetDest.DeleteRow(destRowIndex, worksheetDest.Dimension.End.Row, true);
 
             // todo: salvare subito o lasciare tutto l'operazione finale?
             Context.EpplusHelperDataSource.ExcelPackage.Save();
         }
 
+        Dictionary<string, int> GetHeadersDictionary(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)
+        {
+            var sourceHeaders = new Dictionary<string, int>();
+            var sourceCol = headerFirstColumn;
+            while (workSheet.Cells[headersRow, sourceCol].Value != null)
+            {
+                var header = workSheet.Cells[headersRow, sourceCol].Text.Trim().ToLower();
+                sourceHeaders[header] = sourceCol;
+                sourceCol++;
+            }
+
+            return sourceHeaders;
+        }
 
         private string ApplicaAliasToValue(string header, string value)
         {

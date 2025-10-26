@@ -7,8 +7,8 @@ File di input:
 	2) Budget
 	3) Forecast
 	4) Ran Rate
-	
-	
+
+
 C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE /regserver
 
 -- tmp folder with generated imgaes
@@ -21,43 +21,48 @@ cd C:\Program Files\Microsoft Office\root\Office16\ADDINS\PowerPivot Excel Add-i
 gacutil /i Microsoft.Office.Interop.Excel.dll /f
 
 
--------------------- Domande per Francesco
-- Input files con qualche dato più realistico
-- Rivedere intestazione headers in DataSource
-- In interfaccia ordinare l'elenco dei filtri o lasciare lo stesso ordine con cui si presentano in Excel?
-- Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
-- in una mail citi il foglio "Gestione Nomi", lo aggiungiamo al DataSource?
-- Ordine per fattura
-- Nuovo lavoro?
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
 Microsoft Excel 15.0
 
+
+
+-------------------- Domande per Francesco
+- Chiarire Logica append/replace dei dati si duperdettagli
+- Valore predefinito della check box?
+- Input files con qualche dato più realistico
+- Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
+- in una mail citi il foglio "Gestione Nomi", lo aggiungiamo al DataSource?
+- Preferirei la possibilità di inserire la data (identico a programma vendorRefresher) e dopo lo strumento potrà immediatamente capire il mese, il quarter e l'anno 
+	es: 12/02/2025 >> mese 02; quarter Q1; anno 2025
+	Dovrà prendere questi valori e metterli in due variabili di excel (quelle che si trovano in Gestione Nomi)
+	Potrebbe servire anche 
+- Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
+- Ordine per fattura
+- Nuovo lavoro?
+
+
+
 -------------------- Todo
 - Preferirei la possibilità di inserire la data (identico a programma vendorRefresher) e dopo lo strumento potrà immediatamente capire il mese, il quarter e l'anno 
 	es: 12/02/2025 >> mese 02; quarter Q1; anno 2025
 	Dovrà prendere questi valori e metterli in due variabili di excel (quelle che si trovano in Gestione Nomi)
-	Potrebbe servire anche mettere il mese e l'anno nella prima slide del powerpoint. 
-
-- Applicare gli Alias
+	Potrebbe servire anche . 
 - Logica append/replace dei dati si duperdettagli
 - Aggiornare variabili foglio nome in base al periodo
-
 - Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle
 - Add logging
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
 - Test con formule
 - Test con filtri
-- Inserire i dati come Tabella
 - Beutify logs
 - Ripristinare funzionalità dello Step clean up con cancellazione delle cartella temporanea
 - Rivedere nomi steps e aggiungere commento in cima alla classe
-- Unit tests per Aliases
+
 
 (Opzionali o per proposte successive)
 - Aggiungere testo "Possibile soluzione" alle properties di ManagedExpetion?
-
-
-
+- Se la configurazione non ha neanche una presentazione come output non parto
+- Unit tests per Aliases
