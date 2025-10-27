@@ -174,6 +174,11 @@ namespace FilesEditor.Steps.BuildPresentation
                 {
                     foreach (var filter in filters)
                     {
+                        if (!sourceHeadersDictionary.ContainsKey(filter.FieldName.ToLower()))
+                        {
+                            throw new ArgumentOutOfRangeException($"One of the filters set does not have a corresponding header in the source file");
+                        }
+
                         // trovo la colonna sorgente usando il nome della colonna di destinazione
                         int sourceColumnIndex = sourceHeadersDictionary[filter.FieldName.ToLower()];
 

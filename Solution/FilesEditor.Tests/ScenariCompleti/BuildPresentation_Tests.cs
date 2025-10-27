@@ -29,7 +29,20 @@ namespace FilesEditor.Tests
             string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
             bool replaceAllData_FileSuperDettagli = true;
             DateTime periodDate = DateTime.Today;
-            //todo utilizzare
+            //todo: settare filtri utili e valutarte gli effetti
+            //var applicablefilters = new List<InputDataFilters_Item>
+            //{
+            //    new InputDataFilters_Item {
+            //        Table = InputDataFilters_Tables.FORECAST,
+            //        FieldName = "Field 1",
+            //        SelectedValues = new List<string>{ "Valore 1", "Valore 2" }
+            //    },
+            //    new InputDataFilters_Item {
+            //        Table = InputDataFilters_Tables.BUDGET,
+            //        FieldName = "Field 2",
+            //        SelectedValues = new List<string>{ "Valore 1", "Valore 2" }
+            //    }
+            //};
             var applicablefilters = new List<InputDataFilters_Item>();
 
             var input = new Entities.MethodsArgs.BuildPresentationInput(
@@ -63,7 +76,7 @@ namespace FilesEditor.Tests
 
             // numero di immagini generate su file system
             var filesInTmpFolder = Directory.GetFiles(tmpFolder);
-            Assert.AreEqual (14, filesInTmpFolder.Length);
+            Assert.AreEqual(14, filesInTmpFolder.Length);
         }
     }
 }
