@@ -91,8 +91,7 @@ namespace FilesEditor
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
                     new Step_ImportaDatiDaInputFiles(context),
-                    //todo: lettura altri file di input se necessari
-                    // property auto aggiornamento pivot tables
+                    new Step_AttivazioneOpzioneRefreshOnLoad(context),
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),
                     new Step_CreaFiles_Presentazioni(context),

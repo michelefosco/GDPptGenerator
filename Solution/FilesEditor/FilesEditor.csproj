@@ -161,6 +161,7 @@
     <Compile Include="Helpers\EPPlusHelperUtilities.cs" />
     <Compile Include="Helpers\FilesAndDirectoriesUtilities.cs" />
     <Compile Include="Helpers\ValueHelper.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_AttivazioneOpzioneRefreshOnLoad.cs" />
     <Compile Include="Steps\BuildPresentation\Step_BackupFile_DataSource.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationInput.cs" />
     <Compile Include="Entities\MethodsArgs\BuildPresentationOutput.cs" />
