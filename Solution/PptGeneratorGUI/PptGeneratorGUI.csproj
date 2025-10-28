@@ -173,7 +173,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="SourceFiles\DataSource.xlsx">
+    <None Include="SourceFile\DataSource.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="PowerPoint_Template - ConAreaRossaSegnaposto.pptx" />
@@ -219,7 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\CalendarIcon.png" />
-    <Content Include="SourceFiles\README.txt">
+    <Content Include="SourceFile\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icona.ico" />

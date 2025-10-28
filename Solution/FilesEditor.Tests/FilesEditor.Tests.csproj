@@ -70,10 +70,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="TestFiles\SourceFiles\DataSource.xlsx">
+    <None Include="TestFiles\SourceFile\DataSource.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\SourceFiles\PowerPoint_Template.pptx">
+    <None Include="TestFiles\SourceFile\PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

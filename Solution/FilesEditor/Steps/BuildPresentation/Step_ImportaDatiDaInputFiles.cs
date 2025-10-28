@@ -69,6 +69,9 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
                 );
 
+            // todo: salvare subito o lasciare tutto l'operazione finale?
+            Context.EpplusHelperDataSource.ExcelPackage.Save();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
@@ -84,6 +87,10 @@ namespace FilesEditor.Steps.BuildPresentation
                 int destHeadersFirstColumn
             )
         {
+            int totRighePreservate = 0;
+            int totRigheEliminate = 0;
+            int totRigheAggiunte = 0;
+
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
             var worksheetSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
@@ -110,7 +117,8 @@ namespace FilesEditor.Steps.BuildPresentation
                             headerFirstColumn: destHeadersFirstColumn);
             #endregion
 
-            #region Verifico che tutti gli headers presenti nella destinazione sia effettivamente presenti nella sorgente
+
+            #region Verifico che tutti gli headers presenti nella destinazione siano effettivamente presenti nella sorgente
             foreach (var kvp in destHeadersDictionary)
             {
                 string destHeader = kvp.Key;
@@ -134,7 +142,8 @@ namespace FilesEditor.Steps.BuildPresentation
             }
             #endregion
 
-            #region Preparo una struttura più snella che contenta le informazioni su filtri
+
+            #region Preparo una struttura più snella che contenga le informazioni su filtri
             InputDataFilters_Tables inputDataFilters_Table;
             switch (sourceFileType)
             {
@@ -156,20 +165,56 @@ namespace FilesEditor.Steps.BuildPresentation
             var filters = Context.ApplicableFilters.Where(af => af.Table == inputDataFilters_Table && af.SelectedValues.Any()).ToList();
             #endregion
 
+
+
+
+            if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
+            {
+                if (!destHeadersDictionary.ContainsKey("anno"))
+                { throw new Exception("il foglio Superdettagli non contiene la colonna 'anno' necessario per gestire l'appnd dei dati"); }
+
+                var colonnaAnno = destHeadersDictionary["anno"];
+                for (int rowIndex = destHeadersRow + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
+                {
+                    // lettura del valore "anno"
+                    if (!int.TryParse(worksheetDest.Cells[rowIndex, colonnaAnno].Value.ToString(), out int anno))
+                    { throw new Exception($"La riga {rowIndex} colonna 'anno' del foglio 'Superdettagli' non contiene un valore numero (int) come previsto."); }
+
+                    // elimino le righe dell'anno del periodo. Le altre vento preservate
+                    if (anno == Context.PeriodYear)
+                    {
+                        worksheetDest.DeleteRow(rowIndex, 1, true);
+                        totRigheEliminate++;
+                        rowIndex--;
+                    }
+                    else
+                    {
+                        totRighePreservate++;
+                    }
+                }
+
+                // setto la prima da cui cominicare a scrivere 
+                //  destRowIndex = worksheetDest.Dimension.Rows+1;
+            }
+
+
+            // mi posizione sulla prima riga da cui iniziare a scrivere i dati
+            // normalemente la prima riga dopo gli headers ma questo non vale in caso di "SuperDettagli" in modalità "Append"
+            // var destRowIndex = destHeadersRow + 1;
+            //if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
+            //{
+            //    destRowIndex = worksheetSource.Dimension.End.Row;
+            //}
+
+            // riga del foglio di destinazione in cui scrivere la prossima riga
+            var destRowIndex = destHeadersRow + 1;
             // Determina l'ultima riga con dati nel foglio sorgente
             var lastRowSource = worksheetSource.Dimension.End.Row;
-
-            // mi posizione sulla riga immediatamente dopo quella degli headers della destinazione
-            var destRowIndex = destHeadersRow + 1;
-
-            var table = worksheetDest.Tables[0];
-            var tableAdress = table.Address;
-
             // Copia dati riga per riga, rispettando i nomi delle colonne
             for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
             {
                 #region verifico che la riga non sia da saltare per via dei filtri non corrispondenti
-                bool skippaRiga = false;
+                bool skippaRigaPerFiltro = false;
                 if (filters.Any())
                 {
                     foreach (var filter in filters)
@@ -188,17 +233,21 @@ namespace FilesEditor.Steps.BuildPresentation
                         // se il valore (non null) non è presente tra i valori selezionati, la riga viene saltata
                         if (value != null && !filter.SelectedValues.Any(_ => _.Equals(value)))
                         {
-                            skippaRiga = true;
+                            skippaRigaPerFiltro = true;
                             break;
                         }
                     }
                 }
-                if (skippaRiga)
+                if (skippaRigaPerFiltro)
                 { continue; }
                 #endregion
 
                 // Allungo la tabella di un riga in modo da conservare le formule
-                worksheetDest.InsertRow(destRowIndex, 1);
+                if (sourceFileType != FileTypes.RunRate)
+                {
+                    worksheetDest.InsertRow(destRowIndex, 1);
+                    totRigheAggiunte++;
+                }
 
                 foreach (var kvp in destHeadersDictionary)
                 {
@@ -220,14 +269,39 @@ namespace FilesEditor.Steps.BuildPresentation
                 }
 
                 // avanzo di una riga
-                destRowIndex++;
+                if (sourceFileType != FileTypes.RunRate)
+                { destRowIndex++; }
+            }
+            destRowIndex--;
+
+            // cancello le righe in più, ovvero quelle gia esistenti ma non più utilizzate (esempio ho meno righe dell'aggiornamento precedente)
+            //todo: check funzionamento secondo parametro, dovrebbero essere il numero di righe, sicuramente cosi si abbonda, ma pyò essere un problema?
+
+            destRowIndex += totRighePreservate;
+            // la cancellazione deve avvenire dall'ultima riga indietro in quanto le righe eliminate shiftano verso il basso
+            if (sourceFileType != FileTypes.RunRate)
+            {
+                for (int rowIndex = worksheetDest.Dimension.Rows; rowIndex > destRowIndex; rowIndex--)
+                {
+                    worksheetDest.DeleteRow(rowIndex, 1, true);
+                    totRigheEliminate++;
+                }
             }
 
-            // cancello le righe inutilizzate
-            worksheetDest.DeleteRow(destRowIndex, worksheetDest.Dimension.End.Row, true);
 
-            // todo: salvare subito o lasciare tutto l'operazione finale?
-            Context.EpplusHelperDataSource.ExcelPackage.Save();
+            if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
+            {
+                var colonnaAnno = destHeadersDictionary["anno"] - 1;
+                Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnno);
+            }
+
+
+
+
+            Context.DebugInfoLogger.LogRigheInputFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
+
+
+
         }
 
         Dictionary<string, int> GetHeadersDictionary(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)

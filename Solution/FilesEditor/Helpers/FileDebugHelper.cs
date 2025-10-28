@@ -15,6 +15,8 @@ namespace FilesEditor.Helpers
             public const string Log = "Log";
             public const string StepContext = "StepContext";
             public const string Warnings = "Warnings";
+            public const string RigheInputFiles = "Righe input files";
+
 
 
             public const string UpdateReportsOutput = "UpdateReportsOutput";
@@ -26,7 +28,7 @@ namespace FilesEditor.Helpers
             public const string FornitoriNonCensitiInReport = "Fornitori-NON censiti in report";
             public const string Spese = "Spese";
             public const string RigheSpesaSkippate = "Righe spesa skippate";
-            public const string Avanzamento = "Avanzamento";
+
             public const string ConsumiSpacchettati = "Consumi spacchettati";
             public const string SintesiRigheNecessarie = "Sintesi-Righe necessarie";
             public const string SintesiRigheMancanti = "Sintesi-Righe mancanti";
@@ -204,6 +206,32 @@ namespace FilesEditor.Helpers
 
             AutoSave();
         }
+
+        internal void LogRigheInputFiles(FileTypes fileType, int totRighePreservate, int totRigheEliminate, int totRigheAggiunte)
+        {
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetName = WorkSheetNames.RigheInputFiles;
+
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe preservate:", totRighePreservate);
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe eliminate:", totRigheEliminate);
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot rRighe aggiunte:", totRigheAggiunte);
+
+            AutoSave();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //#region Reparti
         //internal void LogRepartiCensitiSuController(List<Reparto> repartiCensiti)
@@ -688,32 +716,7 @@ namespace FilesEditor.Helpers
         }
 
 
-        internal void LogSpesaSkippate(List<_RigaSpeseSkippata> righeSpesaSkippate)
-        {
-            if (_epPlusHelper == null) { return; }
 
-            var worksheetName = WorkSheetNames.RigheSpesaSkippate;
-
-            // riga intestazione
-            _epPlusHelper.AddNewHeaderRow(worksheetName,
-                "Foglio",   //#1
-                "Riga",     //#2
-                "Colonna",  //#3
-                "Dato"      //#4
-                );
-
-            foreach (var rigaSpeseSkippata in righeSpesaSkippate)
-            {
-                _epPlusHelper.AddNewContentRow(worksheetName,
-                   rigaSpeseSkippata.Foglio,//#1 
-                   rigaSpeseSkippata.Riga,//#2 
-                   ((ColumnIDS)rigaSpeseSkippata.Colonna).ToString(),//#3
-                   rigaSpeseSkippata.DatoNonValido//#4
-                    );
-            }
-
-            AutoSave();
-        }
 
         //internal void LogFormuleReportisticaPerCategoriaIntestazione()
         //{

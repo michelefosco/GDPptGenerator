@@ -99,7 +99,7 @@ namespace PptGeneratorGUI
             {
                 string exePath = Assembly.GetExecutingAssembly().Location;
                 string exeDir = Path.GetDirectoryName(exePath);
-                var sourceFilesFolder = Path.Combine(exeDir, "SourceFiles");
+                var sourceFilesFolder = Path.Combine(exeDir, "SourceFile");
                 return Path.Combine(sourceFilesFolder, FileNames.DATASOURCE_FILENAME);
             }
         }
@@ -1070,6 +1070,9 @@ namespace PptGeneratorGUI
             SelectedFileSuperDettagliPath = string.Empty;
             SelectedFileRunRatePath = string.Empty;
             SelectedDestinationFolderPath = string.Empty;
+
+            //todo: default for this??
+            cbReplaceAllDataFileSuperDettagli.Checked = true;
 
             RefreshUI(true);
         }
