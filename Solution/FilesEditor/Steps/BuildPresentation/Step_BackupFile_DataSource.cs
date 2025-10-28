@@ -13,11 +13,11 @@ namespace FilesEditor.Steps.BuildPresentation
         internal override EsitiFinali DoSpecificTask()
         {
             Context.DebugInfoLogger.LogStepContext("Step_BackupFile_DataSource", Context);
-            backupFile_DataSource();
+            BackupFile_DataSource();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void backupFile_DataSource()
+        private void BackupFile_DataSource()
         {
             // percorso cartella di backup
             var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);

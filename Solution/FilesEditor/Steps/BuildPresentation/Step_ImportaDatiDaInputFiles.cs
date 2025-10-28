@@ -20,7 +20,7 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDaInputFiles", Context);
 
-            leggiInputFile(
+            ImportaInputFile(
                     sourceFileType: FileTypes.Budget,
                     sourceFilePath: Context.FileBudgetPath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
                 );
 
-            leggiInputFile(
+            ImportaInputFile(
                     sourceFileType: FileTypes.Forecast,
                     sourceFilePath: Context.FileForecastPath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
@@ -44,7 +44,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
                 );
 
-            leggiInputFile(
+            ImportaInputFile(
                     sourceFileType: FileTypes.RunRate,
                     sourceFilePath: Context.FileRunRatePath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
@@ -56,8 +56,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
                 );
 
-            //todo: gestione particolare per Superdettagli
-            leggiInputFile(
+            ImportaInputFile(
                     sourceFileType: FileTypes.SuperDettagli,
                     sourceFilePath: Context.FileSuperDettagliPath,
                     sourceWorksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
@@ -75,7 +74,7 @@ namespace FilesEditor.Steps.BuildPresentation
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void leggiInputFile(
+        private void ImportaInputFile(
                 FileTypes sourceFileType,
                 string sourceFilePath,
                 string sourceWorksheetName,
@@ -87,31 +86,27 @@ namespace FilesEditor.Steps.BuildPresentation
                 int destHeadersFirstColumn
             )
         {
+            // variabili per il conteggio delle righe Eliminate, Aggiunge e Preservate (quando in modalità append su Superdettagli)
             int totRighePreservate = 0;
             int totRigheEliminate = 0;
             int totRigheAggiunte = 0;
 
+            #region WorkSheets sorgente e destinazione
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
             var worksheetSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
 
             // Foglio destinazione
             var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
+            #endregion
+
 
             #region Lettura degli headers del foglio sorgente e foglio destinazione
+            // headers del folio sorgente (Budget, Forecast, RunRate, SuperDettagli)
             var sourceHeadersDictionary = GetHeadersDictionary(workSheet: worksheetSource,
                                         headersRow: souceHeadersRow,
                                         headerFirstColumn: sourceHeadersFirstColumn);
-
-            // Lettura headers del foglio di destinazione
-            //var destHeadersDictionary = new Dictionary<string, int>();
-            //var destCol = destHeadersFirstColumn;
-            //while (wsDest.Cells[destHeadersRow, destCol].Value != null)
-            //{
-            //    string header = wsDest.Cells[destHeadersRow, destCol].Text.Trim().ToLower();
-            //    destHeadersDictionary[header] = destCol;
-            //    destCol++;
-            //}
+            // headers del golio destinazione (Datasource)
             var destHeadersDictionary = GetHeadersDictionary(workSheet: worksheetDest,
                             headersRow: destHeadersRow,
                             headerFirstColumn: destHeadersFirstColumn);
@@ -166,21 +161,23 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
-
-
+            #region Se in modalità append su SuperDettagli preservo le righe il cui valore nella colonna "anno" è diverso da quello scelto come periodo
             if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
             {
+                #region Determino l'indice della colonna "anno"
                 if (!destHeadersDictionary.ContainsKey("anno"))
                 { throw new Exception("il foglio Superdettagli non contiene la colonna 'anno' necessario per gestire l'appnd dei dati"); }
+                var colonnaAnnoIndex = destHeadersDictionary["anno"];
+                #endregion
 
-                var colonnaAnno = destHeadersDictionary["anno"];
+                // scorro le righe esistenti valutanto il valore delle celle della colonna "anno"
                 for (int rowIndex = destHeadersRow + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
                 {
                     // lettura del valore "anno"
-                    if (!int.TryParse(worksheetDest.Cells[rowIndex, colonnaAnno].Value.ToString(), out int anno))
+                    if (!int.TryParse(worksheetDest.Cells[rowIndex, colonnaAnnoIndex].Value.ToString(), out int anno))
                     { throw new Exception($"La riga {rowIndex} colonna 'anno' del foglio 'Superdettagli' non contiene un valore numero (int) come previsto."); }
 
-                    // elimino le righe dell'anno del periodo. Le altre vento preservate
+                    // elimino le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
                     if (anno == Context.PeriodYear)
                     {
                         worksheetDest.DeleteRow(rowIndex, 1, true);
@@ -192,28 +189,19 @@ namespace FilesEditor.Steps.BuildPresentation
                         totRighePreservate++;
                     }
                 }
-
-                // setto la prima da cui cominicare a scrivere 
-                //  destRowIndex = worksheetDest.Dimension.Rows+1;
             }
+            #endregion
 
 
-            // mi posizione sulla prima riga da cui iniziare a scrivere i dati
-            // normalemente la prima riga dopo gli headers ma questo non vale in caso di "SuperDettagli" in modalità "Append"
-            // var destRowIndex = destHeadersRow + 1;
-            //if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
-            //{
-            //    destRowIndex = worksheetSource.Dimension.End.Row;
-            //}
-
-            // riga del foglio di destinazione in cui scrivere la prossima riga
+            // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe
+            // Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga
             var destRowIndex = destHeadersRow + 1;
-            // Determina l'ultima riga con dati nel foglio sorgente
-            var lastRowSource = worksheetSource.Dimension.End.Row;
-            // Copia dati riga per riga, rispettando i nomi delle colonne
-            for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= lastRowSource; rowSourceIndex++)
+
+
+            #region Scorro tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
+            for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= worksheetSource.Dimension.End.Row; rowSourceIndex++)
             {
-                #region verifico che la riga non sia da saltare per via dei filtri non corrispondenti
+                #region Verifico che la riga non sia da saltare per via dei filtri non corrispondenti
                 bool skippaRigaPerFiltro = false;
                 if (filters.Any())
                 {
@@ -242,66 +230,74 @@ namespace FilesEditor.Steps.BuildPresentation
                 { continue; }
                 #endregion
 
-                // Allungo la tabella di un riga in modo da conservare le formule
+                #region Allungo la tabella di un riga in modo da conservare le formule
                 if (sourceFileType != FileTypes.RunRate)
                 {
                     worksheetDest.InsertRow(destRowIndex, 1);
                     totRigheAggiunte++;
                 }
+                #endregion
 
+                #region Copio i valori per le colonne presenti nel foglio di destinazione (uso il dizionario "destHeadersDictionary")
                 foreach (var kvp in destHeadersDictionary)
                 {
+                    // determino l'indice della colonna sul foglio di destinazione
                     var destHeader = kvp.Key;
                     var destColumnIndex = kvp.Value;
 
-                    // trovo la colonna sorgente usando il nome della colonna di destinazione
+                    // determino l'indice della colonnasul foglio sorgente
                     var sourceColumnIndex = sourceHeadersDictionary[destHeader];
 
-                    // prendo il valore dalla sorgente
+                    // prendo il valore dalla cella del foglio sorgente
                     var valueFromSource = worksheetSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
 
-                    // Vengono valutati gli aliases per i campi "Business TMP" e "Categoria" dei file "Budget" e "Forecast"
+                    // Vengono valutate eventuali sostituzioni di valore in base agli aliases dichiarati per i campi "Business TMP" e "Categoria" dei file "Budget" e "Forecast"
                     if (sourceFileType == FileTypes.Budget || sourceFileType == FileTypes.Forecast)
                     { valueFromSource = ApplicaAliasToValue(destHeader, valueFromSource.ToString()); }
 
-                    // lo scrivo nella destinazione
+                    // Scrivo il valore nella cella di destinazione
                     worksheetDest.Cells[destRowIndex, destColumnIndex].Value = valueFromSource;
                 }
+                #endregion
 
                 // avanzo di una riga
                 if (sourceFileType != FileTypes.RunRate)
                 { destRowIndex++; }
             }
+            #endregion
+
+            // ritorno indietro di uno per mantenere il significato del valore (Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga) 
             destRowIndex--;
 
-            // cancello le righe in più, ovvero quelle gia esistenti ma non più utilizzate (esempio ho meno righe dell'aggiornamento precedente)
-            //todo: check funzionamento secondo parametro, dovrebbero essere il numero di righe, sicuramente cosi si abbonda, ma pyò essere un problema?
 
-            destRowIndex += totRighePreservate;
-            // la cancellazione deve avvenire dall'ultima riga indietro in quanto le righe eliminate shiftano verso il basso
+            #region Cancellazione delle righe in più, ovvero quelle gia esistenti ma non più utilizzate (esempio ho meno righe dell'aggiornamento precedente)
             if (sourceFileType != FileTypes.RunRate)
             {
+                // aggiungo al conteggio le righe preservate, in modo da non canellarle
+                destRowIndex += totRighePreservate;
+
+                // la cancellazione deve avvenire dall'ultima riga indietro in quanto le righe eliminate shiftano verso il basso e gli indici delle righe vengono aggiornati
                 for (int rowIndex = worksheetDest.Dimension.Rows; rowIndex > destRowIndex; rowIndex--)
                 {
                     worksheetDest.DeleteRow(rowIndex, 1, true);
                     totRigheEliminate++;
                 }
             }
+            #endregion
 
 
+            #region Per la modalità "Append" della tabella "Superdettagli" è necessario ordinare la tabella
+            // per il campo "anno" in quanto, per preservare le formule, le nuove righe sono state aggiunte immediatamente dopo la riga degli headers
+            // e quindi precedentemente alle righe già esistenti che hanno verosimilmente un numero di anno inferiore
             if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
             {
                 var colonnaAnno = destHeadersDictionary["anno"] - 1;
                 Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnno);
             }
+            #endregion
 
-
-
-
+            // Log delle informazioni
             Context.DebugInfoLogger.LogRigheInputFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
-
-
-
         }
 
         Dictionary<string, int> GetHeadersDictionary(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)

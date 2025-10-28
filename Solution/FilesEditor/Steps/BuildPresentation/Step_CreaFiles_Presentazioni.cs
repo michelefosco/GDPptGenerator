@@ -18,27 +18,27 @@ namespace FilesEditor.Steps.BuildPresentation
         internal override EsitiFinali DoSpecificTask()
         {
             Context.DebugInfoLogger.LogStepContext("Step_CreaFiles_Presentazioni", Context);
-            buildPresentations();
+            BuildPresentations();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
 
-        private void buildPresentations()
+        private void BuildPresentations()
         {
             var outputFileNames = Context.SildeToGenerate.Select(s => s.OutputFileName).Distinct().ToList();
 
             foreach (var outputFileName in outputFileNames)
             {
                 var slideToGenerateList = Context.SildeToGenerate.Where(s => s.OutputFileName == outputFileName).ToList();
-                buildPresentation(outputFileName, slideToGenerateList);
+                BuildPresentation(outputFileName, slideToGenerateList);
             }
         }
 
 
-        private void buildPresentation(string outputFileName, List<SlideToGenerate> slideToGenerateList)
+        private void BuildPresentation(string outputFileName, List<SlideToGenerate> slideToGenerateList)
         {
             #region Ottengo i percorsi dei file
-            var outputfilePath = getOutputFilePath(Context.DestinationFolder, outputFileName);
+            var outputfilePath = GetOutputFilePath(outputFileName);
             #endregion
 
             #region Copio il template nella cartella di output
@@ -97,8 +97,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
                 #region Modifico la textbox del titolo
                 var titleTextBox = slideToEdit.GetTextBoxes().FirstOrDefault(tb => tb.Text.Contains("Titolo"));
-                if (titleTextBox != null)
-                { titleTextBox.SetText(slideToGenerate.Title); }
+                titleTextBox?.SetText(slideToGenerate.Title);
                 #endregion
 
                 // numero di immagini da collocare
@@ -137,7 +136,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     }
                     #endregion
 
-                    addImageToTheSlide(
+                    AddImageToTheSlide(
                         slide: slideToEdit,
                         imageId: slideToGenerate.Contents[imagePosition],
                         boxWidth: boxWidth,
@@ -158,7 +157,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
 
-        private IShape addImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
+        private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
         {
             // Prendo il percoso del file immmagine
             var imgFilePath = Context.ItemsToExportAsImage.First(_ => _.ImageId == imageId).ImageFilePath;
@@ -203,17 +202,14 @@ namespace FilesEditor.Steps.BuildPresentation
 
             return shape;
         }
-        //private string getTemplateFilePath(string dataSourceFilePath)
-        //{
-        //    var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
-        //    var percorsoFileTemplatePowerPoint = System.IO.Path.Combine(sourceFilesFolder, Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
-        //    return percorsoFileTemplatePowerPoint;
-        //}
-        private string getOutputFilePath(string destinationFolder, string outputFileName)
+
+        private string GetOutputFilePath(string outputFileName)
         {
             var outputfilePath = Path.Combine(Context.DestinationFolder, outputFileName);
+            
             if (outputfilePath.EndsWith(".pptx", StringComparison.InvariantCultureIgnoreCase) == false)
             { outputfilePath = outputFileName + ".pptx"; }
+            
             return outputfilePath;
         }
     }
