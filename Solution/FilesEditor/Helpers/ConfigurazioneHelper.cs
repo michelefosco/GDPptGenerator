@@ -72,6 +72,7 @@ namespace FilesEditor.Helpers
 
             #region Cartella "Debug"
             configurazione.AutoSaveDebugFile = true;
+            configurazione.ZipBackupFile = true;            
             #endregion
 
             return configurazione;

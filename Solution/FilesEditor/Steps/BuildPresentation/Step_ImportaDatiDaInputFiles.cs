@@ -162,20 +162,39 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             #region Se in modalità append su SuperDettagli preservo le righe il cui valore nella colonna "anno" è diverso da quello scelto come periodo
-            if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
+            if (sourceFileType == FileTypes.SuperDettagli && Context.AppendCurrentYear_FileSuperDettagli)
             {
                 #region Determino l'indice della colonna "anno"
                 if (!destHeadersDictionary.ContainsKey("anno"))
-                { throw new Exception("il foglio Superdettagli non contiene la colonna 'anno' necessario per gestire l'appnd dei dati"); }
+                { throw new Exception("The sheet “Superdettagli” does not contain the required column “year” needed to handle the data append."); }
                 var colonnaAnnoIndex = destHeadersDictionary["anno"];
                 #endregion
 
+
+                #region Controllo che la sorgente non contenga valori di anno diversi da quello del periodo. In tal caso sollevo un warning
+                for (var rowIndex = souceHeadersRow + 1; rowIndex <= worksheetSource.Dimension.End.Row; rowIndex++)
+                {
+                    // lettura del valore "anno"
+                    if (!int.TryParse(worksheetSource.Cells[rowIndex, colonnaAnnoIndex].Value.ToString(), out int anno))
+                    { throw new Exception($"The row {rowIndex} in the 'anno' column of the input file 'Superdettagli' does not contain an integer number."); }
+
+                    if (anno != Context.PeriodYear)
+                    {
+                        Context.AddWarning($"The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date ({Context.PeriodYear}).");
+                        break;
+                    }
+                }
+                #endregion
+
+
+
+   
                 // scorro le righe esistenti valutanto il valore delle celle della colonna "anno"
                 for (int rowIndex = destHeadersRow + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
                 {
                     // lettura del valore "anno"
                     if (!int.TryParse(worksheetDest.Cells[rowIndex, colonnaAnnoIndex].Value.ToString(), out int anno))
-                    { throw new Exception($"La riga {rowIndex} colonna 'anno' del foglio 'Superdettagli' non contiene un valore numero (int) come previsto."); }
+                    { throw new Exception($"The row {rowIndex} in the 'anno' column of the 'Superdettagli' sheet does not contain an integer number."); }
 
                     // elimino le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
                     if (anno == Context.PeriodYear)
@@ -196,6 +215,7 @@ namespace FilesEditor.Steps.BuildPresentation
             // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe
             // Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga
             var destRowIndex = destHeadersRow + 1;
+
 
 
             #region Scorro tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
@@ -289,10 +309,10 @@ namespace FilesEditor.Steps.BuildPresentation
             #region Per la modalità "Append" della tabella "Superdettagli" è necessario ordinare la tabella
             // per il campo "anno" in quanto, per preservare le formule, le nuove righe sono state aggiunte immediatamente dopo la riga degli headers
             // e quindi precedentemente alle righe già esistenti che hanno verosimilmente un numero di anno inferiore
-            if (sourceFileType == FileTypes.SuperDettagli && !Context.ReplaceAllData_FileSuperDettagli)
+            if (sourceFileType == FileTypes.SuperDettagli && Context.AppendCurrentYear_FileSuperDettagli)
             {
-                var colonnaAnno = destHeadersDictionary["anno"] - 1;
-                Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnno);
+                var colonnaAnnoPositionZeroBased = destHeadersDictionary["anno"] - 1;
+                Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnnoPositionZeroBased);
             }
             #endregion
 

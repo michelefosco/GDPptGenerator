@@ -6,7 +6,7 @@ namespace FilesEditor.Entities.MethodsArgs
     public class BuildPresentationInput : UserInterfaceInputBase
     {
         public string PowerPointTemplateFilePath { get; private set; }
-        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
+        public bool AppendCurrentYear_FileSuperDettagli { get; private set; }
         public DateTime PeriodDate { get; private set; }
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }              
 
@@ -22,7 +22,7 @@ namespace FilesEditor.Entities.MethodsArgs
                 string fileRunRatePath,
                 //
                 string powerPointTemplateFilePath,
-                bool replaceAllData_FileSuperDettagli,
+                bool appendCurrentYear_FileSuperDettagli,
                 DateTime periodDate,
                 List<InputDataFilters_Item> applicablefilters
             )
@@ -60,7 +60,7 @@ namespace FilesEditor.Entities.MethodsArgs
 
             // Properties of the derived class 
             PowerPointTemplateFilePath = powerPointTemplateFilePath;
-            ReplaceAllData_FileSuperDettagli = replaceAllData_FileSuperDettagli;
+            AppendCurrentYear_FileSuperDettagli = appendCurrentYear_FileSuperDettagli;
             PeriodDate = periodDate;
             ApplicableFilters = applicablefilters ?? new List<InputDataFilters_Item>();
         }

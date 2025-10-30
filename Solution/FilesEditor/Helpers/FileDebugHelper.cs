@@ -864,7 +864,7 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DataSourceFilePath", context.DataSourceFilePath);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DebugFilePath", context.DebugFilePath);
             //
-            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ReplaceAllData_FileSuperDettagli", context.ReplaceAllData_FileSuperDettagli);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AppendCurrentYear_FileSuperDettagli", context.AppendCurrentYear_FileSuperDettagli);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "PeriodDate", context.PeriodDate);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileBudgetPath", context.FileBudgetPath);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "FileForecastPath", context.FileForecastPath);

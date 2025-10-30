@@ -3,6 +3,8 @@
     public class Configurazione
     {
         public bool AutoSaveDebugFile { get; set; }
+        public bool ZipBackupFile { get; set; }
+
 
         #region DataSource Template
 
@@ -69,9 +71,7 @@
         //public int INPUT_FILES_RUNRATE_FIRST_DATA_ROW { get; set; }
         #endregion
 
-
         // ----- INPUT FILES
-
         #region Budgets
         public int INPUT_FILES_BUDGET_HEADERS_ROW { get; set; }
         public int INPUT_FILES_BUDGET_HEADERS_FIRST_COL { get; set; }

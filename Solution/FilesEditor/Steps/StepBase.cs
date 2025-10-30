@@ -21,13 +21,6 @@ namespace FilesEditor.Steps
 
 
         #region Utilities
-        internal void AddWarning(string warningMessage)
-        {
-            Context.Warnings.Add(warningMessage);
-            Context.DebugInfoLogger?.LogWarning(warningMessage);
-        }
-
-
         internal string GetTmpFolderImagePathByImageId(string tmpFolderPath, string imageId)
         {
             var imagePath = $"{tmpFolderPath}\\{imageId}.png";

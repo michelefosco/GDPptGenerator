@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace FilesEditor.Tests
 {
@@ -57,7 +58,7 @@ namespace FilesEditor.Tests
                     fileRunRatePath: fileRunRatePat,
                     //
                     powerPointTemplateFilePath: powerPointTemplateFilePath,
-                    replaceAllData_FileSuperDettagli: replaceAllData_FileSuperDettagli,
+                    appendCurrentYear_FileSuperDettagli: replaceAllData_FileSuperDettagli,
                     periodDate: periodDate,
                     applicablefilters: applicablefilters
                     );
@@ -72,7 +73,8 @@ namespace FilesEditor.Tests
             Assert.AreEqual(3, output.OutputFilePathLists.Count);
 
             // numero di warnings sollevati
-            Assert.AreEqual(0, output.Warnings.Count);
+            Assert.AreEqual(1, output.Warnings.Count);
+            Assert.IsTrue(output.Warnings.Any(_ => _.Contains("The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date")));
 
             // numero di immagini generate su file system
             var filesInTmpFolder = Directory.GetFiles(tmpFolder);

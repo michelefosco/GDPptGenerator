@@ -120,16 +120,9 @@ namespace PptGeneratorGUI
 
             FillComboBoxes();
 
-            SetDefaultsFor_ReplaceAll_CheckBoxes();
-
             SetDefaultDatePeriodo();
 
             lblVersion.Text = $"Version: {GetVersion()}";
-        }
-
-        private void SetDefaultsFor_ReplaceAll_CheckBoxes()
-        {
-            cbReplaceAllDataFileSuperDettagli.Checked = true;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -714,6 +707,8 @@ namespace PptGeneratorGUI
             FillComboBoxes();
 
             SetStatusLabel("Processing in progress...");
+            lblElaborazioneInCorso.Visible = true;
+            Application.DoEvents();
 
             var buildPresentationInput = new BuildPresentationInput(
                 // proprietà classe base
@@ -728,7 +723,7 @@ namespace PptGeneratorGUI
                 fileRunRatePath: SelectedFileRunRatePath,
                  //
                 powerPointTemplateFilePath: PowerPointTemplateFilePath,
-                replaceAllData_FileSuperDettagli: cbReplaceAllDataFileSuperDettagli.Checked,
+                appendCurrentYear_FileSuperDettagli: cbAppendCurrentYearSuperDettagli.Checked,
                 periodDate: _selectedDatePeriodo,
                 applicablefilters: _applicablefilters
                 );
@@ -740,6 +735,8 @@ namespace PptGeneratorGUI
                 var output = Editor.BuildPresentation(buildPresentationInput);
                 //  toolStripProgressBar.Visible = false;
                 btnBuildPresentation.Enabled = true;
+                lblElaborazioneInCorso.Visible = false;
+                Application.DoEvents();
 
                 if (output.Esito == EsitiFinali.Success)
                 {
@@ -757,9 +754,10 @@ namespace PptGeneratorGUI
             }
             catch (Exception ex)
             {
+                btnBuildPresentation.Enabled = true;
+                lblElaborazioneInCorso.Visible = false;
                 showExpetion(ex);
             }
-
         }
 
         private void buildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -1071,8 +1069,7 @@ namespace PptGeneratorGUI
             SelectedFileRunRatePath = string.Empty;
             SelectedDestinationFolderPath = string.Empty;
 
-            //todo: default for this??
-            cbReplaceAllDataFileSuperDettagli.Checked = true;
+            cbAppendCurrentYearSuperDettagli.Checked = true;
 
             RefreshUI(true);
         }

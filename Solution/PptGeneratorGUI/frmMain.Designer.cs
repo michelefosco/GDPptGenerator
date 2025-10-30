@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -81,7 +81,7 @@
             this.calendarPeriodo = new System.Windows.Forms.MonthCalendar();
             this.pnlCalendar = new System.Windows.Forms.Panel();
             this.gbPaths = new System.Windows.Forms.GroupBox();
-            this.cbReplaceAllDataFileSuperDettagli = new System.Windows.Forms.CheckBox();
+            this.cbAppendCurrentYearSuperDettagli = new System.Windows.Forms.CheckBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.validaInputBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -91,6 +91,7 @@
             this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
+            this.lblElaborazioneInCorso = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -493,7 +494,7 @@
             this.cmbFileSuperDettagliPath.FormattingEnabled = true;
             this.cmbFileSuperDettagliPath.Location = new System.Drawing.Point(105, 94);
             this.cmbFileSuperDettagliPath.Name = "cmbFileSuperDettagliPath";
-            this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(860, 21);
+            this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(828, 21);
             this.cmbFileSuperDettagliPath.TabIndex = 12;
             this.cmbFileSuperDettagliPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileSuperDettagliPath_SelectedIndexChanged);
             this.cmbFileSuperDettagliPath.TextUpdate += new System.EventHandler(this.cmbFileSuperDettagliPath_TextUpdate);
@@ -549,14 +550,14 @@
             this.dgvFiltri.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFiltri.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFiltri.CausesValidation = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Table,
@@ -621,7 +622,7 @@
             // 
             this.gbPaths.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbPaths.Controls.Add(this.cbReplaceAllDataFileSuperDettagli);
+            this.gbPaths.Controls.Add(this.cbAppendCurrentYearSuperDettagli);
             this.gbPaths.Controls.Add(this.lblFileBudgetPath);
             this.gbPaths.Controls.Add(this.btnSelectFileBudget);
             this.gbPaths.Controls.Add(this.cmbFileBudgetPath);
@@ -653,16 +654,18 @@
             this.gbPaths.TabStop = false;
             this.gbPaths.Text = "Paths";
             // 
-            // cbReplaceAllDataFileSuperDettagli
+            // cbAppendCurrentYearSuperDettagli
             // 
-            this.cbReplaceAllDataFileSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbReplaceAllDataFileSuperDettagli.AutoSize = true;
-            this.cbReplaceAllDataFileSuperDettagli.Location = new System.Drawing.Point(974, 97);
-            this.cbReplaceAllDataFileSuperDettagli.Name = "cbReplaceAllDataFileSuperDettagli";
-            this.cbReplaceAllDataFileSuperDettagli.Size = new System.Drawing.Size(90, 17);
-            this.cbReplaceAllDataFileSuperDettagli.TabIndex = 13;
-            this.cbReplaceAllDataFileSuperDettagli.Text = "Replace data";
-            this.cbReplaceAllDataFileSuperDettagli.UseVisualStyleBackColor = true;
+            this.cbAppendCurrentYearSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAppendCurrentYearSuperDettagli.AutoSize = true;
+            this.cbAppendCurrentYearSuperDettagli.Checked = true;
+            this.cbAppendCurrentYearSuperDettagli.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbAppendCurrentYearSuperDettagli.Location = new System.Drawing.Point(939, 97);
+            this.cbAppendCurrentYearSuperDettagli.Name = "cbAppendCurrentYearSuperDettagli";
+            this.cbAppendCurrentYearSuperDettagli.Size = new System.Drawing.Size(125, 17);
+            this.cbAppendCurrentYearSuperDettagli.TabIndex = 13;
+            this.cbAppendCurrentYearSuperDettagli.Text = "Append current year:";
+            this.cbAppendCurrentYearSuperDettagli.UseVisualStyleBackColor = true;
             // 
             // gbOptions
             // 
@@ -741,11 +744,25 @@
             this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
             this.bfbDestFolder.Title = "Please select a folder...";
             // 
+            // lblElaborazioneInCorso
+            // 
+            this.lblElaborazioneInCorso.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblElaborazioneInCorso.AutoSize = true;
+            this.lblElaborazioneInCorso.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(130, 679);
+            this.lblElaborazioneInCorso.Name = "lblElaborazioneInCorso";
+            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(921, 46);
+            this.lblElaborazioneInCorso.TabIndex = 54;
+            this.lblElaborazioneInCorso.Text = "Working in progress...it might take several minutes.";
+            this.lblElaborazioneInCorso.Visible = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 911);
+            this.Controls.Add(this.lblElaborazioneInCorso);
             this.Controls.Add(this.btnValidaInput);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.gbPaths);
@@ -826,7 +843,7 @@
         private System.Windows.Forms.GroupBox gbOptions;
         private System.Windows.Forms.Button btnValidaInput;
         private System.ComponentModel.BackgroundWorker validaInputBackgroundWorker;
-        private System.Windows.Forms.CheckBox cbReplaceAllDataFileSuperDettagli;
+        private System.Windows.Forms.CheckBox cbAppendCurrentYearSuperDettagli;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem clearPathsHistoryToolStripMenuItem;
@@ -837,6 +854,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Field;
         private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
         private System.Windows.Forms.DataGridViewTextBoxColumn SelectedValues;
+        private System.Windows.Forms.Label lblElaborazioneInCorso;
     }
 }
 

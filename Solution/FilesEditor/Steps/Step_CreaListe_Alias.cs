@@ -55,7 +55,7 @@ namespace FilesEditor.Steps
                 // Loggo un warning per ogni alias scritto male
                 if (string.IsNullOrEmpty(rawValues) || string.IsNullOrEmpty(newValue))
                 {
-                    AddWarning($"The alias declared in the worksheet '{worksheetName}' at line: {currentRowNumber} is incomplete.");
+                    Context.AddWarning($"The alias declared in the worksheet '{worksheetName}' at line: {currentRowNumber} is incomplete.");
                     continue;
                 }
 

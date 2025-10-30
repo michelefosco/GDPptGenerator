@@ -22,7 +22,7 @@ namespace FilesEditor.Entities
         // FileRunRatePath
 
         // Input specifico di uno o più metodi
-        public bool ReplaceAllData_FileSuperDettagli { get; private set; }
+        public bool AppendCurrentYear_FileSuperDettagli { get; private set; }
         public string PowerPointTemplateFilePath { get; private set; }
 
         #region Period
@@ -108,10 +108,11 @@ namespace FilesEditor.Entities
             base.FileRunRatePath = input.FileRunRatePath;
             //
             PowerPointTemplateFilePath= input.PowerPointTemplateFilePath;
-            ReplaceAllData_FileSuperDettagli = input.ReplaceAllData_FileSuperDettagli;
+            AppendCurrentYear_FileSuperDettagli = input.AppendCurrentYear_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
             ApplicableFilters = input.ApplicableFilters ?? new List<InputDataFilters_Item>();
         }
+ 
         public void SetContextFromInput(ValidateSourceFilesInput input)
         {
             if (input == null) { throw new ArgumentNullException("input"); }
@@ -125,6 +126,12 @@ namespace FilesEditor.Entities
             base.FileForecastPath = input.FileForecastPath;
             base.FileSuperDettagliPath = input.FileSuperDettagliPath;
             base.FileRunRatePath = input.FileRunRatePath;
+        }
+
+        internal void AddWarning(string warningMessage)
+        {
+            Warnings.Add(warningMessage);
+            DebugInfoLogger?.LogWarning(warningMessage);
         }
     }
 }
