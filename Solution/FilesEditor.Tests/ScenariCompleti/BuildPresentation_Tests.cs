@@ -79,6 +79,13 @@ namespace FilesEditor.Tests
             // numero di immagini generate su file system
             var filesInTmpFolder = Directory.GetFiles(tmpFolder);
             Assert.AreEqual(14, filesInTmpFolder.Length);
+
+            var ePPlusHelper = new EPPlusExtensions.EPPlusHelper();
+            ePPlusHelper.Open(dataSourceFilePath);
+
+            // numero righe nel foglio "SuperDettagli" del file DataSource
+            //2 riga intestazione + 1 riga esistente + 6 appese
+            Assert.AreEqual(2 + 1 + 6, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
         }
     }
 }

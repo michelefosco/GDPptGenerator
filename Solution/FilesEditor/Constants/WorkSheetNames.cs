@@ -1,6 +1,6 @@
 ﻿namespace FilesEditor.Constants
 {
-    internal class WorksheetNames
+    public class WorksheetNames
     {
         // Data Source
         public const string DATASOURCE_CONFIGURATION = "Powerpoint Configuration";

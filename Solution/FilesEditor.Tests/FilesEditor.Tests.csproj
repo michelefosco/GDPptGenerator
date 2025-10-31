@@ -78,6 +78,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EPPlusExtensions\EPPlusExtensions.csproj">
+      <Project>{b2e0fad0-f0a8-41f5-8f27-5d649af947fb}</Project>
+      <Name>EPPlusExtensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FilesEditor\FilesEditor.csproj">
       <Project>{f85777cc-75de-4b11-9c69-efd39243e1b9}</Project>
       <Name>FilesEditor</Name>

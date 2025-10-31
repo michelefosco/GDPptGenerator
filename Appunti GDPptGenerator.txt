@@ -49,8 +49,7 @@ Organizzare
 
 
 -------------------- Todo
-- "Append current year" DEFAULT Checked
-- Warning in caso di anni non correnti presenti (solo in modalità append)
+- thread separato per generazione presentazione in editot
 - Forcast e Budget sono identici tranne forse una colonna vuota a sinistra
 - Lettura di Forecast e Budget con la nuova struttura
  - Test validazione file sono su Forecast e Budget
@@ -80,6 +79,7 @@ Organizzare
 
 
 (Opzionali o per proposte successive)
+- zip del file?
 - Aggiungere testo "Possibile soluzione" alle properties di ManagedExpetion?
 - Se la configurazione non ha neanche una presentazione come output non parto
 - Unit tests per Aliases
