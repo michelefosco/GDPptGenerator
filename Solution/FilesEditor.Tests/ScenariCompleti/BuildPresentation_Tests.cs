@@ -16,7 +16,7 @@ namespace FilesEditor.Tests
         public void Scenario_OK_01()
         {
             // properties base class
-            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILES_FOLDER);
+            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILE_FOLDER);
             string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
             string powerPointTemplateFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);

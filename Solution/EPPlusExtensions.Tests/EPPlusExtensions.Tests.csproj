@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
-    <Compile Include="Constants\InputfileNames.cs" />
+    <Compile Include="Constants\SourceFileNames.cs" />
     <Compile Include="TestsOnOperations\Open_Operation.cs" />
     <Compile Include="TestsOnOperations\Pivot_Operations.cs" />
     <Compile Include="TestsOnOperations\Read_Operations.cs" />

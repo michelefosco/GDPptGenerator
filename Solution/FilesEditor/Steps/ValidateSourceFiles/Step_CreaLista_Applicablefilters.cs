@@ -34,7 +34,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
             Fill_ApplicableFilters_FromConfigurazione(Context.EpplusHelperDataSource, Context.Configurazione, Context.ApplicableFilters);
-            FillApplicableFiltersWithValues_FromInputFiles(Context.ApplicableFilters);
+            FillApplicableFiltersWithValues_FromSourceFiles(Context.ApplicableFilters);
         }
 
 
@@ -84,7 +84,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             // return filtriPossibili;
         }
 
-        private void FillApplicableFiltersWithValues_FromInputFiles(List<InputDataFilters_Item> applicablefilters)
+        private void FillApplicableFiltersWithValues_FromSourceFiles(List<InputDataFilters_Item> applicablefilters)
         {
             foreach (var applicablefilter in applicablefilters)
             {
@@ -92,33 +92,33 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 {
 
                     case InputDataFilters_Tables.SUPERDETTAGLI:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileSuperDettagliPath,
-                                worksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
+                                worksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,
                                 headersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.FORECAST:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileForecastPath,
-                                worksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
+                                worksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
                                 headersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.BUDGET:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileBudgetPath,
-                                worksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
+                                worksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
                                 fileType: FileTypes.Budget,
                                 headersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
                         break;
                     case InputDataFilters_Tables.RUNRATE:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromInputFile(
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileRunRatePath,
-                                worksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
+                                worksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
                                 headersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName);
@@ -131,7 +131,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
         }
 
-        private List<string> GetApplicableFiltersValues_FromInputFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
+        private List<string> GetApplicableFiltersValues_FromSourceFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
         {
             var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
 

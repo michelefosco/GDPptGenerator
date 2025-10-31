@@ -11,7 +11,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void Open_WithRightFilePath_ReturnsTrue()
         {
             // GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
 
             // WHEN
             var openSuccess = ExcelHelper.Open(filePath);
@@ -25,7 +25,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void Create_WorksOK()
         {
             // GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.OUTPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.OUTPUT_FILE_001);
             if (File.Exists(filePath))
                 File.Delete(filePath);
 

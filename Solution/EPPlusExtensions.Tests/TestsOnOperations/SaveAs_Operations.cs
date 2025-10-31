@@ -12,8 +12,8 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void SaveAs_WorksOK()
         {
             // GIVEN
-            var originFilePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
-            var savedAsFilePath = Path.Combine(TestFileFolderPath, "NewNameFor_" + InputfileNames.INPUT_FILE_001);
+            var originFilePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
+            var savedAsFilePath = Path.Combine(TestFileFolderPath, "NewNameFor_" + SourceFileNames.INPUT_FILE_001);
 
             // This makes sure the saveAs file does not exist
             if (File.Exists(savedAsFilePath)) { File.Delete(savedAsFilePath); }

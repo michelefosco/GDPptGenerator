@@ -57,16 +57,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="TestFiles\InputFiles\Budget.xlsx">
+    <None Include="TestFiles\SourceFiles\Budget.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\Forecast.xlsx">
+    <None Include="TestFiles\SourceFiles\Forecast.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\RunRate.xlsx">
+    <None Include="TestFiles\SourceFiles\RunRate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\Superdettagli.xlsx">
+    <None Include="TestFiles\SourceFiles\Superdettagli.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

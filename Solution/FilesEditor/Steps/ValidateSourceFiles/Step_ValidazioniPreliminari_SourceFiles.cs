@@ -8,29 +8,29 @@ namespace FilesEditor.Steps.ValidateSourceFiles
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_ValidazioniPreliminari_InputFiles : StepBase
+    internal class Step_ValidazioniPreliminari_SourceFiles : StepBase
     {
-        public Step_ValidazioniPreliminari_InputFiles(StepContext context) : base(context)
+        public Step_ValidazioniPreliminari_SourceFiles(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ValidazioniPreliminari_InputFiles", Context);
-            validazioniPreliminari_InputFiles();
+            Context.DebugInfoLogger.LogStepContext("Step_ValidazioniPreliminari_SourceFiles", Context);
+            validazioniPreliminari_SourceFiles();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        internal void validazioniPreliminari_InputFiles()
+        internal void validazioniPreliminari_SourceFiles()
         {
             validazioniPreliminari_Comuni(
                  datasourceWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL,
                  //
-                 inputFilePath: Context.FileBudgetPath,
-                 inputFileType: FileTypes.Budget,
-                 inputFileWorksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
-                 inputFileHeadersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW
+                 sourceFilePath: Context.FileBudgetPath,
+                 sourceFileType: FileTypes.Budget,
+                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
+                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
@@ -38,10 +38,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL,
                  //
-                 inputFilePath: Context.FileForecastPath,
-                 inputFileType: FileTypes.Forecast,
-                 inputFileWorksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
-                 inputFileHeadersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW
+                 sourceFilePath: Context.FileForecastPath,
+                 sourceFileType: FileTypes.Forecast,
+                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
+                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
@@ -49,10 +49,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL,
                  //
-                 inputFilePath: Context.FileRunRatePath,
-                 inputFileType: FileTypes.RunRate,
-                 inputFileWorksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
-                 inputFileHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW
+                 sourceFilePath: Context.FileRunRatePath,
+                 sourceFileType: FileTypes.RunRate,
+                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
+                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
@@ -60,10 +60,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL,
                  //
-                 inputFilePath: Context.FileSuperDettagliPath,
-                 inputFileType: FileTypes.SuperDettagli,
-                 inputFileWorksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
-                 inputFileHeadersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW
+                 sourceFilePath: Context.FileSuperDettagliPath,
+                 sourceFileType: FileTypes.SuperDettagli,
+                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
+                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW
                 );
         }
 
@@ -72,10 +72,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             int datasourceWorksheetHeadersRow,
             int datasourceWorksheetHeadersFirstColumn,
             //
-            string inputFilePath,
-            FileTypes inputFileType,
-            string inputFileWorksheetName,
-            int inputFileHeadersRow)
+            string sourceFilePath,
+            FileTypes sourceFileType,
+            string sourceFileWorksheetName,
+            int sourceFileHeadersRow)
         {
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
             // var dataSourceEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
@@ -83,13 +83,13 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
-            var inputFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(inputFilePath, inputFileType);
+            var sourceFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(sourceFilePath, sourceFileType);
 
             // Controllo che ci sia il foglio da cui leggere i dati
-            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(sourceFileEPPlusHelper, sourceFileWorksheetName, sourceFileType);
 
             // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
-            EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(inputFileEPPlusHelper, inputFileWorksheetName, inputFileType, inputFileHeadersRow, expectedHeadersColumns);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(sourceFileEPPlusHelper, sourceFileWorksheetName, sourceFileType, sourceFileHeadersRow, expectedHeadersColumns);
             #endregion
         }
     }

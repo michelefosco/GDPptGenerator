@@ -11,7 +11,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void GetWorksheetNames_WorksOK()
         {
             // GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
             ExcelHelper.Open(filePath);
 
             // WHEN
@@ -31,7 +31,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void GetRowsLimit_WorksOK()
         {
             // GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_002);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_002);
             ExcelHelper.Open(filePath);
 
             // WHEN
@@ -53,7 +53,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void IsFormula(int row, int column, bool expectedIsFormula)
         {
             // GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
             ExcelHelper.Open(filePath);
 
             // WHEN
@@ -70,7 +70,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void WorksheetExists(string worksheetName, bool expectedHasWorksheetCells)
         {
             // GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
             ExcelHelper.Open(filePath);
 
             // WHEN

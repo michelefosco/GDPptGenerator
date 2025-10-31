@@ -1,6 +1,6 @@
 ﻿namespace EPPlusExtensions.Tests.Constants
 {
-    public class InputfileNames
+    public class SourceFileNames
     {
         public const string INPUT_FILE_001 = "InputTestFile_001.xlsx";
         public const string INPUT_FILE_002 = "InputTestFile_002.xlsx";

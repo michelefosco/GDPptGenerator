@@ -19,7 +19,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void GetLastUsedRowForColumn(int colonna, int expectedLastUsedRowForColumn, bool ignoreBlanks)
         {
             //GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
             ExcelHelper.Open(filePath);
 
             // WHEN
@@ -40,7 +40,7 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         public void GetFirstRowWithAnyValue(int colonna, int expectedLastUsedRowForColumn, bool ignoreBlanks)
         {
             //GIVEN
-            var filePath = Path.Combine(TestFileFolderPath, InputfileNames.INPUT_FILE_001);
+            var filePath = Path.Combine(TestFileFolderPath, SourceFileNames.INPUT_FILE_001);
             ExcelHelper.Open(filePath);
 
             // WHEN

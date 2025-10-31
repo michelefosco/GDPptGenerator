@@ -13,9 +13,9 @@
         public const string DATASOURCE_RUN_RATE_DATA = "RunRate";
         public const string DATASOURCE_SUPERDETTAGLI_DATA = "Superdettagli";
         //
-        public const string INPUTFILES_BUDGET_DATA = "Sheet1";
-        public const string INPUTFILES_FORECAST_DATA = "Sheet1";
-        public const string INPUTFILES_RUN_RATE_DATA = "Sheet1";
-        public const string INPUTFILES_SUPERDETTAGLI_DATA = "Sheet1";
+        public const string SOURCEFILE_BUDGET_DATA = "Sheet1";
+        public const string SOURCEFILE_FORECAST_DATA = "Sheet1";
+        public const string SOURCEFILE_RUN_RATE_DATA = "Sheet1";
+        public const string SOURCEFILE_SUPERDETTAGLI_DATA = "Sheet1";
     }
 }

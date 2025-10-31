@@ -36,7 +36,7 @@ namespace FilesEditor
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_DebugInfoLogger(context),
-                    new Step_ValidazioniPreliminari_InputFiles(context),
+                    new Step_ValidazioniPreliminari_SourceFiles(context),
                     new Step_CreaLista_Applicablefilters(context),
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
@@ -83,14 +83,14 @@ namespace FilesEditor
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_DebugInfoLogger(context),
-                    new Step_ValidazioniPreliminari_InputFiles(context),
+                    new Step_ValidazioniPreliminari_SourceFiles(context),
                     new Step_VerificaEditabilita_DataSource_File(context),
                     new Step_TmpFolder_Predisposizione(context),
                     new Step_BackupFile_DataSource(context),
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
-                    new Step_ImportaDatiDaInputFiles(context),
+                    new Step_ImportaDatiDaSourceFiles(context),
                     new Step_AttivazioneOpzioneRefreshOnLoad(context),
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),

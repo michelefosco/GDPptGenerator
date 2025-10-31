@@ -11,19 +11,19 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_ImportaDatiDaInputFiles : StepBase
+    internal class Step_ImportaDatiDaSourceFiles : StepBase
     {
-        public Step_ImportaDatiDaInputFiles(StepContext context) : base(context)
+        public Step_ImportaDatiDaSourceFiles(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDaInputFiles", Context);
+            Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDaSourceFiles", Context);
 
-            ImportaInputFile(
+            ImportaSourceFile(
                     sourceFileType: FileTypes.Budget,
                     sourceFilePath: Context.FileBudgetPath,
-                    sourceWorksheetName: WorksheetNames.INPUTFILES_BUDGET_DATA,
+                    sourceWorksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
                     souceHeadersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
                     sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_FIRST_COL,
                     //
@@ -32,10 +32,10 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
                 );
 
-            ImportaInputFile(
+            ImportaSourceFile(
                     sourceFileType: FileTypes.Forecast,
                     sourceFilePath: Context.FileForecastPath,
-                    sourceWorksheetName: WorksheetNames.INPUTFILES_FORECAST_DATA,
+                    sourceWorksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
                     souceHeadersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
                     sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_FIRST_COL,
                     //
@@ -44,10 +44,10 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
                 );
 
-            ImportaInputFile(
+            ImportaSourceFile(
                     sourceFileType: FileTypes.RunRate,
                     sourceFilePath: Context.FileRunRatePath,
-                    sourceWorksheetName: WorksheetNames.INPUTFILES_RUN_RATE_DATA,
+                    sourceWorksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
                     souceHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
                     sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL,
                     //
@@ -56,10 +56,10 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
                 );
 
-            ImportaInputFile(
+            ImportaSourceFile(
                     sourceFileType: FileTypes.SuperDettagli,
                     sourceFilePath: Context.FileSuperDettagliPath,
-                    sourceWorksheetName: WorksheetNames.INPUTFILES_SUPERDETTAGLI_DATA,
+                    sourceWorksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
                     souceHeadersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
                     sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL,
                     //
@@ -74,7 +74,7 @@ namespace FilesEditor.Steps.BuildPresentation
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void ImportaInputFile(
+        private void ImportaSourceFile(
                 FileTypes sourceFileType,
                 string sourceFilePath,
                 string sourceWorksheetName,
@@ -317,7 +317,7 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
             // Log delle informazioni
-            Context.DebugInfoLogger.LogRigheInputFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
+            Context.DebugInfoLogger.LogRigheSourceFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
         }
 
         Dictionary<string, int> GetHeadersDictionary(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)

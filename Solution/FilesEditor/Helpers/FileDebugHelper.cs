@@ -15,7 +15,7 @@ namespace FilesEditor.Helpers
             public const string Log = "Log";
             public const string StepContext = "StepContext";
             public const string Warnings = "Warnings";
-            public const string RigheInputFiles = "Righe input files";
+            public const string RigheSourceFiles = "Righe input files";
 
 
 
@@ -207,11 +207,11 @@ namespace FilesEditor.Helpers
             AutoSave();
         }
 
-        internal void LogRigheInputFiles(FileTypes fileType, int totRighePreservate, int totRigheEliminate, int totRigheAggiunte)
+        internal void LogRigheSourceFiles(FileTypes fileType, int totRighePreservate, int totRigheEliminate, int totRigheAggiunte)
         {
             if (_epPlusHelper == null) { return; }
 
-            var worksheetName = WorkSheetNames.RigheInputFiles;
+            var worksheetName = WorkSheetNames.RigheSourceFiles;
 
             _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe preservate:", totRighePreservate);
             _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe eliminate:", totRigheEliminate);
