@@ -114,18 +114,17 @@ namespace EPPlusExtensions
             if (value_10 != null) { currentWorksheet.Cells[row, firstColumnToBeUsed + 9].Value = value_10; }
         }
 
-        public void SetVariableInNameManager(string variableName, string value)
+        public void SetVariableInNameManager(string variableName, object value)
         {
             if (_excelPackage.Workbook.Names.ContainsKey(variableName))
             {
                 // Aggiorna la variabile esistente
-                var named = _excelPackage.Workbook.Names[variableName];
-                named.Formula = variableName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                _excelPackage.Workbook.Names[variableName].Value = value.ToString();
             }
             else
             {
                 // Crea una variabile (di tipo "Named Formula") con valore costante
-                _excelPackage.Workbook.Names.AddFormula(variableName, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                _excelPackage.Workbook.Names.AddValue(variableName, value.ToString());
             }
         }
 
