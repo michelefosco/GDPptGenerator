@@ -29,7 +29,7 @@ namespace FilesEditor.Entities
         public DateTime PeriodDate { get; private set; }
         public int PeriodYear { get { return PeriodDate.Year; } }
         public int PeriodMont { get { return PeriodDate.Month; } }
-        public int PeriodQuarter { get { return (int)((PeriodDate.Month + 2) / 3); } }
+        public string PeriodQuarter { get { return $"Q{(int)((PeriodDate.Month + 2) / 3)}"; } }
         #endregion
 
         public Configurazione Configurazione { get; private set; }

@@ -99,7 +99,7 @@ namespace PptGeneratorGUI
             {
                 string exePath = Assembly.GetExecutingAssembly().Location;
                 string exeDir = Path.GetDirectoryName(exePath);
-                var sourceFilesFolder = Path.Combine(exeDir, "SourceFile");
+                var sourceFilesFolder = Path.Combine(exeDir, "DataSourceFolder");
                 return Path.Combine(sourceFilesFolder, FileNames.DATASOURCE_FILENAME);
             }
         }

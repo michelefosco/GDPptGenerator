@@ -52,16 +52,20 @@ namespace FilesEditor.Tests
         public void TestCleanup()
         { }
 
+        public static string BinFolderPath
+        {
+            get
+            {
+                return  Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
+            }
+        }
 
         public static string TestFileFolderPath
         {
             get
             {
-                var binFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
-                return Path.Combine(binFolder, TEST_FILES_FOLDER);
+                return Path.Combine(BinFolderPath, TEST_FILES_FOLDER);
             }
         }
-
-
     }
 }

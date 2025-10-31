@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -113,11 +114,24 @@ namespace EPPlusExtensions
             if (value_10 != null) { currentWorksheet.Cells[row, firstColumnToBeUsed + 9].Value = value_10; }
         }
 
+        public void SetVariableInNameManager(string variableName, string value)
+        {
+            if (_excelPackage.Workbook.Names.ContainsKey(variableName))
+            {
+                // Aggiorna la variabile esistente
+                var named = _excelPackage.Workbook.Names[variableName];
+                named.Formula = variableName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                // Crea una variabile (di tipo "Named Formula") con valore costante
+                _excelPackage.Workbook.Names.AddFormula(variableName, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            }
+        }
+
         public void CleanCellsContent(string worksheetName, int fromRow, int fromCol, int toRow, int toCol)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
-            //var excelRange = currentWorksheet.Cells[fromRow, fromCol, toRow, toCol];
-            // excelRange.Clear();
             for (var row = fromRow; row <= toRow; row++)
             {
                 for (var col = fromCol; col <= toCol; col++)

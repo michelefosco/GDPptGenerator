@@ -69,7 +69,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 );
 
             // todo: salvare subito o lasciare tutto l'operazione finale?
-            Context.EpplusHelperDataSource.ExcelPackage.Save();
+            //Context.EpplusHelperDataSource.Save();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

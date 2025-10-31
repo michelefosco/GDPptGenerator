@@ -16,9 +16,11 @@ namespace FilesEditor.Tests
         public void Scenario_OK_01()
         {
             // properties base class
-            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILE_FOLDER);
+            string powerPointTemplateFilePath = Path.Combine(BinFolderPath, FilesEditor.Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+
+            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
             string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
-            string powerPointTemplateFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
             string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
             string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
@@ -28,7 +30,7 @@ namespace FilesEditor.Tests
             string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
             string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
             string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
-            bool replaceAllData_FileSuperDettagli = true;
+            bool appendCurrentYear_FileSuperDettagli = true;
             DateTime periodDate = DateTime.Today;
             //todo: settare filtri utili e valutarte gli effetti
             //var applicablefilters = new List<InputDataFilters_Item>
@@ -58,7 +60,7 @@ namespace FilesEditor.Tests
                     fileRunRatePath: fileRunRatePat,
                     //
                     powerPointTemplateFilePath: powerPointTemplateFilePath,
-                    appendCurrentYear_FileSuperDettagli: replaceAllData_FileSuperDettagli,
+                    appendCurrentYear_FileSuperDettagli: appendCurrentYear_FileSuperDettagli,
                     periodDate: periodDate,
                     applicablefilters: applicablefilters
                     );

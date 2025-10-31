@@ -13,7 +13,7 @@ namespace FilesEditor.Tests
         public void Scenario_OK_01()
         {
             // properties base class
-            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.SOURCEFILE_FOLDER);
+            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
             string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
             string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
             string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);

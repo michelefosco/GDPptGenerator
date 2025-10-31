@@ -24,7 +24,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void tryToSaveDataSourceFile()
         {
-            if (!Context.EpplusHelperDataSource.Save())
+            var testSaveDataSourcePassed = Context.EpplusHelperDataSource.Save();
+            if (!testSaveDataSourcePassed)
             {
                 throw new ManagedException(
                     filePath: Context.EpplusHelperDataSource.FilePathInUse,

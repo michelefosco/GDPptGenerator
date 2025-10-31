@@ -2,7 +2,7 @@
 {
     internal class TestPaths
     {
-        public const string SOURCEFILE_FOLDER = "SourceFile";
+        public const string DATASOURCE_FOLDER = "DataSourceFolder";
         //
         public const string INPUT_BUDGET_FILE = "SourceFiles\\Budget.xlsx";
         public const string INPUT_FORECAST_FILE = "SourceFiles\\Forecast.xlsx";

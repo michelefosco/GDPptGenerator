@@ -91,7 +91,9 @@ namespace FilesEditor
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
                     new Step_ImportaDatiDaSourceFiles(context),
+                    new Step_ImpostaVarabiliInNameManager(context),                    
                     new Step_AttivazioneOpzioneRefreshOnLoad(context),
+                    new Step_SalvaFile_DataSource(context),                    
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),
                     new Step_CreaFiles_Presentazioni(context),
