@@ -44,17 +44,17 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
                 );
 
-            ImportaSourceFile(
-                    sourceFileType: FileTypes.RunRate,
-                    sourceFilePath: Context.FileRunRatePath,
-                    sourceWorksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
-                    souceHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
-                    sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL,
-                    //
-                    destWorksheetName: WorksheetNames.DATASOURCE_RUN_RATE_DATA,
-                    destHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
-                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
-                );
+            //ImportaSourceFile(
+            //        sourceFileType: FileTypes.RunRate,
+            //        sourceFilePath: Context.FileRunRatePath,
+            //        sourceWorksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
+            //        souceHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
+            //        sourceHeadersFirstColumn: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL,
+            //        //
+            //        destWorksheetName: WorksheetNames.DATASOURCE_RUN_RATE_DATA,
+            //        destHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
+            //        destHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL
+            //    );
 
             ImportaSourceFile(
                     sourceFileType: FileTypes.SuperDettagli,
@@ -65,7 +65,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     //
                     destWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
                     destHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
-                    destHeadersFirstColumn: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
+                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL
                 );
 
             // todo: salvare subito o lasciare tutto l'operazione finale?

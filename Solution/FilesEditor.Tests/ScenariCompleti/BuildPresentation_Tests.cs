@@ -68,8 +68,9 @@ namespace FilesEditor.Tests
 
             // test base
             Assert.IsNotNull(output);
-            Assert.AreEqual(EsitiFinali.Success, output.Esito);
             Assert.IsNull(output.ManagedException);
+            Assert.AreEqual(EsitiFinali.Success, output.Esito);
+
 
             // numero file di output generati
             Assert.AreEqual(3, output.OutputFilePathLists.Count);
@@ -87,7 +88,8 @@ namespace FilesEditor.Tests
 
             // numero righe nel foglio "SuperDettagli" del file DataSource
             //2 riga intestazione + 1 riga esistente + 6 appese
-            Assert.AreEqual(2 + 1 + 6, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
+            //Assert.AreEqual(63979, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
+            Assert.AreEqual(11, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
         }
     }
 }

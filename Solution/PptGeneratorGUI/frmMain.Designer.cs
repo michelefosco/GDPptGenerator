@@ -60,7 +60,7 @@
             this.cmbFileBudgetPath = new System.Windows.Forms.ComboBox();
             this.lblFileBudgetPath = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblResults = new System.Windows.Forms.Label();
             this.cmbDestinationFolderPath = new System.Windows.Forms.ComboBox();
             this.wbExecutionResult = new System.Windows.Forms.WebBrowser();
             this.buildPresentationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
@@ -400,14 +400,14 @@
             this.lblFileBudgetPath.TabIndex = 6;
             this.lblFileBudgetPath.Text = "\"Budget\" file:";
             // 
-            // label2
+            // lblResults
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 557);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 20;
-            this.label2.Text = "Results:";
+            this.lblResults.AutoSize = true;
+            this.lblResults.Location = new System.Drawing.Point(8, 557);
+            this.lblResults.Name = "lblResults";
+            this.lblResults.Size = new System.Drawing.Size(45, 13);
+            this.lblResults.TabIndex = 20;
+            this.lblResults.Text = "Results:";
             // 
             // cmbDestinationFolderPath
             // 
@@ -746,12 +746,13 @@
             // 
             // lblElaborazioneInCorso
             // 
-            this.lblElaborazioneInCorso.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblElaborazioneInCorso.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblElaborazioneInCorso.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblElaborazioneInCorso.Location = new System.Drawing.Point(8, 573);
             this.lblElaborazioneInCorso.Name = "lblElaborazioneInCorso";
-            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1140, 316);
+            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1160, 316);
             this.lblElaborazioneInCorso.TabIndex = 54;
             this.lblElaborazioneInCorso.Text = "Working in progress...this might take several minutes.";
             this.lblElaborazioneInCorso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -768,7 +769,7 @@
             this.Controls.Add(this.gbPaths);
             this.Controls.Add(this.btnBuildPresentation);
             this.Controls.Add(this.btnCopyError);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblResults);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.wbExecutionResult);
@@ -802,7 +803,7 @@
         private System.Windows.Forms.Button btnSelectFileBudget;
         private System.Windows.Forms.Label lblFileBudgetPath;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblResults;
         private System.Windows.Forms.ComboBox cmbDestinationFolderPath;
         private System.Windows.Forms.Button btnSelectDestinationFolder;
         private System.Windows.Forms.Label lblCartellaOutputPath;

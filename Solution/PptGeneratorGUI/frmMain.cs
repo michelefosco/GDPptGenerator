@@ -708,6 +708,7 @@ namespace PptGeneratorGUI
 
             SetStatusLabel("Processing in progress...");
             lblElaborazioneInCorso.Visible = true;
+            lblResults.Visible = false;
             Application.DoEvents();
 
             var buildPresentationInput = new BuildPresentationInput(
@@ -736,6 +737,7 @@ namespace PptGeneratorGUI
                 //  toolStripProgressBar.Visible = false;
                 btnBuildPresentation.Enabled = true;
                 lblElaborazioneInCorso.Visible = false;
+                lblResults.Visible = true;
                 Application.DoEvents();
 
                 if (output.Esito == EsitiFinali.Success)
@@ -756,6 +758,7 @@ namespace PptGeneratorGUI
             {
                 btnBuildPresentation.Enabled = true;
                 lblElaborazioneInCorso.Visible = false;
+                lblResults.Visible = true;
                 showExpetion(ex);
             }
         }
