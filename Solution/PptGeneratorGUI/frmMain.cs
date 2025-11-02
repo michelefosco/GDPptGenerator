@@ -633,6 +633,7 @@ namespace PptGeneratorGUI
         private void validaFileDiInput()
         {
             btnValidaInput.Enabled = false;
+            lblElaborazioneInCorso.Visible = true;
             ClearOutputArea();
 
             // input per la chiamata al backend
@@ -653,7 +654,7 @@ namespace PptGeneratorGUI
             }
             catch (Exception ex)
             {
-                showExpetion(ex);
+                showExpetion(ex);                
             }
         }
 
@@ -684,6 +685,7 @@ namespace PptGeneratorGUI
                 btnCopyError.Visible = true;
             }
 
+            lblElaborazioneInCorso.Visible = false;
             RefreshUI(false);
         }
         #endregion
@@ -834,7 +836,7 @@ namespace PptGeneratorGUI
             var htmlMessage = HTML_Message_Helper.GetHTMLForBody(message);
             wbExecutionResult.DocumentText = null;
             Application.DoEvents();
-            wbExecutionResult.DocumentText = htmlMessage;            
+            wbExecutionResult.DocumentText = htmlMessage;
         }
 
 

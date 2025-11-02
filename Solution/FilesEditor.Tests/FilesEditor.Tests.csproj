@@ -76,6 +76,12 @@
     <None Include="PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestFiles\SourceFiles\Superdettagli_120k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_16k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_32k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_4k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_64k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_8k.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EPPlusExtensions\EPPlusExtensions.csproj">

@@ -674,9 +674,9 @@
             this.gbOptions.Controls.Add(this.lblDataPeriodo);
             this.gbOptions.Controls.Add(this.lblFiltriApplicabili);
             this.gbOptions.Controls.Add(this.pnlCalendar);
-            this.gbOptions.Controls.Add(this.dgvFiltri);
             this.gbOptions.Controls.Add(this.label4);
             this.gbOptions.Controls.Add(this.btnOpenCalendar);
+            this.gbOptions.Controls.Add(this.dgvFiltri);
             this.gbOptions.Location = new System.Drawing.Point(4, 213);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(1169, 321);
@@ -749,10 +749,12 @@
             this.lblElaborazioneInCorso.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblElaborazioneInCorso.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.lblElaborazioneInCorso.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblElaborazioneInCorso.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(8, 573);
+            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(87, 181);
             this.lblElaborazioneInCorso.Name = "lblElaborazioneInCorso";
-            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1160, 316);
+            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1007, 551);
             this.lblElaborazioneInCorso.TabIndex = 54;
             this.lblElaborazioneInCorso.Text = "Working in progress...this might take several minutes.";
             this.lblElaborazioneInCorso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -765,13 +767,13 @@
             this.ClientSize = new System.Drawing.Size(1184, 911);
             this.Controls.Add(this.lblElaborazioneInCorso);
             this.Controls.Add(this.btnValidaInput);
-            this.Controls.Add(this.gbOptions);
-            this.Controls.Add(this.gbPaths);
             this.Controls.Add(this.btnBuildPresentation);
             this.Controls.Add(this.btnCopyError);
             this.Controls.Add(this.lblResults);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.gbPaths);
+            this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.wbExecutionResult);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1000, 750);

@@ -1,7 +1,10 @@
-﻿using FilesEditor.Constants;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
+using System.Collections.Generic;
 
 namespace FilesEditor.Steps.ValidateSourceFiles
 {
@@ -30,7 +33,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFilePath: Context.FileBudgetPath,
                  sourceFileType: FileTypes.Budget,
                  sourceFileWorksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
-                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW
+                 sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
+                 ovverideExpectedHeadersColumns: new List<string>() {"Business", "Categoria" }
                 );
 
             validazioniPreliminari_Comuni(
@@ -41,7 +45,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFilePath: Context.FileForecastPath,
                  sourceFileType: FileTypes.Forecast,
                  sourceFileWorksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
-                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW
+                 sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
+                 ovverideExpectedHeadersColumns: new List<string>() { "Business", "Categoria" }
                 );
 
             validazioniPreliminari_Comuni(
@@ -52,7 +57,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFilePath: Context.FileRunRatePath,
                  sourceFileType: FileTypes.RunRate,
                  sourceFileWorksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
-                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW
+                 sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_ROW
                 );
 
             validazioniPreliminari_Comuni(
@@ -63,7 +68,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFilePath: Context.FileSuperDettagliPath,
                  sourceFileType: FileTypes.SuperDettagli,
                  sourceFileWorksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
-                 sourceFileHeadersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW
+                 sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW
                 );
         }
 
@@ -75,11 +80,15 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             string sourceFilePath,
             FileTypes sourceFileType,
             string sourceFileWorksheetName,
-            int sourceFileHeadersRow)
+            int sourceFileHeadersRow,
+            List<string> ovverideExpectedHeadersColumns = null
+            )
         {
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
             // var dataSourceEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var expectedHeadersColumns = Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
+            var expectedHeadersColumns = (ovverideExpectedHeadersColumns != null)
+                ? ovverideExpectedHeadersColumns
+                : Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti

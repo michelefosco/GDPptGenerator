@@ -24,7 +24,7 @@ namespace FilesEditor.Steps
 
         private void creaListe_Alias()
         {
-            FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_TMP, Context.AliasDefinitions_BusinessTMP);
+            FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS, Context.AliasDefinitions_Business);
             FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA, Context.AliasDefinitions_Categoria);
         }
 

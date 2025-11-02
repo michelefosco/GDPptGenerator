@@ -37,8 +37,8 @@ namespace FilesEditor
                 {
                     new Step_Start_DebugInfoLogger(context),
                     new Step_ValidazioniPreliminari_SourceFiles(context),
-                    new Step_CreaLista_Applicablefilters(context),
                     new Step_CreaListe_Alias(context),
+                    new Step_CreaLista_Applicablefilters(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
                     new Step_TmpFolder_Pulizia(context),
@@ -90,11 +90,14 @@ namespace FilesEditor
                     new Step_CreaListe_Alias(context),
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
-                    new Step_ImportaDatiDaSourceFiles(context),
-                    new Step_ImportaDatiDa_RunRate(context),                    
+                    // Steps che modificano il file DataSource - Inizio
+                    new Step_ImportaDatiDa_RunRate(context),
+                    new Step_ImportaDatiDa_BudgetAndForecast(context),
+                    new Step_ImportaDatiDa_SuperDettagli(context),                    
                     new Step_ImpostaVarabiliInNameManager(context),                    
                     new Step_AttivazioneOpzioneRefreshOnLoad(context),
                     new Step_SalvaFile_DataSource(context),                    
+                    // Steps che modificano il file DataSource - Fine
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_CreaFilesImmaginiDaEsportare(context),
                     new Step_CreaFiles_Presentazioni(context),

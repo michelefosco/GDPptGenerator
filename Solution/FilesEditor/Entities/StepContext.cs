@@ -1,9 +1,11 @@
 ﻿using EPPlusExtensions;
+using FilesEditor.Constants;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FilesEditor.Entities
 {
@@ -59,9 +61,11 @@ namespace FilesEditor.Entities
 
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
-        public List<AliasDefinition> AliasDefinitions_BusinessTMP { get; private set; }
+
+        public List<AliasDefinition> AliasDefinitions_Business { get; private set; }
 
         public List<AliasDefinition> AliasDefinitions_Categoria { get; private set; }
+
 
         public List<SlideToGenerate> SildeToGenerate { get; private set; }
 
@@ -77,7 +81,7 @@ namespace FilesEditor.Entities
             DebugInfoLogger = new DebugInfoLogger(null);
             Warnings = new List<string>();
             ApplicableFilters = new List<InputDataFilters_Item>();
-            AliasDefinitions_BusinessTMP = new List<AliasDefinition>();
+            AliasDefinitions_Business = new List<AliasDefinition>();
             AliasDefinitions_Categoria = new List<AliasDefinition>();
             SildeToGenerate = new List<SlideToGenerate>();
             ItemsToExportAsImage = new List<ItemToExport>();
@@ -107,12 +111,11 @@ namespace FilesEditor.Entities
             base.FileSuperDettagliPath = input.FileSuperDettagliPath;
             base.FileRunRatePath = input.FileRunRatePath;
             //
-            PowerPointTemplateFilePath= input.PowerPointTemplateFilePath;
+            PowerPointTemplateFilePath = input.PowerPointTemplateFilePath;
             AppendCurrentYear_FileSuperDettagli = input.AppendCurrentYear_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
             ApplicableFilters = input.ApplicableFilters ?? new List<InputDataFilters_Item>();
         }
- 
         public void SetContextFromInput(ValidateSourceFilesInput input)
         {
             if (input == null) { throw new ArgumentNullException("input"); }
@@ -127,11 +130,57 @@ namespace FilesEditor.Entities
             base.FileSuperDettagliPath = input.FileSuperDettagliPath;
             base.FileRunRatePath = input.FileRunRatePath;
         }
-
         internal void AddWarning(string warningMessage)
         {
             Warnings.Add(warningMessage);
             DebugInfoLogger?.LogWarning(warningMessage);
         }
+        internal string ApplicaAliasToValue(string header, string value)
+        {
+            if (string.IsNullOrEmpty(header))
+            { return value; }
+
+            #region Controllo se il valore appartiene ad uno di quelli interessati da Aliases
+            List<AliasDefinition> aliasesToCheck = null;
+            if (header.Equals(Values.HEADER_BUSINESS, StringComparison.InvariantCultureIgnoreCase))
+            {
+                aliasesToCheck = AliasDefinitions_Business;
+            }
+            else if (header.Equals(Values.HEADER_CATEGORIA, StringComparison.InvariantCultureIgnoreCase))
+            {
+                aliasesToCheck = AliasDefinitions_Categoria;
+            }
+            else
+            {
+                // non è necessario applicare gli alias
+                return value;
+            }
+            #endregion
+
+            // non ci sono aliases da verificare
+            if (aliasesToCheck == null || aliasesToCheck.Count == 0)
+            { return value; }
+
+            #region Cerco un alias che corrisponda
+            // Controllo prima gli aliases fissi (senza regular expressions)
+            foreach (AliasDefinition alias in aliasesToCheck.Where(_ => !_.IsRegularExpression))
+            {
+                if (alias.RawValue.Equals(value.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                { return alias.NewValue; }
+            }
+
+            // Controllo successivamente gli aliases con regular expressions
+            foreach (AliasDefinition alias in aliasesToCheck.Where(_ => _.IsRegularExpression))
+            {
+                if (ValuesHelper.StringMatch(value, alias.RawValue))
+                { return alias.NewValue; }
+            }
+            #endregion
+
+            // Nessun alias applicato
+            return value;
+        }
+
+
     }
 }

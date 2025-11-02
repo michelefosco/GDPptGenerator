@@ -873,7 +873,7 @@ namespace FilesEditor.Helpers
             //
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Warnings (count)", context.Warnings.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Applicablefilters (count)", context.ApplicableFilters.Count);
-            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_BusinessTMP (count)", context.AliasDefinitions_BusinessTMP.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_Business (count)", context.AliasDefinitions_Business.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_Categoria (count)", context.AliasDefinitions_Categoria.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "SildeToGenerate (count)", context.SildeToGenerate.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ItemsToExportAsImage (count)", context.ItemsToExportAsImage.Count);

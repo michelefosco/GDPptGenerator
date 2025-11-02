@@ -65,33 +65,33 @@
         //public int DATASOURCE_ALIAS_CATEGORIA_TMP_NEW_VALUES_COL { get; set; }
 
 
-        //public int INPUT_FILES_SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
-        //public int INPUT_FILES_BUDGET_FIRST_DATA_ROW { get; set; }
-        //public int INPUT_FILES_FORECAST_FIRST_DATA_ROW { get; set; }
-        //public int INPUT_FILES_RUNRATE_FIRST_DATA_ROW { get; set; }
+        //public int SOURCE_FILES_SUPERDETTAGLI_FIRST_DATA_ROW { get; set; }
+        //public int SOURCE_FILES_BUDGET_FIRST_DATA_ROW { get; set; }
+        //public int SOURCE_FILES_FORECAST_FIRST_DATA_ROW { get; set; }
+        //public int SOURCE_FILES_RUNRATE_FIRST_DATA_ROW { get; set; }
         #endregion
 
         // ----- INPUT FILES
         #region Budgets
-        public int INPUT_FILES_BUDGET_HEADERS_ROW { get; set; }
-        public int INPUT_FILES_BUDGET_HEADERS_FIRST_COL { get; set; }
+        public int SOURCE_FILES_BUDGET_HEADERS_ROW { get; set; }
+        public int SOURCE_FILES_BUDGET_HEADERS_FIRST_COL { get; set; }
 
         #endregion
 
         #region Forecast
-        public int INPUT_FILES_FORECAST_HEADERS_ROW { get; set; }
-        public int INPUT_FILES_FORECAST_HEADERS_FIRST_COL { get; set; }
+        public int SOURCE_FILES_FORECAST_HEADERS_ROW { get; set; }
+        public int SOURCE_FILES_FORECAST_HEADERS_FIRST_COL { get; set; }
 
         #endregion
 
         #region Run rate
-        public int INPUT_FILES_RUNRATE_HEADERS_ROW { get; set; }
-        public int INPUT_FILES_RUNRATE_HEADERS_FIRST_COL { get; set; }
+        public int SOURCE_FILES_RUNRATE_HEADERS_ROW { get; set; }
+        public int SOURCE_FILES_RUNRATE_HEADERS_FIRST_COL { get; set; }
         #endregion
 
         #region Superdettagli
-        public int INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
-        public int INPUT_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
+        public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
+        public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
         #endregion
     }
 }

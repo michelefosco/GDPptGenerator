@@ -29,19 +29,10 @@ Microsoft Excel 15.0
 
 
 -------------------- Domande per Francesco
+- Filtri sui campi con Alias fanno applicati prima della sostituzione o dopo?
+
 - Input files con qualche dato più realistico
-
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
-
-- in una mail citi il foglio "Gestione Nomi", lo aggiungiamo al DataSource?
-
-
-Organizzare
-
-- Preferirei la possibilità di inserire la data (identico a programma vendorRefresher) e dopo lo strumento potrà immediatamente capire il mese, il quarter e l'anno 
-	es: 12/02/2025 >> mese 02; quarter Q1; anno 2025
-	Dovrà prendere questi valori e metterli in due variabili di excel (quelle che si trovano in Gestione Nomi)
-
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 
 
@@ -49,7 +40,12 @@ Organizzare
 
 
 -------------------- Todo
+- Togliere "Totale complessivo" dai valori del filtro "Categoria"
+- Usare stessa tecnica di "Attendere prego" anche per la "Validazione input"
+- Import più veloce da "SuperDettagli"
+
 - thread separato per generazione presentazione in editot
+Bulk copy of the data
 - Forcast e Budget sono identici tranne forse una colonna vuota a sinistra
 - Lettura di Forecast e Budget con la nuova struttura
  - Test validazione file sono su Forecast e Budget
@@ -58,9 +54,10 @@ Organizzare
  - Mandare datasource versione finale
 - Settare i valori del periodo in "Name manager" variabili di Excel (mese, quarter, anno) interi
 
+- Testare SuperDettagli con 200k righe
+
 
 - riportare meglio l'eccezione generica e il pulsante copy
--REname VaildaSourceFile --> ValidaInputFiles
 - Preferirei la possibilità di inserire la data (identico a programma vendorRefresher) e dopo lo strumento potrà immediatamente capire il mese, il quarter e l'anno 
 	es: 12/02/2025 >> mese 02; quarter Q1; anno 2025
 	Dovrà prendere questi valori e metterli in due variabili di excel (quelle che si trovano in Gestione Nomi)

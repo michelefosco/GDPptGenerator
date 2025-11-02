@@ -1,14 +1,8 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
-using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
-using FilesEditor.Helpers;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -30,10 +24,10 @@ namespace FilesEditor.Steps.BuildPresentation
 
             // Range sorgente
             var sourceRange = sourceWorksheet.Cells[
-                    Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW + 1,  // row start
-                    Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL, // col start 
-                    Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW + 1,   // row end
-                    Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_FIRST_COL + 11    // col end
+                    Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_ROW + 1,  // row start
+                    Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_FIRST_COL, // col start 
+                    Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_ROW + 1,   // row end
+                    Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_FIRST_COL + 11    // col end
                     ];
 
             // Incollo nel range destinazione

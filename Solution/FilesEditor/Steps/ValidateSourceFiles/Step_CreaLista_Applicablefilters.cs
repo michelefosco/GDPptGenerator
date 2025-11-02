@@ -41,7 +41,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         private void Fill_ApplicableFilters_FromConfigurazione(EPPlusHelper ePPlusHelper, Configurazione configurazione, List<InputDataFilters_Item> applicablefilters)
         {
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            //  var filtriPossibili = new List<InputDataFilters_Item>();
 
             var rigaCorrente = configurazione.DATASOURCE_CONFIG_FILTERS_FIRST_DATA_ROW;
             while (true)
@@ -78,10 +77,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 // passo alla riga successiva
                 rigaCorrente++;
             }
-
-            // Ordino i filtri per Tabella e Campo
-            // applicablefilters = applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList();
-            // return filtriPossibili;
         }
 
         private void FillApplicableFiltersWithValues_FromSourceFiles(List<InputDataFilters_Item> applicablefilters)
@@ -90,48 +85,64 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             {
                 switch (applicablefilter.Table)
                 {
+                    case InputDataFilters_Tables.BUDGET:
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                                filePath: Context.FileBudgetPath,
+                                worksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
+                                fileType: FileTypes.Budget,
+                                headersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
+                                headerValue: applicablefilter.FieldName,
+                                startCheckHeadersFromColumn: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_FIRST_COL
+                                );
+                        // E' stato necessario rimuovere manualmente il valore "Totale complessivo" per via della struttura insolita dei file Budget e Forecast
+                        if (applicablefilter.FieldName == Values.HEADER_BUSINESS)
+                        { applicablefilter.Values.Remove("Totale complessivo"); }
+                        
+                        break;
+
+                    case InputDataFilters_Tables.FORECAST:
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                                filePath: Context.FileForecastPath,
+                                worksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
+                                fileType: FileTypes.Forecast,
+                                headersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
+                                headerValue: applicablefilter.FieldName,
+                                startCheckHeadersFromColumn: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_FIRST_COL
+                                );
+                        // E' stato necessario rimuovere manualmente il valore "Totale complessivo" per via della struttura insolita dei file Budget e Forecast
+                        if (applicablefilter.FieldName == Values.HEADER_BUSINESS)
+                        { applicablefilter.Values.Remove("Totale complessivo"); }
+                        break;
+
+                    case InputDataFilters_Tables.RUNRATE:
+                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                                filePath: Context.FileRunRatePath,
+                                worksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
+                                fileType: FileTypes.RunRate,
+                                headersRow: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_ROW,
+                                headerValue: applicablefilter.FieldName,
+                                startCheckHeadersFromColumn: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_FIRST_COL
+                                );
+                        break;
 
                     case InputDataFilters_Tables.SUPERDETTAGLI:
                         applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileSuperDettagliPath,
                                 worksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,
-                                headersRow: Context.Configurazione.INPUT_FILES_SUPERDETTAGLI_HEADERS_ROW,
-                                headerValue: applicablefilter.FieldName);
+                                headersRow: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW,
+                                headerValue: applicablefilter.FieldName,
+                                startCheckHeadersFromColumn: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
+                                );
                         break;
-                    case InputDataFilters_Tables.FORECAST:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileForecastPath,
-                                worksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
-                                fileType: FileTypes.Forecast,
-                                headersRow: Context.Configurazione.INPUT_FILES_FORECAST_HEADERS_ROW,
-                                headerValue: applicablefilter.FieldName);
-                        break;
-                    case InputDataFilters_Tables.BUDGET:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileBudgetPath,
-                                worksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
-                                fileType: FileTypes.Budget,
-                                headersRow: Context.Configurazione.INPUT_FILES_BUDGET_HEADERS_ROW,
-                                headerValue: applicablefilter.FieldName);
-                        break;
-                    case InputDataFilters_Tables.RUNRATE:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileRunRatePath,
-                                worksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
-                                fileType: FileTypes.RunRate,
-                                headersRow: Context.Configurazione.INPUT_FILES_RUNRATE_HEADERS_ROW,
-                                headerValue: applicablefilter.FieldName);
-                        break;
-
+                 
                     default:
                         throw new Exception($"Tipo tabella sconosciuto nella configurazione dei filtri: '{applicablefilter.Table}'");
-
                 }
             }
         }
 
-        private List<string> GetApplicableFiltersValues_FromSourceFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue)
+        private List<string> GetApplicableFiltersValues_FromSourceFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue, int startCheckHeadersFromColumn)
         {
             var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
 
@@ -139,8 +150,15 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var errorMessage = $"The configuration inside the file DataSource includes the filter: '{fileType} - {headerValue}'.\r\nThe worksheet '{worksheetName}' does not contain the corresponding header ('{headerValue}')";
             EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, new List<string> { headerValue }, errorMessage);
 
-            var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue);
-            return values.Distinct().OrderBy(n => n).ToList(); ;
+            var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue, true, startCheckHeadersFromColumn);
+
+            // Applico gli alias ai cambi "Categoria" e "Business" dei file "Budget" e "Forecast"
+            if (fileType == FileTypes.Budget || fileType == FileTypes.Forecast)
+            {
+                values = values.Select(_ => Context.ApplicaAliasToValue(headerValue, _)).ToList();
+            }
+
+            return values.Distinct().OrderBy(n => n).ToList();
         }
     }
 }

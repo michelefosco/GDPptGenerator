@@ -47,7 +47,7 @@ namespace FilesEditor.Tests
 
             // test specifici dell'oggetto di output
             Assert.IsNotNull(output.Applicablefilters);
-            Assert.AreEqual(7, output.Applicablefilters.Count);
+            Assert.AreEqual(6, output.Applicablefilters.Count);
 
             foreach (var filter in output.Applicablefilters)
             {

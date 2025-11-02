@@ -1,5 +1,4 @@
 ﻿using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -22,8 +21,8 @@ namespace EPPlusExtensions
 
         public EPPlusHelper()
         {
-            _backgroundColorCellaInEvidenza = System.Drawing.Color.Yellow;
-            _backgroundColorCellaInErrore = System.Drawing.Color.Red;
+            _backgroundColorCellaInEvidenza = Color.Yellow;
+            _backgroundColorCellaInErrore = Color.Red;
         }
 
         public void AddNewHeaderRow(string worksheetName, object value_01, object value_02 = null, object value_03 = null, object value_04 = null, object value_05 = null, object value_06 = null, object value_07 = null, object value_08 = null, object value_09 = null, object value_10 = null, object value_11 = null, object value_12 = null, object value_13 = null, object value_14 = null, object value_15 = null)
@@ -315,15 +314,20 @@ namespace EPPlusExtensions
             return values;
         }
 
-        public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExpeptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
+        public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
             List<string> columnValues = null;
 
             for (int colonnaCorrente = startHearderSearchFromColumn; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
             {
-                var currentHeadr = currentWorksheet.Cells[headersRow, colonnaCorrente].Value.ToString();
-                if (currentHeadr.Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
+                var currentHeader = currentWorksheet.Cells[headersRow, colonnaCorrente].Value;
+
+                // Salto eventuali colonne senza headres per gestire anche fogli con strutture più elaborate
+                if (currentHeader == null) 
+                { continue; }
+
+                if (currentHeader.ToString().Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
                 {
                     // ho trovato la colonna che mi interessa, leggo i valori
                     columnValues = new List<string>();
@@ -338,7 +342,7 @@ namespace EPPlusExtensions
                 }
             }
 
-            if (columnValues == null & throwExpeptionForMissingHeaders)
+            if (columnValues == null & throwExceptionForMissingHeaders)
             {
                 throw new Exception($"Header '{headerValue}' not found in worksheet '{worksheetName}'");
             }
@@ -525,7 +529,6 @@ namespace EPPlusExtensions
             currentWorksheet.Cells[fromRow, fromCol, toRow, toCol].Style.Fill.BackgroundColor.SetColor(backgroundColor);
         }
 
-
         public void SetThinBorderOnRange(string worksheetName, int fromRow, int fromCol, int toRow, int toCol)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
@@ -624,12 +627,9 @@ namespace EPPlusExtensions
             }
         }
 
-
         public void Close()
         {
             _excelPackage.Dispose();
         }
-
-
     }
 }

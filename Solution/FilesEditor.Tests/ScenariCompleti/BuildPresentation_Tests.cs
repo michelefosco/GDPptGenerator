@@ -30,8 +30,9 @@ namespace FilesEditor.Tests
             string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
             string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
             string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
-            bool appendCurrentYear_FileSuperDettagli = true;
+            bool appendCurrentYear_FileSuperDettagli = false;
             DateTime periodDate = DateTime.Today;
+
             //todo: settare filtri utili e valutarte gli effetti
             //var applicablefilters = new List<InputDataFilters_Item>
             //{
@@ -66,6 +67,22 @@ namespace FilesEditor.Tests
                     );
             var output = Editor.BuildPresentation(input);
 
+
+
+            int numeroRigheBudget = 34;
+            int numeroRigheForecast = 34;
+            int numeroRigheSuperdettagli = 1000;
+            int numeroRigheRunRate = 1;
+            //
+            int numeroFilesFotoInTmpFolder = 14;
+            int numeroWarnings = 0;
+            int numeroPresentazioniGenerate = 3;
+
+            CheckResults(dataSourceFilePath, tmpFolder, output, numeroRigheBudget, numeroRigheForecast, numeroRigheSuperdettagli, numeroRigheRunRate, numeroFilesFotoInTmpFolder, numeroWarnings, numeroPresentazioniGenerate);
+        }
+
+        private static void CheckResults(string dataSourceFilePath, string tmpFolder, Entities.MethodsArgs.BuildPresentationOutput output, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate)
+        {
             // test base
             Assert.IsNotNull(output);
             Assert.IsNull(output.ManagedException);
@@ -73,23 +90,32 @@ namespace FilesEditor.Tests
 
 
             // numero file di output generati
-            Assert.AreEqual(3, output.OutputFilePathLists.Count);
+            Assert.AreEqual(numeroPresentazioniGenerate, output.OutputFilePathLists.Count);
 
             // numero di warnings sollevati
-            Assert.AreEqual(1, output.Warnings.Count);
-            Assert.IsTrue(output.Warnings.Any(_ => _.Contains("The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date")));
+            Assert.AreEqual(numeroWarnings, output.Warnings.Count);
+            //Assert.IsTrue(output.Warnings.Any(_ => _.Contains("The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date")));
 
             // numero di immagini generate su file system
             var filesInTmpFolder = Directory.GetFiles(tmpFolder);
-            Assert.AreEqual(14, filesInTmpFolder.Length);
+            Assert.AreEqual(numeroFilesFotoInTmpFolder, filesInTmpFolder.Length);
 
             var ePPlusHelper = new EPPlusExtensions.EPPlusHelper();
             ePPlusHelper.Open(dataSourceFilePath);
 
-            // numero righe nel foglio "SuperDettagli" del file DataSource
-            //2 riga intestazione + 1 riga esistente + 6 appese
-            //Assert.AreEqual(63979, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
-            Assert.AreEqual(11, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
+
+
+            const int offSetIntestazioneBudget = 2;
+            Assert.AreEqual(offSetIntestazioneBudget + numeroRigheBudget, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_BUDGET_DATA, 1, 1) - 1);
+            //
+            const int offSetIntestazioneForecast = 2;
+            Assert.AreEqual(offSetIntestazioneForecast + numeroRigheForecast, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_FORECAST_DATA, 1, 1) - 1);
+            //
+            const int offSetIntestazioneRunRate = 1;
+            Assert.AreEqual(offSetIntestazioneRunRate + numeroRigheRunRate, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_RUN_RATE_DATA, 1, 1) - 1);
+            //
+            const int offSetIntestazioneSuperdettagli = 2;
+            Assert.AreEqual(offSetIntestazioneSuperdettagli + numeroRigheSuperdettagli, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
         }
     }
 }

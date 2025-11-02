@@ -5,7 +5,7 @@
         // Data Source
         public const string DATASOURCE_CONFIGURATION = "Powerpoint Configuration";
         public const string DATASOURCE_PRINTABLE_WORKSHEET_NAME_PREFIX = "PP_";
-        public const string DATASOURCE_ALIAS_BUSINESS_TMP = "Alias-Business TMP";
+        public const string DATASOURCE_ALIAS_BUSINESS = "Alias-Business";
         public const string DATASOURCE_ALIAS_BUSINESS_CATEGORIA = "Alias-Categoria";
         //
         public const string DATASOURCE_BUDGET_DATA = "Budget";
