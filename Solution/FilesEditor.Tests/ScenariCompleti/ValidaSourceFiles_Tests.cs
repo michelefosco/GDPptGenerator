@@ -1,8 +1,10 @@
 ﻿using FilesEditor.Entities;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Tests.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Linq;
 
 namespace FilesEditor.Tests
 {
@@ -40,12 +42,24 @@ namespace FilesEditor.Tests
 
             var output = Editor.ValidateSourceFiles(input);
 
+
+
+            int numeroApplicablefilters = 6;
+            InputDataFilters_Tables[] tables = { InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.SUPERDETTAGLI, InputDataFilters_Tables.SUPERDETTAGLI };
+            string[] fieldNames = { "Business", "Categoria", "Business", "Categoria", "Sender Cost Center", "Last name First name" };
+            int[] possibleValues = { 6, 8, 6, 8, 10, 5 };
+            CheckValueFilters(output, numeroApplicablefilters, tables, fieldNames, possibleValues);
+
+            // Specifici
+            Assert.AreEqual("CGO & Other div", output.Applicablefilters[0].PossibleValues[0]);
+        }
+
+        private static void CheckValueFilters(ValidateSourceFilesOutput output, int numeroApplicablefilters, InputDataFilters_Tables[] tables, string[] fieldNames, int[] possibleValues)
+        {
             // test base
             Assert.IsNotNull(output);
             Assert.IsNull(output.ManagedException, output.ManagedException?.Message);
             Assert.AreEqual(EsitiFinali.Success, output.Esito);
-
-            int numeroApplicablefilters = 6;
 
             // test specifici dell'oggetto di output
             Assert.IsNotNull(output.Applicablefilters);
@@ -59,9 +73,13 @@ namespace FilesEditor.Tests
                 Assert.AreEqual(0, filter.SelectedValues.Count);
             }
 
-            // 
-            Assert.AreEqual(1, output.Applicablefilters[0].PossibleValues.Count);
-            Assert.AreEqual("K", output.Applicablefilters[0].PossibleValues[0]);
+
+            for (int j = 0; j < numeroApplicablefilters; j++)
+            {
+                Assert.AreEqual(tables[j], output.Applicablefilters[j].Table);
+                Assert.AreEqual(fieldNames[j], output.Applicablefilters[j].FieldName);
+                Assert.AreEqual(possibleValues[j], output.Applicablefilters[j].PossibleValues.Count);
+            }
         }
     }
 }

@@ -2,7 +2,6 @@
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
-using FilesEditor.Helpers;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -11,41 +10,17 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_ImportaDatiDa_SuperDettagli : StepBase
+    internal class Step_ImportaDati_SuperDettagli : StepBase
     {
-        public Step_ImportaDatiDa_SuperDettagli(StepContext context) : base(context)
+        public Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDa_SuperDettagli", Context);
-
-            //ImportaSourceFile(
-            //        sourceFileType: FileTypes.Budget,
-            //        sourceFilePath: Context.FileBudgetPath,
-            //        sourceWorksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
-            //        souceHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
-            //        sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_FIRST_COL,
-            //        //
-            //        destWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
-            //        destHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
-            //        destHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
-            //    );
-
-            //ImportaSourceFile(
-            //        sourceFileType: FileTypes.Forecast,
-            //        sourceFilePath: Context.FileForecastPath,
-            //        sourceWorksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
-            //        souceHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
-            //        sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_FIRST_COL,
-            //        //
-            //        destWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
-            //        destHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
-            //        destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
-            //    );
+            Context.DebugInfoLogger.LogStepContext("Step_ImportaDati_SuperDettagli", Context);
 
             ImportaSourceFile(
-                    sourceFileType: FileTypes.SuperDettagli,
+                    //sourceFileType: FileTypes.SuperDettagli,
                     sourceFilePath: Context.FileSuperDettagliPath,
                     sourceWorksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
                     souceHeadersRow: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW,
@@ -60,7 +35,7 @@ namespace FilesEditor.Steps.BuildPresentation
         }
 
         private void ImportaSourceFile(
-                FileTypes sourceFileType,
+                // FileTypes sourceFileType,
                 string sourceFilePath,
                 string sourceWorksheetName,
                 int souceHeadersRow,
@@ -107,7 +82,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 {
                     throw new ManagedException(
                         filePath: sourceFilePath,
-                        fileType: sourceFileType,
+                        fileType: FileTypes.SuperDettagli,
                         //
                         worksheetName: sourceWorksheetName,
                         cellRow: souceHeadersRow,
@@ -116,7 +91,7 @@ namespace FilesEditor.Steps.BuildPresentation
                         value: destHeader,
                         //
                         errorType: ErrorTypes.MissingValue,
-                        userMessage: string.Format(UserErrorMessages.MissingHeader, sourceFileType, destHeader, sourceWorksheetName)
+                        userMessage: string.Format(UserErrorMessages.MissingHeader, FileTypes.SuperDettagli, destHeader, sourceWorksheetName)
                         );
                 }
             }
@@ -124,29 +99,14 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             #region Preparo una struttura più snella che contenga le informazioni su filtri
-            InputDataFilters_Tables inputDataFilters_Table;
-            switch (sourceFileType)
-            {
-                case FileTypes.Budget:
-                    inputDataFilters_Table = InputDataFilters_Tables.BUDGET;
-                    break;
-                case FileTypes.Forecast:
-                    inputDataFilters_Table = InputDataFilters_Tables.FORECAST;
-                    break;
-                case FileTypes.RunRate:
-                    throw new ArgumentOutOfRangeException();
-                case FileTypes.SuperDettagli:
-                    inputDataFilters_Table = InputDataFilters_Tables.SUPERDETTAGLI;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            var filters = Context.ApplicableFilters.Where(af => af.Table == inputDataFilters_Table && af.SelectedValues.Any()).ToList();
+            var filters = Context.ApplicableFilters.Where(_ => _.Table == InputDataFilters_Tables.SUPERDETTAGLI
+                                                            && _.SelectedValues.Any())
+                                                    .ToList();
             #endregion
 
 
             #region Se in modalità append su SuperDettagli preservo le righe il cui valore nella colonna "anno" è diverso da quello scelto come periodo
-            if (sourceFileType == FileTypes.SuperDettagli && Context.AppendCurrentYear_FileSuperDettagli)
+            if (Context.AppendCurrentYear_FileSuperDettagli)
             {
                 #region Determino l'indice della colonna "anno"
                 if (!destHeadersDictionary.ContainsKey("anno"))
@@ -171,8 +131,6 @@ namespace FilesEditor.Steps.BuildPresentation
                 #endregion
 
 
-
-
                 // scorro le righe esistenti valutanto il valore delle celle della colonna "anno"
                 for (int rowIndex = destHeadersRow + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
                 {
@@ -185,7 +143,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     {
                         worksheetDest.DeleteRow(rowIndex, 1, true);
                         totRigheEliminate++;
-                        rowIndex--;
+                        rowIndex--; // rimango sulla stessa riga
                     }
                     else
                     {
@@ -252,10 +210,6 @@ namespace FilesEditor.Steps.BuildPresentation
                     // prendo il valore dalla cella del foglio sorgente
                     var valueFromSource = worksheetSource.Cells[rowSourceIndex, sourceColumnIndex].Value;
 
-                    // Vengono valutate eventuali sostituzioni di valore in base agli aliases dichiarati per i campi "Business" e "Categoria" dei file "Budget" e "Forecast"
-                    if (sourceFileType == FileTypes.Budget || sourceFileType == FileTypes.Forecast)
-                    { valueFromSource = ApplicaAliasToValue(destHeader, valueFromSource.ToString()); }
-
                     // Scrivo il valore nella cella di destinazione
                     worksheetDest.Cells[destRowIndex, destColumnIndex].Value = valueFromSource;
                 }
@@ -285,7 +239,7 @@ namespace FilesEditor.Steps.BuildPresentation
             #region Per la modalità "Append" della tabella "Superdettagli" è necessario ordinare la tabella
             // per il campo "anno" in quanto, per preservare le formule, le nuove righe sono state aggiunte immediatamente dopo la riga degli headers
             // e quindi precedentemente alle righe già esistenti che hanno verosimilmente un numero di anno inferiore
-            if (sourceFileType == FileTypes.SuperDettagli && Context.AppendCurrentYear_FileSuperDettagli)
+            if (Context.AppendCurrentYear_FileSuperDettagli)
             {
                 var colonnaAnnoPositionZeroBased = destHeadersDictionary["anno"] - 1;
                 Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnnoPositionZeroBased);
@@ -293,7 +247,7 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
             // Log delle informazioni
-            Context.DebugInfoLogger.LogRigheSourceFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
+            Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.SuperDettagli, totRighePreservate, totRigheEliminate, totRigheAggiunte);
         }
 
         Dictionary<string, int> GetHeadersDictionary(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)
@@ -308,52 +262,6 @@ namespace FilesEditor.Steps.BuildPresentation
             }
 
             return sourceHeaders;
-        }
-
-        private string ApplicaAliasToValue(string header, string value)
-        {
-            if (string.IsNullOrEmpty(header))
-            { return value; }
-
-            #region Controllo se il valore appartiene ad uno di quelli interessati da Aliases
-            List<AliasDefinition> aliasesToCheck = null;
-            if (header.Equals(Values.HEADER_BUSINESS, StringComparison.InvariantCultureIgnoreCase))
-            {
-                aliasesToCheck = Context.AliasDefinitions_Business;
-            }
-            else if (header.Equals(Values.HEADER_CATEGORIA, StringComparison.InvariantCultureIgnoreCase))
-            {
-                aliasesToCheck = Context.AliasDefinitions_Categoria;
-            }
-            else
-            {
-                // non è necessario applicare gli alias
-                return value;
-            }
-            #endregion
-
-            // non ci sono aliase da verificare
-            if (aliasesToCheck == null || aliasesToCheck.Count == 0)
-            { return value; }
-
-            #region Cerco un alias che corrisponda
-            // Controllo prima gli aliases fissi (senza regular expressions)
-            foreach (AliasDefinition alias in aliasesToCheck.Where(_ => !_.IsRegularExpression))
-            {
-                if (alias.RawValue.Equals(value.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                { return alias.NewValue; }
-            }
-
-            // Controllo successivamente gli aliases con regular expressions
-            foreach (AliasDefinition alias in aliasesToCheck.Where(_ => _.IsRegularExpression))
-            {
-                if (ValuesHelper.StringMatch(value, alias.RawValue))
-                { return alias.NewValue; }
-            }
-            #endregion
-
-            // Nessun alias applicato
-            return value;
         }
     }
 }

@@ -91,9 +91,9 @@ namespace FilesEditor
                     new Step_CreaLista_SildeToGenerate(context),
                     new Step_CreaLista_ItemsToExportAsImage(context),
                     // Steps che modificano il file DataSource - Inizio
-                    new Step_ImportaDatiDa_RunRate(context),
-                    new Step_ImportaDatiDa_BudgetAndForecast(context),
-                    new Step_ImportaDatiDa_SuperDettagli(context),                    
+                    new Step_ImportaDati_RunRate(context),
+                    new Step_ImportaDati_BudgetAndForecast(context),
+                    new Step_ImportaDati_SuperDettagli(context),                    
                     new Step_ImpostaVarabiliInNameManager(context),                    
                     new Step_AttivazioneOpzioneRefreshOnLoad(context),
                     new Step_SalvaFile_DataSource(context),                    

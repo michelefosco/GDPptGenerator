@@ -6,14 +6,14 @@ using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_ImportaDatiDa_RunRate : StepBase
+    internal class Step_ImportaDati_RunRate : StepBase
     {
-        public Step_ImportaDatiDa_RunRate(StepContext context) : base(context)
+        public Step_ImportaDati_RunRate(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDa_RunRate", Context);
+            Context.DebugInfoLogger.LogStepContext("Step_ImportaDati_RunRate", Context);
 
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(Context.FileRunRatePath));

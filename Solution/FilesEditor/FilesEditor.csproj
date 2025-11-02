@@ -183,10 +183,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFilesImmaginiDaEsportare.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_ImportaDatiDa_BudgetAndForecast.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_ImportaDatiDa_RunRate.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_BudgetAndForecast.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_RunRate.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImpostaVarabiliInNameManager.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_ImportaDatiDa_SuperDettagli.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli.cs" />
     <Compile Include="Steps\BuildPresentation\Step_SalvaFile_DataSource.cs" />
     <Compile Include="Steps\Step_CreaListe_Alias.cs" />
     <Compile Include="Steps\BuildPresentation\Step_VerificaEditabilita_DataSource_File.cs" />

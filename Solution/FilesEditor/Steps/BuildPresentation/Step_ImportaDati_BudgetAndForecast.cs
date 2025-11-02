@@ -1,8 +1,6 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
-using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
-using FilesEditor.Helpers;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -11,14 +9,14 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
-    internal class Step_ImportaDatiDa_BudgetAndForecast : StepBase
+    internal class Step_ImportaDati_BudgetAndForecast : StepBase
     {
-        public Step_ImportaDatiDa_BudgetAndForecast(StepContext context) : base(context)
+        public Step_ImportaDati_BudgetAndForecast(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImportaDatiDaSourceFiles", Context);
+            Context.DebugInfoLogger.LogStepContext("Step_ImportaDati_BudgetAndForecast", Context);
 
             ImportaSourceFile(
                     sourceFileType: FileTypes.Budget,
@@ -59,6 +57,9 @@ namespace FilesEditor.Steps.BuildPresentation
                 int destHeadersFirstColumn
             )
         {
+            if (sourceFileType != FileTypes.Budget && sourceFileType != FileTypes.Forecast)
+            { throw new ArgumentOutOfRangeException(nameof(sourceFileType)); }
+
             // variabili per il conteggio delle righe Eliminate, Aggiunge e Preservate (quando in modalità append su Superdettagli)
             int totRighePreservate = 0;
             int totRigheEliminate = 0;
@@ -73,27 +74,21 @@ namespace FilesEditor.Steps.BuildPresentation
             var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
             #endregion
 
-            #region Preparo una struttura più snella che contenga le informazioni su filtri
-            InputDataFilters_Tables inputDataFilters_Table;
-            switch (sourceFileType)
-            {
-                case FileTypes.Budget:
-                    inputDataFilters_Table = InputDataFilters_Tables.BUDGET;
-                    break;
-                case FileTypes.Forecast:
-                    inputDataFilters_Table = InputDataFilters_Tables.FORECAST;
-                    break;
-                //case FileTypes.RunRate:
-                //case FileTypes.SuperDettagli:
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            var filtersWithSelectedValues = Context.ApplicableFilters.Where(af => af.Table == inputDataFilters_Table && af.SelectedValues.Any()).ToList();
-            var filterBusiness = filtersWithSelectedValues.FirstOrDefault(_ => _.FieldName.Equals(Values.HEADER_BUSINESS, StringComparison.InvariantCultureIgnoreCase));
-            var filterCategoria = filtersWithSelectedValues.FirstOrDefault(_ => _.FieldName.Equals(Values.HEADER_CATEGORIA, StringComparison.InvariantCultureIgnoreCase));
+            #region Individuo gli evemtuali filtri da applicare
+            var inputDataFilters_Table = (sourceFileType == FileTypes.Budget)
+                       ? InputDataFilters_Tables.BUDGET
+                       : InputDataFilters_Tables.FORECAST;
+
+            var filterBusiness = Context.ApplicableFilters.FirstOrDefault(_ => _.Table == inputDataFilters_Table
+                                                                            && _.FieldName.Equals(Values.HEADER_BUSINESS, StringComparison.InvariantCultureIgnoreCase)
+                                                                            && _.SelectedValues.Any());
+
+            var filterCategoria = Context.ApplicableFilters.FirstOrDefault(_ => _.Table == inputDataFilters_Table
+                                                                            && _.FieldName.Equals(Values.HEADER_CATEGORIA, StringComparison.InvariantCultureIgnoreCase)
+                                                                            && _.SelectedValues.Any());
             #endregion
 
-            
+
             #region Scorro tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
             var righe = new List<RigaBudgetForecast>();
             var currentBusiness = "";
@@ -109,6 +104,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     currentBusiness = valoreCellaBusiness.ToString().Trim();
                     continue;
                 }
+
                 // applico gli eventuali alias
                 currentBusiness = Context.ApplicaAliasToValue(Values.HEADER_BUSINESS, currentBusiness);
 
@@ -132,13 +128,12 @@ namespace FilesEditor.Steps.BuildPresentation
                 // Applico il filtro: se il valore non è presente tra i valori selezionati, la riga viene saltata
                 if (filterCategoria != null && !filterCategoria.SelectedValues.Any(_ => _.Equals(categoria, StringComparison.InvariantCultureIgnoreCase)))
                 { continue; }
-
                 #endregion
 
 
                 #region Lettura delle 7 colonne numeriche
-                double[] columns = new double[7];
-                for (int col = 1; col <= 7; col++)
+                var columns = new double[7];
+                for (var col = 1; col <= 7; col++)
                 {
                     var value = worksheetSource.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1 + col].Value;
 
@@ -146,7 +141,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     if (value == null)
                     { value = (double)0; }
 
-                    double? doubleValue = value as double?;
+                    var doubleValue = value as double?;
                     if (!doubleValue.HasValue)
                     {
                         throw new Exception("Cella con valore non decimal");
@@ -189,7 +184,7 @@ namespace FilesEditor.Steps.BuildPresentation
             destRowIndex += totRighePreservate;
 
             // la cancellazione deve avvenire dall'ultima riga indietro in quanto le righe eliminate shiftano verso il basso e gli indici delle righe vengono aggiornati
-            for (int rowIndex = worksheetDest.Dimension.Rows; rowIndex > destRowIndex; rowIndex--)
+            for (var rowIndex = worksheetDest.Dimension.Rows; rowIndex > destRowIndex; rowIndex--)
             {
                 worksheetDest.DeleteRow(rowIndex, 1, true);
                 totRigheEliminate++;

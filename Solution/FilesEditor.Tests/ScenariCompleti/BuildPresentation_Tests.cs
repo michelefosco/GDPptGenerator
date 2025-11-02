@@ -1,4 +1,6 @@
-﻿using FilesEditor.Entities;
+﻿using FilesEditor.Constants;
+using FilesEditor.Entities;
+using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Tests.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,76 +14,70 @@ namespace FilesEditor.Tests
     [TestClass]
     public class BuildPresentation_Tests : BaseTest
     {
-        [TestMethod]
-        public void Scenario_OK_01()
+        // properties base class
+        string _PowerPointTemplateFilePath;
+        string _DataSourceFolder;
+        string _DataSourceFilePath;
+        string _DestinationFolder;
+        string _TmpFolder;
+        string _DebugFilePath;
+        // properties specifiche di questo oggetto di input
+        string _FileBudgetPath;
+        string _FileForecastPath;
+        string _FileSuperDettagliPath;
+        string _FileRunRatePath;
+        bool _AppendCurrentYear_FileSuperDettagli;
+        DateTime _PeriodDate;
+        List<InputDataFilters_Item> _Applicablefilters;
+
+        private void SettaDefaults()
         {
             // properties base class
-            string powerPointTemplateFilePath = Path.Combine(BinFolderPath, FilesEditor.Constants.FileNames.POWERPOINT_TEMPLATE_FILENAME);
+            _PowerPointTemplateFilePath = Path.Combine(BinFolderPath, FileNames.POWERPOINT_TEMPLATE_FILENAME);
 
-            string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
-            string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
+            _DataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
 
-            string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
-            string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
-            string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
+            //_DataSourceFilePath = Path.Combine(_DataSourceFolder, FileNames.DATASOURCE_FILENAME);
+            var dataSourceFilePathOriginale = Path.Combine(_DataSourceFolder, FileNames.DATASOURCE_FILENAME);
+            _DataSourceFilePath = Path.Combine(_DataSourceFolder, "test_" + FileNames.DATASOURCE_FILENAME);
+            File.Copy(dataSourceFilePathOriginale, _DataSourceFilePath, true);
+
+            _DestinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
+            _TmpFolder = Path.Combine(_DestinationFolder, TestPaths.TMP_FOLDER);
+            _DebugFilePath = Path.Combine(_DestinationFolder, TestPaths.OUTPUT_DEBUGFILE);
 
             // properties specifiche di questo oggetto di input
-            string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
-            string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
-            string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
-            string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
-            bool appendCurrentYear_FileSuperDettagli = false;
-            DateTime periodDate = DateTime.Today;
-
-            //todo: settare filtri utili e valutarte gli effetti
-            //var applicablefilters = new List<InputDataFilters_Item>
-            //{
-            //    new InputDataFilters_Item {
-            //        Table = InputDataFilters_Tables.FORECAST,
-            //        FieldName = "Field 1",
-            //        SelectedValues = new List<string>{ "Valore 1", "Valore 2" }
-            //    },
-            //    new InputDataFilters_Item {
-            //        Table = InputDataFilters_Tables.BUDGET,
-            //        FieldName = "Field 2",
-            //        SelectedValues = new List<string>{ "Valore 1", "Valore 2" }
-            //    }
-            //};
-            var applicablefilters = new List<InputDataFilters_Item>();
-
-            var input = new Entities.MethodsArgs.BuildPresentationInput(
-                    dataSourceFilePath: dataSourceFilePath,
-                    destinationFolder: destinationFolder,
-                    tmpFolder: tmpFolder,
-                    debugFilePath: debugFilePath,
-                    //
-                    fileBudgetPath: fileBudgetPath,
-                    fileForecastPath: fileForecastPath,
-                    fileSuperDettagliPath: fileSuperDettagliPath,
-                    fileRunRatePath: fileRunRatePat,
-                    //
-                    powerPointTemplateFilePath: powerPointTemplateFilePath,
-                    appendCurrentYear_FileSuperDettagli: appendCurrentYear_FileSuperDettagli,
-                    periodDate: periodDate,
-                    applicablefilters: applicablefilters
-                    );
-            var output = Editor.BuildPresentation(input);
-
-
-
-            int numeroRigheBudget = 34;
-            int numeroRigheForecast = 34;
-            int numeroRigheSuperdettagli = 1000;
-            int numeroRigheRunRate = 1;
-            //
-            int numeroFilesFotoInTmpFolder = 14;
-            int numeroWarnings = 0;
-            int numeroPresentazioniGenerate = 3;
-
-            CheckResults(dataSourceFilePath, tmpFolder, output, numeroRigheBudget, numeroRigheForecast, numeroRigheSuperdettagli, numeroRigheRunRate, numeroFilesFotoInTmpFolder, numeroWarnings, numeroPresentazioniGenerate);
+            _FileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
+            _FileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
+            _FileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
+            _FileRunRatePath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
+            _AppendCurrentYear_FileSuperDettagli = false;
+            _PeriodDate = new DateTime(2025, 11, 2);
+            _Applicablefilters = new List<InputDataFilters_Item>();
         }
 
-        private static void CheckResults(string dataSourceFilePath, string tmpFolder, Entities.MethodsArgs.BuildPresentationOutput output, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate)
+        private BuildPresentationOutput EseguiMetodo()
+        {
+            var input = new BuildPresentationInput(
+                        dataSourceFilePath: _DataSourceFilePath,
+                        destinationFolder: _DestinationFolder,
+                        tmpFolder: _TmpFolder,
+                        debugFilePath: _DebugFilePath,
+                        //
+                        fileBudgetPath: _FileBudgetPath,
+                        fileForecastPath: _FileForecastPath,
+                        fileSuperDettagliPath: _FileSuperDettagliPath,
+                        fileRunRatePath: _FileRunRatePath,
+                        //
+                        powerPointTemplateFilePath: _PowerPointTemplateFilePath,
+                        appendCurrentYear_FileSuperDettagli: _AppendCurrentYear_FileSuperDettagli,
+                        periodDate: _PeriodDate,
+                        applicablefilters: _Applicablefilters
+                        );
+            return Editor.BuildPresentation(input);
+        }
+
+        private void CheckResults(BuildPresentationOutput output, string dataSourceFilePath, string tmpFolder, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate)
         {
             // test base
             Assert.IsNotNull(output);
@@ -116,6 +112,204 @@ namespace FilesEditor.Tests
             //
             const int offSetIntestazioneSuperdettagli = 2;
             Assert.AreEqual(offSetIntestazioneSuperdettagli + numeroRigheSuperdettagli, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
+        }
+
+
+
+
+
+        [TestMethod]
+        public void Scenario_OK_001()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                dataSourceFilePath: _DataSourceFilePath,
+                tmpFolder: _TmpFolder,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 34,
+                numeroRigheForecast: 34,
+                numeroRigheSuperdettagli: 1000,
+                numeroRigheRunRate: 1,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 3
+                );
+        }
+
+        [TestMethod]
+        public void Scenario_OK_002()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _AppendCurrentYear_FileSuperDettagli = true;
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                dataSourceFilePath: _DataSourceFilePath,
+                tmpFolder: _TmpFolder,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 34,
+                numeroRigheForecast: 34,
+                numeroRigheSuperdettagli: 1000 + 4, // 4 righe con anni diversi dal 2025
+                numeroRigheRunRate: 1,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 1,
+                numeroPresentazioniGenerate: 3
+                );
+
+            // altri check
+            Assert.AreEqual(output.Warnings[0], "The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date (2025).");
+        }
+
+        [TestMethod]
+        public void Scenario_OK_003()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _Applicablefilters = new List<InputDataFilters_Item>
+            {
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_BUSINESS,
+                    SelectedValues = new List<string>{ "TOB (MK, PK, MO)" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_CATEGORIA,
+                    SelectedValues = new List<string>{ "Match caso Macchina" }
+                },
+
+                //new InputDataFilters_Item {
+                //    Table = InputDataFilters_Tables.FORECAST,
+                //    FieldName = Values.HEADER_BUSINESS,
+                //    SelectedValues = new List<string>{ "ESS" }
+                //},
+                //new InputDataFilters_Item {
+                //    Table = InputDataFilters_Tables.FORECAST,
+                //    FieldName = Values.HEADER_CATEGORIA,
+                //    SelectedValues = new List<string>{ "FEASIBILITY" }
+                //}
+            };
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                dataSourceFilePath: _DataSourceFilePath,
+                tmpFolder: _TmpFolder,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 1,
+                numeroRigheForecast: 34,
+                numeroRigheSuperdettagli: 1000,
+                numeroRigheRunRate: 1,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 3
+                );
+        }
+
+        [TestMethod]
+        public void Scenario_OK_004()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _Applicablefilters = new List<InputDataFilters_Item>
+            {
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_BUSINESS,
+                    SelectedValues = new List<string>{ "TOB (MK, PK, MO)" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_CATEGORIA,
+                    SelectedValues = new List<string>{ "Match caso Macchina" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.FORECAST,
+                    FieldName = Values.HEADER_BUSINESS,
+                    SelectedValues = new List<string>{ "ESS" }
+                },
+                //new InputDataFilters_Item {
+                //    Table = InputDataFilters_Tables.FORECAST,
+                //    FieldName = Values.HEADER_CATEGORIA,
+                //    SelectedValues = new List<string>{ "FEASIBILITY" }
+                //}
+            };
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                dataSourceFilePath: _DataSourceFilePath,
+                tmpFolder: _TmpFolder,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 1,
+                numeroRigheForecast: 7,
+                numeroRigheSuperdettagli: 1000,
+                numeroRigheRunRate: 1,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 3
+                );
+        }
+
+        [TestMethod]
+        public void Scenario_OK_005()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _Applicablefilters = new List<InputDataFilters_Item>
+            {
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_BUSINESS,
+                    SelectedValues = new List<string>{ "TOB (MK, PK, MO)" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_CATEGORIA,
+                    SelectedValues = new List<string>{ "Match caso Macchina" }
+                },
+                //new InputDataFilters_Item {
+                //    Table = InputDataFilters_Tables.FORECAST,
+                //    FieldName = Values.HEADER_BUSINESS,
+                //    SelectedValues = new List<string>{ "ESS" }
+                //},
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.FORECAST,
+                    FieldName = Values.HEADER_CATEGORIA,
+                    SelectedValues = new List<string>{ "FEASIBILITY" }
+                }
+            };
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                dataSourceFilePath: _DataSourceFilePath,
+                tmpFolder: _TmpFolder,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 1,
+                numeroRigheForecast: 4,
+                numeroRigheSuperdettagli: 1000,
+                numeroRigheRunRate: 1,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 3
+                );
         }
     }
 }
