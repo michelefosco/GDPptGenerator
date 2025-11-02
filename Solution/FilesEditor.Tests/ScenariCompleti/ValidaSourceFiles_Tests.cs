@@ -45,21 +45,23 @@ namespace FilesEditor.Tests
             Assert.IsNull(output.ManagedException, output.ManagedException?.Message);
             Assert.AreEqual(EsitiFinali.Success, output.Esito);
 
+            int numeroApplicablefilters = 6;
+
             // test specifici dell'oggetto di output
             Assert.IsNotNull(output.Applicablefilters);
-            Assert.AreEqual(6, output.Applicablefilters.Count);
+            Assert.AreEqual(numeroApplicablefilters, output.Applicablefilters.Count);
 
             foreach (var filter in output.Applicablefilters)
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(filter.FieldName));
-                Assert.IsNotNull(filter.Values);
-                Assert.IsTrue(filter.Values.Count > 0);
+                Assert.IsNotNull(filter.PossibleValues);
+                Assert.IsTrue(filter.PossibleValues.Count > 0);
                 Assert.AreEqual(0, filter.SelectedValues.Count);
             }
 
             // 
-            Assert.AreEqual(1, output.Applicablefilters[0].Values.Count);
-            Assert.AreEqual("K", output.Applicablefilters[0].Values[0]);
+            Assert.AreEqual(1, output.Applicablefilters[0].PossibleValues.Count);
+            Assert.AreEqual("K", output.Applicablefilters[0].PossibleValues[0]);
         }
     }
 }

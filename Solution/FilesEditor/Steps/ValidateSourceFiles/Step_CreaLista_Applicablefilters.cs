@@ -70,7 +70,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 {
                     Table = parsedTable,
                     FieldName = field,
-                    Values = new List<string>(),
+                    PossibleValues = new List<string>(),
                     SelectedValues = new List<string>(),
                 });
 
@@ -86,7 +86,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 switch (applicablefilter.Table)
                 {
                     case InputDataFilters_Tables.BUDGET:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                        applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileBudgetPath,
                                 worksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
                                 fileType: FileTypes.Budget,
@@ -96,12 +96,12 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 );
                         // E' stato necessario rimuovere manualmente il valore "Totale complessivo" per via della struttura insolita dei file Budget e Forecast
                         if (applicablefilter.FieldName == Values.HEADER_BUSINESS)
-                        { applicablefilter.Values.Remove("Totale complessivo"); }
+                        { applicablefilter.PossibleValues.Remove("Totale complessivo"); }
                         
                         break;
 
                     case InputDataFilters_Tables.FORECAST:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                        applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileForecastPath,
                                 worksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
@@ -111,11 +111,11 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 );
                         // E' stato necessario rimuovere manualmente il valore "Totale complessivo" per via della struttura insolita dei file Budget e Forecast
                         if (applicablefilter.FieldName == Values.HEADER_BUSINESS)
-                        { applicablefilter.Values.Remove("Totale complessivo"); }
+                        { applicablefilter.PossibleValues.Remove("Totale complessivo"); }
                         break;
 
                     case InputDataFilters_Tables.RUNRATE:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                        applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileRunRatePath,
                                 worksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
@@ -126,7 +126,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                         break;
 
                     case InputDataFilters_Tables.SUPERDETTAGLI:
-                        applicablefilter.Values = GetApplicableFiltersValues_FromSourceFile(
+                        applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileSuperDettagliPath,
                                 worksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,

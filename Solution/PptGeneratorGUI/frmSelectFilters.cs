@@ -28,7 +28,7 @@ namespace PptGeneratorGUI
 
         private void LoadFilterList()
         {
-            foreach (var val in FilterToManage.Values.OrderBy(_ => _))
+            foreach (var val in FilterToManage.PossibleValues.OrderBy(_ => _))
             {
                 var itmeChecked = FilterToManage.SelectedValues.Any(_ => _.Equals(val));
                 cblFilters.Items.Add(val, itmeChecked);
