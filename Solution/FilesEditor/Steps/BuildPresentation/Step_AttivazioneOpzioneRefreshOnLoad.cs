@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using System;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -8,10 +9,27 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_AttivazioneOpzioneRefreshOnLoad : StepBase
     {
+        public override string StepName => "Step_AttivazioneOpzioneRefreshOnLoad";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
         public Step_AttivazioneOpzioneRefreshOnLoad(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
             //todo: verificarne il funzionamento quando ci saranno pivet tables nel datasource file
             var numeroDiPivotTableAggiornate = Context.EpplusHelperDataSource.SetRefreshOnLoadForAllPivotTables();

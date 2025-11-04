@@ -1,6 +1,6 @@
 ﻿namespace FilesEditor.Entities
 {
-    internal class AliasDefinition
+    public class AliasDefinition
     {
         public AliasDefinition(string rawValue, string newValue)
         {

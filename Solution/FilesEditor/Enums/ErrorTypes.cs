@@ -48,6 +48,8 @@ namespace FilesEditor.Enums
         [Description("Missing header")]
         MissingHeader,
 
+        [Description("No data available")]
+        NoDataAvailable,
 
 
         // not used yet

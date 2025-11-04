@@ -15,20 +15,33 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_CreaLista_SildeToGenerate : StepBase
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        public override string StepName => "Step_CreaLista_SildeToGenerate";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_CreaLista_SildeToGenerate(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_CreaLista_SildeToGenerate", Context);
-            creaLista_SildeToGenerate();
+            CreaLista_SildeToGenerate();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void creaLista_SildeToGenerate()
+        private void CreaLista_SildeToGenerate()
         {
             // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;

@@ -10,15 +10,35 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_CreaFiles_Presentazioni : StepBase
     {
+        public override string StepName => "Step_CreaFiles_Presentazioni";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
         public Step_CreaFiles_Presentazioni(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_CreaFiles_Presentazioni", Context);
             BuildPresentations();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
@@ -59,7 +79,7 @@ namespace FilesEditor.Steps.BuildPresentation
             var slideTitleDateBox = slideTitle.GetTextBoxes()[2];
             slideTitleDateBox.SetText(Context.PeriodDate.ToString("MM/yyyy"));
             #endregion
-                        
+
             #region Edito la slide "Indice" con la lista dei titoli delle slides
             var slideIndex = pres.Slide(SLIDE_INDEX_POSITION);
             var slideIndexTitlesListBox = slideIndex.GetTextBoxes().LastOrDefault();
@@ -206,10 +226,10 @@ namespace FilesEditor.Steps.BuildPresentation
         private string GetOutputFilePath(string outputFileName)
         {
             var outputfilePath = Path.Combine(Context.DestinationFolder, outputFileName);
-            
+
             if (outputfilePath.EndsWith(".pptx", StringComparison.InvariantCultureIgnoreCase) == false)
             { outputfilePath = outputFileName + ".pptx"; }
-            
+
             return outputfilePath;
         }
     }

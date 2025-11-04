@@ -10,15 +10,33 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_ImportaDati_SuperDettagli : StepBase
     {
+        public override string StepName => "Step_ImportaDati_SuperDettagli";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
         public Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImportaDati_SuperDettagli", Context);
-
             ImportaSourceFile(
                     //sourceFileType: FileTypes.SuperDettagli,
                     sourceFilePath: Context.FileSuperDettagliPath,
@@ -245,6 +263,23 @@ namespace FilesEditor.Steps.BuildPresentation
                 Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnnoPositionZeroBased);
             }
             #endregion
+
+            if (totRighePreservate + totRigheAggiunte == 0)
+            {
+                throw new ManagedException(
+                    filePath: sourceFilePath,
+                    fileType: FileTypes.SuperDettagli,
+                    //
+                    worksheetName: sourceWorksheetName,
+                    cellRow: null,
+                    cellColumn: null,
+                    valueHeader: ValueHeaders.None,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.NoDataAvailable,
+                                        userMessage: string.Format(UserErrorMessages.NoDataAvailableFromFileAfterFilters, FileTypes.SuperDettagli)
+                    );
+            }
 
             // Log delle informazioni
             Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.SuperDettagli, totRighePreservate, totRigheEliminate, totRigheAggiunte);

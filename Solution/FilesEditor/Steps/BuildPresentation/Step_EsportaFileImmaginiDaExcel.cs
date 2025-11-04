@@ -1,28 +1,48 @@
 ﻿using ExcelImageExtractors.Interfaces;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_EsportaFileImmaginiDaExcel : StepBase
     {
+        public override string StepName => "Step_EsportaFileImmaginiDaExcel";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_EsportaFileImmaginiDaExcel(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_EsportaFileImmaginiDaExcel", Context);
-            creaFilesImmaginiDaEsportare();
+            CreaFilesImmaginiDaEsportare();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
         /// <summary>
         /// Genera le immagini da usarsi nelle slides
         /// </summary>
-        private void creaFilesImmaginiDaEsportare()
+        private void CreaFilesImmaginiDaEsportare()
         {
             #region Verifico che i file delle immagini da generare per le slide non esistano già
             foreach (var itemsToExportAsImage in Context.ItemsToExportAsImage)

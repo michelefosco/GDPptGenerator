@@ -15,18 +15,35 @@ namespace FilesEditor.Steps.ValidateSourceFiles
     /// </summary>
     internal class Step_CreaLista_Applicablefilters : StepBase
     {
+        public override string StepName => "Step_CreaLista_Applicablefilters";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
         public Step_CreaLista_Applicablefilters(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_CreaLista_Applicablefilters", Context);
-            creaLista_Applicablefilters();
+            CreaLista_Applicablefilters();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
 
-        private void creaLista_Applicablefilters()
+        private void CreaLista_Applicablefilters()
         {
             //var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
@@ -97,7 +114,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                         // E' stato necessario rimuovere manualmente il valore "Totale complessivo" per via della struttura insolita dei file Budget e Forecast
                         if (applicablefilter.FieldName == Values.HEADER_BUSINESS)
                         { applicablefilter.PossibleValues.Remove("Totale complessivo"); }
-                        
+
                         break;
 
                     case InputDataFilters_Tables.FORECAST:
@@ -135,7 +152,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                                 startCheckHeadersFromColumn: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL
                                 );
                         break;
-                 
+
                     default:
                         throw new Exception($"Tipo tabella sconosciuto nella configurazione dei filtri: '{applicablefilter.Table}'");
                 }

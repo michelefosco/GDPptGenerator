@@ -1,7 +1,6 @@
 ﻿using EPPlusExtensions;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
-using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
@@ -9,57 +8,29 @@ using System.IO;
 
 namespace FilesEditor.Helpers
 {
-    public class DebugInfoLogger
+    public class DebugInfoLoggerBase
     {
-        private class WorkSheetNames
-        {
-            // lunghezza massima nome foglio in Excel = 31     "1234567890123456789012345678901"
-            public const string Log = "Log";
-            public const string StepContext = "StepContext";
-            public const string Warnings = "Warnings";
-            public const string RigheSourceFiles = "Righe input files";
-            public const string ImageExtraction = "ImageExtraction";
+        const string WORKSHEET_NAME_TEXT = "Text";
+        const string WORKSHEET_NAME_WARNINGS = "Warnings";
+        const string WORKSHEET_NAME_PERFORMANCE = "Performance";
 
 
-            public const string UpdateReportsOutput = "UpdateReportsOutput";
-            public const string RepartiCensitiSuController = "Reparti in controller";
-            public const string RepartiCensitiSuReport = "Reparti in report";
-            public const string FornitoriCensiti = "Fornitori-Censiti";
-            public const string FornitoriAggiuntiDaInterfaccia = "Fornitori-Aggiunti da IU";
-            public const string FornitoriAggiuntiDaListaDati = "Fornitori-Aggiun da Lista dati";
-            public const string FornitoriNonCensitiInReport = "Fornitori-NON censiti in report";
-            public const string Spese = "Spese";
-            public const string RigheSpesaSkippate = "Righe spesa skippate";
-
-            public const string ConsumiSpacchettati = "Consumi spacchettati";
-            public const string SintesiRigheNecessarie = "Sintesi-Righe necessarie";
-            public const string SintesiRigheMancanti = "Sintesi-Righe mancanti";
-            public const string SintesiDatiPreElaborazione = "Sintesi-Dati PRE elaborazione";
-            public const string SintesiDatiSpeseConfermate_Totali = "Sintesi-Dati spese Totali";
-            public const string SintesiDatiSpeseConfermate_Actual = "Sintesi-Dati spese Actual";
-            public const string SintesiDatiSpeseConfermate_Commitment = "Sintesi-Dati spese Commitment";
-            public const string SintesiDatiPostElaborazione = "Sintesi-Dati POST elaborazione";
-            public const string LogModificheTabellaSintesi = "Sintesi-Modifiche alla tabella";
-            public const string CategorieFornitori = "Categorie fornitori";
-        }
-
-        private readonly EPPlusHelper _epPlusHelper;
+        internal readonly EPPlusHelper _epPlusHelper;
         private readonly bool _autoSave;
 
-        private string TimeStampString { get { return DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff"); } }
+        internal string TimeStampString { get { return DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff"); } }
 
 
-        internal DebugInfoLogger(string filePath, bool autoSave = false)
+        public DebugInfoLoggerBase(string filePath, bool autoSave = false)
         {
             if (string.IsNullOrWhiteSpace(filePath))
-                return;
+            { return; }
 
             _autoSave = autoSave;
 
             // Verifica che il file da generare NON esita già
             if (File.Exists(filePath))
             {
-                //TEST:SituazioniNonValide.OutputFile_Debug.PercorsoFile_DebugOutPut_NON_Corretto_GiaEsistente()
                 throw new ManagedException(
                     filePath: filePath,
                     fileType: FileTypes.Debug,
@@ -78,7 +49,7 @@ namespace FilesEditor.Helpers
             _epPlusHelper = new EPPlusHelper();
 
             // Verifica che il file da usarsi per il debug sia stato stato creato correttamente
-            if (!_epPlusHelper.Create(filePath, WorkSheetNames.Log))
+            if (!_epPlusHelper.Create(filePath, WORKSHEET_NAME_TEXT))
             {
                 throw new ManagedException(
                     filePath: filePath,
@@ -96,98 +67,87 @@ namespace FilesEditor.Helpers
             }
         }
 
-        internal void LogText(object text1, object text2 = null, object text3 = null)
+
+        internal void RunAutoSave()
+        {
+            if (_autoSave)
+            {
+                _epPlusHelper.Save();
+            }
+        }
+        public void Save()
         {
             if (_epPlusHelper == null) { return; }
 
-            var worksheetName = WorkSheetNames.Log;
+            _epPlusHelper.Save();
+        }
+
+        public void LogText(object text1, object text2 = null, object text3 = null)
+        {
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetName = WORKSHEET_NAME_TEXT;
 
             _epPlusHelper.AddNewContentRow(worksheetName, TimeStampString, text1, text2, text3);
 
-            AutoSave();
+            RunAutoSave();
         }
-
-        internal void LogBuildPresentationInput(BuildPresentationInput buildPresentationInput)
+        public void LogWarning(string warningText)
         {
             if (_epPlusHelper == null) { return; }
 
-            //   var worksheetName = WorkSheetNames.UpdateReportsInput;
+            var worksheetName = WORKSHEET_NAME_WARNINGS;
 
-            //_epPlusHelper.AddNewContentRow(worksheetName, "Periodo", updateReportsInput.Periodo);
-            //_epPlusHelper.AddNewContentRow(worksheetName, "DataAggiornamento", updateReportsInput.DataAggiornamento.ToShortDateString());
-            //_epPlusHelper.AddNewContentRow(worksheetName, "FileController_FilePath", updateReportsInput.FileController_FilePath);
-            //_epPlusHelper.AddNewContentRow(worksheetName, "FileReport_FilePath", updateReportsInput.FileReport_FilePath);
-            //_epPlusHelper.AddNewContentRow(worksheetName, "NewReport_FilePath", updateReportsInput.NewReport_FilePath);
-            //_epPlusHelper.AddNewContentRow(worksheetName, "FileDebug_FilePath", updateReportsInput.FileDebug_FilePath);
-            //_epPlusHelper.AddNewContentRow(worksheetName, "FornitoriDaAggiungere", "Vedo foglio dedicato");
+            _epPlusHelper.AddNewContentRow(worksheetName, TimeStampString, warningText);
 
-            AutoSave();
+            RunAutoSave();
         }
 
-        internal void LogBuildPresentationOutput(BuildPresentationOutput buildPresentationOutput)
+        public void LogPerformance(string taskReference, TimeSpan spentTime)
         {
             if (_epPlusHelper == null) { return; }
 
-            var worksheetName = WorkSheetNames.UpdateReportsOutput;
+            var worksheetName = WORKSHEET_NAME_PERFORMANCE;
 
-            //if (updateReportsOutput.RepartiCensitiInController != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RepartiCensitiInController", updateReportsOutput.RepartiCensitiInController.Count);
-            //}
-            //if (updateReportsOutput.RepartiCensitiInReport != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RepartiCensitiInReport", updateReportsOutput.RepartiCensitiInReport.Count);
-            //}
-            //if (updateReportsOutput.FornitoriCensitiInReport != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero FornitoriCensiti", updateReportsOutput.FornitoriCensitiInReport.Count);
-            //}
-            //if (updateReportsOutput.RigheSpesa != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RigheSpesa", updateReportsOutput.RigheSpesa.Count);
-            //}
-            //if (updateReportsOutput.RigheSpesaSkippate != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RigheSpesaSkippate", updateReportsOutput.RigheSpesaSkippate.Count);
-            //}
-            //if (updateReportsOutput.RigheTabellaAvanzamento != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RigheTabellaAvanzamento", updateReportsOutput.RigheTabellaAvanzamento.Count);
-            //}
-            //if (updateReportsOutput.RigheTabellaConsumiSpacchettati != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RigheTabellaConsumiSpacchettati", updateReportsOutput.RigheTabellaConsumiSpacchettati.Count);
-            //}
-            //if (updateReportsOutput.RigheTabellaSintesi_SetMinimoRigheNecessarie != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RigheTabellaSintesi", updateReportsOutput.RigheTabellaSintesi_SetMinimoRigheNecessarie.Count);
-            //}
-            //if (updateReportsOutput.RigheTabellaSintesi_RigheMancanti != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero RigheMancantiSuTabellaSintesi", updateReportsOutput.RigheTabellaSintesi_RigheMancanti.Count);
-            //}
-            //if (updateReportsOutput.CategorieFornitori != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero CategorieFornitori", updateReportsOutput.CategorieFornitori.Count);
-            //}
-            //if (updateReportsOutput.FornitoriNonCensitiInReport != null)
-            //{
-            //    _epPlusHelper.AddNewContentRow(worksheetName, "Numero FornitoriNonCensitiInReport", updateReportsOutput.FornitoriNonCensitiInReport.Count);
-            //}
-            if (buildPresentationOutput.ManagedException != null)
+            _epPlusHelper.AddNewContentRow(worksheetName, taskReference, 
+                "Totale seconds:", spentTime.TotalSeconds,
+                "Total milliseconds:", spentTime.TotalMilliseconds);
+
+            RunAutoSave();
+        }
+
+        public void Beautify()
+        {
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetNames = _epPlusHelper.GetWorksheetNames();
+            foreach (var worksheetName in worksheetNames)
             {
-                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException.MessaggioPerUtente", buildPresentationOutput.ManagedException.UserMessage.ToString());
-                _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", buildPresentationOutput.ManagedException.ToString());
-                if (buildPresentationOutput.ManagedException.InnerException != null)
-                {
-                    _epPlusHelper.AddNewContentRow(worksheetName, "ManagedException.InnerException", buildPresentationOutput.ManagedException.InnerException.ToString());
-                }
+                _epPlusHelper.BorderAllContent(worksheetName);
+                _epPlusHelper.AutoFitColumns(worksheetName);
             }
 
-            AutoSave();
+            RunAutoSave();
+        }
+    }
+
+
+    public class DebugInfoLogger : DebugInfoLoggerBase
+    {
+        private class WorkSheetNames
+        {
+            // lunghezza massima nome foglio in Excel = 31     "1234567890123456789012345678901"
+
+            public const string StepContext = "StepContext";
+            public const string RigheSourceFiles = "Righe input files";
+            public const string ImageExtraction = "ImageExtraction";
         }
 
-        internal void LogAlias(List<AliasDefinition> aliasDefinitions, string fieldName)
+        public DebugInfoLogger(string filePath, bool autoSave = false) : base(filePath, autoSave)
+        { }
+
+        // Del dominio specifico
+        public void LogAlias(List<AliasDefinition> aliasDefinitions, string fieldName)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -209,10 +169,9 @@ namespace FilesEditor.Helpers
                     );
             }
 
-            AutoSave();
+            RunAutoSave();
         }
-
-        internal void LogRigheSourceFiles(FileTypes fileType, int totRighePreservate, int totRigheEliminate, int totRigheAggiunte)
+        public void LogRigheSourceFiles(FileTypes fileType, int totRighePreservate, int totRigheEliminate, int totRigheAggiunte)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -222,48 +181,9 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe eliminate:", totRigheEliminate);
             _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot rRighe aggiunte:", totRigheAggiunte);
 
-            AutoSave();
+            RunAutoSave();
         }
-
-        internal void Beautify()
-        {
-            if (_epPlusHelper == null) { return; }
-
-            var worksheetNames = _epPlusHelper.GetWorksheetNames();
-            foreach (var worksheetName in worksheetNames)
-            {
-                _epPlusHelper.BorderAllContent(worksheetName);
-                _epPlusHelper.AutoFitColumns(worksheetName);
-            }
-
-            AutoSave();
-        }
-
-        internal void Save()
-        {
-            if (_epPlusHelper == null) { return; }
-
-            _epPlusHelper.Save();
-        }
-
-        private void AutoSave()
-        {
-            if (_autoSave)
-            {
-                _epPlusHelper.Save();
-            }
-        }
-
-        internal void LogWarning(string warningMessage)
-        {
-            if (_epPlusHelper == null) { return; }
-
-            var worksheetName = WorkSheetNames.Warnings;
-
-            _epPlusHelper.AddNewContentRow(worksheetName, warningMessage);
-        }
-
-        internal void LogStepContext(string stepName, StepContext context)
+        public void LogStepContext(string stepName, StepContext context)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -292,20 +212,19 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ItemsToExportAsImage (count)", context.ItemsToExportAsImage.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "OutputFilePathLists (count)", context.OutputFilePathLists.Count);
 
-            AutoSave();
+            RunAutoSave();
         }
-
-        internal void LogInfoExportImages(int attemptNumber, string imageId, string imageFilePath, string workSheetName, string printArea, bool isPresentOnFileSistem)
+        public void LogInfoExportImages(int attemptNumber, string imageId, string imageFilePath, string workSheetName, string printArea, bool isPresentOnFileSistem)
         {
             if (_epPlusHelper == null) { return; }
 
             var worksheetName = WorkSheetNames.ImageExtraction;
 
-            _epPlusHelper.AddNewContentRow(worksheetName, 
-                TimeStampString, 
-                "Attempt number:", attemptNumber, 
-                "Imange info:", imageId, imageFilePath, workSheetName, printArea, 
-                "Success?:", isPresentOnFileSistem);
+            _epPlusHelper.AddNewContentRow(worksheetName,
+                            TimeStampString,
+                            "Attempt number:", attemptNumber,
+                            "Imange info:", imageId, imageFilePath, workSheetName, printArea,
+                            "Success?:", isPresentOnFileSistem);
         }
     }
 }

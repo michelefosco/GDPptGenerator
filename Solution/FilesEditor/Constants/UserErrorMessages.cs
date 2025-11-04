@@ -12,5 +12,6 @@
         public const string MissingValue = "The required value '{0}' is missing";
         public const string MissingHeader = "The file '{0}' does not containt the expected header '{1}' inside the worksheet '{2}'";
         public const string InvalidValue = "Invalid value '{0}'";
+        public const string NoDataAvailableFromFileAfterFilters = "No data available on file '{0}'. Try reducing the applied filters.";        
     }
 }

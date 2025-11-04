@@ -1,20 +1,39 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
+using System;
 using System.IO;
 using System.IO.Compression;
 
 
 namespace FilesEditor.Steps.BuildPresentation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_BackupFile_DataSource : StepBase
     {
+        public override string StepName => "Step_BackupFile_DataSource";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_BackupFile_DataSource(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_BackupFile_DataSource", Context);
             BackupFile_DataSource();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

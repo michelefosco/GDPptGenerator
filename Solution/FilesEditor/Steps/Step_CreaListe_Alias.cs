@@ -10,19 +10,38 @@ using System.Linq;
 
 namespace FilesEditor.Steps
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_CreaListe_Alias : StepBase
     {
+        public override string StepName => "Step_CreaListe_Alias";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_CreaListe_Alias(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_CreaListe_Alias", Context);
-            creaListe_Alias();
+            CreaListe_Alias();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void creaListe_Alias()
+        private void CreaListe_Alias()
         {
             FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS, Context.AliasDefinitions_Business);
             FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA, Context.AliasDefinitions_Categoria);

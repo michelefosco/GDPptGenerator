@@ -2,6 +2,7 @@
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using System;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -10,19 +11,33 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_VerificaEditabilita_DataSource_File : StepBase
     {
+        public override string StepName => "Step_VerificaEditabilita_DataSource_File";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_VerificaEditabilita_DataSource_File(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            tryToSaveDataSourceFile();
-
-            Context.DebugInfoLogger.LogStepContext("Step_VerificaEditabilita_DataSource_File", Context);
+            TryToSaveDataSourceFile();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void tryToSaveDataSourceFile()
+        private void TryToSaveDataSourceFile()
         {
             var testSaveDataSourcePassed = Context.EpplusHelperDataSource.Save();
             if (!testSaveDataSourcePassed)

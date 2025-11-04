@@ -1,28 +1,46 @@
-﻿using FilesEditor.Constants;
-using FilesEditor.Entities;
+﻿using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
+using System;
 using System.Linq;
 
 namespace FilesEditor.Steps
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_CreaLista_ItemsToExportAsImage : StepBase
     {
+        public override string StepName => "Step_CreaLista_ItemsToExportAsImage";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
         public Step_CreaLista_ItemsToExportAsImage(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_CreaLista_ItemsToExportAsImage", Context);
-            creaListaImmaginiDaEsportare();
+            CreaListaImmaginiDaEsportare();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void creaListaImmaginiDaEsportare()
+        private void CreaListaImmaginiDaEsportare()
         {
-            // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)
             {

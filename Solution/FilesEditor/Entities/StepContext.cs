@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace FilesEditor.Entities
 {
-    internal class StepContext : UserInterfaceInputBase
+    public class StepContext : UserInterfaceInputBase
     {
         private EPPlusHelper _ePPlusHelperDataSource;
 

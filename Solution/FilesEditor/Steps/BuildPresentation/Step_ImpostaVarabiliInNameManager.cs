@@ -1,17 +1,35 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using System;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_ImpostaVarabiliInNameManager : StepBase
     {
+        public override string StepName => "Step_ImpostaVarabiliInNameManager";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_ImpostaVarabiliInNameManager(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImpostaVarabiliInNameManager", Context);
-
             const string VARIABLE_NAME_ANNO = "anno";
             const string VARIABLE_NAME_MESE = "mese";
             const string VARIABLE_NAME_QUARTER= "quarter";

@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
+using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using OfficeOpenXml;
 using System;
@@ -9,15 +10,32 @@ using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Step_ImportaDati_BudgetAndForecast : StepBase
     {
+        public override string StepName => "Step_ImportaDati_BudgetAndForecast";
+
+        internal override void BeforeTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
+
+        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
+        {
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
+        }
+
+        internal override void AfterTask()
+        {
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+        }
         public Step_ImportaDati_BudgetAndForecast(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoSpecificTask()
+        internal override EsitiFinali DoStepTask()
         {
-            Context.DebugInfoLogger.LogStepContext("Step_ImportaDati_BudgetAndForecast", Context);
-
             ImportaSourceFile(
                     sourceFileType: FileTypes.Budget,
                     sourceFilePath: Context.FileBudgetPath,
@@ -190,6 +208,23 @@ namespace FilesEditor.Steps.BuildPresentation
                 totRigheEliminate++;
             }
             #endregion
+
+            if (totRighePreservate + totRigheAggiunte == 0)
+            {
+                throw new ManagedException(
+                    filePath: sourceFilePath,
+                    fileType: sourceFileType,
+                    //
+                    worksheetName: sourceWorksheetName,
+                    cellRow: null,
+                    cellColumn: null,
+                    valueHeader: ValueHeaders.None,
+                    value: null,
+                    //
+                    errorType: ErrorTypes.NoDataAvailable,
+                    userMessage: string.Format(UserErrorMessages.NoDataAvailableFromFileAfterFilters, sourceFileType)
+                    );
+            }
 
             // Log delle informazioni
             Context.DebugInfoLogger.LogRigheSourceFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
