@@ -88,11 +88,12 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataSouceExcelFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearPathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.lblElaborazioneInCorso = new System.Windows.Forms.Label();
+            this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadLastSessionPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deletePathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
@@ -693,7 +694,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.sessionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1184, 24);
@@ -704,13 +706,10 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openDataSouceExcelFileToolStripMenuItem,
-            this.openSouceFilesFolderToolStripMenuItem,
-            this.loadLastSessionPathsToolStripMenuItem,
-            this.cleanCurrentsessionToolStripMenuItem,
-            this.clearPathsHistoryToolStripMenuItem});
+            this.openSouceFilesFolderToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
-            this.toolStripMenuItem1.Text = "&Options";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(79, 20);
+            this.toolStripMenuItem1.Text = "Data&Source";
             // 
             // openDataSouceExcelFileToolStripMenuItem
             // 
@@ -725,26 +724,6 @@
             this.openSouceFilesFolderToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.openSouceFilesFolderToolStripMenuItem.Text = "Open DataSource &Folder";
             this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
-            // 
-            // cleanCurrentsessionToolStripMenuItem
-            // 
-            this.cleanCurrentsessionToolStripMenuItem.Name = "cleanCurrentsessionToolStripMenuItem";
-            this.cleanCurrentsessionToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.cleanCurrentsessionToolStripMenuItem.Text = "Clean current &session";
-            this.cleanCurrentsessionToolStripMenuItem.Click += new System.EventHandler(this.cleanCurrentsessionToolStripMenuItem_Click);
-            // 
-            // clearPathsHistoryToolStripMenuItem
-            // 
-            this.clearPathsHistoryToolStripMenuItem.Name = "clearPathsHistoryToolStripMenuItem";
-            this.clearPathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.clearPathsHistoryToolStripMenuItem.Text = "&Clear paths history";
-            this.clearPathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearPathsHistoryToolStripMenuItem_Click);
-            // 
-            // bfbDestFolder
-            // 
-            this.bfbDestFolder.Multiselect = false;
-            this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
-            this.bfbDestFolder.Title = "Please select a folder...";
             // 
             // lblElaborazioneInCorso
             // 
@@ -762,12 +741,42 @@
             this.lblElaborazioneInCorso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblElaborazioneInCorso.Visible = false;
             // 
+            // sessionToolStripMenuItem
+            // 
+            this.sessionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadLastSessionPathsToolStripMenuItem,
+            this.cleanCurrentsessionToolStripMenuItem,
+            this.deletePathsHistoryToolStripMenuItem});
+            this.sessionToolStripMenuItem.Name = "sessionToolStripMenuItem";
+            this.sessionToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.sessionToolStripMenuItem.Text = "Session";
+            // 
             // loadLastSessionPathsToolStripMenuItem
             // 
             this.loadLastSessionPathsToolStripMenuItem.Name = "loadLastSessionPathsToolStripMenuItem";
-            this.loadLastSessionPathsToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.loadLastSessionPathsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.loadLastSessionPathsToolStripMenuItem.Text = "&Load last session paths";
-            this.loadLastSessionPathsToolStripMenuItem.Click += new System.EventHandler(this.loadLastSessionPathsToolStripMenuItem_Click);
+            this.loadLastSessionPathsToolStripMenuItem.Click += new System.EventHandler(this.loadLastSessionPathsToolStripMenuItem1_Click);
+            // 
+            // cleanCurrentsessionToolStripMenuItem
+            // 
+            this.cleanCurrentsessionToolStripMenuItem.Name = "cleanCurrentsessionToolStripMenuItem";
+            this.cleanCurrentsessionToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.cleanCurrentsessionToolStripMenuItem.Text = "&Clean current session";
+            this.cleanCurrentsessionToolStripMenuItem.Click += new System.EventHandler(this.cleanCurrentsessionToolStripMenuItem_Click);
+            // 
+            // deletePathsHistoryToolStripMenuItem
+            // 
+            this.deletePathsHistoryToolStripMenuItem.Name = "deletePathsHistoryToolStripMenuItem";
+            this.deletePathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.deletePathsHistoryToolStripMenuItem.Text = "&Delete paths history";
+            this.deletePathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.deletePathsHistoryToolStripMenuItem_Click);
+            // 
+            // bfbDestFolder
+            // 
+            this.bfbDestFolder.Multiselect = false;
+            this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
+            this.bfbDestFolder.Title = "Please select a folder...";
             // 
             // frmMain
             // 
@@ -858,16 +867,17 @@
         private System.Windows.Forms.CheckBox cbAppendCurrentYearSuperDettagli;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem clearPathsHistoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSouceFilesFolderToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cleanCurrentsessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openDataSouceExcelFileToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Table;
         private System.Windows.Forms.DataGridViewTextBoxColumn Field;
         private System.Windows.Forms.DataGridViewButtonColumn OpenFiltersSelection;
         private System.Windows.Forms.DataGridViewTextBoxColumn SelectedValues;
         private System.Windows.Forms.Label lblElaborazioneInCorso;
+        private System.Windows.Forms.ToolStripMenuItem sessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadLastSessionPathsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cleanCurrentsessionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deletePathsHistoryToolStripMenuItem;
     }
 }
 

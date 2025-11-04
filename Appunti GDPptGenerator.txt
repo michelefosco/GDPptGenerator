@@ -3,24 +3,22 @@ Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
 Dimensioni slide: 			29,691 cm X 16,713 cm
 Dimensioni box immagini:	27,400 cm X 14.500 cm	Ratio (1 : 2,192)
 File di input: 
-	1) SuperDettagli
-	2) Budget
-	3) Forecast
-	4) Ran Rate
+	1) SuperDettagli	Molto pesante anche 120k righe
+	2) Budget			Leggero gemello di Forecast
+	3) Forecast			Leggero gemello di Budget
+	4) Ran Rate			1 riga con i 12 mesi
 
-
-C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE /regserver
 
 -- tmp folder with generated imgaes
 C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\FilesEditor.Tests\bin\Debug\TestFiles
-
 C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\FilesEditor.Tests\bin\Debug\TestFiles\InputFiles
+C:\Data\Lefo\Dev\3 GDPptGenerator\AAA Files for demo\Output\TmpForGeneratedFiles
+
 
 -- registrazione dll nella gac
 cd C:\Program Files\Microsoft Office\root\Office16\ADDINS\PowerPivot Excel Add-in
 gacutil /i Microsoft.Office.Interop.Excel.dll /f
-
-
+C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE /regserver
 
 -------------------- Info
 Per PowerPoint usata libreria: ShapeCrawler
@@ -29,7 +27,6 @@ Microsoft Excel 15.0
 
 
 -------------------- Domande per Francesco
-- Filtri sui campi con Alias fanno applicati prima della sostituzione o dopo?
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 
 
@@ -37,6 +34,7 @@ Microsoft Excel 15.0
 
 
 -------------------- Todo
+- Aggiungere timestamp ai log
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
 - Sollevare eccezione nel caso in cui i filtri filtrino tutti le righe di Budget o forecast
 - Clean up "Step_ImportaDati_SuperDettagli" specializzato per 
@@ -53,10 +51,7 @@ Microsoft Excel 15.0
  - Aggiungere variabili "Anno", "Quarter", "Mese" al gestione nomi. Aggiungere foglio che mostri il valore delle variabili
  - Mandare datasource versione finale
 - Settare i valori del periodo in "Name manager" variabili di Excel (mese, quarter, anno) interi
-
 - Testare SuperDettagli con 200k righe
-
-
 - riportare meglio l'eccezione generica e il pulsante copy
 - Preferirei la possibilità di inserire la data (identico a programma vendorRefresher) e dopo lo strumento potrà immediatamente capire il mese, il quarter e l'anno 
 	es: 12/02/2025 >> mese 02; quarter Q1; anno 2025
@@ -64,6 +59,7 @@ Microsoft Excel 15.0
 	Potrebbe servire anche . 
 - Logica append/replace dei dati si duperdettagli
 - Aggiornare variabili foglio nome in base al periodo
+
 - Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle
 - Add logging
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD

@@ -93,13 +93,14 @@ namespace FilesEditor
                     // Steps che modificano il file DataSource - Inizio
                     new Step_ImportaDati_RunRate(context),
                     new Step_ImportaDati_BudgetAndForecast(context),
-                    new Step_ImportaDati_SuperDettagli(context),                    
+                    //new Step_ImportaDati_SuperDettagli(context),
+                    new Step_ImportaDati_SuperDettagli_2(context),                    
                     new Step_ImpostaVarabiliInNameManager(context),                    
                     new Step_AttivazioneOpzioneRefreshOnLoad(context),
                     new Step_SalvaFile_DataSource(context),                    
                     // Steps che modificano il file DataSource - Fine
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
-                    new Step_CreaFilesImmaginiDaEsportare(context),
+                    new Step_EsportaFileImmaginiDaExcel(context),
                     new Step_CreaFiles_Presentazioni(context),
                     new Step_TmpFolder_Pulizia(context),
                     new Step_EsitoFinale_Success(context)
@@ -114,6 +115,9 @@ namespace FilesEditor
             }
             catch (Exception ex)
             {
+
+                var message = ex.Message + "\r\n" + ex.InnerException;
+
                 return new BuildPresentationOutput(new ManagedException(ex));
             }
         }

@@ -1041,33 +1041,27 @@ namespace PptGeneratorGUI
             var dataSourceFolderPath = Path.GetDirectoryName(DataSourceFilePath);
             openFolderForUser(dataSourceFolderPath);
         }
-        private void loadLastSessionPathsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //cleanCurrentsession();
-            selectLatestFilePath();
-        }
 
-        private void selectLatestFilePath()
+        private void loadLastSessionPathsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            LoadLastSessionFilePaths();
+        }
+        private void LoadLastSessionFilePaths()
         {
             if (cmbFileBudgetPath.Items.Count > 0)
-            { cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
+            {   cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
 
             if (cmbFileForecastPath.Items.Count > 0)
-            { cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
+            {   cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
 
             if (cmbFileRunRatePath.Items.Count > 0)
-            { cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
+            {   cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
 
             if (cmbFileSuperDettagliPath.Items.Count > 0)
-            { cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
+            {   cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
 
             if (cmbDestinationFolderPath.Items.Count > 0)
-            { cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
-
-            //cmbFileForecastPath.SelectedIndex = 0;
-            //cmbFileRunRatePath.SelectedIndex = 0;
-            //cmbFileSuperDettagliPath.SelectedIndex = 0;
-            //cmbDestinationFolderPath.SelectedIndex = 0;
+            {   cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
         }
 
         private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1094,7 +1088,12 @@ namespace PptGeneratorGUI
 
             RefreshUI(true);
         }
-        private void clearPathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void deletePathsHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeletePathsHistory();
+        }
+                private void DeletePathsHistory()
         {
             if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {

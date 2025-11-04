@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Enums;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System;
 
 namespace FilesEditor.Entities.Exceptions
@@ -89,19 +90,17 @@ namespace FilesEditor.Entities.Exceptions
 
         public ManagedException(Exception ex)
         {
-            var managedException = new ManagedException(
-                    filePath: null,
-                    fileType: FileTypes.Undefined,
-                    //
-                    worksheetName: null,
-                    cellRow: null,
-                    cellColumn: null,
-                    valueHeader: ValueHeaders.None,
-                    value: null,
-                    //
-                    errorType: ErrorTypes.UnhandledException,
-                    userMessage: ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")
-                    );
+            FilePath = null;
+            FileType = FileTypes.Undefined;
+            //
+            WorksheetName = null;
+            CellRow = null;
+            CellColumn = null;
+            this.ValueHeader = ValueHeaders.None;
+            Value = null;
+            //
+            ErrorType = ErrorTypes.UnhandledException;
+            UserMessage = ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "");
         }
 
 

@@ -3,6 +3,7 @@ using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 namespace FilesEditor.Helpers
@@ -16,7 +17,7 @@ namespace FilesEditor.Helpers
             public const string StepContext = "StepContext";
             public const string Warnings = "Warnings";
             public const string RigheSourceFiles = "Righe input files";
-
+            public const string ImageExtraction = "ImageExtraction";
 
 
             public const string UpdateReportsOutput = "UpdateReportsOutput";
@@ -880,6 +881,15 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "OutputFilePathLists (count)", context.OutputFilePathLists.Count);
 
             AutoSave();
+        }
+
+        internal void LogInfoExportImages(int attemptNumber, string imageId, string imageFilePath, string workSheetName, string printArea, bool isPresentOnFileSistem)
+        {
+            if (_epPlusHelper == null) { return; }
+
+            var worksheetName = WorkSheetNames.ImageExtraction;
+
+            _epPlusHelper.AddNewContentRow(worksheetName, attemptNumber, imageId, imageFilePath, workSheetName, printArea, "Success?:", isPresentOnFileSistem);
         }
     }
 }

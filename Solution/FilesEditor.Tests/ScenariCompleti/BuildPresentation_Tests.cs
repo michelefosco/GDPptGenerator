@@ -311,5 +311,53 @@ namespace FilesEditor.Tests
                 numeroPresentazioniGenerate: 3
                 );
         }
+
+
+        [TestMethod]
+        public void Scenario_OK_006()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _Applicablefilters = new List<InputDataFilters_Item>
+            {
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_BUSINESS,
+                    SelectedValues = new List<string>{ "TOB (MK, PK, MO)" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.BUDGET,
+                    FieldName = Values.HEADER_CATEGORIA,
+                    SelectedValues = new List<string>{ "Match caso Macchina" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.FORECAST,
+                    FieldName = Values.HEADER_BUSINESS,
+                    SelectedValues = new List<string>{ "ESS" }
+                },
+                new InputDataFilters_Item {
+                    Table = InputDataFilters_Tables.FORECAST,
+                    FieldName = Values.HEADER_CATEGORIA,
+                    SelectedValues = new List<string>{ "FEASIBILITY" }
+                }
+            };
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                dataSourceFilePath: _DataSourceFilePath,
+                tmpFolder: _TmpFolder,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 1,
+                numeroRigheForecast: 1,
+                numeroRigheSuperdettagli: 1000,
+                numeroRigheRunRate: 1,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 3
+                );
+        }
     }
 }
