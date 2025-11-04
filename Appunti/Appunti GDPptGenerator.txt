@@ -34,8 +34,10 @@ Microsoft Excel 15.0
 
 
 -------------------- Todo
+- Eccezione se i filtri causano una tabella completamente vuota
 - Aggiungere timestamp ai log
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
+- Test e miglioramenti su generazione immagini (log statistiche in file di testo?)
 - Sollevare eccezione nel caso in cui i filtri filtrino tutti le righe di Budget o forecast
 - Clean up "Step_ImportaDati_SuperDettagli" specializzato per 
 - Velocizzare Import superdettagli andando per posizione senza dover usare i nomi degli headers
@@ -72,6 +74,7 @@ Microsoft Excel 15.0
 
 
 (Opzionali o per proposte successive)
+- DebugInfoLogger oggetto base in EPPLus helper
 - zip del file?
 - Aggiungere testo "Possibile soluzione" alle properties di ManagedExpetion?
 - Se la configurazione non ha neanche una presentazione come output non parto
