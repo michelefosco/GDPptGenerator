@@ -4,7 +4,6 @@ using FilesEditor.Enums;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -57,10 +56,7 @@ namespace FilesEditor.Steps.BuildPresentation
             // todo: predisposta la possibilità di usare Aspose.Cell in casi estremi.
             // come settare questa opzione?
             var useIterops = true;
-            int millisecondsWaitingTimeBetweenExtractions = 0;
             const int maxNumberOfAttempts = 15;
-
-            int numberOfFailures = 0;
 
             for (int attemptNumber = 1; attemptNumber <= maxNumberOfAttempts; attemptNumber++)
             {
@@ -68,25 +64,19 @@ namespace FilesEditor.Steps.BuildPresentation
                     ? (IImageExtractor)new ExcelImageExtractors.ImageExtractor(Context.DataSourceFilePath)
                     : (IImageExtractor)new ExcelImageExtractors.ImageExtractor_Aspose(Context.DataSourceFilePath);  // Aspose.Cell
 
-
                 // Processo tutti gli elementi non ancora presenti sul file system
                 foreach (var itemToExportAsImage in Context.ItemsToExportAsImage.Where(_ => !_.IsPresentOnFileSistem))
                 {
+                    var startTime = DateTime.UtcNow;
                     // tento di generare il file, alcune volte potrebbe non funzionare al primo tentativo
                     imageExtractor.TryToExportToImageFileOnFileSystem(itemToExportAsImage.WorkSheetName, itemToExportAsImage.PrintArea, itemToExportAsImage.ImageFilePath);
+                    var endTime = DateTime.UtcNow;
 
-                    // Tempo d'attesa tra un'immagine e la successiva per agevolare il rilascio delle risorse, chiusura Excel, etc.
-                    Thread.Sleep(millisecondsWaitingTimeBetweenExtractions);
 
                     // verifico la sua presenza su file system ed eventualmente lo marco come "Presente"
                     if (File.Exists(itemToExportAsImage.ImageFilePath))
-                    { 
-                        itemToExportAsImage.MarkAsPresentOnFileSistem(); 
-                    }
-                    else
-                    {
-                        numberOfFailures++;
-                    }
+                    { itemToExportAsImage.MarkAsPresentOnFileSistem(); }
+
 
                     Context.DebugInfoLogger.LogInfoExportImages(
                         attemptNumber,
@@ -94,24 +84,17 @@ namespace FilesEditor.Steps.BuildPresentation
                         itemToExportAsImage.ImageFilePath,
                         itemToExportAsImage.WorkSheetName,
                         itemToExportAsImage.PrintArea,
-                        itemToExportAsImage.IsPresentOnFileSistem
+                        itemToExportAsImage.IsPresentOnFileSistem,
+                        (endTime - startTime)
                         );
                 }
-
 
                 // rilascio le risorse e chiudo il processo di Excel
                 imageExtractor.Close();
 
                 // se tutti i file sono presenti interrompo i tentativi 
                 if (!Context.ItemsToExportAsImage.Any(_ => !_.IsPresentOnFileSistem))
-                {
-                    break;
-                }
-                else
-                {
-                    // allungo il tempo d'attesa tra un'immagine e la successiva
-                    millisecondsWaitingTimeBetweenExtractions += 0;
-                }
+                { break; }
             }
         }
     }

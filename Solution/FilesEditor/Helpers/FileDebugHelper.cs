@@ -214,7 +214,7 @@ namespace FilesEditor.Helpers
 
             RunAutoSave();
         }
-        public void LogInfoExportImages(int attemptNumber, string imageId, string imageFilePath, string workSheetName, string printArea, bool isPresentOnFileSistem)
+        public void LogInfoExportImages(int attemptNumber, string imageId, string imageFilePath, string workSheetName, string printArea, bool isPresentOnFileSistem, TimeSpan timeSpent)
         {
             if (_epPlusHelper == null) { return; }
 
@@ -222,9 +222,11 @@ namespace FilesEditor.Helpers
 
             _epPlusHelper.AddNewContentRow(worksheetName,
                             TimeStampString,
+                            "Image info:", imageId, imageFilePath, workSheetName, printArea,
                             "Attempt number:", attemptNumber,
-                            "Imange info:", imageId, imageFilePath, workSheetName, printArea,
-                            "Success?:", isPresentOnFileSistem);
+                            "Success?:", isPresentOnFileSistem,
+                            "Milliseconds spent:", timeSpent.TotalMilliseconds
+                            );
         }
     }
 }
