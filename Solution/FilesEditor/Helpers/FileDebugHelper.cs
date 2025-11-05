@@ -4,6 +4,7 @@ using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.IO;
 
 namespace FilesEditor.Helpers
@@ -109,7 +110,7 @@ namespace FilesEditor.Helpers
 
             var worksheetName = WORKSHEET_NAME_PERFORMANCE;
 
-            _epPlusHelper.AddNewContentRow(worksheetName, taskReference, 
+            _epPlusHelper.AddNewContentRow(worksheetName, taskReference,
                 "Totale seconds:", spentTime.TotalSeconds,
                 "Total milliseconds:", spentTime.TotalMilliseconds);
 
@@ -189,7 +190,8 @@ namespace FilesEditor.Helpers
 
             var worksheetName = WorkSheetNames.StepContext;
 
-            //todo: aggiungere tutte le properties di StepContext
+            const string STRINGA_SEPARATORE = "--------------------";
+
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Time stamp", TimeStampString);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Esito", context.Esito);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DestinationFolder", context.DestinationFolder);
@@ -211,6 +213,8 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "SildeToGenerate (count)", context.SildeToGenerate.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ItemsToExportAsImage (count)", context.ItemsToExportAsImage.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "OutputFilePathLists (count)", context.OutputFilePathLists.Count);
+
+            _epPlusHelper.AddNewContentRow(worksheetName, STRINGA_SEPARATORE, STRINGA_SEPARATORE, STRINGA_SEPARATORE);
 
             RunAutoSave();
         }

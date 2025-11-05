@@ -180,7 +180,5 @@ namespace FilesEditor.Entities
             // Nessun alias applicato
             return value;
         }
-
-
     }
 }

@@ -1,8 +1,11 @@
-﻿using FilesEditor.Constants;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Spreadsheet;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -93,15 +96,25 @@ namespace FilesEditor.Steps.BuildPresentation
             #region Verifico che tutti gli headers necessari per la destinazione siano presenti nella sorgente (e nella giusta posizione)
             if (sourceHeaders.Count < destHeaders.Count)
             {
-                //todo:
-                throw new Exception("The are fewer headres in the 'Superdettagli' file than the one needed in the DataSource file");
+                throw new ManagedException(
+                        filePath: sourceFilePath,
+                        fileType: FileTypes.SuperDettagli,
+                        //
+                        worksheetName: sourceWorksheetName,
+                        cellRow: null,
+                        cellColumn: null,
+                        valueHeader: ValueHeaders.None,
+                        value: null,
+                        //
+                        errorType: ErrorTypes.MissingValue,
+                        userMessage: "There are fewer headers in the Superdettagli file than required to complete the DataSource file.\nAll headers in the DataSource file(worksheet Superdettagli) must also be present in the Superdettagli file, in the same order."
+                        );
             }
 
             for (int j = 0; j < destHeaders.Count; j++)
             {
                 if (!sourceHeaders[j].Equals(destHeaders[j], StringComparison.InvariantCultureIgnoreCase))
                 {
-                    //todo: rivedere messaggio
                     throw new ManagedException(
                         filePath: sourceFilePath,
                         fileType: FileTypes.SuperDettagli,
@@ -113,7 +126,7 @@ namespace FilesEditor.Steps.BuildPresentation
                         value: destHeaders[j],
                         //
                         errorType: ErrorTypes.MissingValue,
-                        userMessage: string.Format(UserErrorMessages.MissingHeader, FileTypes.SuperDettagli, destHeaders[j], sourceWorksheetName)
+                        userMessage: $"The header '{destHeaders[j]}' required for the file Datasource is missing (or located in the wrong position) in the file 'Superdettagli'.\nAll headers in the DataSource file (worksheet Superdettagli) must also be present in the Superdettagli file, in the same order."
                         );
                 }
             }

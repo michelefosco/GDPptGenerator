@@ -183,8 +183,8 @@ namespace FilesEditor.Steps.BuildPresentation
             var imgFilePath = Context.ItemsToExportAsImage.First(_ => _.ImageId == imageId).ImageFilePath;
 
             //todo: serve?
-            if (!File.Exists(imgFilePath))
-            { throw new Exception($"Il file immagine ('{imgFilePath}') necessario per una delle slide risulta mancante"); }
+            //if (!File.Exists(imgFilePath))
+            //{ throw new Exception($"The file ('{imgFilePath}') needed to add an image to the presentation is missing."); }
 
             // ottengo le dimensioni reali dell'immagine
             double imgWidth = 0;

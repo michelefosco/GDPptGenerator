@@ -103,7 +103,6 @@ namespace FilesEditor
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
                     new Step_SalvaFile_DataSource(stepContext),
                     #endregion
-                    //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
                     new Step_EsportaFileImmaginiDaExcel(stepContext),
                     new Step_CreaFiles_Presentazioni(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),
