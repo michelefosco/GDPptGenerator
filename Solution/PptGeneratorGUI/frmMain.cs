@@ -89,7 +89,7 @@ namespace PptGeneratorGUI
         {
             get
             {
-                var debugFileName = $"DebugFile_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx";
+                var debugFileName = $"DebugFile_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
                 return Path.Combine(SelectedDestinationFolderPath, debugFileName);
             }
         }
@@ -259,7 +259,15 @@ namespace PptGeneratorGUI
         private PathsHistory _pathFileHistory;
         private void FillComboBoxes()
         {
-            LoadFileHistory();
+            ReadFilePathsHistory();
+
+            LoadPathsInTheComboBox(cmbFileBudgetPath, _pathFileHistory.BudgetPaths.ToArray());
+            LoadPathsInTheComboBox(cmbFileForecastPath, _pathFileHistory.ForecastPaths.ToArray());
+            LoadPathsInTheComboBox(cmbFileSuperDettagliPath, _pathFileHistory.SuperDettagliPaths.ToArray());
+            LoadPathsInTheComboBox(cmbFileRunRatePath, _pathFileHistory.RunRatePaths.ToArray());
+            LoadPathsInTheComboBox(cmbDestinationFolderPath, _pathFileHistory.DestFolderPaths.ToArray());
+
+            return;
 
             // Disabilito le combobox durante il caricamento per preventire eventi indesiderati
             cmbFileBudgetPath.Enabled = false;
@@ -291,6 +299,16 @@ namespace PptGeneratorGUI
             cmbDestinationFolderPath.Enabled = true;
         }
 
+        private void LoadPathsInTheComboBox(System.Windows.Forms.ComboBox comboBox, object[] itmes)
+        {
+            comboBox.Enabled = false;
+            comboBox.Items.Clear();
+            comboBox.Items.AddRange(itmes);
+            comboBox.Enabled = true;
+        }
+
+
+
         public string GetLocaLApplicationDataPath()
         {
             string localApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PptGenerator");
@@ -304,7 +322,7 @@ namespace PptGeneratorGUI
         {
             return Path.Combine(GetLocaLApplicationDataPath(), "PptGeneratorFileHistory.xml");
         }
-        private void LoadFileHistory()
+        private void ReadFilePathsHistory()
         {
             _pathFileHistory = new PathsHistory(GetFileHistoryFileName());
         }
@@ -1049,19 +1067,19 @@ namespace PptGeneratorGUI
         private void LoadLastSessionFilePaths()
         {
             if (cmbFileBudgetPath.Items.Count > 0)
-            {   cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
+            { cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
 
             if (cmbFileForecastPath.Items.Count > 0)
-            {   cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
+            { cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
 
             if (cmbFileRunRatePath.Items.Count > 0)
-            {   cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
+            { cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
 
             if (cmbFileSuperDettagliPath.Items.Count > 0)
-            {   cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
+            { cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
 
             if (cmbDestinationFolderPath.Items.Count > 0)
-            {   cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
+            { cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
         }
 
         private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1073,18 +1091,11 @@ namespace PptGeneratorGUI
             _inputValidato = false;
             _applicablefilters = new List<InputDataFilters_Item>();
             _selectedDatePeriodo = DateTime.Today;
+            cbAppendCurrentYearSuperDettagli.Checked = true;
 
             ClearOutputArea();
-
-            gbPaths.Enabled = true;
-
-            SelectedFileBudgetPath = string.Empty;
-            SelectedFileForecastPath = string.Empty;
-            SelectedFileSuperDettagliPath = string.Empty;
-            SelectedFileRunRatePath = string.Empty;
-            SelectedDestinationFolderPath = string.Empty;
-
-            cbAppendCurrentYearSuperDettagli.Checked = true;
+            SvuotaComboBoxSelectedPaths();
+            //gbPaths.Enabled = true;
 
             RefreshUI(true);
         }
@@ -1093,15 +1104,30 @@ namespace PptGeneratorGUI
         {
             DeletePathsHistory();
         }
-                private void DeletePathsHistory()
+        private void DeletePathsHistory()
         {
             if (MessageBox.Show("Permanently clear file history? (The operation is irreversible)", "Clear file history?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 _pathFileHistory.ClearHistory();
+                SvuotaComboBoxSelectedPaths();
                 FillComboBoxes();
                 RefreshUI(false);
             }
         }
+
+        private void SvuotaComboBoxSelectedPaths()
+        {
+            SelectedFileBudgetPath = string.Empty;
+            SelectedFileForecastPath = string.Empty;
+            SelectedFileSuperDettagliPath = string.Empty;
+            SelectedFileRunRatePath = string.Empty;
+            SelectedDestinationFolderPath = string.Empty;
+        }
         #endregion
+
+        private void dgvFiltri_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

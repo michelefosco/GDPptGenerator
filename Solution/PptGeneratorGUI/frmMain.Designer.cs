@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -88,11 +88,11 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataSouceExcelFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSouceFilesFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblElaborazioneInCorso = new System.Windows.Forms.Label();
             this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadLastSessionPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cleanCurrentsessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deletePathsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblElaborazioneInCorso = new System.Windows.Forms.Label();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
@@ -552,14 +552,14 @@
             this.dgvFiltri.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFiltri.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFiltri.CausesValidation = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Table,
@@ -574,6 +574,7 @@
             this.dgvFiltri.ShowEditingIcon = false;
             this.dgvFiltri.Size = new System.Drawing.Size(1059, 268);
             this.dgvFiltri.TabIndex = 23;
+            this.dgvFiltri.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFiltri_CellContentClick);
             // 
             // Table
             // 
@@ -725,22 +726,6 @@
             this.openSouceFilesFolderToolStripMenuItem.Text = "Open DataSource &Folder";
             this.openSouceFilesFolderToolStripMenuItem.Click += new System.EventHandler(this.openSouceFilesFolderToolStripMenuItem_Click);
             // 
-            // lblElaborazioneInCorso
-            // 
-            this.lblElaborazioneInCorso.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblElaborazioneInCorso.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblElaborazioneInCorso.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblElaborazioneInCorso.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(87, 181);
-            this.lblElaborazioneInCorso.Name = "lblElaborazioneInCorso";
-            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1007, 551);
-            this.lblElaborazioneInCorso.TabIndex = 54;
-            this.lblElaborazioneInCorso.Text = "Working in progress...this might take several minutes.";
-            this.lblElaborazioneInCorso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblElaborazioneInCorso.Visible = false;
-            // 
             // sessionToolStripMenuItem
             // 
             this.sessionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -771,6 +756,22 @@
             this.deletePathsHistoryToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.deletePathsHistoryToolStripMenuItem.Text = "&Delete paths history";
             this.deletePathsHistoryToolStripMenuItem.Click += new System.EventHandler(this.deletePathsHistoryToolStripMenuItem_Click);
+            // 
+            // lblElaborazioneInCorso
+            // 
+            this.lblElaborazioneInCorso.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblElaborazioneInCorso.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.lblElaborazioneInCorso.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblElaborazioneInCorso.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(87, 181);
+            this.lblElaborazioneInCorso.Name = "lblElaborazioneInCorso";
+            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1007, 551);
+            this.lblElaborazioneInCorso.TabIndex = 54;
+            this.lblElaborazioneInCorso.Text = "Working in progress...this might take several minutes.";
+            this.lblElaborazioneInCorso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblElaborazioneInCorso.Visible = false;
             // 
             // bfbDestFolder
             // 
