@@ -29,9 +29,9 @@ namespace FilesEditor.Steps
         public Step_EsitoFinale_Success(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
-            Context.DebugInfoLogger.Beautify();
+            //Context.DebugInfoLogger.Beautify();
 
             return EsitiFinali.Success;
         }

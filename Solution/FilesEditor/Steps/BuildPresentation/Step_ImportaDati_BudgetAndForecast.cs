@@ -34,7 +34,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_ImportaDati_BudgetAndForecast(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             ImportaSourceFile(
                     sourceFileType: FileTypes.Budget,
@@ -133,12 +133,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
                 #region Lettura campo "Categoria"
-                var categoria = worksheetSource.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1].Value.ToString();
-                if (categoria == null)
-                {
-                    //todo: sollevare eccezione
-                    throw new Exception("Categoria non può essere vuoto");
-                }
+                var categoria = worksheetSource.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1].Value.ToString()
+                            ?? throw new Exception("Column 'Categoria' cannot be empty");
 
                 // applico gli eventuali alias
                 categoria = Context.ApplicaAliasToValue(Values.HEADER_CATEGORIA, categoria);

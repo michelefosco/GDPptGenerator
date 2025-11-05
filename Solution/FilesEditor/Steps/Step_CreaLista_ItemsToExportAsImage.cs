@@ -32,7 +32,7 @@ namespace FilesEditor.Steps
         public Step_CreaLista_ItemsToExportAsImage(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             CreaListaImmaginiDaEsportare();
 

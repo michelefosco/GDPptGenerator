@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_BackupFile_DataSource(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             BackupFile_DataSource();
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito

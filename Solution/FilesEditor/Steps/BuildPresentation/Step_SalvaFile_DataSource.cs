@@ -29,7 +29,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_SalvaFile_DataSource(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             Context.EpplusHelperDataSource.Save();
 

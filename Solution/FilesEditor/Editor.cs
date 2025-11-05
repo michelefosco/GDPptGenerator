@@ -31,22 +31,26 @@ namespace FilesEditor
         {
             try
             {
-                var context = new StepContext(configurazione);
-                context.SetContextFromInput(validateSourceFilesInput);
+                var stepContext = new StepContext(configurazione);
+                stepContext.SetContextFromInput(validateSourceFilesInput);
                 var stepsSequence = new List<StepBase>
                 {
-                    new Step_Start_DebugInfoLogger(context),
-                    new Step_ValidazioniPreliminari_SourceFiles(context),
-                    new Step_CreaListe_Alias(context),
-                    new Step_CreaLista_Applicablefilters(context),
-                    new Step_CreaLista_SildeToGenerate(context),
-                    new Step_CreaLista_ItemsToExportAsImage(context),
-                    new Step_TmpFolder_Pulizia(context),
-                    new Step_EsitoFinale_Success(context)
+                    new Step_Start_DebugInfoLogger(stepContext),
+                    new Step_ValidazioniPreliminari_SourceFiles(stepContext),
+                    new Step_CreaListe_Alias(stepContext),
+                    new Step_CreaLista_Applicablefilters(stepContext),
+                    new Step_CreaLista_SildeToGenerate(stepContext),
+                    new Step_CreaLista_ItemsToExportAsImage(stepContext),
+                    new Step_TmpFolder_Pulizia(stepContext),
+                    new Step_EsitoFinale_Success(stepContext)
                  };
-                var esitoFinale = runStepSequence(stepsSequence);
-                context.SettaEsitoFinale(esitoFinale);
-                return new ValidateSourceFilesOutput(context);
+                RunStepSequence(stepsSequence, stepContext);
+                return new ValidateSourceFilesOutput(stepContext);
+                //var esitoFinale = RunStepSequence(stepsSequence, stepContext);
+                //stepContext.SettaEsitoFinale(esitoFinale);
+
+                //stepContext.DebugInfoLogger.Beautify();
+                //return new ValidateSourceFilesOutput(stepContext);
             }
             catch (ManagedException managedException)
             {
@@ -78,36 +82,35 @@ namespace FilesEditor
         {
             try
             {
-                var context = new StepContext(configurazione);
-                context.SetContextFromInput(buildPresentationInput);
+                var stepContext = new StepContext(configurazione);
+                stepContext.SetContextFromInput(buildPresentationInput);
                 var stepsSequence = new List<StepBase>
                 {
-                    new Step_Start_DebugInfoLogger(context),
-                    new Step_ValidazioniPreliminari_SourceFiles(context),
-                    new Step_VerificaEditabilita_DataSource_File(context),
-                    new Step_TmpFolder_Predisposizione(context),
-                    new Step_BackupFile_DataSource(context),
-                    new Step_CreaListe_Alias(context),
-                    new Step_CreaLista_SildeToGenerate(context),
-                    new Step_CreaLista_ItemsToExportAsImage(context),
-                    // Steps che modificano il file DataSource - Inizio
-                    new Step_ImportaDati_RunRate(context),
-                    new Step_ImportaDati_BudgetAndForecast(context),
+                    new Step_Start_DebugInfoLogger(stepContext),
+                    new Step_ValidazioniPreliminari_SourceFiles(stepContext),
+                    new Step_VerificaEditabilita_DataSource_File(stepContext),
+                    new Step_TmpFolder_Predisposizione(stepContext),
+                    new Step_BackupFile_DataSource(stepContext),
+                    new Step_CreaListe_Alias(stepContext),
+                    new Step_CreaLista_SildeToGenerate(stepContext),
+                    new Step_CreaLista_ItemsToExportAsImage(stepContext),
+                    #region Steps che modificano il file DataSource - Inizio
+                    new Step_ImportaDati_RunRate(stepContext),
+                    new Step_ImportaDati_BudgetAndForecast(stepContext),
                     //new Step_ImportaDati_SuperDettagli(context),
-                    new Step_ImportaDati_SuperDettagli_2(context),                    
-                    new Step_ImpostaVarabiliInNameManager(context),                    
-                    new Step_AttivazioneOpzioneRefreshOnLoad(context),
-                    new Step_SalvaFile_DataSource(context),                    
-                    // Steps che modificano il file DataSource - Fine
+                    new Step_ImportaDati_SuperDettagli_2(stepContext),
+                    new Step_ImpostaVarabiliInNameManager(stepContext),
+                    new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
+                    new Step_SalvaFile_DataSource(stepContext),
+                    #endregion
                     //todo: altri step di elaborazione se necessari (aggiornamendo oggetti)
-                    new Step_EsportaFileImmaginiDaExcel(context),
-                    new Step_CreaFiles_Presentazioni(context),
-                    new Step_TmpFolder_Pulizia(context),
-                    new Step_EsitoFinale_Success(context)
+                    new Step_EsportaFileImmaginiDaExcel(stepContext),
+                    new Step_CreaFiles_Presentazioni(stepContext),
+                    new Step_TmpFolder_Pulizia(stepContext),
+                    new Step_EsitoFinale_Success(stepContext)
                  };
-                var esitoFinale = runStepSequence(stepsSequence);
-                context.SettaEsitoFinale(esitoFinale);
-                return new BuildPresentationOutput(context);
+                RunStepSequence(stepsSequence, stepContext);
+                return new BuildPresentationOutput(stepContext);
             }
             catch (ManagedException managedException)
             {
@@ -115,22 +118,24 @@ namespace FilesEditor
             }
             catch (Exception ex)
             {
-
-                var message = ex.Message + "\r\n" + ex.InnerException;
-
                 return new BuildPresentationOutput(new ManagedException(ex));
             }
         }
         #endregion
 
-        private static EsitiFinali runStepSequence(List<StepBase> stepsSequence)
+        private static void RunStepSequence(List<StepBase> stepsSequence, StepContext stepContext)
         {
             foreach (var step in stepsSequence)
             {
-                var esitoStep = step.Do();
+                var esitoStep = step.DoStepTask();
 
+                // Se ho un esito effettuo le ultime operazioni sullo StepContext e interrompo l'esecuzione
                 if (esitoStep != EsitiFinali.Undefined)
-                { return esitoStep; }
+                {
+                    stepContext.SettaEsitoFinale(esitoStep);
+                    stepContext.DebugInfoLogger.Beautify();
+                    return;
+                }
             }
 
             throw new Exception("The execution ended in an unexpected way.");

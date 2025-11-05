@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_EsportaFileImmaginiDaExcel(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             CreaFilesImmaginiDaEsportare();
 
@@ -57,7 +57,7 @@ namespace FilesEditor.Steps.BuildPresentation
             // todo: predisposta la possibilità di usare Aspose.Cell in casi estremi.
             // come settare questa opzione?
             var useIterops = true;
-            int millisecondsWaitingTimeBetweenExtractions = 50;
+            int millisecondsWaitingTimeBetweenExtractions = 0;
             const int maxNumberOfAttempts = 15;
 
             int numberOfFailures = 0;
@@ -110,7 +110,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 else
                 {
                     // allungo il tempo d'attesa tra un'immagine e la successiva
-                    millisecondsWaitingTimeBetweenExtractions += 50;
+                    millisecondsWaitingTimeBetweenExtractions += 0;
                 }
             }
         }

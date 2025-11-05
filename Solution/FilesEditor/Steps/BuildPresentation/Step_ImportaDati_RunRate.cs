@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_ImportaDati_RunRate(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(Context.FileRunRatePath));

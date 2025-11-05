@@ -35,7 +35,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             ImportaSourceFile(
                     //sourceFileType: FileTypes.SuperDettagli,

@@ -30,7 +30,7 @@ namespace FilesEditor.Steps
         public Step_TmpFolder_Predisposizione(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             PredisponiTmpFolder();
 

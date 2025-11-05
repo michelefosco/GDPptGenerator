@@ -34,23 +34,13 @@ Microsoft Excel 15.0
 
 
 -------------------- Todo
-- Eccezione se i filtri causano una tabella completamente vuota
-- Aggiungere timestamp ai log
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
 - Test e miglioramenti su generazione immagini (log statistiche in file di testo?)
-- Sollevare eccezione nel caso in cui i filtri filtrino tutti le righe di Budget o forecast
 - Clean up "Step_ImportaDati_SuperDettagli" specializzato per 
-- Velocizzare Import superdettagli andando per posizione senza dover usare i nomi degli headers
-- Togliere "Totale complessivo" dai valori del filtro "Categoria"
-- Usare stessa tecnica di "Attendere prego" anche per la "Validazione input"
 - Import più veloce da "SuperDettagli"
 - thread separato per generazione presentazione in editor
 - Bulk copy of the data
-- Forcast e Budget sono identici tranne forse una colonna vuota a sinistra
-- Lettura di Forecast e Budget con la nuova struttura
  - Test validazione file sono su Forecast e Budget
- - Backup del file datasource zippato
- - Aggiungere variabili "Anno", "Quarter", "Mese" al gestione nomi. Aggiungere foglio che mostri il valore delle variabili
  - Mandare datasource versione finale
 - Settare i valori del periodo in "Name manager" variabili di Excel (mese, quarter, anno) interi
 - Testare SuperDettagli con 200k righe

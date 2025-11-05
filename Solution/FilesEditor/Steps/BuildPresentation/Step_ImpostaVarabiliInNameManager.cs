@@ -28,7 +28,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_ImpostaVarabiliInNameManager(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             const string VARIABLE_NAME_ANNO = "anno";
             const string VARIABLE_NAME_MESE = "mese";

@@ -30,7 +30,7 @@ namespace FilesEditor.Steps
         public Step_Start_DebugInfoLogger(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             Dtart_DebugInfoLogger();
 

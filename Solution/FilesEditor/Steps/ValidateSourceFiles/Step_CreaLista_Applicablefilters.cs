@@ -35,7 +35,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         public Step_CreaLista_Applicablefilters(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             CreaLista_Applicablefilters();
 

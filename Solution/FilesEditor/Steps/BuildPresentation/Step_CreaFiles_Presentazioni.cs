@@ -35,7 +35,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_CreaFiles_Presentazioni(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             BuildPresentations();
 

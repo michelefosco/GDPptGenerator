@@ -30,7 +30,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_VerificaEditabilita_DataSource_File(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             TryToSaveDataSourceFile();
 

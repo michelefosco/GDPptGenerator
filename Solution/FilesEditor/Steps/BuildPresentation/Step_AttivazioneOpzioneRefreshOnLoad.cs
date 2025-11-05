@@ -29,7 +29,7 @@ namespace FilesEditor.Steps.BuildPresentation
         public Step_AttivazioneOpzioneRefreshOnLoad(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             //todo: verificarne il funzionamento quando ci saranno pivet tables nel datasource file
             var numeroDiPivotTableAggiornate = Context.EpplusHelperDataSource.SetRefreshOnLoadForAllPivotTables();

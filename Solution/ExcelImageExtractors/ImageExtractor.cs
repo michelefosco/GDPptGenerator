@@ -1,7 +1,6 @@
 ﻿using ExcelImageExtractors.Interfaces;
 using Microsoft.Office.Interop.Excel;
 using System;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms; // Per Clipboard
 
@@ -16,8 +15,10 @@ namespace ExcelImageExtractors
 
         public ImageExtractor(string excelFilePath)
         {
-            excelApp = new Microsoft.Office.Interop.Excel.Application();
-            excelApp.Visible = false;
+            excelApp = new Microsoft.Office.Interop.Excel.Application
+            {
+                Visible = false
+            };
             workbook = excelApp.Workbooks.Open(excelFilePath);
         }
 
@@ -36,18 +37,12 @@ namespace ExcelImageExtractors
                 range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap);
 
                 // Per funzionare questo codice deve essere eseguito nel thread principale dell'applicazione
-                // Recupera l'immagine dagli appunti
-                Image clipboardImage = null;
                 if (Clipboard.ContainsImage())
                 {
-                    clipboardImage = Clipboard.GetImage();
-                    if (clipboardImage != null)
-                    { clipboardImage.Save(destinationPath, ImageFormat.Png); }
+                    // Recupera l'immagine dagli appunti
+                    var clipboardImage = Clipboard.GetImage();
+                    clipboardImage?.Save(destinationPath, ImageFormat.Png);
                 }
-
-                // Segnalo se l'estrazione dell'immagine non è andata a buon fine
-                //if (clipboardImage == null)
-                //{ throw new Exception($"la Clipboard non contiene un'immagine come previsto per il file '{destinationPath}'"); }
             }
             catch (Exception ex)
             {

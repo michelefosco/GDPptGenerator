@@ -1,6 +1,5 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Enums;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System;
 
 namespace FilesEditor.Entities.Exceptions
@@ -40,15 +39,15 @@ namespace FilesEditor.Entities.Exceptions
             WorksheetName = worksheetName;
             CellRow = cellRow;
             CellColumn = cellColumn;
-            this.ValueHeader = valueHeader;
+            ValueHeader = valueHeader;
             Value = value;
             //
             ErrorType = errorType;
             UserMessage = string.IsNullOrEmpty(userMessage)
-                        ? buildUserMessage()
+                        ? BuildUserMessage()
                         : userMessage;
         }
-        private string buildUserMessage()
+        private string BuildUserMessage()
         {
             var _userMessage = $"{ErrorType.GetEnumDescription()}, file type: {FileType.GetEnumDescription()}";
 
@@ -90,17 +89,25 @@ namespace FilesEditor.Entities.Exceptions
 
         public ManagedException(Exception ex)
         {
+            var userMessage = ex.Message;
+
+            if (ex.InnerException != null)
+                userMessage += "\r\n" +ex.InnerException.Message;
+
+            if (ex.StackTrace != null)
+                userMessage += "\r\n\r\n" + ex.StackTrace;
+
             FilePath = null;
             FileType = FileTypes.Undefined;
             //
             WorksheetName = null;
             CellRow = null;
             CellColumn = null;
-            this.ValueHeader = ValueHeaders.None;
+            ValueHeader = ValueHeaders.None;
             Value = null;
             //
             ErrorType = ErrorTypes.UnhandledException;
-            UserMessage = ex.Message + (ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "");
+            UserMessage = userMessage;
         }
 
 
@@ -112,7 +119,7 @@ namespace FilesEditor.Entities.Exceptions
                     filePath: filePath,
                     fileType: fileType,
                     //
-                    worksheetName: null,
+                    worksheetName: worksheetName,
                     cellRow: cellRow,
                     cellColumn: cellColumn,
                     valueHeader: valueHeader,

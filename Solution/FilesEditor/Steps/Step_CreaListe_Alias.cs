@@ -34,7 +34,7 @@ namespace FilesEditor.Steps
         public Step_CreaListe_Alias(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             CreaListe_Alias();
 

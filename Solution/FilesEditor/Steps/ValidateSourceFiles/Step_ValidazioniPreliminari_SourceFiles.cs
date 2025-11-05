@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         public Step_ValidazioniPreliminari_SourceFiles(StepContext context) : base(context)
         { }
 
-        internal override EsitiFinali DoStepTask()
+        internal override EsitiFinali DoSpecificStepTask()
         {
             ValidazioniPreliminari_SourceFiles();
 
@@ -101,10 +101,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             )
         {
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
-            // var dataSourceEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
-            var expectedHeadersColumns = (ovverideExpectedHeadersColumns != null)
-                ? ovverideExpectedHeadersColumns
-                : Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
+            var expectedHeadersColumns = ovverideExpectedHeadersColumns 
+                                    ?? Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti

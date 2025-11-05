@@ -17,23 +17,23 @@ namespace FilesEditor.Steps
         public abstract string StepName { get; }
 
         internal abstract void BeforeTask();
-        internal abstract EsitiFinali DoStepTask();
+        internal abstract EsitiFinali DoSpecificStepTask();
         internal abstract void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent);
 
         internal abstract void AfterTask();
 
-        internal EsitiFinali Do()
+        internal EsitiFinali DoStepTask()
         {
             // Operazioni da farsi prima dell'esecuzione del task (esempio log delle info prima dell'esecuzione del task)
             BeforeTask();
 
             // Monitoro il tempo impiegato ad eseguire il task
             var startTime = DateTime.UtcNow;
-            var result = DoStepTask();
+            var result = DoSpecificStepTask();
             var endTime = DateTime.UtcNow;
-            var timeSpent = endTime - startTime;
 
             // Passo le info sul tempo impiegato al task
+            var timeSpent = endTime - startTime;
             ManageInfoAboutPerformedStepTask(timeSpent);
 
             // Operazioni da farsi dopo l'esecuzione del task (esempio log delle info dopo l'esecuzione del task)
