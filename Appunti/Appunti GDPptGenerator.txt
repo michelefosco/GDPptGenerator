@@ -43,7 +43,7 @@ Microsoft Excel 15.0
 - Test con formule
 - Test con filtri
 
-- Rimuovere backcgroupd code for the validation
+- (dopo qualche test da parte di GD) Rimuovere backcgroupd code for the validation e codice commentato
 
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
  - Mandare datasource versione finale

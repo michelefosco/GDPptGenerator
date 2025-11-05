@@ -631,6 +631,11 @@ namespace PptGeneratorGUI
             lblElaborazioneInCorso.Visible = true;
             ClearOutputArea();
 
+            SetStatusLabel("Input validation in progress...");
+            lblElaborazioneInCorso.Visible = true;
+            lblResults.Visible = false;
+            Application.DoEvents();
+
             // input per la chiamata al backend
             var validateSourceFilesInput = new ValidateSourceFilesInput(
                     // proprietà classe base
@@ -645,44 +650,66 @@ namespace PptGeneratorGUI
                     fileRunRatePath: SelectedFileRunRatePath);
             try
             {
-                validaInputBackgroundWorker.RunWorkerAsync(validateSourceFilesInput);
+                Application.DoEvents();
+                var output = Editor.ValidateSourceFiles(validateSourceFilesInput);
+                _inputValidato = output.Esito == EsitiFinali.Success;
+                lblElaborazioneInCorso.Visible = false;
+                lblResults.Visible = true;
+                Application.DoEvents();
+
+                if (_inputValidato)
+                {
+                    _applicablefilters = output.Applicablefilters;
+                    SetStatusLabel("Input validated successfully");
+                }
+                else
+                {
+                    SetStatusLabel("Input validated with errors");
+                    SetOutputMessage(output.ManagedException);
+                    btnCopyError.Visible = true;
+                }
+
+                lblElaborazioneInCorso.Visible = false;
+                RefreshUI(false);
             }
             catch (Exception ex)
             {
                 showExpetion(ex);
                 gbPaths.Enabled = true;
+                lblElaborazioneInCorso.Visible = false;
+                lblResults.Visible = true;
             }
         }
 
         private void validaInputBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var input = e.Argument as ValidateSourceFilesInput;
-            var output = Editor.ValidateSourceFiles(input);
-            e.Result = new object[] { input, output };
+            //var input = e.Argument as ValidateSourceFilesInput;
+            //var output = Editor.ValidateSourceFiles(input);
+            //e.Result = new object[] { input, output };
         }
 
         private void validaInputBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var outputAndInput = e.Result as object[];
-            var input = outputAndInput[0] as ValidateSourceFilesInput;
-            var output = outputAndInput[1] as ValidateSourceFilesOutput;
+            //var outputAndInput = e.Result as object[];
+            //var input = outputAndInput[0] as ValidateSourceFilesInput;
+            //var output = outputAndInput[1] as ValidateSourceFilesOutput;
 
-            _inputValidato = output.Esito == EsitiFinali.Success;
+            //_inputValidato = output.Esito == EsitiFinali.Success;
 
-            if (_inputValidato)
-            {
-                _applicablefilters = output.Applicablefilters;
-                SetStatusLabel("Input validated successfully");
-            }
-            else
-            {
-                SetStatusLabel("Input validated with errors");
-                SetOutputMessage(output.ManagedException);
-                btnCopyError.Visible = true;
-            }
+            //if (_inputValidato)
+            //{
+            //    _applicablefilters = output.Applicablefilters;
+            //    SetStatusLabel("Input validated successfully");
+            //}
+            //else
+            //{
+            //    SetStatusLabel("Input validated with errors");
+            //    SetOutputMessage(output.ManagedException);
+            //    btnCopyError.Visible = true;
+            //}
 
-            lblElaborazioneInCorso.Visible = false;
-            RefreshUI(false);
+            //lblElaborazioneInCorso.Visible = false;
+            //RefreshUI(false);
         }
         #endregion
 
@@ -794,8 +821,6 @@ namespace PptGeneratorGUI
             //}
         }
         #endregion
-
-
 
 
         #region Gestione output area
@@ -1042,20 +1067,33 @@ namespace PptGeneratorGUI
         }
         private void LoadLastSessionFilePaths()
         {
-            if (cmbFileBudgetPath.Items.Count > 0)
-            { cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
+            SelectFirstItemIntoComboBoxPaths(cmbFileBudgetPath);
+            SelectFirstItemIntoComboBoxPaths(cmbFileForecastPath);
+            SelectFirstItemIntoComboBoxPaths(cmbFileRunRatePath);
+            SelectFirstItemIntoComboBoxPaths(cmbFileSuperDettagliPath);
+            SelectFirstItemIntoComboBoxPaths(cmbDestinationFolderPath);
 
-            if (cmbFileForecastPath.Items.Count > 0)
-            { cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
+            RefreshUI(false);
+            //if (cmbFileBudgetPath.Items.Count > 0)
+            //{ cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
 
-            if (cmbFileRunRatePath.Items.Count > 0)
-            { cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
+            //if (cmbFileForecastPath.Items.Count > 0)
+            //{ cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
 
-            if (cmbFileSuperDettagliPath.Items.Count > 0)
-            { cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
+            //if (cmbFileRunRatePath.Items.Count > 0)
+            //{ cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
 
-            if (cmbDestinationFolderPath.Items.Count > 0)
-            { cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
+            //if (cmbFileSuperDettagliPath.Items.Count > 0)
+            //{ cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
+
+            //if (cmbDestinationFolderPath.Items.Count > 0)
+            //{ cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
+        }
+
+        private void SelectFirstItemIntoComboBoxPaths(ComboBox comboBox)
+        {
+            if (comboBox.Items.Count > 0)
+            { comboBox.Text = comboBox.Items[0].ToString(); }
         }
 
         private void cleanCurrentsessionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1100,7 +1138,6 @@ namespace PptGeneratorGUI
             SelectedDestinationFolderPath = string.Empty;
         }
         #endregion
-
 
 
     }
