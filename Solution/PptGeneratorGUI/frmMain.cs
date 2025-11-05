@@ -189,70 +189,6 @@ namespace PptGeneratorGUI
             }
         }
 
-        private void RefreshFiltersArea()
-        {
-            // posizione dei valori nelle colonne della griglia
-            const int tableColumnIndex = 0;
-            const int fieldColumnIndex = 1;
-            const int selectButtonColumnIndex = 2;
-            const int selectedValuesColumnIndex = 3;
-
-            #region Aggiorno il contenuto della cella
-            dgvFiltri.Enabled = false;
-            dgvFiltri.Rows.Clear();
-
-            if (_applicablefilters == null || _applicablefilters.Count == 0)
-            {
-                // esco lasciando la griglia vuota e disabilitata
-                return;
-            }
-
-            foreach (var filtro in _applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList())
-            {
-                int rowIndex = dgvFiltri.Rows.Add();
-                dgvFiltri.Rows[rowIndex].Cells[tableColumnIndex].Value = $"{filtro.Table}";
-                dgvFiltri.Rows[rowIndex].Cells[fieldColumnIndex].Value = $"{filtro.FieldName}";
-                dgvFiltri.Rows[rowIndex].Cells[selectButtonColumnIndex].Value = $"Select values";
-                dgvFiltri.Rows[rowIndex].Cells[selectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(filtro);
-            }
-            dgvFiltri.Enabled = true;
-            #endregion
-
-            #region Evento click sul pulsante
-            dgvFiltri.CellContentClick += (s, e) =>
-            {
-                if (e.ColumnIndex == dgvFiltri.Columns["OpenFiltersSelection"].Index && e.RowIndex >= 0)
-                {
-                    // to prevent extra events during the selection of filters
-                    dgvFiltri.Enabled = false;
-                    var frmSelectFilters = new frmSelectFilters();
-
-                    // assegno il filtro da modificare
-                    var table = dgvFiltri.Rows[e.RowIndex].Cells[tableColumnIndex].Value.ToString();
-                    var field = dgvFiltri.Rows[e.RowIndex].Cells[fieldColumnIndex].Value.ToString();
-                    frmSelectFilters.FilterToManage = _applicablefilters.First(_ => _.Table.ToString() == table && _.FieldName == field);
-
-                    // apro il form di selezione
-                    frmSelectFilters.ShowDialog();
-
-                    // refresh dei valori selezionati
-                    dgvFiltri.Rows[e.RowIndex].Cells[selectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(frmSelectFilters.FilterToManage);
-
-                    // riabilito la griglia
-                    dgvFiltri.Enabled = true;
-                    frmSelectFilters.Dispose();
-                }
-            };
-            #endregion
-
-            // Organizza il contenuto della cella "Selected value" per il filtro
-            string getTextForSelectedValueIntoTheFilter(InputDataFilters_Item filter)
-            {
-                return (filter.SelectedValues.Count == 0)
-                        ? Values.ALLFILTERSAPPLIED
-                        : string.Join("; ", filter.SelectedValues);
-            }
-        }
 
 
         #region Gestione history combo boxes
@@ -266,40 +202,9 @@ namespace PptGeneratorGUI
             LoadPathsInTheComboBox(cmbFileSuperDettagliPath, _pathFileHistory.SuperDettagliPaths.ToArray());
             LoadPathsInTheComboBox(cmbFileRunRatePath, _pathFileHistory.RunRatePaths.ToArray());
             LoadPathsInTheComboBox(cmbDestinationFolderPath, _pathFileHistory.DestFolderPaths.ToArray());
-
-            return;
-
-            // Disabilito le combobox durante il caricamento per preventire eventi indesiderati
-            cmbFileBudgetPath.Enabled = false;
-            cmbFileForecastPath.Enabled = false;
-            cmbFileSuperDettagliPath.Enabled = false;
-            cmbFileRunRatePath.Enabled = false;
-            cmbDestinationFolderPath.Enabled = false;
-
-            cmbFileBudgetPath.Items.Clear();
-            cmbFileBudgetPath.Items.AddRange(_pathFileHistory.BudgetPaths.ToArray());
-
-            cmbFileForecastPath.Items.Clear();
-            cmbFileForecastPath.Items.AddRange(_pathFileHistory.ForecastPaths.ToArray());
-
-            cmbFileSuperDettagliPath.Items.Clear();
-            cmbFileSuperDettagliPath.Items.AddRange(_pathFileHistory.SuperDettagliPaths.ToArray());
-
-            cmbFileRunRatePath.Items.Clear();
-            cmbFileRunRatePath.Items.AddRange(_pathFileHistory.RunRatePaths.ToArray());
-
-            cmbDestinationFolderPath.Items.Clear();
-            cmbDestinationFolderPath.Items.AddRange(_pathFileHistory.DestFolderPaths.ToArray());
-
-            // Riattivo le combobox
-            cmbFileBudgetPath.Enabled = true;
-            cmbFileForecastPath.Enabled = true;
-            cmbFileSuperDettagliPath.Enabled = true;
-            cmbFileRunRatePath.Enabled = true;
-            cmbDestinationFolderPath.Enabled = true;
         }
 
-        private void LoadPathsInTheComboBox(System.Windows.Forms.ComboBox comboBox, object[] itmes)
+        private void LoadPathsInTheComboBox(ComboBox comboBox, object[] itmes)
         {
             comboBox.Enabled = false;
             comboBox.Items.Clear();
@@ -638,6 +543,77 @@ namespace PptGeneratorGUI
             _selectedDatePeriodo = calendarPeriodo.SelectionStart;
             lblDataPeriodo.Text = calendarPeriodo.SelectionStart.ToShortDateString();
             pnlCalendar.Visible = false;
+        }
+        #endregion
+
+
+        #region Gestione area filtri
+        // todo: renaming delle costanti
+        // posizione dei valori nelle colonne della griglia
+        const int AREA_FILTRI_TableColumnIndex = 0;
+        const int AREA_FILTRI_FieldColumnIndex = 1;
+        const int AREA_FILTRI_SelectButtonColumnIndex = 2;
+        const int AREA_FILTRI_SelectedValuesColumnIndex = 3;
+
+        private void RefreshFiltersArea()
+        {
+            #region Aggiorno il contenuto della cella
+            dgvFiltri.Enabled = false;
+            dgvFiltri.Rows.Clear();
+
+            if (_applicablefilters == null || _applicablefilters.Count == 0)
+            {
+                // esco lasciando la griglia vuota e disabilitata
+                return;
+            }
+
+            foreach (var filtro in _applicablefilters.OrderBy(_ => _.Table.ToString()).ThenBy(_ => _.FieldName).ToList())
+            {
+                int rowIndex = dgvFiltri.Rows.Add();
+                dgvFiltri.Rows[rowIndex].Cells[AREA_FILTRI_TableColumnIndex].Value = $"{filtro.Table}";
+                dgvFiltri.Rows[rowIndex].Cells[AREA_FILTRI_FieldColumnIndex].Value = $"{filtro.FieldName}";
+                dgvFiltri.Rows[rowIndex].Cells[AREA_FILTRI_SelectButtonColumnIndex].Value = $"Select values";
+                dgvFiltri.Rows[rowIndex].Cells[AREA_FILTRI_SelectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(filtro);
+            }
+            dgvFiltri.Enabled = true;
+            #endregion
+        }
+
+        private void dgvFiltri_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvFiltri.Columns["OpenFiltersSelection"].Index && e.RowIndex >= 0)
+            {
+                // to prevent extra events during the selection of filters
+                dgvFiltri.Enabled = false;
+                var frmSelectFilters = new frmSelectFilters();
+
+                // assegno il filtro da modificare
+                var table = dgvFiltri.Rows[e.RowIndex].Cells[AREA_FILTRI_TableColumnIndex].Value.ToString();
+                var field = dgvFiltri.Rows[e.RowIndex].Cells[AREA_FILTRI_FieldColumnIndex].Value.ToString();
+                frmSelectFilters.FilterToManage = _applicablefilters.First(_ => _.Table.ToString() == table && _.FieldName == field);
+
+                // apro il form di selezione
+                frmSelectFilters.ShowDialog();
+
+                // refresh dei valori selezionati
+                dgvFiltri.Rows[e.RowIndex].Cells[AREA_FILTRI_SelectedValuesColumnIndex].Value = getTextForSelectedValueIntoTheFilter(frmSelectFilters.FilterToManage);
+
+                // riabilito la griglia
+                dgvFiltri.Enabled = true;
+                frmSelectFilters.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Organizza il contenuto della cella "Selected value" per il filtro
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        string getTextForSelectedValueIntoTheFilter(InputDataFilters_Item filter)
+        {
+            return (filter.SelectedValues.Count == 0)
+                    ? Values.ALLFILTERSAPPLIED
+                    : string.Join("; ", filter.SelectedValues);
         }
         #endregion
 
@@ -1125,9 +1101,7 @@ namespace PptGeneratorGUI
         }
         #endregion
 
-        private void dgvFiltri_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
+
     }
 }
