@@ -1,13 +1,13 @@
--------------------- Varie
+-----
 Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
 -----
 Dimensioni slide: 			29,691 cm X 16,713 cm
 Dimensioni box immagini:	27,400 cm X 14.500 cm	Ratio (1 : 2,192)
 -----
 File di input: 
-	1) SuperDettagli	Molto pesante anche 120k righe
-	2) Budget			Leggero gemello di Forecast
-	3) Forecast			Leggero gemello di Budget
+	1) SuperDettagli	Pesantissimo (anche 120k righe)
+	2) Budget			Leggero, gemello di Forecast
+	3) Forecast			Leggero, gemello di Budget
 	4) Ran Rate			1 riga con i 12 mesi
 -----
 Folders
@@ -17,7 +17,6 @@ C:\Data\Lefo\Dev\3 GDPptGenerator\AAA Files for demo\Output\TmpForGeneratedFiles
 --
 C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\FilesEditor.Tests\bin\Debug\TestFiles
 C:\Data\Lefo\Dev\3 GDPptGenerator\Solution\FilesEditor.Tests\bin\Debug\TestFiles\InputFiles
-
 -----
 registrazione dll nella gac
 cd C:\Program Files\Microsoft Office\root\Office16\ADDINS\PowerPivot Excel Add-in
@@ -38,6 +37,7 @@ Microsoft Excel 15.0
 
 
 -------------------- Todo
+- Creazione items nel datasource
 - riportare meglio l'eccezione generica e il pulsante copy
 - Test e miglioramenti su generazione immagini (log statistiche in file di testo?)
 - Test con formule
@@ -55,6 +55,7 @@ Microsoft Excel 15.0
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
 - Ripristinare funzionalità dello Step clean up con cancellazione delle cartella temporanea
+- Rimuovere parte Aspose.Cells
 
 
 

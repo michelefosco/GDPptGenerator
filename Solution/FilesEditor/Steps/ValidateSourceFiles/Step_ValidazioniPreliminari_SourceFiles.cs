@@ -1,4 +1,5 @@
-﻿using FilesEditor.Constants;
+﻿using DocumentFormat.OpenXml.Linq;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
@@ -48,9 +49,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  //
                  sourceFilePath: Context.FileBudgetPath,
                  sourceFileType: FileTypes.Budget,
-                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
+                 // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                 sourceFileWorksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
                  sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
-                 ovverideExpectedHeadersColumns: new List<string>() {"Business", "Categoria" }
+                 ovverideExpectedHeadersColumns: new List<string>() { "Business", "Categoria" }
                 );
 
             ValidazioniPreliminari_Comuni(
@@ -60,7 +62,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  //
                  sourceFilePath: Context.FileForecastPath,
                  sourceFileType: FileTypes.Forecast,
-                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
+                 // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                 sourceFileWorksheetName: null, // WorksheetNames.SOURCEFILE_FORECAST_DATA,
                  sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
                  ovverideExpectedHeadersColumns: new List<string>() { "Business", "Categoria" }
                 );
@@ -72,7 +75,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  //
                  sourceFilePath: Context.FileRunRatePath,
                  sourceFileType: FileTypes.RunRate,
-                 sourceFileWorksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
+                 // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                 sourceFileWorksheetName: null, //  WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
                  sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_ROW
                 );
 
@@ -100,16 +104,24 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             List<string> ovverideExpectedHeadersColumns = null
             )
         {
+
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
-            var expectedHeadersColumns = ovverideExpectedHeadersColumns 
-                                    ?? Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
+            var expectedHeadersColumns = ovverideExpectedHeadersColumns
+                                ?? Context.EpplusHelperDataSource.GetHeaders(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
             var sourceFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(sourceFilePath, sourceFileType);
+            // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+            if (string.IsNullOrWhiteSpace(sourceFileWorksheetName))
+            {
+                sourceFileWorksheetName = sourceFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1].Name;
+            }
+
 
             // Controllo che ci sia il foglio da cui leggere i dati
             EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(sourceFileEPPlusHelper, sourceFileWorksheetName, sourceFileType);
+
 
             // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
             EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(sourceFileEPPlusHelper, sourceFileWorksheetName, sourceFileType, sourceFileHeadersRow, expectedHeadersColumns);

@@ -39,7 +39,8 @@ namespace FilesEditor.Steps.BuildPresentation
             ImportaSourceFile(
                     sourceFileType: FileTypes.Budget,
                     sourceFilePath: Context.FileBudgetPath,
-                    sourceWorksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
+                    // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                    sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
                     souceHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
                     sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_FIRST_COL,
                     //
@@ -51,7 +52,8 @@ namespace FilesEditor.Steps.BuildPresentation
             ImportaSourceFile(
                     sourceFileType: FileTypes.Forecast,
                     sourceFilePath: Context.FileForecastPath,
-                    sourceWorksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
+                    // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                    sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_FORECAST_DATA,
                     souceHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
                     sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_FIRST_COL,
                     //
@@ -86,7 +88,10 @@ namespace FilesEditor.Steps.BuildPresentation
             #region WorkSheets sorgente e destinazione
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
-            var worksheetSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
+
+            // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+            //var sourceWorksheet = packageSource.Workbook.Worksheets[sourceWorksheetName];
+            var sourceWorksheet = packageSource.Workbook.Worksheets[1];
 
             // Foglio destinazione
             var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
@@ -110,11 +115,11 @@ namespace FilesEditor.Steps.BuildPresentation
             #region Scorro tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
             var righe = new List<RigaBudgetForecast>();
             var currentBusiness = "";
-            for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= worksheetSource.Dimension.End.Row; rowSourceIndex++)
+            for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= sourceWorksheet.Dimension.End.Row; rowSourceIndex++)
             {
                 #region Lettura campo "Business"
                 // Leggo il valore sulla colonna "Business"
-                var valoreCellaBusiness = worksheetSource.Cells[rowSourceIndex, sourceHeadersFirstColumn].Value;
+                var valoreCellaBusiness = sourceWorksheet.Cells[rowSourceIndex, sourceHeadersFirstColumn].Value;
 
                 // Se questa cella è diversa na null, inizia un nuovo gruppo di righe di questo "Business"
                 if (valoreCellaBusiness != null)
@@ -133,7 +138,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
                 #region Lettura campo "Categoria"
-                var categoria = worksheetSource.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1].Value.ToString()
+                var categoria = sourceWorksheet.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1].Value.ToString()
                             ?? throw new Exception("Column 'Categoria' cannot be empty");
 
                 // applico gli eventuali alias
@@ -149,7 +154,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 var columns = new double[7];
                 for (var col = 1; col <= 7; col++)
                 {
-                    var value = worksheetSource.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1 + col].Value;
+                    var value = sourceWorksheet.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1 + col].Value;
 
                     // Sostituisco i null con 0
                     if (value == null)

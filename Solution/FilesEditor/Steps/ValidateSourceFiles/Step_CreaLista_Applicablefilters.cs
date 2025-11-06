@@ -105,7 +105,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.BUDGET:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileBudgetPath,
-                                worksheetName: WorksheetNames.SOURCEFILE_BUDGET_DATA,
+                                // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                                worksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
                                 fileType: FileTypes.Budget,
                                 headersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName,
@@ -120,7 +121,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.FORECAST:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileForecastPath,
-                                worksheetName: WorksheetNames.SOURCEFILE_FORECAST_DATA,
+                                // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                                worksheetName: null, //  WorksheetNames.SOURCEFILE_FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
                                 headersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName,
@@ -134,7 +136,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     case InputDataFilters_Tables.RUNRATE:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
                                 filePath: Context.FileRunRatePath,
-                                worksheetName: WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
+                                // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                                worksheetName: null, //  WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
                                 headersRow: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_ROW,
                                 headerValue: applicablefilter.FieldName,
@@ -162,6 +165,12 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         private List<string> GetApplicableFiltersValues_FromSourceFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue, int startCheckHeadersFromColumn)
         {
             var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
+
+            // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome ad eccezione di Superdettagli
+            if (worksheetName == null)
+            {
+                worksheetName = ePPlusHelper.ExcelPackage.Workbook.Worksheets[1].Name;
+            }
 
             // Controllo che l'header per la colonna che si sta tentando di esista
             var errorMessage = $"The configuration inside the file DataSource includes the filter: '{fileType} - {headerValue}'.\r\nThe worksheet '{worksheetName}' does not contain the corresponding header ('{headerValue}')";

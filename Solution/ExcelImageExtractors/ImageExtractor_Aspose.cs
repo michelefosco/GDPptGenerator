@@ -22,11 +22,11 @@ namespace ExcelImageExtractors
 
         public void TryToExportToImageFileOnFileSystem(string workSheetName, string printArea, string destinationPath)
         {
+            // Seleziono il foglio
             var worksheet = workbook.Worksheets[workSheetName];
 
-            // per il tipo 5 (chart a parte) imposto un'area di stampa più grande
+            // Seleziono la PrintArea, ovvero la porzione di foglio da esportare
             worksheet.PageSetup.PrintArea = printArea;
-
 
             // Opzioni di rendering in immagine
             var imgOptions = new ImageOrPrintOptions
@@ -35,14 +35,15 @@ namespace ExcelImageExtractors
                 OnePagePerSheet = true,
                 PrintingPage = PrintingPageType.Default
             };
+
             // Crea un oggetto SheetRender per il foglio
             var sr = new SheetRender(worksheet, imgOptions);
-            //   sr = new SheetRender(worksheetWithPivot, imgOptions);
 
             // Esporta la pivot (tutto il foglio) come immagine
             var toBeChoppedImagePath = Path.Combine(Path.GetDirectoryName(destinationPath), Path.GetFileNameWithoutExtension(destinationPath) + "_toBeChopped" + Path.GetExtension(destinationPath));
             sr.ToImage(0, toBeChoppedImagePath);
 
+            // Ritaglio l'immagine per eliminare
             chopImage(toBeChoppedImagePath, destinationPath);
 
             File.Delete(toBeChoppedImagePath);

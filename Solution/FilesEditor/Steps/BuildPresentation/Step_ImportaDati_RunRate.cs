@@ -36,7 +36,10 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(Context.FileRunRatePath));
-            var sourceWorksheet = packageSource.Workbook.Worksheets[WorksheetNames.SOURCEFILE_RUN_RATE_DATA];
+            // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+            //var sourceWorksheet = packageSource.Workbook.Worksheets[WorksheetNames.SOURCEFILE_RUN_RATE_DATA];            
+            var sourceWorksheet = packageSource.Workbook.Worksheets[1];
+
 
             // Foglio destinazione
             var destWorksheet = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_RUN_RATE_DATA];
