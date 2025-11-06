@@ -2,18 +2,19 @@
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Drawing.Imaging;
+using System.Threading;
 using System.Windows.Forms; // Per Clipboard
 
 
 namespace ExcelImageExtractors
 {
-    public class ImageExtractor : IImageExtractor
+    public class ImageExtractor_Interop : IImageExtractor
     {
         readonly Microsoft.Office.Interop.Excel.Application excelApp = null;
         readonly Workbook workbook = null;
         Worksheet worksheet = null;
 
-        public ImageExtractor(string excelFilePath)
+        public ImageExtractor_Interop(string excelFilePath)
         {
             excelApp = new Microsoft.Office.Interop.Excel.Application
             {
@@ -36,12 +37,22 @@ namespace ExcelImageExtractors
                 // copio il range come immmagine nella Clipboard
                 range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap);
 
-                // Per funzionare questo codice deve essere eseguito nel thread principale dell'applicazione
-                if (Clipboard.ContainsImage())
+                // A volta l'immagine non è immediatamente disponibile nella Clipboard
+                // per questo eseguo più tentantivi
+                for (int i = 1; i <= 5; i++)
                 {
-                    // Recupera l'immagine dagli appunti
-                    var clipboardImage = Clipboard.GetImage();
-                    clipboardImage?.Save(destinationPath, ImageFormat.Png);
+                    // Per funzionare questo codice deve essere eseguito nel thread principale dell'applicazione
+                    if (Clipboard.ContainsImage())
+                    {
+                        // Recupera l'immagine dagli appunti
+                        var clipboardImage = Clipboard.GetImage();
+                        clipboardImage?.Save(destinationPath, ImageFormat.Png);
+                        break;
+                    }
+                    else
+                    {
+                        Thread.Sleep(100);
+                    }
                 }
             }
             catch (Exception ex)

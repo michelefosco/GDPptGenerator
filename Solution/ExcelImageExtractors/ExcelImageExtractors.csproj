@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageExtractor.cs" />
+    <Compile Include="ImageExtractor_Interop.cs" />
     <Compile Include="ImageExtractor_Aspose.cs" />
     <Compile Include="Interfaces\IImageExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

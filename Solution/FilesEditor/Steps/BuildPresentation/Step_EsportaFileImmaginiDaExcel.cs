@@ -56,12 +56,12 @@ namespace FilesEditor.Steps.BuildPresentation
             // todo: predisposta la possibilità di usare Aspose.Cell in casi estremi.
             // come settare questa opzione?
             var useIterops = true;
-            const int maxNumberOfAttempts = 15;
+            const int maxNumberOfAttempts = 10;
 
             for (int attemptNumber = 1; attemptNumber <= maxNumberOfAttempts; attemptNumber++)
             {
                 var imageExtractor = (useIterops)
-                    ? (IImageExtractor)new ExcelImageExtractors.ImageExtractor(Context.DataSourceFilePath)
+                    ? (IImageExtractor)new ExcelImageExtractors.ImageExtractor_Interop(Context.DataSourceFilePath)
                     : (IImageExtractor)new ExcelImageExtractors.ImageExtractor_Aspose(Context.DataSourceFilePath);  // Aspose.Cell
 
                 // Processo tutti gli elementi non ancora presenti sul file system
