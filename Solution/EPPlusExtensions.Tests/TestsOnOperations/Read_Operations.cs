@@ -64,7 +64,8 @@ namespace EPPlusExtensions.Tests.TestsOnOperations
         }
 
         [DataTestMethod]
-        [DataRow("FoglioSenzaCelle", false)]
+        [DataRow("FoglioSenzaCelle", true)]
+        [DataRow("Foglio mancante", false)]
         [DataRow("DatiPerPivot", true)]
         [DataRow("Foglio primo", true)]
         public void WorksheetExists(string worksheetName, bool expectedHasWorksheetCells)

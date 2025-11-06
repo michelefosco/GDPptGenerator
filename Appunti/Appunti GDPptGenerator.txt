@@ -1,4 +1,6 @@
 -----
+Build events:				powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force
+-----
 Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
 -----
 Dimensioni slide: 			29,691 cm X 16,713 cm

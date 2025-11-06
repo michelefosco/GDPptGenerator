@@ -244,6 +244,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

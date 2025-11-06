@@ -46,8 +46,11 @@ namespace ExcelImageExtractors
                     {
                         // Recupera l'immagine dagli appunti
                         var clipboardImage = Clipboard.GetImage();
-                        clipboardImage?.Save(destinationPath, ImageFormat.Png);
-                        break;
+                        if (clipboardImage != null)
+                        {
+                            clipboardImage.Save(destinationPath, ImageFormat.Png);
+                            break;
+                        }
                     }
                     else
                     {

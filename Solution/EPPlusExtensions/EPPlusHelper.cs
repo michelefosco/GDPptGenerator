@@ -139,11 +139,7 @@ namespace EPPlusExtensions
             }
         }
 
-        public bool ExistsGetWorksheet(string worksheetName)
-        {
-            var worksheet = _excelPackage.Workbook.Worksheets[worksheetName];
-            return !(worksheet == null);
-        }
+
 
         private ExcelWorksheet GetWorksheet(string worksheetName, bool addIfMissing = false)
         {
@@ -324,7 +320,7 @@ namespace EPPlusExtensions
                 var currentHeader = currentWorksheet.Cells[headersRow, colonnaCorrente].Value;
 
                 // Salto eventuali colonne senza headres per gestire anche fogli con strutture più elaborate
-                if (currentHeader == null) 
+                if (currentHeader == null)
                 { continue; }
 
                 if (currentHeader.ToString().Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
@@ -364,8 +360,8 @@ namespace EPPlusExtensions
 
         public bool WorksheetExists(string worksheetName)
         {
-            var currentWorksheet = GetWorksheet(worksheetName);
-            return !(currentWorksheet.Dimension == null);
+            var worksheet = _excelPackage.Workbook.Worksheets[worksheetName];
+            return (worksheet != null);
         }
 
         public string GetString(string worksheetName, int row, int col, bool trimString = true)
