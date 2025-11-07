@@ -185,7 +185,7 @@
     <Compile Include="Steps\BuildPresentation\Step_EsportaFileImmaginiDaExcel.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_BudgetAndForecast.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_RunRate.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli_V2.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImpostaVarabiliInNameManager.cs" />
     <Compile Include="Steps\BuildPresentation\ZZZ_OLD_Step_ImportaDati_SuperDettagli.cs" />
     <Compile Include="Steps\BuildPresentation\Step_SalvaFile_DataSource.cs" />
