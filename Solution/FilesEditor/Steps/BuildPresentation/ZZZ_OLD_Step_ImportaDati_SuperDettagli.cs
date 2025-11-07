@@ -13,7 +13,7 @@ namespace FilesEditor.Steps.BuildPresentation
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_ImportaDati_SuperDettagli : StepBase
+    internal class ZZZ_OLD_Step_ImportaDati_SuperDettagli : StepBase
     {
         public override string StepName => "Step_ImportaDati_SuperDettagli";
 
@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
             Context.DebugInfoLogger.LogStepContext(StepName, Context);
         }
 
-        public Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
+        public ZZZ_OLD_Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificStepTask()

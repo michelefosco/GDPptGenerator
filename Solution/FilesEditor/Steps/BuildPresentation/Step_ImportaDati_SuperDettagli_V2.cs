@@ -4,6 +4,7 @@ using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
@@ -81,55 +82,66 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
+
+
+            //#region Lettura degli headers del foglio sorgente e foglio destinazione
+            //// headers del folio sorgente (Budget, Forecast, SuperDettagli)
+            //var sourceHeaders = GetHeadersList(workSheet: worksheetSource,
+            //                                headersRow: souceHeadersRow,
+            //                                headerFirstColumn: sourceHeadersFirstColumn);
+            //// headers del golio destinazione (Datasource)
+            //var destHeaders = GetHeadersList(workSheet: worksheetDest,
+            //                                headersRow: destHeadersRow,
+            //                                headerFirstColumn: destHeadersFirstColumn);
+            //#endregion
+
+
+            var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
+
+
             #region Lettura degli headers del foglio sorgente e foglio destinazione
-            // headers del folio sorgente (Budget, Forecast, SuperDettagli)
-            var sourceHeaders = GetHeadersList(workSheet: worksheetSource,
-                                            headersRow: souceHeadersRow,
-                                            headerFirstColumn: sourceHeadersFirstColumn);
-            // headers del golio destinazione (Datasource)
-            var destHeaders = GetHeadersList(workSheet: worksheetDest,
-                                            headersRow: destHeadersRow,
-                                            headerFirstColumn: destHeadersFirstColumn);
+            var sourceHeaders = superDettagliEPPlusHelper.GetHeadersFromRow(sourceWorksheetName, souceHeadersRow, sourceHeadersFirstColumn, true);
+            var destHeaders = Context.EpplusHelperDataSource.GetHeadersFromRow(destWorksheetName, destHeadersRow, destHeadersFirstColumn, true);
             #endregion
 
-
+            // IMPORTANTE: La validazione degli headers avviene all'interno dello step 'Step_ValidazioniPreliminari_SuperDettagli'
             #region Verifico che tutti gli headers necessari per la destinazione siano presenti nella sorgente (e nella giusta posizione)
-            if (sourceHeaders.Count < destHeaders.Count)
-            {
-                throw new ManagedException(
-                        filePath: sourceFilePath,
-                        fileType: FileTypes.SuperDettagli,
-                        //
-                        worksheetName: sourceWorksheetName,
-                        cellRow: null,
-                        cellColumn: null,
-                        valueHeader: ValueHeaders.None,
-                        value: null,
-                        //
-                        errorType: ErrorTypes.MissingValue,
-                        userMessage: "There are fewer headers in the Superdettagli file than required to complete the DataSource file.\nAll headers in the DataSource file(worksheet Superdettagli) must also be present in the Superdettagli file, in the same order."
-                        );
-            }
+            //if (sourceHeaders.Count < destHeaders.Count)
+            //{
+            //    throw new ManagedException(
+            //            filePath: sourceFilePath,
+            //            fileType: FileTypes.SuperDettagli,
+            //            //
+            //            worksheetName: sourceWorksheetName,
+            //            cellRow: null,
+            //            cellColumn: null,
+            //            valueHeader: ValueHeaders.None,
+            //            value: null,
+            //            //
+            //            errorType: ErrorTypes.MissingValue,
+            //            userMessage: "There are fewer headers in the Superdettagli file than required to complete the DataSource file.\nAll headers in the DataSource file(worksheet Superdettagli) must also be present in the Superdettagli file, in the same order."
+            //            );
+            //}
 
-            for (int j = 0; j < destHeaders.Count; j++)
-            {
-                if (!sourceHeaders[j].Equals(destHeaders[j], StringComparison.InvariantCultureIgnoreCase))
-                {
-                    throw new ManagedException(
-                        filePath: sourceFilePath,
-                        fileType: FileTypes.SuperDettagli,
-                        //
-                        worksheetName: sourceWorksheetName,
-                        cellRow: souceHeadersRow,
-                        cellColumn: null,
-                        valueHeader: ValueHeaders.None,
-                        value: destHeaders[j],
-                        //
-                        errorType: ErrorTypes.MissingValue,
-                        userMessage: $"The header '{destHeaders[j]}' required for the file Datasource is missing (or located in the wrong position) in the file 'Superdettagli'.\nAll headers in the DataSource file (worksheet Superdettagli) must also be present in the Superdettagli file, in the same order."
-                        );
-                }
-            }
+            //for (int j = 0; j < destHeaders.Count; j++)
+            //{
+            //    if (!sourceHeaders[j].Equals(destHeaders[j], StringComparison.InvariantCultureIgnoreCase))
+            //    {
+            //        throw new ManagedException(
+            //            filePath: sourceFilePath,
+            //            fileType: FileTypes.SuperDettagli,
+            //            //
+            //            worksheetName: sourceWorksheetName,
+            //            cellRow: souceHeadersRow,
+            //            cellColumn: null,
+            //            valueHeader: ValueHeaders.None,
+            //            value: destHeaders[j],
+            //            //
+            //            errorType: ErrorTypes.MissingValue,
+            //            userMessage: $"The header '{destHeaders[j]}' required for the file Datasource is missing (or located in the wrong position) in the file 'Superdettagli'.\nAll headers in the DataSource file (worksheet Superdettagli) must also be present in the Superdettagli file, in the same order."
+            //            );
+            //    }
+            //}
             #endregion
 
 
@@ -302,18 +314,18 @@ namespace FilesEditor.Steps.BuildPresentation
             Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.SuperDettagli, totRighePreservate, totRigheEliminate, totRigheAggiunte);
         }
 
-        List<string> GetHeadersList(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)
-        {
-            var sourceHeaders = new List<string>();
-            var sourceCol = headerFirstColumn;
-            while (workSheet.Cells[headersRow, sourceCol].Value != null)
-            {
-                var header = workSheet.Cells[headersRow, sourceCol].Text.Trim().ToLower();
-                sourceHeaders.Add(header);
-                sourceCol++;
-            }
+        //List<string> GetHeadersList(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)
+        //{
+        //    var sourceHeaders = new List<string>();
+        //    var sourceCol = headerFirstColumn;
+        //    while (workSheet.Cells[headersRow, sourceCol].Value != null)
+        //    {
+        //        var header = workSheet.Cells[headersRow, sourceCol].Text.Trim().ToLower();
+        //        sourceHeaders.Add(header);
+        //        sourceCol++;
+        //    }
 
-            return sourceHeaders;
-        }
+        //    return sourceHeaders;
+        //}
     }
 }

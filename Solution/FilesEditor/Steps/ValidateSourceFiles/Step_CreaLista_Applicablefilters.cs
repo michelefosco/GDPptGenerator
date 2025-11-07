@@ -174,7 +174,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             // Controllo che l'header per la colonna che si sta tentando di esista
             var errorMessage = $"The configuration inside the file DataSource includes the filter: '{fileType} - {headerValue}'.\r\nThe worksheet '{worksheetName}' does not contain the corresponding header ('{headerValue}')";
-            EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, new List<string> { headerValue }, errorMessage);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, startCheckHeadersFromColumn, new List<string> { headerValue }, errorMessage);
 
             var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue, true, startCheckHeadersFromColumn);
 

@@ -52,9 +52,9 @@ namespace FilesEditor.Helpers
             }
         }
 
-        static internal void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, List<string> expectedColumns, string ovverideMessage = "")
+        static internal void ThrowExpetionsForMissingHeader(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int rowWithHeaders, int headersFirstColumn, List<string> expectedColumns, string ovverideMessage = "")
         {
-            var columnsList = ePPlusHelper.GetHeaders(worksheetName, rowWithHeaders);
+            var columnsList = ePPlusHelper.GetHeadersFromRow(worksheetName, rowWithHeaders, headersFirstColumn, true);
             foreach (var expectedColumn in expectedColumns)
             {
                 if (!columnsList.Any(_ => _.Equals(expectedColumn, StringComparison.InvariantCultureIgnoreCase)))

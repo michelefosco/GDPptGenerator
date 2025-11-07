@@ -187,7 +187,7 @@
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_RunRate.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli_V2.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImpostaVarabiliInNameManager.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli.cs" />
+    <Compile Include="Steps\BuildPresentation\ZZZ_OLD_Step_ImportaDati_SuperDettagli.cs" />
     <Compile Include="Steps\BuildPresentation\Step_SalvaFile_DataSource.cs" />
     <Compile Include="Steps\Step_CreaListe_Alias.cs" />
     <Compile Include="Steps\BuildPresentation\Step_VerificaEditabilita_DataSource_File.cs" />
@@ -200,6 +200,7 @@
     <Compile Include="Entities\MethodsArgs\ValidateSourceFilesOutput.cs" />
     <Compile Include="Steps\ValidateSourceFiles\Step_CreaLista_Applicablefilters.cs" />
     <Compile Include="Steps\Step_CreaLista_SildeToGenerate.cs" />
+    <Compile Include="Steps\ValidateSourceFiles\Step_ValidazioniPreliminari_SuperDettagli.cs" />
     <Compile Include="Steps\ValidateSourceFiles\Step_ValidazioniPreliminari_SourceFiles.cs" />
     <Compile Include="Steps\StepBase.cs" />
   </ItemGroup>

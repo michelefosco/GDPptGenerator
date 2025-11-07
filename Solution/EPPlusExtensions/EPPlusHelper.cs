@@ -293,22 +293,29 @@ namespace EPPlusExtensions
         /// Legge i valori presenti nella riga (utile per le intestazioni)
         /// </summary>
         /// <param name="worksheetName"></param>
-        /// <param name="row"></param>
-        /// <param name="colFrom"></param>
+        /// <param name="rowWithHeaders"></param>
+        /// <param name="firstColumnWithHeaders"></param>
         /// <returns></returns>
-        public List<string> GetHeaders(string worksheetName, int row, int colFrom = 1)
+        public List<string> GetHeadersFromRow(string worksheetName, int rowWithHeaders, int firstColumnWithHeaders, bool stopAtFirstNullValue)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
 
-            var values = new List<string>();
-            for (int colonnaCorrente = colFrom; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
+            var headers = new List<string>();
+            for (var colonnaCorrente = firstColumnWithHeaders; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
             {
-                var value = currentWorksheet.Cells[row, colonnaCorrente].Value;
+                var value = currentWorksheet.Cells[rowWithHeaders, colonnaCorrente].Value;
+
+                // In presenza di 'stopAtFirstNullValue' a True e un valore nullo interrompo l'intera ricerca
+                if (stopAtFirstNullValue && value == null)
+                { break; }
+
+                // Aggiungo solo valori non nulli alla lista
                 if (value != null)
-                { values.Add(value.ToString()); }
+                { headers.Add(value.ToString()); }
             }
-            return values;
+            return headers;
         }
+
 
         public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
         {

@@ -1,6 +1,8 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 
 namespace FilesEditor.Steps
@@ -49,5 +51,7 @@ namespace FilesEditor.Steps
             return imagePath;
         }
         #endregion
+
+
     }
 }

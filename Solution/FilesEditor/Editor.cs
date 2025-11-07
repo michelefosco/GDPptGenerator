@@ -37,6 +37,7 @@ namespace FilesEditor
                 {
                     new Step_Start_DebugInfoLogger(stepContext),
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
+                    new Step_ValidazioniPreliminari_SuperDettagli(stepContext),                    
                     new Step_CreaListe_Alias(stepContext),
                     new Step_CreaLista_Applicablefilters(stepContext),
                     new Step_CreaLista_SildeToGenerate(stepContext),
@@ -88,6 +89,7 @@ namespace FilesEditor
                 {
                     new Step_Start_DebugInfoLogger(stepContext),
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
+                    new Step_ValidazioniPreliminari_SuperDettagli(stepContext),
                     new Step_VerificaEditabilita_DataSource_File(stepContext),
                     new Step_TmpFolder_Predisposizione(stepContext),
                     new Step_BackupFile_DataSource(stepContext),
