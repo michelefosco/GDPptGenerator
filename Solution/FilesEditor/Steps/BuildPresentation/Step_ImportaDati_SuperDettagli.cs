@@ -1,14 +1,10 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Spreadsheet;
-using FilesEditor.Constants;
+﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 

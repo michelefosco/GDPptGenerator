@@ -1,5 +1,4 @@
-﻿using ExcelImageExtractors.Interfaces;
-using FilesEditor.Entities;
+﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
 using System;
 using System.IO;
@@ -53,16 +52,12 @@ namespace FilesEditor.Steps.BuildPresentation
             }
             #endregion
 
-            // todo: predisposta la possibilità di usare Aspose.Cell in casi estremi.
-            // come settare questa opzione?
-            var useIterops = true;
             const int maxNumberOfAttempts = 10;
 
             for (int attemptNumber = 1; attemptNumber <= maxNumberOfAttempts; attemptNumber++)
             {
-                var imageExtractor = (useIterops)
-                    ? (IImageExtractor)new ExcelImageExtractors.ImageExtractor_Interop(Context.DataSourceFilePath)
-                    : (IImageExtractor)new ExcelImageExtractors.ImageExtractor_Aspose(Context.DataSourceFilePath);  // Aspose.Cell
+                var imageExtractor = new ExcelImageExtractors.ImageExtractor_Interop(Context.DataSourceFilePath);  // Interop
+                //var imageExtractor = new ExcelImageExtractors.ImageExtractor_Aspose(Context.DataSourceFilePath);  // Aspose.Cell
 
                 // Processo tutti gli elementi non ancora presenti sul file system
                 foreach (var itemToExportAsImage in Context.ItemsToExportAsImage.Where(_ => !_.IsPresentOnFileSistem))

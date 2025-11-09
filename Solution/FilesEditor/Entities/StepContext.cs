@@ -109,8 +109,8 @@ namespace FilesEditor.Entities
             PowerPointTemplateFilePath = input.PowerPointTemplateFilePath;
             AppendCurrentYear_FileSuperDettagli = input.AppendCurrentYear_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
-            ApplicableFilters = List<InputDataFilters_Item>(input.ApplicableFilters)
-                            ?? new List<InputDataFilters_Item>();
+            ApplicableFilters = new List<InputDataFilters_Item>(input.ApplicableFilters)
+                             ?? new List<InputDataFilters_Item>();
         }
         public void SetContextFromInput(ValidateSourceFilesInput input)
         {

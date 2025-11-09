@@ -3,10 +3,8 @@ using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
-using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
-using System.IO;
+
 
 namespace FilesEditor.Steps.ValidateSourceFiles
 {
@@ -44,8 +42,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         internal void ValidazioniPreliminari_SuperDettagli()
         {
-
-            //sourceFileType: FileTypes.SuperDettagli,
             var sourceFilePath = Context.FileSuperDettagliPath;
             var sourceWorksheetName = WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA;
             var souceHeadersRow = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW;
@@ -54,19 +50,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var destWorksheetName = WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA;
             var destHeadersRow = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW;
             var destHeadersFirstColumn = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL;
-
-            #region WorkSheets sorgente e destinazione
-            // Foglio sorgente
-            var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
-            var worksheetSource = packageSource.Workbook.Worksheets[sourceWorksheetName];
-
-            // Foglio destinazione
-            var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
-            #endregion
-
-
-
-
 
             var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
 
@@ -96,7 +79,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                         );
             }
 
-            for (int j = 0; j < destHeaders.Count; j++)
+            for (var j = 0; j < destHeaders.Count; j++)
             {
                 if (!sourceHeaders[j].Equals(destHeaders[j], StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -117,19 +100,5 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
             #endregion
         }
-
-        //List<string> GetHeadersList(ExcelWorksheet workSheet, int headersRow, int headerFirstColumn)
-        //{
-        //    var sourceHeaders = new List<string>();
-        //    var sourceCol = headerFirstColumn;
-        //    while (workSheet.Cells[headersRow, sourceCol].Value != null)
-        //    {
-        //        var header = workSheet.Cells[headersRow, sourceCol].Text.Trim().ToLower();
-        //        sourceHeaders.Add(header);
-        //        sourceCol++;
-        //    }
-
-        //    return sourceHeaders;
-        //}
     }
 }
