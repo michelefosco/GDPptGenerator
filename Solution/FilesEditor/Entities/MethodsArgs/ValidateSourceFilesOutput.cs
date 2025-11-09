@@ -9,11 +9,10 @@ namespace FilesEditor.Entities.MethodsArgs
 
         internal ValidateSourceFilesOutput(StepContext context) : base(context)
         {
-            Applicablefilters = context.ApplicableFilters;
+            Applicablefilters = new List<InputDataFilters_Item>(context.ApplicableFilters);
         }
 
         internal ValidateSourceFilesOutput(ManagedException managedException) : base(managedException)
-        {
-        }
+        {        }
     }
 }

@@ -37,9 +37,6 @@ namespace FilesEditor.Entities
         public Configurazione Configurazione { get; private set; }
         public EsitiFinali Esito { get; private set; }
 
-
-
-
         public EPPlusHelper EpplusHelperDataSource
         {
             get
@@ -61,11 +58,9 @@ namespace FilesEditor.Entities
 
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
-
         public List<AliasDefinition> AliasDefinitions_Business { get; private set; }
 
         public List<AliasDefinition> AliasDefinitions_Categoria { get; private set; }
-
 
         public List<SlideToGenerate> SildeToGenerate { get; private set; }
 
@@ -114,7 +109,8 @@ namespace FilesEditor.Entities
             PowerPointTemplateFilePath = input.PowerPointTemplateFilePath;
             AppendCurrentYear_FileSuperDettagli = input.AppendCurrentYear_FileSuperDettagli;
             PeriodDate = input.PeriodDate;
-            ApplicableFilters = input.ApplicableFilters ?? new List<InputDataFilters_Item>();
+            ApplicableFilters = List<InputDataFilters_Item>(input.ApplicableFilters)
+                            ?? new List<InputDataFilters_Item>();
         }
         public void SetContextFromInput(ValidateSourceFilesInput input)
         {
