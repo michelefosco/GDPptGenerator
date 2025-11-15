@@ -31,8 +31,6 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            //Context.DebugInfoLogger.Beautify();
-
             return EsitiFinali.Success;
         }
     }

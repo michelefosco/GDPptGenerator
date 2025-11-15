@@ -37,12 +37,13 @@ namespace FilesEditor
                 {
                     new Step_Start_DebugInfoLogger(stepContext),
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
-                    new Step_ValidazioniPreliminari_SuperDettagli(stepContext),                    
+                    new Step_ValidazioniPreliminari_SuperDettagli(stepContext),
                     new Step_CreaListe_Alias(stepContext),
                     new Step_CreaLista_Applicablefilters(stepContext),
                     new Step_CreaLista_SildeToGenerate(stepContext),
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),
+                    new Step_EPPlusHelper_Close(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                  };
                 RunStepSequence(stepsSequence, stepContext);
@@ -99,12 +100,12 @@ namespace FilesEditor
                     #region Steps che modificano il file DataSource - Inizio
                     new Step_ImportaDati_RunRate(stepContext),
                     new Step_ImportaDati_BudgetAndForecast(stepContext),
-                    //new Step_ImportaDati_SuperDettagli(context),
                     new Step_ImportaDati_SuperDettagli(stepContext),
                     new Step_ImpostaVarabiliInNameManager(stepContext),
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
-                    new Step_SalvaFile_DataSource(stepContext),
+                    new Step_SalvaFile_DataSource(stepContext),                    
                     #endregion
+                    new Step_EPPlusHelper_Close(stepContext),
                     new Step_EsportaFileImmaginiDaExcel(stepContext),
                     new Step_CreaFiles_Presentazioni(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),

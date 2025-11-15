@@ -186,11 +186,13 @@
     <Compile Include="Steps\BuildPresentation\Step_EsportaFileImmaginiDaExcel.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_BudgetAndForecast.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_RunRate.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli - Copy.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImpostaVarabiliInNameManager.cs" />
     <Compile Include="Steps\BuildPresentation\Step_SalvaFile_DataSource.cs" />
     <Compile Include="Steps\Step_CreaListe_Alias.cs" />
     <Compile Include="Steps\BuildPresentation\Step_VerificaEditabilita_DataSource_File.cs" />
+    <Compile Include="Steps\Step_EPPlusHelper_Close.cs" />
     <Compile Include="Steps\Step_TmpFolder_Pulizia.cs" />
     <Compile Include="Steps\Step_TmpFolder_Predisposizione.cs" />
     <Compile Include="Steps\BuildPresentation\Step_CreaFiles_Presentazioni.cs" />

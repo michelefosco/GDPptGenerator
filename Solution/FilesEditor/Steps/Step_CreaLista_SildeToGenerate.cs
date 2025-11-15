@@ -45,9 +45,9 @@ namespace FilesEditor.Steps
         {
             // var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.EpplusHelperDataSource, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.DataSourceEPPlusHelper, worksheetName, FileTypes.DataSource);
 
-            Fill_SildeToGenerate_FromConfiguration(Context.EpplusHelperDataSource, Context.SildeToGenerate);
+            Fill_SildeToGenerate_FromConfiguration(Context.DataSourceEPPlusHelper, Context.SildeToGenerate);
         }
 
         private void Fill_SildeToGenerate_FromConfiguration(EPPlusHelper ePPlusHelper, List<SlideToGenerate> sildeToGenerate)

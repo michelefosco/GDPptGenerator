@@ -39,11 +39,11 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void TryToSaveDataSourceFile()
         {
-            var testSaveDataSourcePassed = Context.EpplusHelperDataSource.Save();
+            var testSaveDataSourcePassed = Context.DataSourceEPPlusHelper.Save();
             if (!testSaveDataSourcePassed)
             {
                 throw new ManagedException(
-                    filePath: Context.EpplusHelperDataSource.FilePathInUse,
+                    filePath: Context.DataSourceEPPlusHelper.FilePathInUse,
                     fileType: FileTypes.DataSource,
                     //
                     worksheetName: null,
@@ -53,7 +53,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     value: null,
                     //
                     errorType: ErrorTypes.UnableToUpdateFile,
-                    userMessage: string.Format(UserErrorMessages.UnableToUpdateFile, Context.EpplusHelperDataSource.FilePathInUse)
+                    userMessage: string.Format(UserErrorMessages.UnableToUpdateFile, Context.DataSourceEPPlusHelper.FilePathInUse)
                     );
             }
         }

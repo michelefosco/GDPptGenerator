@@ -94,7 +94,7 @@ namespace FilesEditor.Steps.BuildPresentation
             var sourceWorksheet = packageSource.Workbook.Worksheets[1];
 
             // Foglio destinazione
-            var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
+            var worksheetDest = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[destWorksheetName];
             #endregion
 
             #region Individuo gli evemtuali filtri da applicare

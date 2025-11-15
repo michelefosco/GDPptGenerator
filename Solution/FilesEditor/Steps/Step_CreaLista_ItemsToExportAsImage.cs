@@ -44,14 +44,14 @@ namespace FilesEditor.Steps
             var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)
             {
-                EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.EpplusHelperDataSource, imageId, FileTypes.DataSource);
+                EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.DataSourceEPPlusHelper, imageId, FileTypes.DataSource);
 
-                var printArea = Context.EpplusHelperDataSource.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
+                var printArea = Context.DataSourceEPPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
                 // check sul campo "Print Area"
                 if (string.IsNullOrWhiteSpace(printArea))
                 {
                     throw new ManagedException(
-                        filePath: Context.EpplusHelperDataSource.FilePathInUse,
+                        filePath: Context.DataSourceEPPlusHelper.FilePathInUse,
                         fileType: FileTypes.DataSource,
                         //
                         worksheetName: imageId,

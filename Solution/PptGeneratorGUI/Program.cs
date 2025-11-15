@@ -20,7 +20,7 @@ namespace PptGeneratorGUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Errore non gestito: {ex.ToString()}", "Errore non gestito", MessageBoxButtons.OK);
+                MessageBox.Show($"Errore non gestito: {ex}", "Errore non gestito", MessageBoxButtons.OK);
             }
         }
     }

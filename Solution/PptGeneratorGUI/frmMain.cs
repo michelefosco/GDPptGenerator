@@ -304,21 +304,17 @@ namespace PptGeneratorGUI
 
         private bool IsDebugModeEnabled()
         {
-            string debugModeEnabledValue = ConfigurationManager.AppSettings.Get("DebugModeEnabled");
-
-            bool configValue;
+            var debugModeEnabledValue = ConfigurationManager.AppSettings.Get("DebugModeEnabled");
 
             if (!string.IsNullOrEmpty(debugModeEnabledValue))
             {
-                if (bool.TryParse(debugModeEnabledValue, out configValue))
-                {
-                    return configValue;
-                }
+                if (bool.TryParse(debugModeEnabledValue, out bool configValue))
+                { return configValue; }
                 else
-                    return false;
+                { return false; }
             }
             else
-                return false;
+            { return false; }
         }
 
         private string GetVersion()
@@ -1067,6 +1063,8 @@ namespace PptGeneratorGUI
         }
         private void LoadLastSessionFilePaths()
         {
+            cleanCurrentsession();
+
             SelectFirstItemIntoComboBoxPaths(cmbFileBudgetPath);
             SelectFirstItemIntoComboBoxPaths(cmbFileForecastPath);
             SelectFirstItemIntoComboBoxPaths(cmbFileRunRatePath);
@@ -1074,20 +1072,6 @@ namespace PptGeneratorGUI
             SelectFirstItemIntoComboBoxPaths(cmbDestinationFolderPath);
 
             RefreshUI(false);
-            //if (cmbFileBudgetPath.Items.Count > 0)
-            //{ cmbFileBudgetPath.Text = cmbFileBudgetPath.Items[0].ToString(); }
-
-            //if (cmbFileForecastPath.Items.Count > 0)
-            //{ cmbFileForecastPath.Text = cmbFileForecastPath.Items[0].ToString(); }
-
-            //if (cmbFileRunRatePath.Items.Count > 0)
-            //{ cmbFileRunRatePath.Text = cmbFileRunRatePath.Items[0].ToString(); }
-
-            //if (cmbFileSuperDettagliPath.Items.Count > 0)
-            //{ cmbFileSuperDettagliPath.Text = cmbFileSuperDettagliPath.Items[0].ToString(); }
-
-            //if (cmbDestinationFolderPath.Items.Count > 0)
-            //{ cmbDestinationFolderPath.Text = cmbDestinationFolderPath.Items[0].ToString(); }
         }
 
         private void SelectFirstItemIntoComboBoxPaths(ComboBox comboBox)
@@ -1138,7 +1122,5 @@ namespace PptGeneratorGUI
             SelectedDestinationFolderPath = string.Empty;
         }
         #endregion
-
-
     }
 }

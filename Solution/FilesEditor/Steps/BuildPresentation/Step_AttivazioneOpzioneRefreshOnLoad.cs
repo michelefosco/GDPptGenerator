@@ -32,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
         internal override EsitiFinali DoSpecificStepTask()
         {
             //todo: verificarne il funzionamento quando ci saranno pivot tables nel datasource file
-            var numeroDiPivotTableAggiornate = Context.EpplusHelperDataSource.SetRefreshOnLoadForAllPivotTables();
+            var numeroDiPivotTableAggiornate = Context.DataSourceEPPlusHelper.SetRefreshOnLoadForAllPivotTables();
             Context.DebugInfoLogger.LogText("Attivazione opzione 'refreshOnLoad' delle pivot table", numeroDiPivotTableAggiornate);
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito

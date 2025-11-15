@@ -51,14 +51,14 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var destHeadersRow = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW;
             var destHeadersFirstColumn = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL;
 
-            var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
+            //var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
 
             // Controllo che ci sia il foglio da cui leggere i dati
-            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(superDettagliEPPlusHelper, sourceWorksheetName, FileTypes.SuperDettagli);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.SuperdettagliFileEPPlusHelper, sourceWorksheetName, FileTypes.SuperDettagli);
 
             #region Lettura degli headers del foglio sorgente e foglio destinazione
-            var sourceHeaders = superDettagliEPPlusHelper.GetHeadersFromRow(sourceWorksheetName, souceHeadersRow, sourceHeadersFirstColumn, true);
-            var destHeaders = Context.EpplusHelperDataSource.GetHeadersFromRow(destWorksheetName, destHeadersRow, destHeadersFirstColumn, true);
+            var sourceHeaders = Context.SuperdettagliFileEPPlusHelper.GetHeadersFromRow(sourceWorksheetName, souceHeadersRow, sourceHeadersFirstColumn, true);
+            var destHeaders = Context.DataSourceEPPlusHelper.GetHeadersFromRow(destWorksheetName, destHeadersRow, destHeadersFirstColumn, true);
             #endregion
 
             #region Verifico che tutti gli headers necessari per la destinazione siano presenti nella sorgente (e nella giusta posizione)
@@ -99,6 +99,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 }
             }
             #endregion
+
+            //superDettagliEPPlusHelper.Close();
         }
     }
 }

@@ -1,4 +1,22 @@
 -----
+Statistics
+----- File Light
+Step_ImportaDati_SuperDettagli	Totale seconds:	0,1040252
+Step_EsportaFileImmaginiDaExcel	Totale seconds:	5,1172854
+Step_CreaFiles_Presentazioni	Totale seconds:	3,8164351
+----- File 120k
+Step_ImportaDati_SuperDettagli	Totale seconds:	851,1	Total milliseconds:	851074,0039
+Step_SalvaFile_DataSource		Totale seconds:	72,0	Total milliseconds:	71969,1724
+Step_EsportaFileImmaginiDaExcel	Totale seconds:	701,0	Total milliseconds:	701011,0117
+----- File 120k
+Step_ImportaDati_SuperDettagli	Totale seconds:	11,0301961
+Step_SalvaFile_DataSource	Totale seconds:	46,1173214
+Step_EsportaFileImmaginiDaExcel	Totale seconds:	37,6611227
+Step_CreaFiles_Presentazioni	Totale seconds:	3,3848921
+
+
+
+-----
 Build events:				powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force
 -----
 Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
@@ -40,6 +58,7 @@ Microsoft Excel 15.0
 
 -------------------- Todo
 - Creazione items nel datasource
+- EPPLus helpers sul cotext per evitare di aprirli ei chiuderli più volte
 - Riportare meglio l'eccezione generica e il pulsante copy
 - Test con formule
 - Test con filtri

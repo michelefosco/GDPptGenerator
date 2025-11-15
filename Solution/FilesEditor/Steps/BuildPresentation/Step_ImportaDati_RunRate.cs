@@ -42,7 +42,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             // Foglio destinazione
-            var destWorksheet = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_RUN_RATE_DATA];
+            var destWorksheet = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_RUN_RATE_DATA];
 
             // Range sorgente
             var sourceRange = sourceWorksheet.Cells[

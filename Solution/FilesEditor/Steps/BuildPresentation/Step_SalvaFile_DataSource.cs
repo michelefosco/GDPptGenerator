@@ -31,7 +31,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            Context.EpplusHelperDataSource.Save();
+            Context.DataSourceEPPlusHelper.Save();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

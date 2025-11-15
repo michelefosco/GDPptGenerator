@@ -43,8 +43,8 @@ namespace FilesEditor.Steps
 
         private void CreaListe_Alias()
         {
-            FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS, Context.AliasDefinitions_Business);
-            FillAliasesFromWorksheet(Context.EpplusHelperDataSource, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA, Context.AliasDefinitions_Categoria);
+            FillAliasesFromWorksheet(Context.DataSourceEPPlusHelper, WorksheetNames.DATASOURCE_ALIAS_BUSINESS, Context.AliasDefinitions_Business);
+            FillAliasesFromWorksheet(Context.DataSourceEPPlusHelper, WorksheetNames.DATASOURCE_ALIAS_BUSINESS_CATEGORIA, Context.AliasDefinitions_Categoria);
         }
 
         private void FillAliasesFromWorksheet(EPPlusHelper ePPlusHelper, string worksheetName, List<AliasDefinition> aliases)

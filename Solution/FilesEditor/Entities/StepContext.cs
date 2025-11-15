@@ -11,7 +11,11 @@ namespace FilesEditor.Entities
 {
     public class StepContext : UserInterfaceInputBase
     {
-        private EPPlusHelper _ePPlusHelperDataSource;
+        private EPPlusHelper _dataSourceEPPlusHelper;
+        private EPPlusHelper _budgetFileEPPlusHelper;
+        private EPPlusHelper _forecastFileEPPlusHelper;
+        private EPPlusHelper _runRateFileEPPlusHelper;
+        private EPPlusHelper _superdettagliFileEPPlusHelper;
 
         // Base class properties
         // DestinationFolder
@@ -37,18 +41,75 @@ namespace FilesEditor.Entities
         public Configurazione Configurazione { get; private set; }
         public EsitiFinali Esito { get; private set; }
 
-        public EPPlusHelper EpplusHelperDataSource
+        public EPPlusHelper DataSourceEPPlusHelper
         {
             get
             {
-                if (_ePPlusHelperDataSource == null)
+                if (_dataSourceEPPlusHelper == null)
                 {
                     if (string.IsNullOrEmpty(DataSourceFilePath))
-                    { throw new Exception("Inizializzare 'DataSourceFilePath' prima di usare 'ePPlusHelperDataSource'"); }
+                    { throw new Exception("Inizializzare 'DataSourceFilePath' prima di usare 'DataSourceEPPlusHelper'"); }
 
-                    _ePPlusHelperDataSource = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(DataSourceFilePath, FileTypes.DataSource);
+                    _dataSourceEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(DataSourceFilePath, FileTypes.DataSource);
                 }
-                return _ePPlusHelperDataSource;
+                return _dataSourceEPPlusHelper;
+            }
+        }
+        public EPPlusHelper BudgetFileEPPlusHelper
+        {
+            get
+            {
+                if (_budgetFileEPPlusHelper == null)
+                {
+                    if (string.IsNullOrEmpty(FileBudgetPath))
+                    { throw new Exception("Inizializzare 'FileBudgetPath' prima di usare 'BudgetFileEPPlusHelper'"); }
+
+                    _budgetFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(FileBudgetPath, FileTypes.Budget);
+                    
+                }
+                return _budgetFileEPPlusHelper;
+            }
+        }
+        public EPPlusHelper ForecastFileEPPlusHelper
+        {
+            get
+            {
+                if (_forecastFileEPPlusHelper == null)
+                {
+                    if (string.IsNullOrEmpty(FileForecastPath))
+                    { throw new Exception("Inizializzare 'FileForecastPath' prima di usare 'ForecastFileEPPlusHelper'"); }
+
+                    _forecastFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(FileForecastPath, FileTypes.Forecast);
+                }
+                return _forecastFileEPPlusHelper;
+            }
+        }
+        public EPPlusHelper RunRateFileEPPlusHelper
+        {
+            get
+            {
+                if (_runRateFileEPPlusHelper == null)
+                {
+                    if (string.IsNullOrEmpty(FileRunRatePath))
+                    { throw new Exception("Inizializzare 'FileRunRatePath' prima di usare 'RunRateFileEPPlusHelper'"); }
+
+                    _runRateFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(FileRunRatePath, FileTypes.RunRate);
+                }
+                return _runRateFileEPPlusHelper;
+            }
+        }
+        public EPPlusHelper SuperdettagliFileEPPlusHelper
+        {
+            get
+            {
+                if (_superdettagliFileEPPlusHelper == null)
+                {
+                    if (string.IsNullOrEmpty(FileSuperDettagliPath))
+                    { throw new Exception("Inizializzare 'FileSuperDettagliPath' prima di usare 'SuperdettagliFileEPPlusHelper'"); }
+
+                    _superdettagliFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(FileSuperDettagliPath, FileTypes.SuperDettagli);
+                }
+                return _superdettagliFileEPPlusHelper;
             }
         }
 

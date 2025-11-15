@@ -317,7 +317,7 @@ namespace EPPlusExtensions
         }
 
 
-        public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
+        public List<string> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1, bool distinctValues = false)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
             List<string> columnValues = null;
@@ -326,7 +326,7 @@ namespace EPPlusExtensions
             {
                 var currentHeader = currentWorksheet.Cells[headersRow, colonnaCorrente].Value;
 
-                // Salto eventuali colonne senza headres per gestire anche fogli con strutture più elaborate
+                // Salto eventuali colonne senza headers per gestire anche fogli con strutture più elaborate
                 if (currentHeader == null)
                 { continue; }
 
@@ -334,17 +334,37 @@ namespace EPPlusExtensions
                 {
                     // ho trovato la colonna che mi interessa, leggo i valori
                     columnValues = new List<string>();
-                    for (int rigaCorrente = headersRow + 1; rigaCorrente <= currentWorksheet.Dimension.End.Row; rigaCorrente++)
+
+                    if (distinctValues)
                     {
-                        var cellValue = currentWorksheet.Cells[rigaCorrente, colonnaCorrente].Value;
-                        if (cellValue != null)
+                        // Distinct values richiesto
+                        var tempSet = new HashSet<string>();
+                        for (int rigaCorrente = headersRow + 1; rigaCorrente <= currentWorksheet.Dimension.End.Row; rigaCorrente++)
                         {
-                            columnValues.Add(cellValue.ToString());
+                            var cellValue = currentWorksheet.Cells[rigaCorrente, colonnaCorrente].Value;
+                            if (cellValue != null)
+                            {
+                                tempSet.Add(cellValue.ToString());
+                            }
+                        }
+                        columnValues = tempSet.ToList();
+                    }
+                    else
+                    {
+                        // Distinct values non richiesto
+                        for (int rigaCorrente = headersRow + 1; rigaCorrente <= currentWorksheet.Dimension.End.Row; rigaCorrente++)
+                        {
+                            var cellValue = currentWorksheet.Cells[rigaCorrente, colonnaCorrente].Value;
+                            if (cellValue != null)
+                            {
+                                columnValues.Add(cellValue.ToString());
+                            }
                         }
                     }
                 }
             }
 
+            // Se non ho trovato la colonna con l'header richiesto, comumnValues sarà rimasto a null, lancio un'eccezione
             if (columnValues == null & throwExceptionForMissingHeaders)
             {
                 throw new Exception($"Header '{headerValue}' not found in worksheet '{worksheetName}'");

@@ -47,10 +47,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
         {
             //var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.DataSourceFilePath, FileTypes.DataSource);
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
-            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.EpplusHelperDataSource, worksheetName, FileTypes.DataSource);
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.DataSourceEPPlusHelper, worksheetName, FileTypes.DataSource);
 
             // Validazione dei filtri applicabili e lettura dei loro potenziali valori
-            Fill_ApplicableFilters_FromConfigurazione(Context.EpplusHelperDataSource, Context.Configurazione, Context.ApplicableFilters);
+            Fill_ApplicableFilters_FromConfigurazione(Context.DataSourceEPPlusHelper, Context.Configurazione, Context.ApplicableFilters);
             FillApplicableFiltersWithValues_FromSourceFiles(Context.ApplicableFilters);
         }
 
@@ -98,13 +98,15 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private void FillApplicableFiltersWithValues_FromSourceFiles(List<InputDataFilters_Item> applicablefilters)
         {
+
+
             foreach (var applicablefilter in applicablefilters)
             {
                 switch (applicablefilter.Table)
                 {
                     case InputDataFilters_Tables.BUDGET:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileBudgetPath,
+                                ePPlusHelper: Context.BudgetFileEPPlusHelper,
                                 // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                                 worksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
                                 fileType: FileTypes.Budget,
@@ -120,7 +122,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
                     case InputDataFilters_Tables.FORECAST:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileForecastPath,
+                                ePPlusHelper: Context.ForecastFileEPPlusHelper,
                                 // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                                 worksheetName: null, //  WorksheetNames.SOURCEFILE_FORECAST_DATA,
                                 fileType: FileTypes.Forecast,
@@ -135,7 +137,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
                     case InputDataFilters_Tables.RUNRATE:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileRunRatePath,
+                                ePPlusHelper: Context.RunRateFileEPPlusHelper,
                                 // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                                 worksheetName: null, //  WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
                                 fileType: FileTypes.RunRate,
@@ -147,7 +149,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
                     case InputDataFilters_Tables.SUPERDETTAGLI:
                         applicablefilter.PossibleValues = GetApplicableFiltersValues_FromSourceFile(
-                                filePath: Context.FileSuperDettagliPath,
+                                ePPlusHelper: Context.SuperdettagliFileEPPlusHelper,
                                 worksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
                                 fileType: FileTypes.SuperDettagli,
                                 headersRow: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW,
@@ -162,9 +164,9 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             }
         }
 
-        private List<string> GetApplicableFiltersValues_FromSourceFile(string filePath, string worksheetName, FileTypes fileType, int headersRow, string headerValue, int startCheckHeadersFromColumn)
+        private List<string> GetApplicableFiltersValues_FromSourceFile(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int headersRow, string headerValue, int startCheckHeadersFromColumn)
         {
-            var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
+            //var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
 
             // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome ad eccezione di Superdettagli
             if (worksheetName == null)
@@ -176,7 +178,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var errorMessage = $"The configuration inside the file DataSource includes the filter: '{fileType} - {headerValue}'.\r\nThe worksheet '{worksheetName}' does not contain the corresponding header ('{headerValue}')";
             EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(ePPlusHelper, worksheetName, fileType, headersRow, startCheckHeadersFromColumn, new List<string> { headerValue }, errorMessage);
 
-            var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue, true, startCheckHeadersFromColumn);
+            var values = ePPlusHelper.GetValuesFromColumnsWithHeader(worksheetName, headersRow, headerValue, true, startCheckHeadersFromColumn, true);
 
             // Applico gli alias ai cambi "Categoria" e "Business" dei file "Budget" e "Forecast"
             if (fileType == FileTypes.Budget || fileType == FileTypes.Forecast)
@@ -184,6 +186,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 values = values.Select(_ => Context.ApplicaAliasToValue(headerValue, _)).ToList();
             }
 
+
+            //ePPlusHelper.Close();
             return values.Distinct().OrderBy(n => n).ToList();
         }
     }

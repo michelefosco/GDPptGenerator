@@ -1,4 +1,5 @@
-﻿using FilesEditor.Constants;
+﻿using EPPlusExtensions;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
@@ -46,7 +47,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL,
                  //
-                 sourceFilePath: Context.FileBudgetPath,
+                 //sourceFilePath: Context.FileBudgetPath,
+                 sourceFileEPPlusHelper: Context.BudgetFileEPPlusHelper,
                  sourceFileType: FileTypes.Budget,
                  // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                  sourceFileWorksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
@@ -60,7 +62,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL,
                  //
-                 sourceFilePath: Context.FileForecastPath,
+                 //sourceFilePath: Context.FileForecastPath,
+                 sourceFileEPPlusHelper: Context.ForecastFileEPPlusHelper,
                  sourceFileType: FileTypes.Forecast,
                  // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                  sourceFileWorksheetName: null, // WorksheetNames.SOURCEFILE_FORECAST_DATA,
@@ -74,7 +77,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL,
                  //
-                 sourceFilePath: Context.FileRunRatePath,
+                 //sourceFilePath: Context.FileRunRatePath,
+                 sourceFileEPPlusHelper: Context.RunRateFileEPPlusHelper,
                  sourceFileType: FileTypes.RunRate,
                  // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                  sourceFileWorksheetName: null, //  WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
@@ -87,7 +91,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             //     datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
             //     datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL,
             //     //
-            //     sourceFilePath: Context.FileSuperDettagliPath,
+            //     sourceFileEPPlusHelper: Context.SuperdettagliFileEPPlusHelper,
             //     sourceFileType: FileTypes.SuperDettagli,
             //     sourceFileWorksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
             //     sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW,
@@ -100,7 +104,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             int datasourceWorksheetHeadersRow,
             int datasourceWorksheetHeadersFirstColumn,
             //
-            string sourceFilePath,
+            //string sourceFilePath,
+            EPPlusHelper sourceFileEPPlusHelper,
             FileTypes sourceFileType,
             string sourceFileWorksheetName,
             int sourceFileHeadersRow,
@@ -111,11 +116,11 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
             var expectedHeadersColumns = ovverideExpectedHeadersColumns
-                                ?? Context.EpplusHelperDataSource.GetHeadersFromRow(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn, true);
+                                ?? Context.DataSourceEPPlusHelper.GetHeadersFromRow(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn, true);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
-            var sourceFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(sourceFilePath, sourceFileType);
+            //var sourceFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(sourceFilePath, sourceFileType);
             // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
             if (string.IsNullOrWhiteSpace(sourceFileWorksheetName))
             {
@@ -129,6 +134,8 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
             EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(sourceFileEPPlusHelper, sourceFileWorksheetName, sourceFileType, sourceFileHeadersRow, sourceFileHeadersFirstColumn, expectedHeadersColumns);
+
+            //sourceFileEPPlusHelper.Close();
             #endregion
         }
     }
