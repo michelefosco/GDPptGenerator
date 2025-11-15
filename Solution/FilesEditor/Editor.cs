@@ -100,7 +100,7 @@ namespace FilesEditor
                     new Step_ImportaDati_RunRate(stepContext),
                     new Step_ImportaDati_BudgetAndForecast(stepContext),
                     //new Step_ImportaDati_SuperDettagli(context),
-                    new Step_ImportaDati_SuperDettagli_2(stepContext),
+                    new Step_ImportaDati_SuperDettagli(stepContext),
                     new Step_ImpostaVarabiliInNameManager(stepContext),
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
                     new Step_SalvaFile_DataSource(stepContext),

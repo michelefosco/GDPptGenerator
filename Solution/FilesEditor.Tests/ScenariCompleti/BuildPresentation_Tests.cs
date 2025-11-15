@@ -158,16 +158,13 @@ namespace FilesEditor.Tests
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 34,
                 numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 1000 + 4, // 4 righe con anni diversi dal 2025
+                numeroRigheSuperdettagli: 1000 + 5, // 5 righe con anni diversi dal 2025
                 numeroRigheRunRate: 1,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 1,
+                numeroWarnings: 0,
                 numeroPresentazioniGenerate: 3
                 );
-
-            // altri check
-            Assert.AreEqual(output.Warnings[0], "The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date (2025).");
         }
 
         [TestMethod]

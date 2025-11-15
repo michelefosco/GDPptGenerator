@@ -67,6 +67,7 @@ namespace FilesEditor.Helpers
             // Input file Superdettagli
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+            configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL = (int)ColumnIDS.B;            
             #endregion
 
 

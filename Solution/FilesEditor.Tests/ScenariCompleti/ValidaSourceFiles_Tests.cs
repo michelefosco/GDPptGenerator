@@ -43,18 +43,24 @@ namespace FilesEditor.Tests
             var output = Editor.ValidateSourceFiles(input);
 
 
+            // Check generali
+            int numeroApplicablefilters = 7;
+            InputDataFilters_Tables[] tables = { InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.SUPERDETTAGLI, InputDataFilters_Tables.SUPERDETTAGLI, InputDataFilters_Tables.SUPERDETTAGLI };
+            string[] fieldNames = { "Business", "Categoria", "Business", "Categoria", "Last name First name4", "Project Description5", "Bus Area GDLT" };
+            int[] numberOfPossibleValues = { 6, 8, 6, 8, 1, 10, 11 };
+            CheckValueFilters(output, numeroApplicablefilters, tables, fieldNames, numberOfPossibleValues);
 
-            int numeroApplicablefilters = 6;
-            InputDataFilters_Tables[] tables = { InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.SUPERDETTAGLI, InputDataFilters_Tables.SUPERDETTAGLI };
-            string[] fieldNames = { "Business", "Categoria", "Business", "Categoria", "Sender Cost Center", "Last name First name" };
-            int[] possibleValues = { 6, 8, 6, 8, 10, 5 };
-            CheckValueFilters(output, numeroApplicablefilters, tables, fieldNames, possibleValues);
-
-            // Specifici
+            // Check specifici
             Assert.AreEqual("CGO & Other div", output.Applicablefilters[0].PossibleValues[0]);
+            Assert.AreEqual("AS/REB/SERV", output.Applicablefilters[1].PossibleValues[0]);
+            Assert.AreEqual("CGO & Other div", output.Applicablefilters[2].PossibleValues[0]);
+            Assert.AreEqual("AS/REB/SERV", output.Applicablefilters[3].PossibleValues[0]);
+            Assert.AreEqual("1598", output.Applicablefilters[4].PossibleValues[0]);
+            Assert.AreEqual("Proj_1", output.Applicablefilters[5].PossibleValues[0]);
+            Assert.AreEqual("Proj_1_name", output.Applicablefilters[6].PossibleValues[0]);
         }
 
-        private static void CheckValueFilters(ValidateSourceFilesOutput output, int numeroApplicablefilters, InputDataFilters_Tables[] tables, string[] fieldNames, int[] possibleValues)
+        private static void CheckValueFilters(ValidateSourceFilesOutput output, int numeroApplicablefilters, InputDataFilters_Tables[] tables, string[] fieldNames, int[] numberOfPossibleValues)
         {
             // test base
             Assert.IsNotNull(output);
@@ -78,7 +84,7 @@ namespace FilesEditor.Tests
             {
                 Assert.AreEqual(tables[j], output.Applicablefilters[j].Table);
                 Assert.AreEqual(fieldNames[j], output.Applicablefilters[j].FieldName);
-                Assert.AreEqual(possibleValues[j], output.Applicablefilters[j].PossibleValues.Count);
+                Assert.AreEqual(numberOfPossibleValues[j], output.Applicablefilters[j].PossibleValues.Count);
             }
         }
     }

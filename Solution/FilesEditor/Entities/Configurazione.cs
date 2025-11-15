@@ -92,6 +92,7 @@
         #region Superdettagli
         public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
         public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
+        public int SOURCE_FILES_SUPERDETTAGLI_YEAR_COL { get; set; }
         #endregion
     }
 }

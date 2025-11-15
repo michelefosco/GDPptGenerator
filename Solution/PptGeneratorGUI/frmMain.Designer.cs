@@ -177,7 +177,7 @@
             this.lblCartellaOutputPath.Size = new System.Drawing.Size(71, 13);
             this.lblCartellaOutputPath.TabIndex = 11;
             this.lblCartellaOutputPath.Text = "Output folder:";
-            this.toolTipDefault.SetToolTip(this.lblCartellaOutputPath, "Cartella nella quale vettanno salvati i file di output");
+            this.toolTipDefault.SetToolTip(this.lblCartellaOutputPath, "Folder where the output files will be saved into");
             // 
             // btnSelectForecastFile
             // 
@@ -224,7 +224,6 @@
             this.lblDataPeriodo.Size = new System.Drawing.Size(75, 13);
             this.lblDataPeriodo.TabIndex = 21;
             this.lblDataPeriodo.Text = "99/99/2099";
-            this.toolTipDefault.SetToolTip(this.lblDataPeriodo, "Cartella nella quale vettanno salvati i file di output");
             // 
             // label4
             // 
@@ -234,7 +233,6 @@
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 47;
             this.label4.Text = "Period:";
-            this.toolTipDefault.SetToolTip(this.label4, "Cartella nella quale vettanno salvati i file di output");
             // 
             // btnOpenCalendar
             // 
@@ -243,7 +241,6 @@
             this.btnOpenCalendar.Name = "btnOpenCalendar";
             this.btnOpenCalendar.Size = new System.Drawing.Size(29, 23);
             this.btnOpenCalendar.TabIndex = 22;
-            this.toolTipDefault.SetToolTip(this.btnOpenCalendar, "Apri il calendario per selezionare la data del periodo di riferimento");
             this.btnOpenCalendar.UseVisualStyleBackColor = true;
             this.btnOpenCalendar.Click += new System.EventHandler(this.btnOpenCalendar_Click);
             // 

@@ -40,13 +40,9 @@ Microsoft Excel 15.0
 
 -------------------- Todo
 - Creazione items nel datasource
-- riportare meglio l'eccezione generica e il pulsante copy
-- Test e miglioramenti su generazione immagini (log statistiche in file di testo?)
+- Riportare meglio l'eccezione generica e il pulsante copy
 - Test con formule
 - Test con filtri
-
-- (dopo qualche test da parte di GD) Rimuovere backcgroupd code for the validation e codice commentato
-
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
  - Mandare datasource versione finale
 - Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle

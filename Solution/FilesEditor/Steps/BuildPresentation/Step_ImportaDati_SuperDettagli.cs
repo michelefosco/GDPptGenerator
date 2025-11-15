@@ -5,6 +5,7 @@ using FilesEditor.Enums;
 using FilesEditor.Helpers;
 using OfficeOpenXml;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 
@@ -13,9 +14,9 @@ namespace FilesEditor.Steps.BuildPresentation
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_ImportaDati_SuperDettagli_2 : StepBase
+    internal class Step_ImportaDati_SuperDettagli : StepBase
     {
-        public override string StepName => "Step_ImportaDati_SuperDettagli_2";
+        public override string StepName => "Step_ImportaDati_SuperDettagli";
 
         internal override void BeforeTask()
         {
@@ -31,7 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             Context.DebugInfoLogger.LogStepContext(StepName, Context);
         }
-        public Step_ImportaDati_SuperDettagli_2(StepContext context) : base(context)
+        public Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificStepTask()
@@ -68,6 +69,8 @@ namespace FilesEditor.Steps.BuildPresentation
             int totRigheEliminate = 0;
             int totRigheAggiunte = 0;
 
+            int newRowsYear = Context.PeriodYear;
+
             #region WorkSheets sorgente e destinazione
             // Foglio sorgente
             var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
@@ -77,19 +80,6 @@ namespace FilesEditor.Steps.BuildPresentation
             var worksheetDest = Context.EpplusHelperDataSource.ExcelPackage.Workbook.Worksheets[destWorksheetName];
             #endregion
 
-
-
-
-            //#region Lettura degli headers del foglio sorgente e foglio destinazione
-            //// headers del folio sorgente (Budget, Forecast, SuperDettagli)
-            //var sourceHeaders = GetHeadersList(workSheet: worksheetSource,
-            //                                headersRow: souceHeadersRow,
-            //                                headerFirstColumn: sourceHeadersFirstColumn);
-            //// headers del golio destinazione (Datasource)
-            //var destHeaders = GetHeadersList(workSheet: worksheetDest,
-            //                                headersRow: destHeadersRow,
-            //                                headerFirstColumn: destHeadersFirstColumn);
-            //#endregion
 
 
             var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
@@ -148,30 +138,34 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
+
+
             #region Se in modalità append su SuperDettagli preservo le righe il cui valore nella colonna "anno" è diverso da quello scelto come periodo
             if (Context.AppendCurrentYear_FileSuperDettagli)
             {
                 #region Determino l'indice della colonna "anno"
-                if (!destHeaders.Any(_ => _.Equals("anno", StringComparison.InvariantCultureIgnoreCase)))
-                { throw new Exception("The sheet “Superdettagli” does not contain the required column “year” needed to handle the data append."); }
-                var sourceColonnaAnnoIndex = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL + destHeaders.IndexOf("anno");
-                var destColonnaAnnoIndex = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL + sourceHeaders.IndexOf("anno");
+                // 15/11/2025 Francesco dice: "Il file Superdettagli non conterrà più la colonna anno
+                //if (!destHeaders.Any(_ => _.Equals("anno", StringComparison.InvariantCultureIgnoreCase)))
+                //{ throw new Exception("The sheet “Superdettagli” does not contain the required column “year” needed to handle the data append."); }
+                //      var sourceColonnaAnnoIndex = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL + destHeaders.IndexOf("anno");
+                //     var destColonnaAnnoIndex = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL + sourceHeaders.IndexOf("anno");
                 #endregion
 
 
                 #region Controllo che la sorgente non contenga valori di anno diversi da quello del periodo. In tal caso sollevo un warning
-                for (var rowIndex = souceHeadersRow + 1; rowIndex <= worksheetSource.Dimension.End.Row; rowIndex++)
-                {
-                    // lettura del valore "anno"
-                    if (!int.TryParse(worksheetSource.Cells[rowIndex, sourceColonnaAnnoIndex].Value.ToString(), out int anno))
-                    { throw new Exception($"The row {rowIndex} in the 'anno' column of the input file 'Superdettagli' does not contain an integer number."); }
+                // 15/11/2025 Francesco dice: "Il file Superdettagli non conterrà più la colonna anno
+                //for (var rowIndex = souceHeadersRow + 1; rowIndex <= worksheetSource.Dimension.End.Row; rowIndex++)
+                //{
+                //    // lettura del valore "anno"
+                //    if (!int.TryParse(worksheetSource.Cells[rowIndex, sourceColonnaAnnoIndex].Value.ToString(), out int anno))
+                //    { throw new Exception($"The row {rowIndex} in the 'anno' column of the input file 'Superdettagli' does not contain an integer number."); }
 
-                    if (anno != Context.PeriodYear)
-                    {
-                        Context.AddWarning($"The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date ({Context.PeriodYear}).");
-                        break;
-                    }
-                }
+                //    if (anno != Context.PeriodYear)
+                //    {
+                //        Context.AddWarning($"The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date ({Context.PeriodYear}).");
+                //        break;
+                //    }
+                //}
                 #endregion
 
 
@@ -179,11 +173,11 @@ namespace FilesEditor.Steps.BuildPresentation
                 for (int rowIndex = destHeadersRow + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
                 {
                     // lettura del valore "anno"
-                    if (!int.TryParse(worksheetDest.Cells[rowIndex, destColonnaAnnoIndex].Value.ToString(), out int anno))
+                    if (!int.TryParse(worksheetDest.Cells[rowIndex, Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL].Value.ToString(), out int annoRigaCorrente))
                     { throw new Exception($"The row {rowIndex} in the 'anno' column of the 'Superdettagli' sheet does not contain an integer number."); }
 
                     // elimino le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
-                    if (anno == Context.PeriodYear)
+                    if (annoRigaCorrente == newRowsYear)
                     {
                         worksheetDest.DeleteRow(rowIndex, 1, true);
                         totRigheEliminate++;
@@ -241,6 +235,13 @@ namespace FilesEditor.Steps.BuildPresentation
                 totRigheAggiunte++;
                 #endregion
 
+                #region Setto il valore nella colonna "Year" (anno)
+                worksheetDest.Cells[
+                        destRowIndex,   // row 
+                        Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL  // col
+                        ].Value = newRowsYear;
+                #endregion
+
                 #region Copio i valori per le colonne presenti nel foglio di destinazione (uso il dizionario "destHeadersDictionary")
                 // Range sorgente
                 var sourceRange = worksheetSource.Cells[
@@ -285,7 +286,7 @@ namespace FilesEditor.Steps.BuildPresentation
             // e quindi precedentemente alle righe già esistenti che hanno verosimilmente un numero di anno inferiore
             if (Context.AppendCurrentYear_FileSuperDettagli)
             {
-                var colonnaAnnoPositionZeroBased = destHeaders.IndexOf("anno");
+                var colonnaAnnoPositionZeroBased = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL;
                 Context.EpplusHelperDataSource.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnnoPositionZeroBased);
             }
             #endregion
