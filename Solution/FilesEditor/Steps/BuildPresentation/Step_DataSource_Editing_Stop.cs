@@ -7,9 +7,9 @@ namespace FilesEditor.Steps.BuildPresentation
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_SalvaFile_DataSource: StepBase
+    internal class Step_DataSource_Editing_Stop: StepBase
     {
-        public override string StepName => "Step_SalvaFile_DataSource";
+        public override string StepName => "Step_DataSource_Editing_Stop";
 
         internal override void BeforeTask()
         {
@@ -26,13 +26,14 @@ namespace FilesEditor.Steps.BuildPresentation
             Context.DebugInfoLogger.LogStepContext(StepName, Context);
         }
 
-        public Step_SalvaFile_DataSource(StepContext context) : base(context)
+        public Step_DataSource_Editing_Stop(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            Context.DataSourceEPPlusHelper.Save();
+            Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.CalcMode = OfficeOpenXml.ExcelCalcMode.Automatic;
 
+            Context.DataSourceEPPlusHelper.Save();
             Context.DataSourceEPPlusHelper.Close();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito

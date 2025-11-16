@@ -3,6 +3,7 @@ using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using System;
+using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -32,15 +33,25 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            TryToSaveDataSourceFile();
+            AttemptToOpenDataSourceFile();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void TryToSaveDataSourceFile()
+        private void AttemptToOpenDataSourceFile()
         {
-            var testSaveDataSourcePassed = Context.DataSourceEPPlusHelper.Save();
-            if (!testSaveDataSourcePassed)
+            try
+            {
+                using (FileStream stream = new FileStream(
+                    Context.DataSourceEPPlusHelper.FilePathInUse,
+                    FileMode.Open,
+                    FileAccess.ReadWrite,
+                    FileShare.None)) // <– exclusive lock
+                {
+                    var canAccessFile = stream.CanWrite;
+                }
+            }
+            catch (IOException)
             {
                 throw new ManagedException(
                     filePath: Context.DataSourceEPPlusHelper.FilePathInUse,

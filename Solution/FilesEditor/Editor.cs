@@ -84,22 +84,27 @@ namespace FilesEditor
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_DebugInfoLogger(stepContext),
+                    new Step_VerificaEditabilita_DataSource_File(stepContext),
+
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
                     new Step_ValidazioniPreliminari_SuperDettagli(stepContext),
-                    new Step_VerificaEditabilita_DataSource_File(stepContext),
+                    
                     new Step_TmpFolder_Predisposizione(stepContext),
                     new Step_BackupFile_DataSource(stepContext),
                     new Step_CreaListe_Alias(stepContext),
                     new Step_CreaLista_SildeToGenerate(stepContext),
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
-                    #region Steps che modificano il file DataSource - Inizio
+
+                    #region Steps che modificano il file DataSource
+                    new Step_DataSource_Editing_Start(stepContext),
                     new Step_ImportaDati_RunRate(stepContext),
                     new Step_ImportaDati_BudgetAndForecast(stepContext),
                     new Step_ImportaDati_SuperDettagli(stepContext),
                     new Step_ImpostaVarabiliInNameManager(stepContext),
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
-                    new Step_SalvaFile_DataSource(stepContext),                    
+                    new Step_DataSource_Editing_Stop(stepContext),                    
                     #endregion
+
                     new Step_Context_CleanUp(stepContext),
                     new Step_EsportaFileImmaginiDaExcel(stepContext),
                     new Step_CreaFiles_Presentazioni(stepContext),
