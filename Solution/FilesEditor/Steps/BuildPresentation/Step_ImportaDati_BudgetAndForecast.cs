@@ -94,8 +94,9 @@ namespace FilesEditor.Steps.BuildPresentation
             var worksheetDest = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[destWorksheetName];
             #endregion
 
+            numeroRigheIniziali = worksheetDest.Dimension.End.Row - destHeadersRow;
 
-            #region Individuo gli evemtuali filtri da applicare
+            #region Individuo gli eventuali filtri da applicare
             var inputDataFilters_Table = (sourceFileType == FileTypes.Budget)
                        ? InputDataFilters_Tables.BUDGET
                        : InputDataFilters_Tables.FORECAST;
@@ -111,7 +112,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             #region Leggo tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
-            var righe = new List<RigaBudgetForecast>();
+            // var righe = new List<RigaBudgetForecast>();
+            var righeLette = new List<object[]>();
             var currentBusiness = "";
             for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= sourceWorksheet.Dimension.End.Row; rowSourceIndex++)
             {
@@ -148,11 +150,13 @@ namespace FilesEditor.Steps.BuildPresentation
                 #endregion
 
 
+                var valoriColonne = new object[9];
+                valoriColonne[0] = currentBusiness;
+                valoriColonne[1] = categoria;
                 #region Lettura delle 7 colonne numeriche
-                var columns = new double[7];
-                for (var col = 1; col <= 7; col++)
+                for (var col = 3; col <= 9; col++)
                 {
-                    var value = sourceWorksheet.Cells[rowSourceIndex, sourceHeadersFirstColumn + 1 + col].Value;
+                    var value = sourceWorksheet.Cells[rowSourceIndex, sourceHeadersFirstColumn + col - 1].Value;
 
                     // Sostituisco i null con 0
                     if (value == null)
@@ -164,42 +168,34 @@ namespace FilesEditor.Steps.BuildPresentation
                         throw new Exception("Cella con valore non decimal");
                     }
 
-                    columns[col - 1] = doubleValue.Value;
+                    valoriColonne[col - 1] = doubleValue.Value;
                 }
                 #endregion
 
-
-                righe.Add(new RigaBudgetForecast(currentBusiness, categoria, columns));
+                righeLette.Add(valoriColonne);
             }
             #endregion
 
 
-            numeroRigheIniziali = worksheetDest.Dimension.End.Row - destHeadersRow;
 
             // Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga
             var destRowIndex = destHeadersRow + 1;
 
-
             #region Allungo la tabella del numero di righe necessarie
-            // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe
-            numeroRigheAggiunte = righe.Count;
+            numeroRigheAggiunte = righeLette.Count;
+            // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe            
             worksheetDest.InsertRow(destRowIndex, numeroRigheAggiunte);
             #endregion
 
 
             #region Scrivo i dati importati nelle righe appena create
-            foreach (var riga in righe)
-            {
-                worksheetDest.Cells[destRowIndex, destHeadersFirstColumn].Value = riga.Business;
-                worksheetDest.Cells[destRowIndex, destHeadersFirstColumn + 1].Value = riga.Categoria;
-                for (int col = 1; col <= 7; col++)
-                { worksheetDest.Cells[destRowIndex, destHeadersFirstColumn + 1 + col].Value = riga.Columns[col - 1]; }
-                destRowIndex++;
-            }
+            worksheetDest.Cells[destRowIndex, destHeadersFirstColumn].LoadFromArrays(righeLette);
+            destRowIndex += numeroRigheAggiunte;
             #endregion
 
 
             #region Cancellazione delle righe in più, ovvero quelle gia esistenti che sono shiftate verso il basso
+
             var numeroRigheDaCancellare = worksheetDest.Dimension.Rows - destHeadersRow - numeroRigheAggiunte;
             if (numeroRigheDaCancellare > 0)
             { worksheetDest.DeleteRow(destRowIndex, numeroRigheDaCancellare, true); }
