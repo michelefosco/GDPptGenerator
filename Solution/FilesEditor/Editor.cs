@@ -43,16 +43,11 @@ namespace FilesEditor
                     new Step_CreaLista_SildeToGenerate(stepContext),
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),
-                    new Step_EPPlusHelper_Close(stepContext),
+                    new Step_Context_CleanUp(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                  };
                 RunStepSequence(stepsSequence, stepContext);
                 return new ValidateSourceFilesOutput(stepContext);
-                //var esitoFinale = RunStepSequence(stepsSequence, stepContext);
-                //stepContext.SettaEsitoFinale(esitoFinale);
-
-                //stepContext.DebugInfoLogger.Beautify();
-                //return new ValidateSourceFilesOutput(stepContext);
             }
             catch (ManagedException managedException)
             {
@@ -105,7 +100,7 @@ namespace FilesEditor
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
                     new Step_SalvaFile_DataSource(stepContext),                    
                     #endregion
-                    new Step_EPPlusHelper_Close(stepContext),
+                    new Step_Context_CleanUp(stepContext),
                     new Step_EsportaFileImmaginiDaExcel(stepContext),
                     new Step_CreaFiles_Presentazioni(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),

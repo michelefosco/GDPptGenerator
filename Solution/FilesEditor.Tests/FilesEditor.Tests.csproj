@@ -66,6 +66,9 @@
     <None Include="TestFiles\SourceFiles\RunRate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestFiles\SourceFiles\Superdettagli_15k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_30k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_60k.xlsx" />
     <None Include="TestFiles\SourceFiles\Superdettagli_Light.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -80,10 +83,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\SourceFiles\Superdettagli_120k.xlsx" />
-    <None Include="TestFiles\SourceFiles\Superdettagli_16k.xlsx" />
-    <None Include="TestFiles\SourceFiles\Superdettagli_32k.xlsx" />
-    <None Include="TestFiles\SourceFiles\Superdettagli_4k.xlsx" />
-    <None Include="TestFiles\SourceFiles\Superdettagli_64k.xlsx" />
     <None Include="TestFiles\SourceFiles\Superdettagli_8k.xlsx" />
   </ItemGroup>
   <ItemGroup>

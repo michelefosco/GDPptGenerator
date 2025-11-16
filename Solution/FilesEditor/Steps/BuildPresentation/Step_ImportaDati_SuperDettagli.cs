@@ -1,4 +1,5 @@
-﻿using FilesEditor.Constants;
+﻿using DocumentFormat.OpenXml.Drawing;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
@@ -37,46 +38,41 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            ImportaSourceFile(
-                    //sourceFileType: FileTypes.SuperDettagli,
-                    sourceFilePath: Context.FileSuperDettagliPath,
-                    sourceWorksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
-                    souceHeadersRow: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW,
-                    sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL,
-                    //
-                    destWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
-                    destHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,
-                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL
-                );
+            ImportaFile_Superdettagli();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void ImportaSourceFile(
-                // FileTypes sourceFileType,
-                string sourceFilePath,
-                string sourceWorksheetName,
-                int souceHeadersRow,
-                int sourceHeadersFirstColumn,
-                //
-                string destWorksheetName,
-                int destHeadersRow,
-                int destHeadersFirstColumn
-            )
+        private void ImportaFile_Superdettagli()
         {
+            string sourceFilePath = Context.FileSuperDettagliPath;
+            string sourceWorksheetName = WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA;
+            int souceHeadersRow = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW;
+            int sourceHeadersFirstColumn = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL;
+            //
+            string destWorksheetName = WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA;
+            int destHeadersRow = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW;
+            int destHeadersFirstColumn = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL;
+
+
             // variabili per il conteggio delle righe Eliminate, Aggiunge e Preservate (quando in modalità append su Superdettagli)
-            int totRighePreservate = 0;
-            int totRigheEliminate = 0;
-            int totRigheAggiunte = 0;
+            int numeroRigheIniziali = 0;
+            int numeroRighePreservate = 0;
+            int numeroRigheEliminate = 0;
+            int numeroRigheAggiunte = 0;
+            int numeroRigheFinali = 0;
+
 
             int newRowsYear = Context.PeriodYear;
 
-           // var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
+            bool salvataggioIntermedio = false;
+
+
+            var startTime = DateTime.UtcNow;
 
             #region Preparo una struttura più snella che contenga le informazioni su filtri
             var filters = Context.ApplicableFilters.Where(_ => _.Table == InputDataFilters_Tables.SUPERDETTAGLI
-                                                            && _.SelectedValues.Any())
-                                                    .ToList();
+                                                            && _.SelectedValues.Any()).ToList();
             #endregion
 
 
@@ -95,10 +91,40 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
+            Context.DebugInfoLogger.LogPerformance($"{StepName} - Attività preliminari", DateTime.UtcNow - startTime);
+
+
+            #region Per la modalità "Append" della tabella "Superdettagli" è necessario ordinare la tabella
+            // per il campo "anno" in quanto, per preservare le formule, le nuove righe sono state aggiunte immediatamente dopo la riga degli headers
+            // e quindi precedentemente alle righe già esistenti che hanno verosimilmente un numero di anno inferiore
+            if (Context.AppendCurrentYear_FileSuperDettagli)
+            {
+                startTime = DateTime.UtcNow;
+                Context.DataSourceEPPlusHelper.OrdinaTabella(destWorksheetName,
+                                destHeadersRow + 1,
+                                1,
+                                worksheetDest.Dimension.End.Row,
+                                worksheetDest.Dimension.End.Column,
+                                Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL
+                                );
+
+                if (salvataggioIntermedio) { Context.DataSourceEPPlusHelper.Save(); }
+
+                Context.DebugInfoLogger.LogPerformance($"{StepName} - Ordinamento dei dati", DateTime.UtcNow - startTime);
+            }
+            #endregion
+
+
+            numeroRigheIniziali = worksheetDest.Dimension.Rows - destHeadersRow;
+
             #region Se in modalità append su SuperDettagli preservo le righe il cui valore nella colonna "anno" è diverso da quello scelto come periodo
             if (Context.AppendCurrentYear_FileSuperDettagli)
             {
+                startTime = DateTime.UtcNow;
+
                 // scorro le righe esistenti valutando il valore delle celle della colonna "anno"
+                #region Individuo la prima riga con l'anno corrente
+                var firstRowWithCurrentYear = -1;
                 for (int rowIndex = destHeadersRow + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
                 {
                     // lettura del valore "anno"
@@ -108,15 +134,43 @@ namespace FilesEditor.Steps.BuildPresentation
                     // elimino le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
                     if (annoRigaCorrente == newRowsYear)
                     {
-                        worksheetDest.DeleteRow(rowIndex, 1, true);
-                        totRigheEliminate++;
-                        rowIndex--; // rimango sulla stessa riga
-                    }
-                    else
-                    {
-                        totRighePreservate++;
+                        firstRowWithCurrentYear = rowIndex;
+                        break;
                     }
                 }
+                #endregion
+
+                if (firstRowWithCurrentYear > 0)
+                {
+                    #region Conto il numero di righe da eliminare
+                    numeroRigheEliminate = 1;
+                    var lastRowWithCurrentYear = firstRowWithCurrentYear;
+                    for (int rowIndex = firstRowWithCurrentYear + 1; rowIndex <= worksheetDest.Dimension.Rows; rowIndex++)
+                    {
+                        // lettura del valore "anno"
+                        if (!int.TryParse(worksheetDest.Cells[rowIndex, Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL].Value.ToString(), out int annoRigaCorrente))
+                        { throw new Exception($"The row {rowIndex} in the 'Year' column of the 'Superdettagli' sheet does not contain an integer number."); }
+
+                        // elimino le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
+                        if (annoRigaCorrente == newRowsYear)
+                        {
+                            numeroRigheEliminate++;
+                        }
+                        else
+                        {
+                            lastRowWithCurrentYear = rowIndex - 1;
+                            break;
+                        }
+                    }
+                    #endregion
+
+                    worksheetDest.DeleteRow(firstRowWithCurrentYear, numeroRigheEliminate);
+                    numeroRighePreservate = numeroRigheIniziali - numeroRigheEliminate;
+                }
+
+                if (salvataggioIntermedio) { Context.DataSourceEPPlusHelper.Save(); }
+
+                Context.DebugInfoLogger.LogPerformance($"{StepName} - Cancellazione righe anno corrente", DateTime.UtcNow - startTime);
             }
             #endregion
 
@@ -152,18 +206,19 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
             var numeroDiColonneDaCopiare = destHeaders.Count;
-            var righeDaAggiungere = worksheetSource.Dimension.End.Row - souceHeadersRow;
+            numeroRigheAggiunte = worksheetSource.Dimension.End.Row - souceHeadersRow;
 
             // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe
             // Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga
             var destRowIndex = destHeadersRow + 1;
 
             #region Allungo la tabella
-            worksheetDest.InsertRow(destRowIndex, righeDaAggiungere);
-            totRigheAggiunte += righeDaAggiungere;
+            worksheetDest.InsertRow(destRowIndex, numeroRigheAggiunte);
+
+            if (salvataggioIntermedio) { Context.DataSourceEPPlusHelper.Save(); }
             #endregion
 
-
+            startTime = DateTime.UtcNow;
             #region Copio i valori per le colonne presenti nel foglio di destinazione (uso il dizionario "destHeadersDictionary")
             // Range sorgente
             var sourceRange = worksheetSource.Cells[
@@ -177,7 +232,7 @@ namespace FilesEditor.Steps.BuildPresentation
             worksheetDest.Cells[
                     destRowIndex,                                                                                   // row start
                     Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL,                              // col start 
-                    destRowIndex + righeDaAggiungere - 1,                                                           // row end
+                    destRowIndex + numeroRigheAggiunte - 1,                                                           // row end
                     Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL + numeroDiColonneDaCopiare    // col end
                     ].Value = sourceRange.Value;
 
@@ -185,22 +240,28 @@ namespace FilesEditor.Steps.BuildPresentation
             worksheetDest.Cells[
                     destRowIndex,                           // row start
                     Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL, // col "year"
-                    destRowIndex + righeDaAggiungere - 1,       // row end
+                    destRowIndex + numeroRigheAggiunte - 1,       // row end
                     Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL  // col "year"
                     ].Value = newRowsYear;
+
+            if (salvataggioIntermedio) { Context.DataSourceEPPlusHelper.Save(); }
+
+            Context.DebugInfoLogger.LogPerformance($"{StepName} - Copia e incolla dei dati", DateTime.UtcNow - startTime);
             #endregion
 
 
             #region Cancellazione delle righe in più, ovvero quelle gia esistenti ma non più utilizzate (esempio ho meno righe dell'aggiornamento precedente)
             // determino l'ultima riga da preservare
-            var ultimaRigaDaMantenere = destHeadersRow + totRigheAggiunte + totRighePreservate;
+            var ultimaRigaDaMantenere = destHeadersRow + numeroRigheAggiunte + numeroRighePreservate;
 
             // la cancellazione deve avvenire dall'ultima riga indietro in quanto le righe eliminate shiftano verso il basso e gli indici delle righe vengono aggiornati
             for (int rowIndex = worksheetDest.Dimension.Rows; rowIndex > ultimaRigaDaMantenere; rowIndex--)
             {
                 worksheetDest.DeleteRow(rowIndex, 1, true);
-                totRigheEliminate++;
+                numeroRigheEliminate++;
             }
+
+            if (salvataggioIntermedio) { Context.DataSourceEPPlusHelper.Save(); }
             #endregion
 
 
@@ -209,14 +270,25 @@ namespace FilesEditor.Steps.BuildPresentation
             // e quindi precedentemente alle righe già esistenti che hanno verosimilmente un numero di anno inferiore
             if (Context.AppendCurrentYear_FileSuperDettagli)
             {
-                var colonnaAnnoPositionZeroBased = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL;
-                Context.DataSourceEPPlusHelper.OrdinaTabella(destWorksheetName, destHeadersRow + 1, 1, worksheetDest.Dimension.End.Row, worksheetDest.Dimension.End.Column, colonnaAnnoPositionZeroBased);
+                startTime = DateTime.UtcNow;
+
+                Context.DataSourceEPPlusHelper.OrdinaTabella(destWorksheetName,
+                                destHeadersRow + 1,
+                                1,
+                                worksheetDest.Dimension.End.Row,
+                                worksheetDest.Dimension.End.Column,
+                                Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL
+                                );
+
+                if (salvataggioIntermedio) { Context.DataSourceEPPlusHelper.Save(); }
+
+                Context.DebugInfoLogger.LogPerformance($"{StepName} - Ordinamento dei dati", DateTime.UtcNow - startTime);
             }
             #endregion
 
 
             #region Eccezione nel caso in cui, dopo l'applicazione dei filtri, non ci siano righe da importare
-            if (totRighePreservate + totRigheAggiunte == 0)
+            if (numeroRigheEliminate + numeroRigheAggiunte == 0)
             {
                 throw new ManagedException(
                     filePath: sourceFilePath,
@@ -234,10 +306,12 @@ namespace FilesEditor.Steps.BuildPresentation
             }
             #endregion
 
+            
             // Log delle informazioni
-            Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.SuperDettagli, totRighePreservate, totRigheEliminate, totRigheAggiunte);
+            numeroRigheFinali = worksheetDest.Dimension.End.Row - destHeadersRow;
+            Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.SuperDettagli, numeroRigheIniziali, numeroRighePreservate, numeroRigheEliminate, numeroRigheAggiunte, numeroRigheFinali);
 
-           // superDettagliEPPlusHelper.Close();
+            Context.SuperdettagliFileEPPlusHelper.Close();
         }
     }
 }

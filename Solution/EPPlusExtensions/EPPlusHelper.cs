@@ -627,12 +627,12 @@ namespace EPPlusExtensions
             destinationCell.StyleID = originalStyleID;
         }
 
-        public void OrdinaTabella(string worksheetName, int fromRow, int fromCol, int toRow, int toCol, int sortColumnIndexZeroBased = 0)
+        public void OrdinaTabella(string worksheetName, int fromRow, int fromCol, int toRow, int toCol, int sortColumnIndex)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
             var excelRange = currentWorksheet.Cells[fromRow, fromCol, toRow, toCol];
-            //            excelRange.Sort(sortColumnIndexZeroBased);
-            excelRange.Sort(new int[1] { sortColumnIndexZeroBased }, null, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.CompareOptions.StringSort);
+            // il sortColumnIndex è 1-based, mentre il metodo Sort richiede un array di indici 0-based
+            excelRange.Sort(new int[1] { sortColumnIndex - 1 }, null, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.CompareOptions.StringSort);
         }
 
         public void AggiungiRighe(string worksheetName, int fromRow, int numberOfRows = 1)
@@ -652,7 +652,12 @@ namespace EPPlusExtensions
 
         public void Close()
         {
-            _excelPackage.Dispose();
+            if (_excelPackage != null)
+            {
+                _excelPackage.Dispose();
+            }
+            _excelPackage = null;
+            FilePathInUse = null;
         }
     }
 }

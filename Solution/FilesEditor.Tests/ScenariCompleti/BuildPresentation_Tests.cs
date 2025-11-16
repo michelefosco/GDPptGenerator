@@ -158,7 +158,7 @@ namespace FilesEditor.Tests
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 34,
                 numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 1000 + 5, // 5 righe con anni diversi dal 2025
+                numeroRigheSuperdettagli: 1000 + 4, // 4 righe con anni diversi dal 2025
                 numeroRigheRunRate: 1,
                 //
                 numeroFilesFotoInTmpFolder: 14,

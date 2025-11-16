@@ -44,16 +44,17 @@ namespace FilesEditor.Helpers
 
             RunAutoSave();
         }
-        public void LogRigheSourceFiles(FileTypes fileType, int totRighePreservate, int totRigheEliminate, int totRigheAggiunte)
+        public void LogRigheSourceFiles(FileTypes fileType, int numeroRigheIniziali, int numeroRighePreservate, int numeroRigheEliminate, int numeroRigheAggiunte,int numeroRigheFinali)
         {
             if (_epPlusHelper == null) { return; }
 
             var worksheetName = WorkSheetNames.RigheSourceFiles;
 
-            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe eliminate:", totRigheEliminate);
-            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot righe preservate:", totRighePreservate);
-            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Tot rRighe aggiunte:", totRigheAggiunte);
-
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Numero righe iniziali:", numeroRigheIniziali);
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Numero righe preservate:", numeroRighePreservate);
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Numero righe eliminate:", numeroRigheEliminate);
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Numero righe aggiunte:", numeroRigheAggiunte);
+            _epPlusHelper.AddNewContentRow(worksheetName, fileType.ToString(), "Numero righe finali:", numeroRigheFinali);
             RunAutoSave();
         }
         public void LogStepContext(string stepName, StepContext context)

@@ -1,11 +1,10 @@
-﻿using FilesEditor.Constants;
+﻿using EPPlusExtensions;
+using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
@@ -38,7 +37,7 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             ImportaSourceFile(
                     sourceFileType: FileTypes.Budget,
-                    sourceFilePath: Context.FileBudgetPath,
+                    sourceFileEPPlusHelper: Context.BudgetFileEPPlusHelper,
                     // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                     sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
                     souceHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
@@ -51,7 +50,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
             ImportaSourceFile(
                     sourceFileType: FileTypes.Forecast,
-                    sourceFilePath: Context.FileForecastPath,
+                    sourceFileEPPlusHelper: Context.ForecastFileEPPlusHelper,
                     // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
                     sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_FORECAST_DATA,
                     souceHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
@@ -62,12 +61,15 @@ namespace FilesEditor.Steps.BuildPresentation
                     destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
                 );
 
+            Context.BudgetFileEPPlusHelper.Close();
+            Context.ForecastFileEPPlusHelper.Close();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
         private void ImportaSourceFile(
                 FileTypes sourceFileType,
-                string sourceFilePath,
+                EPPlusHelper sourceFileEPPlusHelper,
                 string sourceWorksheetName,
                 int souceHeadersRow,
                 int sourceHeadersFirstColumn,
@@ -80,22 +82,18 @@ namespace FilesEditor.Steps.BuildPresentation
             if (sourceFileType != FileTypes.Budget && sourceFileType != FileTypes.Forecast)
             { throw new ArgumentOutOfRangeException(nameof(sourceFileType)); }
 
-            // variabili per il conteggio delle righe Eliminate, Aggiunge e Preservate (quando in modalità append su Superdettagli)
-            int totRighePreservate = 0;
-            int totRigheEliminate = 0;
-            int totRigheAggiunte = 0;
+            int numeroRigheIniziali = 0;
+            int numeroRigheAggiunte = 0;
+            int numeroRigheFinali = 0;
 
             #region WorkSheets sorgente e destinazione
-            // Foglio sorgente
-            var packageSource = new ExcelPackage(new FileInfo(sourceFilePath));
-
             // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
-            //var sourceWorksheet = packageSource.Workbook.Worksheets[sourceWorksheetName];
-            var sourceWorksheet = packageSource.Workbook.Worksheets[1];
+            var sourceWorksheet = sourceFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1];
 
             // Foglio destinazione
             var worksheetDest = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[destWorksheetName];
             #endregion
+
 
             #region Individuo gli evemtuali filtri da applicare
             var inputDataFilters_Table = (sourceFileType == FileTypes.Budget)
@@ -112,7 +110,7 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
-            #region Scorro tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
+            #region Leggo tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
             var righe = new List<RigaBudgetForecast>();
             var currentBusiness = "";
             for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= sourceWorksheet.Dimension.End.Row; rowSourceIndex++)
@@ -171,49 +169,47 @@ namespace FilesEditor.Steps.BuildPresentation
                 #endregion
 
 
-                var riga = new RigaBudgetForecast(currentBusiness, categoria, columns);
-                righe.Add(riga);
+                righe.Add(new RigaBudgetForecast(currentBusiness, categoria, columns));
             }
             #endregion
 
 
-            // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe
+            numeroRigheIniziali = worksheetDest.Dimension.End.Row - destHeadersRow;
+
             // Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga
             var destRowIndex = destHeadersRow + 1;
+
+
+            #region Allungo la tabella del numero di righe necessarie
+            // Per l'aggiunta delle righe parto sempre dalla prima immediatamente dopo gli headers per asicurarmi di preservare le formule inserendo nuove righe
+            numeroRigheAggiunte = righe.Count;
+            worksheetDest.InsertRow(destRowIndex, numeroRigheAggiunte);
+            #endregion
+
+
+            #region Scrivo i dati importati nelle righe appena create
             foreach (var riga in righe)
             {
-                #region Allungo la tabella di un riga in modo da conservare le formule
-                worksheetDest.InsertRow(destRowIndex, 1);
-                totRigheAggiunte++;
-                #endregion
-
                 worksheetDest.Cells[destRowIndex, destHeadersFirstColumn].Value = riga.Business;
                 worksheetDest.Cells[destRowIndex, destHeadersFirstColumn + 1].Value = riga.Categoria;
                 for (int col = 1; col <= 7; col++)
                 { worksheetDest.Cells[destRowIndex, destHeadersFirstColumn + 1 + col].Value = riga.Columns[col - 1]; }
                 destRowIndex++;
             }
-
-            // ritorno indietro di uno per mantenere il significato del valore (Rappresenta la riga del foglio di destinazione in cui scrivere la prossima riga) 
-            destRowIndex--;
-
-
-            #region Cancellazione delle righe in più, ovvero quelle gia esistenti ma non più utilizzate (esempio ho meno righe dell'aggiornamento precedente)
-            // aggiungo al conteggio le righe preservate, in modo da non canellarle
-            destRowIndex += totRighePreservate;
-
-            // la cancellazione deve avvenire dall'ultima riga indietro in quanto le righe eliminate shiftano verso il basso e gli indici delle righe vengono aggiornati
-            for (var rowIndex = worksheetDest.Dimension.Rows; rowIndex > destRowIndex; rowIndex--)
-            {
-                worksheetDest.DeleteRow(rowIndex, 1, true);
-                totRigheEliminate++;
-            }
             #endregion
 
-            if (totRighePreservate + totRigheAggiunte == 0)
+
+            #region Cancellazione delle righe in più, ovvero quelle gia esistenti che sono shiftate verso il basso
+            var numeroRigheDaCancellare = worksheetDest.Dimension.Rows - destHeadersRow - numeroRigheAggiunte;
+            if (numeroRigheDaCancellare > 0)
+            { worksheetDest.DeleteRow(destRowIndex, numeroRigheDaCancellare, true); }
+            #endregion
+
+
+            if (numeroRigheAggiunte == 0)
             {
                 throw new ManagedException(
-                    filePath: sourceFilePath,
+                    filePath: sourceFileEPPlusHelper.FilePathInUse,
                     fileType: sourceFileType,
                     //
                     worksheetName: sourceWorksheetName,
@@ -228,7 +224,8 @@ namespace FilesEditor.Steps.BuildPresentation
             }
 
             // Log delle informazioni
-            Context.DebugInfoLogger.LogRigheSourceFiles(sourceFileType, totRighePreservate, totRigheEliminate, totRigheAggiunte);
+            numeroRigheFinali = worksheetDest.Dimension.End.Row - destHeadersRow;
+            Context.DebugInfoLogger.LogRigheSourceFiles(sourceFileType, numeroRigheIniziali, 0, numeroRigheIniziali, numeroRigheAggiunte, numeroRigheFinali);
         }
     }
 }

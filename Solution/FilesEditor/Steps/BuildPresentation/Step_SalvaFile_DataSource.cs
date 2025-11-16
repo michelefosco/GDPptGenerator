@@ -33,6 +33,8 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             Context.DataSourceEPPlusHelper.Save();
 
+            Context.DataSourceEPPlusHelper.Close();
+
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
     }

@@ -1,9 +1,7 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
-using OfficeOpenXml;
 using System;
-using System.IO;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -35,11 +33,8 @@ namespace FilesEditor.Steps.BuildPresentation
         internal override EsitiFinali DoSpecificStepTask()
         {
             // Foglio sorgente
-            var packageSource = new ExcelPackage(new FileInfo(Context.FileRunRatePath));
             // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
-            //var sourceWorksheet = packageSource.Workbook.Worksheets[WorksheetNames.SOURCEFILE_RUN_RATE_DATA];            
-            var sourceWorksheet = packageSource.Workbook.Worksheets[1];
-
+            var sourceWorksheet = Context.RunRateFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1];
 
             // Foglio destinazione
             var destWorksheet = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_RUN_RATE_DATA];
@@ -59,6 +54,8 @@ namespace FilesEditor.Steps.BuildPresentation
                     Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_ROW + 1,   // row end
                     Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_FIRST_COL + 11    // col end
                     ].Value = sourceRange.Value;
+
+            Context.RunRateFileEPPlusHelper.Close();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
