@@ -134,8 +134,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             // Controllo che gli headers corrispondano (almeno in parte a quelli previsti)      
             EPPlusHelperUtilities.ThrowExpetionsForMissingHeader(sourceFileEPPlusHelper, sourceFileWorksheetName, sourceFileType, sourceFileHeadersRow, sourceFileHeadersFirstColumn, expectedHeadersColumns);
-
-            //sourceFileEPPlusHelper.Close();
             #endregion
         }
     }

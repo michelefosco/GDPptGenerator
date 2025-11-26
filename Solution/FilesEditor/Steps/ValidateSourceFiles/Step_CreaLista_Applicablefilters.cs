@@ -166,8 +166,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         private List<string> GetApplicableFiltersValues_FromSourceFile(EPPlusHelper ePPlusHelper, string worksheetName, FileTypes fileType, int headersRow, string headerValue, int startCheckHeadersFromColumn)
         {
-            //var ePPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(filePath, fileType);
-
             // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome ad eccezione di Superdettagli
             if (worksheetName == null)
             {
@@ -186,8 +184,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 values = values.Select(_ => Context.ApplicaAliasToValue(headerValue, _)).ToList();
             }
 
-
-            //ePPlusHelper.Close();
             return values.Distinct().OrderBy(n => n).ToList();
         }
     }

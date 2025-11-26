@@ -99,8 +99,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                 }
             }
             #endregion
-
-            //superDettagliEPPlusHelper.Close();
         }
     }
 }

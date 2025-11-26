@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using Image = System.Drawing.Image;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -156,9 +158,13 @@ namespace FilesEditor.Steps.BuildPresentation
                     }
                     #endregion
 
+                    // Prendo il percoso del file immmagine
+                    var imageId = slideToGenerate.Contents[imagePosition];
+                    var imgFilePath = Context.ItemsToExportAsImage.First(_ => _.ImageId == imageId).ImageFilePath;
+
                     AddImageToTheSlide(
                         slide: slideToEdit,
-                        imageId: slideToGenerate.Contents[imagePosition],
+                        imgFilePath: imgFilePath,
                         boxWidth: boxWidth,
                         boxHeight: boxHeight,
                         boxPostionX: boxPostionX,
@@ -177,14 +183,11 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
 
-        private IShape AddImageToTheSlide(ISlide slide, string imageId, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
+        private IShape AddImageToTheSlide(ISlide slide, string imgFilePath, decimal boxWidth, decimal boxHeight, decimal boxPostionY, decimal boxPostionX)
         {
-            // Prendo il percoso del file immmagine
-            var imgFilePath = Context.ItemsToExportAsImage.First(_ => _.ImageId == imageId).ImageFilePath;
-
-            //todo: serve?
-            //if (!File.Exists(imgFilePath))
-            //{ throw new Exception($"The file ('{imgFilePath}') needed to add an image to the presentation is missing."); }
+            // Segnalo errore se il file immagine non esiste
+            if (!File.Exists(imgFilePath))
+            { throw new Exception($"The file ('{imgFilePath}') needed to add an image to the presentation is missing."); }
 
             // ottengo le dimensioni reali dell'immagine
             double imgWidth = 0;

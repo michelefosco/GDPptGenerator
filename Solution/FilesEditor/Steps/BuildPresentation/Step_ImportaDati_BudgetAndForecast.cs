@@ -112,7 +112,6 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             #region Leggo tutte le righe della sorgente a partire da quella immediatamente successiva alla riga con gli headers
-            // var righe = new List<RigaBudgetForecast>();
             var righeLette = new List<object[]>();
             var currentBusiness = "";
             for (var rowSourceIndex = souceHeadersRow + 1; rowSourceIndex <= sourceWorksheet.Dimension.End.Row; rowSourceIndex++)
