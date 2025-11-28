@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
+using FilesEditor.Helpers;
 using System;
 
 namespace FilesEditor.Steps
@@ -40,8 +41,7 @@ namespace FilesEditor.Steps
         private void RimozioneFolder()
         {
             // Rimuovo la cartella se già esistente
-            // todo: scommentare
-            // CancellaDirectorySeEsiste(Context.TmpFolder);
+            FilesAndDirectoriesUtilities.CancellaDirectorySeEsiste(Context.TmpFolder);
         }
     }
 }

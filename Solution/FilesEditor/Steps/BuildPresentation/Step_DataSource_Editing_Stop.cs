@@ -32,6 +32,7 @@ namespace FilesEditor.Steps.BuildPresentation
         internal override EsitiFinali DoSpecificStepTask()
         {
             Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.CalcMode = OfficeOpenXml.ExcelCalcMode.Automatic;
+            Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.FullCalcOnLoad = true; // true è comunque il default
 
             Context.DataSourceEPPlusHelper.Save();
             Context.DataSourceEPPlusHelper.Close();
