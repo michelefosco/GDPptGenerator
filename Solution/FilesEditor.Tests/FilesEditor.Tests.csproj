@@ -60,6 +60,7 @@
     <None Include="TestFiles\SourceFiles\Budget.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestFiles\SourceFiles\CN43N.xlsx" />
     <None Include="TestFiles\SourceFiles\Forecast.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
