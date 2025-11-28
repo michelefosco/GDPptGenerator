@@ -48,6 +48,10 @@ namespace FilesEditor.Helpers
             // Foglio Superdettagli
             configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW = 2;
             configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.AE;
+
+            // Foglio CN43N
+            configurazione.DATASOURCE_FILES_CN43N_HEADERS_ROW = 1;
+            configurazione.DATASOURCE_FILES_CN43N_HEADERS_FIRST_COL = (int)ColumnIDS.A;
             #endregion
 
 
@@ -67,13 +71,17 @@ namespace FilesEditor.Helpers
             // Input file Superdettagli
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.A;
-            configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL = (int)ColumnIDS.B;            
+            configurazione.SOURCE_FILES_SUPERDETTAGLI_YEAR_COL = (int)ColumnIDS.B;
+
+            // Foglio CN43N
+            configurazione.SOURCE_FILES_CN43N_HEADERS_ROW = 1;
+            configurazione.SOURCE_FILES_CN43N_HEADERS_FIRST_COL = (int)ColumnIDS.A;
             #endregion
 
 
             #region Cartella "Debug"
             configurazione.AutoSaveDebugFile = true;
-            configurazione.ZipBackupFile = true;            
+            configurazione.ZipBackupFile = true;
             #endregion
 
             return configurazione;

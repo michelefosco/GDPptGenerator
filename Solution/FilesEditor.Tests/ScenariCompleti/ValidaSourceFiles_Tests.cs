@@ -46,7 +46,7 @@ namespace FilesEditor.Tests
             // Check generali
             int numeroApplicablefilters = 7;
             InputDataFilters_Tables[] tables = { InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.BUDGET, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.FORECAST, InputDataFilters_Tables.SUPERDETTAGLI, InputDataFilters_Tables.SUPERDETTAGLI, InputDataFilters_Tables.SUPERDETTAGLI };
-            string[] fieldNames = { "Business", "Categoria", "Business", "Categoria", "Last name First name4", "Project Description5", "Bus Area GDLT" };
+            string[] fieldNames = { "Business", "Categoria", "Business", "Categoria", "Last name First name", "Project Description", "Bus Area GDLT" };
             int[] numberOfPossibleValues = { 6, 8, 6, 8, 1, 10, 11 };
             CheckValueFilters(output, numeroApplicablefilters, tables, fieldNames, numberOfPossibleValues);
 

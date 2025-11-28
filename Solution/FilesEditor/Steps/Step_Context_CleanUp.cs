@@ -36,6 +36,7 @@ namespace FilesEditor.Steps
             Context.ForecastFileEPPlusHelper.Close();
             Context.RunRateFileEPPlusHelper.Close();
             Context.SuperdettagliFileEPPlusHelper.Close();
+            Context.CN43NFileEPPlusHelper.Close();
 
             return EsitiFinali.Undefined;
         }

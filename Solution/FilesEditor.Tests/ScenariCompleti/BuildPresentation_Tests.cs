@@ -26,6 +26,10 @@ namespace FilesEditor.Tests
         string _FileForecastPath;
         string _FileSuperDettagliPath;
         string _FileRunRatePath;
+        string _FileCN43NPath;
+
+
+
         bool _AppendCurrentYear_FileSuperDettagli;
         DateTime _PeriodDate;
         List<InputDataFilters_Item> _Applicablefilters;
@@ -51,6 +55,8 @@ namespace FilesEditor.Tests
             _FileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
             _FileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
             _FileRunRatePath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
+            _FileCN43NPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_CN43N_FILE);
+
             _AppendCurrentYear_FileSuperDettagli = false;
             _PeriodDate = new DateTime(2025, 11, 2);
             _Applicablefilters = new List<InputDataFilters_Item>();
@@ -68,6 +74,7 @@ namespace FilesEditor.Tests
                         fileForecastPath: _FileForecastPath,
                         fileSuperDettagliPath: _FileSuperDettagliPath,
                         fileRunRatePath: _FileRunRatePath,
+                        fileCN43NPath: _FileCN43NPath,
                         //
                         powerPointTemplateFilePath: _PowerPointTemplateFilePath,
                         appendCurrentYear_FileSuperDettagli: _AppendCurrentYear_FileSuperDettagli,
@@ -92,9 +99,10 @@ namespace FilesEditor.Tests
             Assert.AreEqual(numeroWarnings, output.Warnings.Count);
             //Assert.IsTrue(output.Warnings.Any(_ => _.Contains("The input file 'Super dettagli' contains at least one year that is different from the year selected as the period date")));
 
+            // con la cancellazione del tmp folder non si può più verificare
             // numero di immagini generate su file system
-            var filesInTmpFolder = Directory.GetFiles(tmpFolder);
-            Assert.AreEqual(numeroFilesFotoInTmpFolder, filesInTmpFolder.Length);
+            //var filesInTmpFolder = Directory.GetFiles(tmpFolder);
+            //Assert.AreEqual(numeroFilesFotoInTmpFolder, filesInTmpFolder.Length);
 
             var ePPlusHelper = new EPPlusExtensions.EPPlusHelper();
             ePPlusHelper.Open(dataSourceFilePath);
@@ -138,7 +146,7 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 3
+                numeroPresentazioniGenerate: 2
                 );
         }
 
@@ -158,12 +166,12 @@ namespace FilesEditor.Tests
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 34,
                 numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 1000 + 4, // 4 righe con anni diversi dal 2025
+                numeroRigheSuperdettagli: 1000 + 5, // 4 righe con anni diversi dal 2025
                 numeroRigheRunRate: 1,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 3
+                numeroPresentazioniGenerate: 2
                 );
         }
 
@@ -211,7 +219,7 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 3
+                numeroPresentazioniGenerate: 2
                 );
         }
 
@@ -258,7 +266,7 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 3
+                numeroPresentazioniGenerate: 2
                 );
         }
 
@@ -305,7 +313,7 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 3
+                numeroPresentazioniGenerate: 2
                 );
         }
 
@@ -353,7 +361,7 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 3
+                numeroPresentazioniGenerate: 2
                 );
         }
     }

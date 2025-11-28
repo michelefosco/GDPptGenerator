@@ -96,7 +96,8 @@ namespace FilesEditor
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
 
                     #region Steps che modificano il file DataSource
-                    new Step_DataSource_Editing_Start(stepContext),
+                    new Step_DataSource_Editing_Start(stepContext),                    
+                    new Step_ImportaDati_CN43N(stepContext),
                     new Step_ImportaDati_RunRate(stepContext),
                     new Step_ImportaDati_BudgetAndForecast(stepContext),
                     new Step_ImportaDati_SuperDettagli(stepContext),

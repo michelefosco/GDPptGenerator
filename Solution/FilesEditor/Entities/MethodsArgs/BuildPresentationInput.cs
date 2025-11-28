@@ -20,6 +20,7 @@ namespace FilesEditor.Entities.MethodsArgs
                 string fileForecastPath,
                 string fileSuperDettagliPath,
                 string fileRunRatePath,
+                string fileCN43NPath,                
                 //
                 string powerPointTemplateFilePath,
                 bool appendCurrentYear_FileSuperDettagli,
@@ -46,7 +47,6 @@ namespace FilesEditor.Entities.MethodsArgs
             if (string.IsNullOrWhiteSpace(fileRunRatePath))
                 throw new ArgumentNullException(nameof(fileRunRatePath));
 
-
             // Properties from the base class
             base.DataSourceFilePath = dataSourceFilePath;
             base.DestinationFolder = destinationFolder;
@@ -57,6 +57,7 @@ namespace FilesEditor.Entities.MethodsArgs
             base.FileForecastPath = fileForecastPath;
             base.FileSuperDettagliPath = fileSuperDettagliPath;
             base.FileRunRatePath = fileRunRatePath;
+            base.FileCN43NPath = fileCN43NPath;
 
             // Properties of the derived class 
             PowerPointTemplateFilePath = powerPointTemplateFilePath;

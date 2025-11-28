@@ -26,6 +26,9 @@ namespace FilesEditor.Enums
         [Description("Run Rate Excel input file")]
         RunRate,
 
+        [Description("CN43N Excel input file")]
+        CN43N,        
+
         [Description("PowerPoint presentation template fuke")]
         PresentationTemplate,
 

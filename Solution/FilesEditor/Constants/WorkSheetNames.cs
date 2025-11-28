@@ -9,9 +9,11 @@
         public const string DATASOURCE_ALIAS_BUSINESS_CATEGORIA = "Alias-Categoria";
         //
         public const string DATASOURCE_BUDGET_DATA = "Budget";
+        public const string DATASOURCE_CN43N_DATA = "CN43N";
         public const string DATASOURCE_FORECAST_DATA = "Forecast";
         public const string DATASOURCE_RUN_RATE_DATA = "RunRate";
-        public const string DATASOURCE_SUPERDETTAGLI_DATA = "Superdetails";
+        public const string DATASOURCE_SUPERDETTAGLI_DATA = "Superdetails";       
+                
         //
         // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
         //public const string SOURCEFILE_BUDGET_DATA = "Sheet1";

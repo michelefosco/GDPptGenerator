@@ -16,6 +16,8 @@ namespace FilesEditor.Entities
         private EPPlusHelper _forecastFileEPPlusHelper;
         private EPPlusHelper _runRateFileEPPlusHelper;
         private EPPlusHelper _superdettagliFileEPPlusHelper;
+        private EPPlusHelper _cN43NFileEPPlusHelper;
+
 
         // Base class properties
         // DestinationFolder
@@ -26,6 +28,7 @@ namespace FilesEditor.Entities
         // FileForecastPath
         // FileSuperDettagliPath
         // FileRunRatePath
+        // FileCN43NPath
 
         // Input specifico di uno o più metodi
         public bool AppendCurrentYear_FileSuperDettagli { get; private set; }
@@ -113,6 +116,23 @@ namespace FilesEditor.Entities
             }
         }
 
+        public EPPlusHelper CN43NFileEPPlusHelper
+        {
+            get
+            {
+                if (_cN43NFileEPPlusHelper == null)
+                {
+                    if (string.IsNullOrEmpty(FileCN43NPath))
+                    { throw new Exception("Inizializzare 'FileCN43NPath' prima di usare 'CN43NFileEPPlusHelper'"); }
+
+                    _cN43NFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(FileCN43NPath, FileTypes.CN43N);
+                }
+                return _cN43NFileEPPlusHelper;
+            }
+        }
+
+        
+
         public DebugInfoLogger DebugInfoLogger { get; private set; }
 
         public List<string> Warnings { get; private set; }
@@ -166,6 +186,8 @@ namespace FilesEditor.Entities
             base.FileForecastPath = input.FileForecastPath;
             base.FileSuperDettagliPath = input.FileSuperDettagliPath;
             base.FileRunRatePath = input.FileRunRatePath;
+            base.FileCN43NPath = input.FileCN43NPath;
+            
             //
             PowerPointTemplateFilePath = input.PowerPointTemplateFilePath;
             AppendCurrentYear_FileSuperDettagli = input.AppendCurrentYear_FileSuperDettagli;

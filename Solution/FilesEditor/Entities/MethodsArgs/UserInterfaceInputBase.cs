@@ -12,5 +12,7 @@
         public string FileForecastPath { get; set; }
         public string FileSuperDettagliPath { get; set; }
         public string FileRunRatePath { get; set; }
+        public string FileCN43NPath { get; set; }
+
     }
 }
