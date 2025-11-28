@@ -34,6 +34,11 @@ namespace PptGeneratorGUI
         public List<string> RunRatePaths { get => _runRatePaths; set => _runRatePaths = value; }
         private const string XML_KEY_RUNRATE = "RunRate";
 
+        //CN43NPaths
+        private List<string> _cN43NPaths;
+        public List<string> CN43NPaths { get => _cN43NPaths; set => _cN43NPaths = value; }
+        private const string XML_KEY_CN43N = "CN43N";
+
 
         //DestFolderPaths
         private List<string> _destFolderPaths;
@@ -58,6 +63,7 @@ namespace PptGeneratorGUI
             _forecastPaths = fillListFromXmlForHystoryType(doc, XML_KEY_FORECAST);
             _superDettagliPaths = fillListFromXmlForHystoryType(doc, XML_KEY_SUPERDETTAGLI);
             _runRatePaths = fillListFromXmlForHystoryType(doc, XML_KEY_RUNRATE);
+            _cN43NPaths = fillListFromXmlForHystoryType(doc, XML_KEY_CN43N);
             _destFolderPaths = fillListFromXmlForHystoryType(doc, XML_KEY_DESTINATIONFOLDER);
         }
 
@@ -85,7 +91,7 @@ namespace PptGeneratorGUI
             return doc;
         }
 
-        public void AddPathsHistory(string budgetPath, string forecastPath, string superDettagliPath, string runRatePath, string destinationFolderPath)
+        public void AddPathsHistory(string budgetPath, string forecastPath, string superDettagliPath, string runRatePath, string cN43NPath, string destinationFolderPath)
         {
             var doc = new XmlDocument();
 
@@ -96,6 +102,7 @@ namespace PptGeneratorGUI
             fileHistoryElement.AppendChild(updateHystoryItems(doc, forecastPath, _forecastPaths, XML_KEY_FORECAST));
             fileHistoryElement.AppendChild(updateHystoryItems(doc, superDettagliPath, _superDettagliPaths, XML_KEY_SUPERDETTAGLI));
             fileHistoryElement.AppendChild(updateHystoryItems(doc, runRatePath, _runRatePaths, XML_KEY_RUNRATE));
+            fileHistoryElement.AppendChild(updateHystoryItems(doc, cN43NPath, _cN43NPaths, XML_KEY_CN43N));
             fileHistoryElement.AppendChild(updateHystoryItems(doc, destinationFolderPath, _destFolderPaths, XML_KEY_DESTINATIONFOLDER));
 
             doc.Save(_xmlFilePath);

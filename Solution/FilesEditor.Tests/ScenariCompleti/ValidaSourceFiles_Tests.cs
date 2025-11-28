@@ -25,8 +25,8 @@ namespace FilesEditor.Tests
             string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
             string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
             string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
-            string fileRunRatePat = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
-
+            string fileRunRatePath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
+            string fileCN43NPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_CN43N_FILE);
 
             var input = new ValidateSourceFilesInput(
                     dataSourceFilePath: dataSourceFilePath,
@@ -37,7 +37,8 @@ namespace FilesEditor.Tests
                     fileBudgetPath: fileBudgetPath,
                     fileForecastPath: fileForecastPath,
                     fileSuperDettagliPath: fileSuperDettagliPath,
-                    fileRunRatePath: fileRunRatePat
+                    fileRunRatePath: fileRunRatePath,
+                    fileCN43NPath: fileCN43NPath
                     );
 
             var output = Editor.ValidateSourceFiles(input);

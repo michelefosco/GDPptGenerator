@@ -86,6 +86,20 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFileHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_FIRST_COL
                 );
 
+            ValidazioniPreliminari_Comuni(
+                     datasourceWorksheetName: WorksheetNames.DATASOURCE_CN43N_DATA,
+                     datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_CN43N_HEADERS_ROW,
+                     datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_CN43N_HEADERS_FIRST_COL,
+                     //
+                     //sourceFilePath: Context.FileCN43NPath,
+                     sourceFileEPPlusHelper: Context.CN43NFileEPPlusHelper,
+                     sourceFileType: FileTypes.CN43N,
+                     // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                     sourceFileWorksheetName: null, //  WorksheetNames.SOURCEFILE_RUN_RATE_DATA,
+                     sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_CN43N_HEADERS_ROW,
+                     sourceFileHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_CN43N_HEADERS_FIRST_COL
+                    );
+
             //ValidazioniPreliminari_Comuni(
             //     datasourceWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
             //     datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW,

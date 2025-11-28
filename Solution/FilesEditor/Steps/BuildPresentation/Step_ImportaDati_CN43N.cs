@@ -30,17 +30,14 @@ namespace FilesEditor.Steps.BuildPresentation
 
         public Step_ImportaDati_CN43N(StepContext context) : base(context)
         { }
-        
+
         //CN43N
         internal override EsitiFinali DoSpecificStepTask()
         {
-            if (string.IsNullOrEmpty(Context.FileCN43NPath))
-            {
-                Context.DebugInfoLogger.LogWarning($"File CN43N non specificato. Si salta l'importazione dei dati CN43N.");
-            }
-            else
+            if (!string.IsNullOrEmpty(Context.FileCN43NPath))
             {
                 ImportDataFrom_CN43NFile();
+             
                 Context.CN43NFileEPPlusHelper.Close();
             }
 
@@ -57,7 +54,7 @@ namespace FilesEditor.Steps.BuildPresentation
             var destWorksheet = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_CN43N_DATA];
 
             // Elimino le righe esistenti (tranne l'intestazione)
-            destWorksheet.DeleteRow(Context.Configurazione.DATASOURCE_FILES_CN43N_HEADERS_ROW + 1, destWorksheet.Dimension.End.Row - Context.Configurazione.DATASOURCE_FILES_CN43N_HEADERS_ROW, true);
+            destWorksheet.DeleteRow(Context.Configurazione.DATASOURCE_CN43N_HEADERS_ROW + 1, destWorksheet.Dimension.End.Row - Context.Configurazione.DATASOURCE_CN43N_HEADERS_ROW, true);
 
             // Range sorgente
             var sourceRange = sourceWorksheet.Cells[
@@ -69,8 +66,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
             // Incollo nel range destinazione
             destWorksheet.Cells[
-                            Context.Configurazione.DATASOURCE_FILES_CN43N_HEADERS_ROW,          // row start,
-                            Context.Configurazione.DATASOURCE_FILES_CN43N_HEADERS_FIRST_COL,    // col start
+                            Context.Configurazione.DATASOURCE_CN43N_HEADERS_ROW,          // row start,
+                            Context.Configurazione.DATASOURCE_CN43N_HEADERS_FIRST_COL,    // col start
                             sourceWorksheet.Dimension.End.Row,      // row end
                             sourceWorksheet.Dimension.End.Column    // col end
                     ].Value = sourceRange.Value;

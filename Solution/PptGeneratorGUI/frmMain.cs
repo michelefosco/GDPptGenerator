@@ -67,6 +67,18 @@ namespace PptGeneratorGUI
                 cmbFileRunRatePath.Text = value;
             }
         }
+        private string SelectedFileCN43NPath
+        {
+            get
+            {
+                return cmbFileCN43NPath.Text;
+            }
+            set
+            {
+                cmbFileCN43NPath.Text = value;
+            }
+        }
+
         private string SelectedDestinationFolderPath
         {
             get
@@ -151,8 +163,10 @@ namespace PptGeneratorGUI
             var isForecastPathValid = IsForecastPathValid();
             var isSuperDettagliPathValid = IsSuperDettagliPathValid();
             var isRunRatePathValid = IsRunRatePathValid();
+            var isCN43NPathValid = IsCN43NPathValid();
+
             var isDestFolderValid = IsDestFolderValid();
-            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isDestFolderValid;
+            var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isCN43NPathValid && isDestFolderValid;
 
             btnOpenFileBudgetFolder.Enabled = isBudgetPathValid;
             btnOpenFileBudget.Enabled = isBudgetPathValid;
@@ -165,6 +179,9 @@ namespace PptGeneratorGUI
             //
             btnOpenFileRunRateFolder.Enabled = isRunRatePathValid;
             btnOpenFileRunRate.Enabled = isRunRatePathValid;
+            //
+            btnOpenFileCN43NFolder.Enabled = !string.IsNullOrEmpty(SelectedFileCN43NPath) && isCN43NPathValid;
+            btnOpenFileCN43N.Enabled = !string.IsNullOrEmpty(SelectedFileCN43NPath) && isCN43NPathValid;
             //
             btnOpenDestFolder.Enabled = isDestFolderValid;
             //
@@ -201,7 +218,10 @@ namespace PptGeneratorGUI
             LoadPathsInTheComboBox(cmbFileForecastPath, _pathFileHistory.ForecastPaths.ToArray());
             LoadPathsInTheComboBox(cmbFileSuperDettagliPath, _pathFileHistory.SuperDettagliPaths.ToArray());
             LoadPathsInTheComboBox(cmbFileRunRatePath, _pathFileHistory.RunRatePaths.ToArray());
+            LoadPathsInTheComboBox(cmbFileCN43NPath, _pathFileHistory.CN43NPaths.ToArray());
             LoadPathsInTheComboBox(cmbDestinationFolderPath, _pathFileHistory.DestFolderPaths.ToArray());
+
+            
         }
 
         private void LoadPathsInTheComboBox(ComboBox comboBox, object[] itmes)
@@ -234,7 +254,7 @@ namespace PptGeneratorGUI
 
         private void AddPathsInXmlFileHistory()
         {
-            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRunRatePath, SelectedDestinationFolderPath);
+            _pathFileHistory.AddPathsHistory(SelectedFileBudgetPath, SelectedFileForecastPath, SelectedFileSuperDettagliPath, SelectedFileRunRatePath, SelectedFileCN43NPath, SelectedDestinationFolderPath);
         }
         #endregion
 
@@ -287,6 +307,15 @@ namespace PptGeneratorGUI
 
             return isValid;
         }
+        private bool IsCN43NPathValid()
+        {
+            // se vuoto , è valido (file opzionale)
+            if (string.IsNullOrEmpty(SelectedFileCN43NPath))
+            { return true; }
+
+            return File.Exists(SelectedFileCN43NPath);
+        }
+
 
         private bool IsDestFolderValid()
         {
@@ -334,8 +363,11 @@ namespace PptGeneratorGUI
         }
         private void cmbFileSuperDettagliPath_SelectedIndexChanged(object sender, EventArgs e)
         {
+            AutoFillDestinationFolderPath();
             RefreshUI(true);
         }
+
+
         private void cmbFileRunRatePath_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshUI(true);
@@ -344,6 +376,11 @@ namespace PptGeneratorGUI
         {
             RefreshUI(true);
         }
+        private void cmbFileCN43NPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshUI(true);
+        }
+
 
 
         private void cmbFileBudgetPath_TextUpdate(object sender, EventArgs e)
@@ -360,11 +397,30 @@ namespace PptGeneratorGUI
         }
         private void cmbFileSuperDettagliPath_TextUpdate(object sender, EventArgs e)
         {
+            AutoFillDestinationFolderPath();
             RefreshUI(true);
         }
         private void cmbDestinationFolderPath_TextUpdate(object sender, EventArgs e)
         {
             RefreshUI(true);
+        }
+        private void cmbFileCN43NPath_TextUpdate(object sender, EventArgs e)
+        {
+            RefreshUI(true);
+        }
+
+
+        private void AutoFillDestinationFolderPath()
+        {
+            if (string.IsNullOrEmpty(cmbDestinationFolderPath.Text))
+            {
+                var superDettagliFolder = Path.GetDirectoryName(SelectedFileSuperDettagliPath);
+                var proposedOutputFolder = Path.Combine(superDettagliFolder, "Output");
+                if (!Directory.Exists(proposedOutputFolder))
+                { Directory.CreateDirectory(proposedOutputFolder); }
+                cmbDestinationFolderPath.Text = proposedOutputFolder;
+                SelectedDestinationFolderPath = proposedOutputFolder;
+            }
         }
         #endregion
 
@@ -414,6 +470,18 @@ namespace PptGeneratorGUI
             if (!string.IsNullOrEmpty(filePath))
             {
                 SelectedFileRunRatePath = filePath;
+                RefreshUI(true);
+            }
+        }
+
+        private void btnSelectFileCN43N_Click(object sender, EventArgs e)
+        {
+            const string tipoFoglio = "CN43N";
+            var title = $"Select the file {tipoFoglio}";
+            var filePath = getPercosoSelezionatoDaUtente(title);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                SelectedFileCN43NPath = filePath;
                 RefreshUI(true);
             }
         }
@@ -468,6 +536,12 @@ namespace PptGeneratorGUI
             openFolderForUser(folderPath);
         }
 
+        private void btnOpenFileCN43NFolder_Click(object sender, EventArgs e)
+        {
+            var folderPath = Path.GetDirectoryName(SelectedFileCN43NPath);
+            openFolderForUser(folderPath);
+        }
+
         private void btnOpenDestFolder_Click(object sender, EventArgs e)
         {
             openFolderForUser(SelectedDestinationFolderPath);
@@ -506,6 +580,11 @@ namespace PptGeneratorGUI
         private void btnOpenFileRunRate_Click(object sender, EventArgs e)
         {
             openExcelForUser(SelectedFileRunRatePath);
+        }
+
+        private void btnOpenFileCN43N_Click(object sender, EventArgs e)
+        {
+            openExcelForUser(SelectedFileCN43NPath);
         }
 
         private void openExcelForUser(string filePath)
@@ -643,7 +722,10 @@ namespace PptGeneratorGUI
                     fileBudgetPath: SelectedFileBudgetPath,
                     fileForecastPath: SelectedFileForecastPath,
                     fileSuperDettagliPath: SelectedFileSuperDettagliPath,
-                    fileRunRatePath: SelectedFileRunRatePath);
+                    fileRunRatePath: SelectedFileRunRatePath,
+                    fileCN43NPath: SelectedFileCN43NPath
+                    );
+            
             try
             {
                 Application.DoEvents();
@@ -743,6 +825,7 @@ namespace PptGeneratorGUI
                 fileForecastPath: SelectedFileForecastPath,
                 fileSuperDettagliPath: SelectedFileSuperDettagliPath,
                 fileRunRatePath: SelectedFileRunRatePath,
+                fileCN43NPath: SelectedFileCN43NPath,
                 //
                 powerPointTemplateFilePath: PowerPointTemplateFilePath,
                 appendCurrentYear_FileSuperDettagli: cbAppendCurrentYearSuperDettagli.Checked,
@@ -1065,11 +1148,14 @@ namespace PptGeneratorGUI
         {
             cleanCurrentsession();
 
+            // inizio dalla destinazione in modo che non venga ripopolata per via della selezione di Superdettagli
+            SelectFirstItemIntoComboBoxPaths(cmbDestinationFolderPath);
             SelectFirstItemIntoComboBoxPaths(cmbFileBudgetPath);
             SelectFirstItemIntoComboBoxPaths(cmbFileForecastPath);
             SelectFirstItemIntoComboBoxPaths(cmbFileRunRatePath);
             SelectFirstItemIntoComboBoxPaths(cmbFileSuperDettagliPath);
-            SelectFirstItemIntoComboBoxPaths(cmbDestinationFolderPath);
+            SelectFirstItemIntoComboBoxPaths(cmbFileCN43NPath);
+            
 
             RefreshUI(false);
         }
@@ -1119,6 +1205,7 @@ namespace PptGeneratorGUI
             SelectedFileForecastPath = string.Empty;
             SelectedFileSuperDettagliPath = string.Empty;
             SelectedFileRunRatePath = string.Empty;
+            SelectedFileCN43NPath = string.Empty;
             SelectedDestinationFolderPath = string.Empty;
         }
         #endregion

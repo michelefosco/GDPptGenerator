@@ -50,8 +50,8 @@ namespace FilesEditor.Helpers
             configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.AE;
 
             // Foglio CN43N
-            configurazione.DATASOURCE_FILES_CN43N_HEADERS_ROW = 1;
-            configurazione.DATASOURCE_FILES_CN43N_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+            configurazione.DATASOURCE_CN43N_HEADERS_ROW = 1;
+            configurazione.DATASOURCE_CN43N_HEADERS_FIRST_COL = (int)ColumnIDS.A;
             #endregion
 
 

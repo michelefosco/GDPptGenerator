@@ -40,6 +40,7 @@ Microsoft Excel 15.0
 
 
 -------------------- Todo
+- Valirare CN43N.xlsx selenction file checking the headers?
 - Inidividuare prima riga e colonna di Budget e Forecast basato sulla posizione delle 2 celle
 - Pulsante TryAgain in caso di eccezione nella generazione della presentazione per mancanza immagini?
 - Creazione items nel datasource

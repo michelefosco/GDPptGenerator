@@ -208,6 +208,7 @@ namespace FilesEditor.Entities
             base.FileForecastPath = input.FileForecastPath;
             base.FileSuperDettagliPath = input.FileSuperDettagliPath;
             base.FileRunRatePath = input.FileRunRatePath;
+            base.FileCN43NPath = input.FileCN43NPath;
         }
         internal void AddWarning(string warningMessage)
         {

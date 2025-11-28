@@ -58,8 +58,8 @@
         #endregion
 
         #region Run rate
-        public int DATASOURCE_FILES_CN43N_HEADERS_ROW { get; set; }
-        public int DATASOURCE_FILES_CN43N_HEADERS_FIRST_COL { get; set; }
+        public int DATASOURCE_CN43N_HEADERS_ROW { get; set; }
+        public int DATASOURCE_CN43N_HEADERS_FIRST_COL { get; set; }
         #endregion
 
         #endregion

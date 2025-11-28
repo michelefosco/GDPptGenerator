@@ -14,7 +14,8 @@ namespace FilesEditor.Entities
                 string fileBudgetPath,
                 string fileForecastPath,
                 string fileSuperDettagliPath,
-                string fileRunRatePath
+                string fileRunRatePath,
+                string fileCN43NPath
             )
         {
             // Properties from the base class
@@ -46,6 +47,7 @@ namespace FilesEditor.Entities
             base.FileForecastPath = fileForecastPath;
             base.FileSuperDettagliPath = fileSuperDettagliPath;
             base.FileRunRatePath = fileRunRatePath;
+            base.FileCN43NPath = fileCN43NPath;            
         }
     }
 }

@@ -36,7 +36,11 @@ namespace FilesEditor.Steps
             Context.ForecastFileEPPlusHelper.Close();
             Context.RunRateFileEPPlusHelper.Close();
             Context.SuperdettagliFileEPPlusHelper.Close();
-            Context.CN43NFileEPPlusHelper.Close();
+
+            // Essendo un file opzionale, verifico che l'helper non sia null prima di chiuderlo
+            if (!string.IsNullOrEmpty(Context.FileCN43NPath))
+            { Context.CN43NFileEPPlusHelper.Close(); }
+               
 
             return EsitiFinali.Undefined;
         }
