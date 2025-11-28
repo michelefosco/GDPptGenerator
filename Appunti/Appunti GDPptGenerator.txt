@@ -35,7 +35,8 @@ Microsoft Excel 15.0
 
 -------------------- Domande per Francesco
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
-
+- Rinominare "pivot di appoggio" in qualcosa tipo "Pivot Anno Prima Marcatura"
+- Rivedere nomi colonne in rosso
 
 
 -------------------- Todo
@@ -46,6 +47,7 @@ Microsoft Excel 15.0
 - Test con filtri
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
 - Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle
+- Creazione di un file HTML con le informazioni sulle formule
 
 - Add logging
 - Rivedere nomi steps e aggiungere commento in cima alla classe

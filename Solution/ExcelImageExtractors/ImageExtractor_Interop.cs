@@ -72,6 +72,7 @@ namespace ExcelImageExtractors
             }
             catch (Exception ex)
             {
+                // Ignoro questa eccezione in quanto può capitare di tanto in tanto, quindi la ignoro in modo di poter tentare un altro tentativo
                 if (!ex.Message.Equals("CopyPicture method of Range class failed"))
                 {
                     Close();
