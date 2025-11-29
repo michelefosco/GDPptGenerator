@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExcelInterops_Helper.cs" />
     <Compile Include="ImageExtractor_Interop.cs" />
     <Compile Include="Interfaces\IImageExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

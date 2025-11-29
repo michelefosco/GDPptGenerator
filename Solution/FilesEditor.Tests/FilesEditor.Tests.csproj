@@ -70,6 +70,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\SourceFiles\Superdettagli_15k.xlsx" />
+    <None Include="TestFiles\SourceFiles\Superdettagli_240.xlsx" />
     <None Include="TestFiles\SourceFiles\Superdettagli_30k.xlsx" />
     <None Include="TestFiles\SourceFiles\Superdettagli_60k.xlsx" />
     <None Include="TestFiles\SourceFiles\Superdettagli_Light.xlsx">

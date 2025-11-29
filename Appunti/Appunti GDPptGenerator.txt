@@ -35,6 +35,7 @@ Microsoft Excel 15.0
 
 
 -------------------- Domande per Francesco
+- Predisporre ulteriori colonne per formule?
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Rinominare "pivot di appoggio" in qualcosa tipo "Pivot Anno Prima Marcatura"
 - Rivedere nomi colonne in rosso
