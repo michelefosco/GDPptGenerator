@@ -11,6 +11,7 @@ File di input:
 	2) Budget			Leggero, gemello di Forecast
 	3) Forecast			Leggero, gemello di Budget
 	4) Ran Rate			1 riga con i 12 mesi
+	5) CN43N			(opzionale)
 -----
 Folders
 C:\Data\Lefo\Dev\3 GDPptGenerator\AAA Files for demo\Input files\
@@ -39,59 +40,24 @@ Microsoft Excel 15.0
 - Rivedere nomi colonne in rosso
 
 
+
 -------------------- Todo
-- Valirare CN43N.xlsx selenction file checking the headers?
-- Inidividuare prima riga e colonna di Budget e Forecast basato sulla posizione delle 2 celle
-- Pulsante TryAgain in caso di eccezione nella generazione della presentazione per mancanza immagini?
 - Creazione items nel datasource
 - Test con formule
 - Test con filtri
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
 - Aggiornare la sorgente dati dei grafici e pivots con ultima riga delle tabelle
 - Creazione di un file HTML con le informazioni sulle formule
-
 - Add logging
 - Rivedere nomi steps e aggiungere commento in cima alla classe
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
 - Ripristinare funzionalità dello Step clean up con cancellazione delle cartella temporanea
-
+- Se la configurazione non ha neanche una presentazione come output non parto
 
 
 
 (Opzionali o per proposte successive)
-- thread separato per generazione presentazione in editor
-- DebugInfoLogger oggetto base in EPPLus helper
-- zip del file?
 - Aggiungere testo "Possibile soluzione" come properties di ManagedExpetion?
-- Se la configurazione non ha neanche una presentazione come output non parto
 - Unit tests per Aliases
-
-
-
-
-
-
-        public void RefreshAllExcel(string filePath)
-        {
-            var excelApp = new Microsoft.Office.Interop.Excel.Application();
-            excelApp.Visible = false;
-            excelApp.DisplayAlerts = false;
-
-            Microsoft.Office.Interop.Excel.Workbook wb = excelApp.Workbooks.Open(filePath);
-
-            // Refresh All (connessioni, tabelle, PQ, Pivot, tutto)
-            wb.RefreshAll();
-
-            // Attendi che Excel finisca i refresh
-            excelApp.CalculateUntilAsyncQueriesDone();
-
-            // Salva e chiudi
-            wb.Save();
-            wb.Close(false);
-            excelApp.Quit();
-
-            // Rilascio COM (importantissimo)
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
-        }
+- Inidividuare prima riga e colonna di Budget e Forecast basato sulla posizione delle 2 celle

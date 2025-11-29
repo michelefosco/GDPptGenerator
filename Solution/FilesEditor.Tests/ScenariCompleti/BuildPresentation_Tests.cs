@@ -84,7 +84,7 @@ namespace FilesEditor.Tests
             return Editor.BuildPresentation(input);
         }
 
-        private void CheckResults(BuildPresentationOutput output, string dataSourceFilePath, string tmpFolder, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate)
+        private void CheckResults(BuildPresentationOutput output, string dataSourceFilePath, string tmpFolder, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroRigheCN43N, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate)
         {
             // test base
             Assert.IsNotNull(output);
@@ -110,16 +110,25 @@ namespace FilesEditor.Tests
 
 
             const int offSetIntestazioneBudget = 2;
-            Assert.AreEqual(offSetIntestazioneBudget + numeroRigheBudget, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_BUDGET_DATA, 1, 1) - 1);
+            Assert.AreEqual(offSetIntestazioneBudget + numeroRigheBudget + 1,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_BUDGET_DATA, offSetIntestazioneBudget, 1));
             //
             const int offSetIntestazioneForecast = 2;
-            Assert.AreEqual(offSetIntestazioneForecast + numeroRigheForecast, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_FORECAST_DATA, 1, 1) - 1);
+            Assert.AreEqual(offSetIntestazioneForecast + numeroRigheForecast + 1,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_FORECAST_DATA, offSetIntestazioneForecast, 1));
             //
             const int offSetIntestazioneRunRate = 1;
-            Assert.AreEqual(offSetIntestazioneRunRate + numeroRigheRunRate, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_RUN_RATE_DATA, 1, 1) - 1);
+            Assert.AreEqual(offSetIntestazioneRunRate + numeroRigheRunRate + 1,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_RUN_RATE_DATA, offSetIntestazioneRunRate, 1));
             //
             const int offSetIntestazioneSuperdettagli = 2;
-            Assert.AreEqual(offSetIntestazioneSuperdettagli + numeroRigheSuperdettagli, ePPlusHelper.GetFirstEmptyRow(FilesEditor.Constants.WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
+            Assert.AreEqual(offSetIntestazioneSuperdettagli + numeroRigheSuperdettagli + 1,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, offSetIntestazioneSuperdettagli, 1));
+            //
+            const int offSetIntestazioneRigheCN43N = 1;
+            Assert.AreEqual(offSetIntestazioneRigheCN43N + numeroRigheCN43N + 1,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_CN43N_DATA, offSetIntestazioneRigheCN43N, 1));
+
         }
 
 
@@ -143,6 +152,7 @@ namespace FilesEditor.Tests
                 numeroRigheForecast: 34,
                 numeroRigheSuperdettagli: 1000,
                 numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -168,6 +178,7 @@ namespace FilesEditor.Tests
                 numeroRigheForecast: 34,
                 numeroRigheSuperdettagli: 1000 + 5, // 4 righe con anni diversi dal 2025
                 numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -216,6 +227,7 @@ namespace FilesEditor.Tests
                 numeroRigheForecast: 34,
                 numeroRigheSuperdettagli: 1000,
                 numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -263,6 +275,7 @@ namespace FilesEditor.Tests
                 numeroRigheForecast: 7,
                 numeroRigheSuperdettagli: 1000,
                 numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -310,6 +323,7 @@ namespace FilesEditor.Tests
                 numeroRigheForecast: 4,
                 numeroRigheSuperdettagli: 1000,
                 numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -358,6 +372,7 @@ namespace FilesEditor.Tests
                 numeroRigheForecast: 1,
                 numeroRigheSuperdettagli: 1000,
                 numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
