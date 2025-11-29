@@ -1,4 +1,4 @@
-﻿using ExcelImageExtractors.Interfaces;
+﻿using ExcelImageExtractors.Helpers;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Drawing.Imaging;
@@ -9,47 +9,44 @@ using System.Windows.Forms; // Per Clipboard
 
 namespace ExcelImageExtractors
 {
-    public class ImageExtractor_Interop : IImageExtractor
+    public class ImageExtractor
     {
         readonly Microsoft.Office.Interop.Excel.Application excelApp = null;
         Workbook workbook = null;
         Worksheet worksheet = null;
 
-        public ImageExtractor_Interop(string excelFilePath)
+        public ImageExtractor(string excelFilePath)
         {
             excelApp = new Microsoft.Office.Interop.Excel.Application
             {
                 Visible = false,
                 DisplayAlerts = false,
-                ScreenUpdating = false,
+                //ScreenUpdating = false, //non usare, disabilita la creazione delle immagini
                 //Calculation = XlCalculation.xlCalculationManual
             };
-            ExcelInterops_Helper.WaitForExcelReady(excelApp);
+            InteropServices_Helper.WaitForExcelReady(excelApp);
 
-            ExcelInterops_Helper.PrioritizeExcelProcess();
+            InteropServices_Helper.PrioritizeExcelProcess();
 
-            ExcelInterops_Helper.RetryComCall(() => workbook = excelApp.Workbooks.Open(excelFilePath));
-            ExcelInterops_Helper.RetryComCall(() => workbook.RefreshAll());
-            ExcelInterops_Helper.RetryComCall(() => excelApp.CalculateUntilAsyncQueriesDone());
-
-            //todo: decidere se salvare o no il file dopo i refresh, potrebbe essere utile ma durate molto
-            ExcelInterops_Helper.RetryComCall(() => workbook.Save());
+            InteropServices_Helper.RetryComCall(() => workbook = excelApp.Workbooks.Open(excelFilePath));
+            InteropServices_Helper.RetryComCall(() => workbook.RefreshAll());
+            InteropServices_Helper.RetryComCall(() => excelApp.CalculateUntilAsyncQueriesDone());
         }
 
-        public void TryToExportToImageFileOnFileSystem(string workSheetName, string rangeAddress, string destinationPath)
+        public void ExportToImageFileOnFileSystem(string workSheetName, string rangeAddress, string destinationPath)
         {
             Range range = null;
             try
             {
                 // seleziono il foglio
-                worksheet = workbook.Sheets[workSheetName];
+                InteropServices_Helper.RetryComCall(() => worksheet = workbook.Sheets[workSheetName]);
 
                 // seleziono il range
-                range = worksheet.Range[rangeAddress];
+                InteropServices_Helper.RetryComCall(() => range = worksheet.Range[rangeAddress]);
 
                 // copio il range come immmagine nella Clipboard
-                range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap);
-
+                InteropServices_Helper.RetryComCall(() => range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap));
+               
                 // A volta l'immagine non è immediatamente disponibile nella Clipboard, quindi asppeto qualche millisecondo e riprovo
                 for (int attemptNumber = 1; attemptNumber <= 5; attemptNumber++)
                 {
@@ -88,6 +85,11 @@ namespace ExcelImageExtractors
                 if (worksheet != null)
                 { Marshal.ReleaseComObject(worksheet); }
             }
+        }
+
+        public void Save()
+        {
+            InteropServices_Helper.RetryComCall(() => workbook.Save());
         }
 
         public void Close()

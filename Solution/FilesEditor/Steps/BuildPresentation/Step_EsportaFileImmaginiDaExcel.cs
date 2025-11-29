@@ -56,7 +56,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
             for (int attemptNumber = 1; attemptNumber <= maxNumberOfAttempts; attemptNumber++)
             {
-                var imageExtractor = new ExcelImageExtractors.ImageExtractor_Interop(Context.DataSourceFilePath);  // Interop
+                var imageExtractor = new ExcelImageExtractors.ImageExtractor(Context.DataSourceFilePath);  // Interop
                 //var imageExtractor = new ExcelImageExtractors.ImageExtractor_Aspose(Context.DataSourceFilePath);  // Aspose.Cell
 
                 // Processo tutti gli elementi non ancora presenti sul file system
@@ -64,7 +64,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 {
                     var startTime = DateTime.UtcNow;
                     // tento di generare il file, alcune volte potrebbe non funzionare al primo tentativo
-                    imageExtractor.TryToExportToImageFileOnFileSystem(itemToExportAsImage.WorkSheetName, itemToExportAsImage.PrintArea, itemToExportAsImage.ImageFilePath);
+                    imageExtractor.ExportToImageFileOnFileSystem(itemToExportAsImage.WorkSheetName, itemToExportAsImage.PrintArea, itemToExportAsImage.ImageFilePath);
                     var endTime = DateTime.UtcNow;
 
 
@@ -83,6 +83,9 @@ namespace FilesEditor.Steps.BuildPresentation
                         (endTime - startTime)
                         );
                 }
+
+                // Salvo le modfiche legare al "Refresh All" di Excel
+                imageExtractor.Save();
 
                 // rilascio le risorse e chiudo il processo di Excel
                 imageExtractor.Close();

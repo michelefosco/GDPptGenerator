@@ -4,12 +4,11 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 
-namespace ExcelImageExtractors
+namespace ExcelImageExtractors.Helpers
 {
-    internal class ExcelInterops_Helper
+    internal class InteropServices_Helper
     {
         const uint RPC_E_CALL_REJECTED = 0x80010001;
-
 
         static internal void PrioritizeExcelProcess()
         {

@@ -62,3 +62,18 @@ Microsoft Excel 15.0
 - Aggiungere testo "Possibile soluzione" come properties di ManagedExpetion?
 - Unit tests per Aliases
 - Inidividuare prima riga e colonna di Budget e Forecast basato sulla posizione delle 2 celle
+
+
+
+
+
+
+
+
+
+
+
+(in più)
+- File CN43N
+- Append/sostiutisci di superdettagli
+- Anno
