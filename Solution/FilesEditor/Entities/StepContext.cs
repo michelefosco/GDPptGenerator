@@ -137,6 +137,8 @@ namespace FilesEditor.Entities
 
         public List<string> Warnings { get; private set; }
 
+        public TimeSpan ElapsedTime { get; set; }
+
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
         public List<AliasDefinition> AliasDefinitions_Business { get; private set; }

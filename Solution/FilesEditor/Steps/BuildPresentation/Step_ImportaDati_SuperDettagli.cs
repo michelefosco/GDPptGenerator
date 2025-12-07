@@ -102,10 +102,12 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             #region Aggiungo o elimino righe nella tabella di destinazione per fare spazio alle righe da importare (o evenutalmente rimuovere quelle non più necessarie in quanto ho meno righe da importare di quelle da sostituire)
-            //var numeroRigheDaEliminare = 0;
             if (numeroRigheDaImportareDaSorgente == numeroRigheDestinazione_DaRiusareOppureCancellare)
             {
                 // nessuna riga da aggiungere o eliminare, sostituisco tutte le righe attuali con le nuove
+                infoRowsDestinazione.Aggiunte = 0;
+                infoRowsDestinazione.Riutilizzate = numeroRigheDestinazione_DaRiusareOppureCancellare;
+                infoRowsDestinazione.Eliminate = 0;
             }
 
             if (numeroRigheDaImportareDaSorgente > numeroRigheDestinazione_DaRiusareOppureCancellare)

@@ -133,6 +133,7 @@ namespace FilesEditor
 
         private static void RunStepSequence(List<StepBase> stepsSequence, StepContext stepContext)
         {
+            var startTime = DateTime.Now;
             foreach (var step in stepsSequence)
             {
                 var esitoStep = step.DoStepTask();
@@ -140,6 +141,7 @@ namespace FilesEditor
                 // Se ho un esito effettuo le ultime operazioni sullo StepContext e interrompo l'esecuzione
                 if (esitoStep != EsitiFinali.Undefined)
                 {
+                    stepContext.ElapsedTime = DateTime.Now - startTime;
                     stepContext.SettaEsitoFinale(esitoStep);
                     stepContext.DebugInfoLogger.Beautify();
                     return;

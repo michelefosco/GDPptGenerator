@@ -799,6 +799,7 @@ namespace PptGeneratorGUI
             buildPresentation();
         }
 
+        const string AppTitle = "PowerPoint Generator";
         private void buildPresentation()
         {
             ClearOutputArea();
@@ -814,6 +815,8 @@ namespace PptGeneratorGUI
             lblElaborazioneInCorso.Visible = true;
             lblResults.Visible = false;
             Application.DoEvents();
+
+            this.Text = AppTitle + " - Processing in progress...";
 
             var buildPresentationInput = new UpdataDataSourceAndBuildPresentationInput(
                 // proprietà classe base
@@ -836,18 +839,20 @@ namespace PptGeneratorGUI
 
             try
             {
-                //buildPresentationBackgroundWorker.RunWorkerAsync(buildPresentationInput);
                 Application.DoEvents();
                 var output = Editor.UpdataDataSourceAndBuildPresentation(buildPresentationInput);
-                //  toolStripProgressBar.Visible = false;
+
+                //
                 btnBuildPresentation.Enabled = true;
                 lblElaborazioneInCorso.Visible = false;
                 lblResults.Visible = true;
+                this.Text = AppTitle;
                 Application.DoEvents();
+                //
 
                 if (output.Esito == EsitiFinali.Success)
                 {
-                    string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
+                    string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings, output.ElapsedTime);
                     SetOutputMessage(message);
                     SetStatusLabel("Processing completed successfully");
                 }
@@ -861,9 +866,14 @@ namespace PptGeneratorGUI
             }
             catch (Exception ex)
             {
+                //
                 btnBuildPresentation.Enabled = true;
                 lblElaborazioneInCorso.Visible = false;
                 lblResults.Visible = true;
+                this.Text = AppTitle;
+                Application.DoEvents();
+                //
+
                 showExpetion(ex);
             }
         }
@@ -959,7 +969,7 @@ namespace PptGeneratorGUI
             SetOutputMessage(HTML_Message_Helper._newlineHTML);
         }
 
-        private string CreateOutputMessageSuccessHTML(string debugFilePath, List<string> outputFilePathLists, List<string> warnings)
+        private string CreateOutputMessageSuccessHTML(string debugFilePath, List<string> outputFilePathLists, List<string> warnings, TimeSpan elapsedTime)
         {
             string outputMessage = HTML_Message_Helper.GetHTMLGreenText(HTML_Message_Helper.GetHTMLBold("Processing completed successfully"));
             outputMessage += HTML_Message_Helper._newlineHTML;
@@ -982,8 +992,7 @@ namespace PptGeneratorGUI
             outputMessage += HTML_Message_Helper._newlineHTML;
             outputMessage += HTML_Message_Helper.GetHTMLHyperLink(outputfolder, outputfolder);
 
-
-            // link al file di debug
+            // Link al file di debug
             if (IsDebugModeEnabled())
             {
                 outputMessage += HTML_Message_Helper._newlineHTML;
@@ -993,6 +1002,7 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFilePath, debugFilePath);
             }
 
+            // Warnings
             if (warnings.Count > 0)
             {
                 outputMessage += HTML_Message_Helper._newlineHTML;
@@ -1000,29 +1010,12 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper.GeneraHtmlPerWarning(warnings);
             }
 
-
-            //if (righeSkippate != null && righeSkippate.Count > 0)
-            //{
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += GetHTMLBold("Attenzione, Alcune righe sono state scartate.");
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += GetHTMLBold("Maggiori dettagli nel file di debug o di seguito.");
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += _newlineHTML;
-            //    outputMessage += GetHTMLMoreDetailLink($"Mostra maggiori dettagli ({righeSkippate.Count})");
-            //    outputMessage += _newlineHTML;
-
-            //    string moreDetails = string.Empty;
-            //    foreach (RigaSpeseSkippata rigaSkippata in righeSkippate)
-            //    {
-            //        moreDetails += $"Nome foglio: {rigaSkippata.Foglio}, Cella: {((ColumnIDS)rigaSkippata.Colonna).ToString()}{rigaSkippata.Riga}, Dato: \"{rigaSkippata.DatoNonValido}\"";
-            //        moreDetails += _newlineHTML;
-            //    }
-
-            //    outputMessage += GetInvisibleSPAN(moreDetails);
-            //}
+            // ElapsedTime
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper.GetHTMLBold($"ElapsedTime:");
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += $"{elapsedTime.ToString(@"hh\:mm\:ss")}";
 
             return outputMessage;
         }
