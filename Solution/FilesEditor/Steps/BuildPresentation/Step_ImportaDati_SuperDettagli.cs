@@ -272,10 +272,18 @@ namespace FilesEditor.Steps.BuildPresentation
 
             #region Log delle informazioni sulle righe
             infoRowsDestinazione.Finali = destWorksheet.Dimension.End.Row - destHeadersRow;
-            infoRowsDestinazione.VerificaCoerenzaValori();
             Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.SuperDettagli, infoRowsDestinazione);
             #endregion
-                        
+
+            #region Just for debug: verifico che le righe copiate siano corrette
+            infoRowsDestinazione.VerificaCoerenzaValori();
+            var numeroRigheConAnnoCorrente = GetListaValoriAnno(destWorksheet).Count(_ => string.Equals(_, periodYearString, StringComparison.Ordinal));
+            if (numeroRigheConAnnoCorrente != numeroRigheDaImportareDaSorgente)
+            {
+                throw new Exception($"The number of rows with year '{periodYearString}' in the destination sheet ({numeroRigheConAnnoCorrente}) does not match the number of rows imported from source ({numeroRigheDaImportareDaSorgente}).");
+            }
+            #endregion
+
             Context.SuperdettagliFileEPPlusHelper.Close();
 
             GC.Collect();

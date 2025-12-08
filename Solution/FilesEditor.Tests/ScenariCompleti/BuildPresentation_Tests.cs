@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 
 namespace FilesEditor.Tests
 {
@@ -84,7 +85,7 @@ namespace FilesEditor.Tests
             return Editor.UpdataDataSourceAndBuildPresentation(input);
         }
 
-        private void CheckResults(UpdataDataSourceAndBuildPresentationOutput output, string dataSourceFilePath, string tmpFolder, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroRigheCN43N, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate)
+        private void CheckResults(UpdataDataSourceAndBuildPresentationOutput output, string dataSourceFilePath, string tmpFolder, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroRigheCN43N, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate, int numeroRigheAnnoCorrente)
         {
             // test base
             Assert.IsNotNull(output);
@@ -122,13 +123,23 @@ namespace FilesEditor.Tests
                             ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_RUN_RATE_DATA, offSetIntestazioneRunRate, 1));
             //
             const int offSetIntestazioneSuperdettagli = 2;
+            var numeroRigheInSuperdettagliInput = ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, offSetIntestazioneSuperdettagli, 1);
             Assert.AreEqual(offSetIntestazioneSuperdettagli + numeroRigheSuperdettagli + 1,   // expected
-                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, offSetIntestazioneSuperdettagli, 1));
+                            numeroRigheInSuperdettagliInput);
             //
             const int offSetIntestazioneRigheCN43N = 1;
             Assert.AreEqual(offSetIntestazioneRigheCN43N + numeroRigheCN43N + 1,   // expected
                             ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_CN43N_DATA, offSetIntestazioneRigheCN43N, 1));
 
+            // verifico il numero di righe con l'anno corrispondente al periodo selezionato
+            var ws = ePPlusHelper.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA];
+            Assert.AreEqual(numeroRigheAnnoCorrente, // Expected
+                            ws.Cells[2, // Prima riga,
+                                        2,  // Colonna Anno
+                                        ws.Dimension.End.Row, //Ultima riga
+                                        2  // Colonna Anno
+                                        ].Select(c => c.Text).Count(_ => string.Equals(_, _PeriodDate.Year.ToString(), StringComparison.Ordinal)) // Actual
+            );
         }
 
 
@@ -156,7 +167,9 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 2
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 1000
                 );
         }
 
@@ -182,7 +195,9 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 2
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 1000
                 );
         }
 
@@ -231,7 +246,9 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 2
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 1000
                 );
         }
 
@@ -279,7 +296,9 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 2
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 1000
                 );
         }
 
@@ -327,7 +346,9 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 2
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 1000
                 );
         }
 
@@ -376,7 +397,9 @@ namespace FilesEditor.Tests
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
-                numeroPresentazioniGenerate: 2
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 1000
                 );
         }
     }

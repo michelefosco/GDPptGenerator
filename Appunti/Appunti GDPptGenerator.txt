@@ -49,28 +49,17 @@ Librerie usate
 -------------------- Todo
 - investigate on memory leak
 - Rinominare "pivot di appoggio" in qualcosa tipo "Pivot Anno Prima Marcatura"
-- Priority for x64
 - Improve memory with usinng and other things
-- Testare con input superdettagli da 40k
-- Aggiungere Tempo impiegato nell'outup
 - Miminimizzare e massimizzare finestra dopo il lascio e fine esecuzione
-- Aggiungere e togliere qualcosa dal titolo durante l'esecuzione
 - Progress bar o hide
-- Rimuovere NuGet not needed for X64
-- Preparare file Datasoruce di dimensioni progressive
-- Preparare file SuperDettagli simile a quello di fine anno
 - Testare applicazione filtri
 - More tests
+- Add unit tests per più combinazioni di input (append or not)
 - Remove empty rows in Superdettagli
 - Rivedere logica per i filtri...
-- Restituire dimensioni file dopo la validazione?
-- Applicare stessa logica del campo anno anche per i filtri sulle colonne
-- suddividre il copia e incolla di superdettagli in blocchi da 10.000 elementi?
-- Add unit tests per più combinazioni di input (append or not)
 - Aggiungere elementi grafici e pivot tables
 - Creazione items nel datasource
 - Agginugere testo al messaggio di Chiudere il processo Excel tramite il task manager
-- Ottimizzazion tipo Epplus in readonly? Usare librerie specializzate nella lettura di file excel quali ExcelDataReader ?
 - Test con formule
 - Test con filtri
 - Far girare il codice aggiornando il "Datasoruce" con dei dati reali per poter poi costruire per bene i grafici
@@ -84,8 +73,8 @@ Librerie usate
 - Se la configurazione non ha neanche una presentazione come output non parto
 ()
 - Test files with many block to delete/replace
-
-
+- Applicare stessa logica del campo anno anche per i filtri sulle colonne?
+- suddividre il copia e incolla di superdettagli in blocchi da 10.000 elementi?
 
 
 
