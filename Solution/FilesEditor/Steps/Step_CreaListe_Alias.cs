@@ -97,10 +97,7 @@ namespace FilesEditor.Steps
                                     errorType: ErrorTypes.DuplicateValue,
                                     userMessage: $"The alias '{rawValueSplittato}' is declared more than once in the worksheet '{worksheetName}'.");
                     }
-
-                    aliases.Add(new AliasDefinition(
-                        rawValue: rawValueSplittato,
-                        newValue: newValue));
+                    aliases.Add(new AliasDefinition(rawValue: rawValueSplittato, newValue: newValue));
                 }
             }
 

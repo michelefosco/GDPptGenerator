@@ -51,8 +51,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
             var destHeadersRow = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW;
             var destHeadersFirstColumn = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL;
 
-            //var superDettagliEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(Context.FileSuperDettagliPath, FileTypes.SuperDettagli);
-
             // Controllo che ci sia il foglio da cui leggere i dati
             EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.SuperdettagliFileEPPlusHelper, sourceWorksheetName, FileTypes.SuperDettagli);
 

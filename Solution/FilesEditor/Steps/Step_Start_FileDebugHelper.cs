@@ -32,12 +32,12 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            Dtart_DebugInfoLogger();
+            Start_DebugInfoLogger();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void Dtart_DebugInfoLogger()
+        private void Start_DebugInfoLogger()
         {
             FilesAndDirectoriesUtilities.CancellaFileSeEsiste(Context.DebugFilePath, FileTypes.Debug);
             Context.SetDebugInfoLogger(new DebugInfoLogger(Context.DebugFilePath, Context.Configurazione.AutoSaveDebugFile));

@@ -43,8 +43,9 @@ namespace FilesEditor.Steps.BuildPresentation
             // predisponco la cartella per il backup
             var sourceFilesFolder = Path.GetDirectoryName(Context.DataSourceFilePath);
             var backupFolder = Path.Combine(sourceFilesFolder, Constants.FolderNames.DATASOURCE_FILES_BACKUP_FOLDER);
-            FilesAndDirectoriesUtilities.CreaDirectorySeNonEsiste(backupFolder); // creo la cartella            
 
+            // Creo la cartella se non esiste
+            FilesAndDirectoriesUtilities.CreaDirectorySeNonEsiste(backupFolder);
 
             if (Context.Configurazione.ZipBackupFile)
             {

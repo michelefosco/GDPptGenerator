@@ -130,16 +130,14 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
             #region Leggo la lista degli headers richiesti per il dataSource (ovvero le intestazione delle colonne da leggere dai file di input)
             var expectedHeadersColumns = ovverideExpectedHeadersColumns
-                                ?? Context.DataSourceEPPlusHelper.GetHeadersFromRow(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn, true);
+                                      ?? Context.DataSourceEPPlusHelper.GetHeadersFromRow(datasourceWorksheetName, datasourceWorksheetHeadersRow, datasourceWorksheetHeadersFirstColumn, true);
             #endregion
 
             #region Verifico che il foglio di input abbia il foglio con tutti gli headers richiesti
             //var sourceFileEPPlusHelper = EPPlusHelperUtilities.GetEPPlusHelperForExistingFile(sourceFilePath, sourceFileType);
             // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
             if (string.IsNullOrWhiteSpace(sourceFileWorksheetName))
-            {
-                sourceFileWorksheetName = sourceFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1].Name;
-            }
+            { sourceFileWorksheetName = sourceFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1].Name; }
 
 
             // Controllo che ci sia il foglio da cui leggere i dati

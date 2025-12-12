@@ -54,7 +54,7 @@ namespace FilesEditor.Steps.BuildPresentation
             var valoriColonnaAnnoRigheDaValutare = new List<string>();
             var periodYearString = Context.PeriodYear.ToString();
             var infoRowsDestinazione = new InfoRows();  // Variabili per il conteggio delle righe elaborate
-    
+
 
             #region Lettura degli headers del foglio sorgente e foglio destinazione
             var destHeaders = Context.DataSourceEPPlusHelper.GetHeadersFromRow(destWorksheetName, destHeadersRow, destHeadersFirstColumn, true).Select(_ => _.ToLower()).ToList();
@@ -84,7 +84,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 return; // interrompo l'esecuzione
             }
             #endregion
-          
+
 
             #region Calcolo il numero di righe da riusare o cancellare nella tabella di destinazione
             int numeroRigheDestinazione_DaRiusareOppureCancellare = 0;
@@ -165,82 +165,12 @@ namespace FilesEditor.Steps.BuildPresentation
 
             if (Context.AppendCurrentYear_FileSuperDettagli)
             {
-                int indicePrimaRigaSorgente = sourceHeadersRow + 1;
-                int IndicePrimaRigaDestinazione = -1;
-                int NumeroRigheNelBlocco = 0;
-
-                int conteggioNumeroCopiate = 0;
-
-
-                for (var soruceRowsOffsetZeroBased = 0; soruceRowsOffsetZeroBased <= valoriColonnaAnnoRigheDaValutare.Count - 1; soruceRowsOffsetZeroBased++)
-                {
-                    // Individuo le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
-                    var valoreAnnoRigaCorrente = valoriColonnaAnnoRigheDaValutare[soruceRowsOffsetZeroBased];
-                    if (string.Equals(valoreAnnoRigaCorrente, periodYearString, StringComparison.Ordinal) || string.IsNullOrEmpty(valoreAnnoRigaCorrente))
-                    {
-                        // La riga corrente appartitente ad un blocco da copiare determino se la riga inizia un nuovo blocco o continua uno già iniziato
-                        if (IndicePrimaRigaDestinazione == -1)
-                        {
-                            // ho individuato un nuovo blocco di righe da riempire
-                            IndicePrimaRigaDestinazione = destHeadersRow + 1 + soruceRowsOffsetZeroBased;
-                            NumeroRigheNelBlocco = 1;
-                        }
-                        else
-                        {
-                            // il blocco precedentemente individuato continua
-                            NumeroRigheNelBlocco++;
-                        }
-                    }
-                    else
-                    {
-                        // questa riga non appartienre da un blocco, determino se ha interroto un blocco già iniziato
-                        if (NumeroRigheNelBlocco > 0)
-                        {
-                            // c'era un blocco in corso, lo aggiungo
-                            blocchiDaRiempire.Add(new InfoBloccoDaCopiare
-                            {
-                                IndicePrimaRigaSorgente = indicePrimaRigaSorgente,
-                                IndicePrimaRigaDestinazione = IndicePrimaRigaDestinazione,
-                                NumeroRigheNelBlocco = NumeroRigheNelBlocco
-                            });
-                            indicePrimaRigaSorgente += NumeroRigheNelBlocco;
-
-                            
-                            conteggioNumeroCopiate += NumeroRigheNelBlocco;
-                        }
-
-                        // resetto gli indici del blocco
-                        NumeroRigheNelBlocco = 0;
-                        IndicePrimaRigaDestinazione = -1;
-                    }
-                }
-
-                // verifico alla fine dei dati c'èera un blocco in corso
-                if (NumeroRigheNelBlocco > 0)
-                {
-                    // c'era un blocco in corso, lo aggiungo
-                    blocchiDaRiempire.Add(new InfoBloccoDaCopiare
-                    {
-                        IndicePrimaRigaSorgente = indicePrimaRigaSorgente,
-                        IndicePrimaRigaDestinazione = IndicePrimaRigaDestinazione,
-                        NumeroRigheNelBlocco = NumeroRigheNelBlocco
-                    });
-
-                    //todo: queste istruzioni non sono realmente necessarie
-                    // resetto gli indici del blocco
-                    NumeroRigheNelBlocco = 0;
-                    IndicePrimaRigaDestinazione = -1;
-                }
+                blocchiDaRiempire = GetBlocchiRigheDaRiempire(valoriColonnaAnnoRigheDaValutare, periodYearString);
             }
             else
             {
-                // copiare tutte le righe indiscriminatamente
                 // A questo punto il numero di righe da importare è esattamente uguale al numero di righe presenti nella tabella di destinazione
-                var primaRigaDelBloccoSorgente = sourceHeadersRow + 1;
-                var ultimaRigaDelBloccoSorgente = sourceWorksheet.Dimension.End.Row;
-                var primaRigaDelBloccoDestinazione = destHeadersRow + 1;
-                var ultimaRigaDelBloccoDestinazione = destWorksheet.Dimension.End.Row;
-
+                // Copio tutte le righe indiscriminatamente in un unico blocco
                 blocchiDaRiempire.Add(new InfoBloccoDaCopiare
                 {
                     IndicePrimaRigaSorgente = sourceHeadersRow + 1,
@@ -288,6 +218,78 @@ namespace FilesEditor.Steps.BuildPresentation
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        private List<InfoBloccoDaCopiare> GetBlocchiRigheDaRiempire(List<string> valoriColonnaAnnoRigheDaValutare, string periodYearString)
+        {
+            var sourceHeadersRow = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW;
+            var destHeadersRow = Context.Configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW;
+
+            var blocchiDaRiempire = new List<InfoBloccoDaCopiare>();
+
+            int indicePrimaRigaSorgente = sourceHeadersRow + 1;
+            int IndicePrimaRigaDestinazione = -1;
+            int NumeroRigheNelBlocco = 0;
+
+            int conteggioNumeroCopiate = 0;
+
+
+            for (var soruceRowsOffsetZeroBased = 0; soruceRowsOffsetZeroBased <= valoriColonnaAnnoRigheDaValutare.Count - 1; soruceRowsOffsetZeroBased++)
+            {
+                // Individuo le righe il cui valore nella cella "anno" è uguale a Context.PeriodYear
+                var valoreAnnoRigaCorrente = valoriColonnaAnnoRigheDaValutare[soruceRowsOffsetZeroBased];
+                if (string.Equals(valoreAnnoRigaCorrente, periodYearString, StringComparison.Ordinal) || string.IsNullOrEmpty(valoreAnnoRigaCorrente))
+                {
+                    // La riga corrente appartitente ad un blocco da copiare determino se la riga inizia un nuovo blocco o continua uno già iniziato
+                    if (IndicePrimaRigaDestinazione == -1)
+                    {
+                        // ho individuato un nuovo blocco di righe da riempire
+                        IndicePrimaRigaDestinazione = destHeadersRow + 1 + soruceRowsOffsetZeroBased;
+                        NumeroRigheNelBlocco = 1;
+                    }
+                    else
+                    {
+                        // il blocco precedentemente individuato continua
+                        NumeroRigheNelBlocco++;
+                    }
+                }
+                else
+                {
+                    // questa riga non appartienre da un blocco, determino se ha interroto un blocco già iniziato
+                    if (NumeroRigheNelBlocco > 0)
+                    {
+                        // c'era un blocco in corso, lo aggiungo
+                        blocchiDaRiempire.Add(new InfoBloccoDaCopiare
+                        {
+                            IndicePrimaRigaSorgente = indicePrimaRigaSorgente,
+                            IndicePrimaRigaDestinazione = IndicePrimaRigaDestinazione,
+                            NumeroRigheNelBlocco = NumeroRigheNelBlocco
+                        });
+                        indicePrimaRigaSorgente += NumeroRigheNelBlocco;
+
+
+                        conteggioNumeroCopiate += NumeroRigheNelBlocco;
+                    }
+
+                    // resetto gli indici del blocco
+                    NumeroRigheNelBlocco = 0;
+                    IndicePrimaRigaDestinazione = -1;
+                }
+            }
+
+            // verifico alla fine dei dati c'èera un blocco in corso
+            if (NumeroRigheNelBlocco > 0)
+            {
+                // c'era un blocco in corso, lo aggiungo
+                blocchiDaRiempire.Add(new InfoBloccoDaCopiare
+                {
+                    IndicePrimaRigaSorgente = indicePrimaRigaSorgente,
+                    IndicePrimaRigaDestinazione = IndicePrimaRigaDestinazione,
+                    NumeroRigheNelBlocco = NumeroRigheNelBlocco
+                });
+            }
+
+            return blocchiDaRiempire;
         }
 
         private void CopiaBloccoRigheDaSorgenteToDestinazione(ExcelWorksheet sourceWorksheet, int indicePrimaRigaSorgente, int numberRigheDaCopiare, int numeroDiColonneDaCopiare,
@@ -370,8 +372,6 @@ namespace FilesEditor.Steps.BuildPresentation
             {
                 var indexFirstRowOfTheBlock = indexLastRowOfTheBlock - numberOfRowsInTheBlock + 1;
                 CancellaBloccoDiRighe(destWorksheet, indexFirstRowOfTheBlock, numberOfRowsInTheBlock);
-                //numeroRigheAncoraDaEliminare -= numberOfRowsInTheBlock;
-                //numberOfRowsInTheBlock = 0;
             }
         }
 
@@ -486,6 +486,7 @@ namespace FilesEditor.Steps.BuildPresentation
             }
         }
 
+
         private void CancellaBloccoDiRighe(ExcelWorksheet destWorksheet, int indexFirstRowOfTheBlock, int numberOfRowsToBeDeleted)
         {
             // Numero iniziale di righe previsto dopo la cancellazione
@@ -531,18 +532,11 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void IncollaRange(ExcelRange sourceRange, ExcelRange destRange)
         {
-            var a = sourceRange.Rows;
-            var b = destRange.Rows;
-            if (a != b)
-            {
-                throw new Exception("Dimensione range errata (Rows)");
-            }
-            var c = sourceRange.Columns;
-            var d = destRange.Columns;
-            if (c != d)
-            {
-                throw new Exception("Dimensione range errata (Columns)");
-            }
+            if (sourceRange.Rows != destRange.Rows)
+            { throw new Exception("Dimensione range errata (Rows)"); }
+
+            if (sourceRange.Columns != destRange.Columns)
+            { throw new Exception("Dimensione range errata (Columns)"); }
 
 
             int numeroTentativiDisponibili = 5;
@@ -550,21 +544,21 @@ namespace FilesEditor.Steps.BuildPresentation
             {
                 try
                 {
-                    numeroTentativiDisponibili--;
                     destRange.Value = sourceRange.Value;
+                    return;
                 }
                 catch (Exception ex)
                 {
+                    numeroTentativiDisponibili--;
                     if (numeroTentativiDisponibili >= 1)
-                    {
+                    {                        
                         // Riprovo dopo una pausa
                         Thread.Sleep(1000);
                         continue;
                     }
 
                     // ho finito il numero di tentativi
-                    throw new Exception($"Unable to append paste a range o data from {sourceRange.Address} to {destRange.Address}.\n{ex.Message}");
-
+                    throw new Exception($"Unable to paste a range o data from {sourceRange.Address} to {destRange.Address}.\n{ex.Message}");
                 }
             }
         }
