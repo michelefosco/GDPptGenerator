@@ -429,7 +429,7 @@ namespace FilesEditor.Tests
             SettaDefaults();
 
             // Personalizzazione parametri
-            //_fileDataSourceName = TestPaths.DATASOURCE_k230Stay_k40Go_FILENAME;
+            _fileDataSourceName = TestPaths.DATASOURCE_k230Stay_k40Go_FILENAME;
             _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_F40;
 
 
