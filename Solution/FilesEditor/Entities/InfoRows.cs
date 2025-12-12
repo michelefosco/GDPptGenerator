@@ -62,7 +62,7 @@ namespace FilesEditor.Entities
 
             if (Finali != Iniziali - Eliminate + Aggiunte)
             {
-                throw new Exception("Errore nel calcolo delle righe finali");
+                throw new Exception($"Errore durante la verifica del numero di righe finali. Finali: {Finali} - Iniziali: {Iniziali} - Eliminate: {Eliminate} - Aggiunte {Aggiunte}");
             }
         }
     }
