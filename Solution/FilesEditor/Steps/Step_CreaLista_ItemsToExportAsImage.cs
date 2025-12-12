@@ -47,6 +47,10 @@ namespace FilesEditor.Steps
                 EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.DataSourceEPPlusHelper, imageId, FileTypes.DataSource);
 
                 var printArea = Context.DataSourceEPPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
+
+
+
+
                 // check sul campo "Print Area"
                 if (string.IsNullOrWhiteSpace(printArea))
                 {

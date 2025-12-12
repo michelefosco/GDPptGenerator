@@ -15,69 +15,68 @@ namespace FilesEditor.Tests
     [TestClass]
     public class BuildPresentation_Tests : BaseTest
     {
-        // properties base class
-        string _PowerPointTemplateFilePath;
-        string _DataSourceFolder;
-        string _DataSourceFilePath;
-        string _DestinationFolder;
-        string _TmpFolder;
-        string _DebugFilePath;
-        // properties specifiche di questo oggetto di input
-        string _FileBudgetPath;
-        string _FileForecastPath;
-        string _FileSuperDettagliPath;
-        string _FileRunRatePath;
-        string _FileCN43NPath;
-
-
-
+        string _fileDataSourceName;
+        //
+        string _fileBudgetName;
+        string _fileCN43NtName;
+        string _fileForecasttName;
+        string _fileRunRatetName;
+        string _fileSuperDettaglitName;
+        //
         bool _AppendCurrentYear_FileSuperDettagli;
         DateTime _PeriodDate;
         List<InputDataFilters_Item> _Applicablefilters;
 
         private void SettaDefaults()
         {
-            // properties base class
-            _PowerPointTemplateFilePath = Path.Combine(BinFolderPath, FileNames.POWERPOINT_TEMPLATE_FILENAME);
-
-            _DataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
-
-            //_DataSourceFilePath = Path.Combine(_DataSourceFolder, FileNames.DATASOURCE_FILENAME);
-            var dataSourceFilePathOriginale = Path.Combine(_DataSourceFolder, FileNames.DATASOURCE_FILENAME);
-            _DataSourceFilePath = Path.Combine(_DataSourceFolder, "test_" + FileNames.DATASOURCE_FILENAME);
-            File.Copy(dataSourceFilePathOriginale, _DataSourceFilePath, true);
-
-            _DestinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
-            _TmpFolder = Path.Combine(_DestinationFolder, TestPaths.TMP_FOLDER);
-            _DebugFilePath = Path.Combine(_DestinationFolder, TestPaths.OUTPUT_DEBUGFILE);
-
-            // properties specifiche di questo oggetto di input
-            _FileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
-            _FileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
-            _FileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE);
-            _FileRunRatePath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
-            _FileCN43NPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_CN43N_FILE);
-
-            _AppendCurrentYear_FileSuperDettagli = false;
+            _fileDataSourceName = TestPaths.DATASOURCE_005Stay_002Go_FILENAME;
+            //
+            _fileBudgetName = TestPaths.INPUT_BUDGET_FILE;
+            _fileCN43NtName = TestPaths.INPUT_CN43N_FILE;
+            _fileForecasttName = TestPaths.INPUT_FORECAST_FILE;
+            _fileRunRatetName = TestPaths.INPUT_RUNRATE_FILE;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_012;
+            //
+            _AppendCurrentYear_FileSuperDettagli = true;
             _PeriodDate = new DateTime(2025, 11, 2);
             _Applicablefilters = new List<InputDataFilters_Item>();
         }
 
         private UpdataDataSourceAndBuildPresentationOutput EseguiMetodo()
         {
+            var destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
+            var tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
+            var debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
+            //
+            var dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
+            var dataSourceFilePathOriginale = Path.Combine(dataSourceFolder, _fileDataSourceName);
+            var dataSourceFilePath = Path.Combine(dataSourceFolder, TestPaths.DATASOURCE_TEST_FILENAME);
+            File.Copy(dataSourceFilePathOriginale, dataSourceFilePath, true);
+            //
+            var inputFilesFolder = Path.Combine(TestFileFolderPath, TestPaths.INPUTFILES_FOLDER);
+            //
+            var fileBudgetPath = Path.Combine(inputFilesFolder, _fileBudgetName);
+            var fileCN43NPath = Path.Combine(inputFilesFolder, _fileCN43NtName);
+            var fleForecastPath = Path.Combine(inputFilesFolder, _fileForecasttName);
+            var fileRunRatePath = Path.Combine(inputFilesFolder, _fileRunRatetName);
+            var fileSuperDettagliPath = Path.Combine(inputFilesFolder, _fileSuperDettaglitName);
+            //
+            var powerPointTemplateFilePath = Path.Combine(BinFolderPath, FileNames.POWERPOINT_TEMPLATE_FILENAME);
+
             var input = new UpdataDataSourceAndBuildPresentationInput(
-                        dataSourceFilePath: _DataSourceFilePath,
-                        destinationFolder: _DestinationFolder,
-                        tmpFolder: _TmpFolder,
-                        debugFilePath: _DebugFilePath,
+                        dataSourceFilePath: dataSourceFilePath,
+                        destinationFolder: destinationFolder,
+                        tmpFolder: tmpFolder,
+                        debugFilePath: debugFilePath,
                         //
-                        fileBudgetPath: _FileBudgetPath,
-                        fileForecastPath: _FileForecastPath,
-                        fileSuperDettagliPath: _FileSuperDettagliPath,
-                        fileRunRatePath: _FileRunRatePath,
-                        fileCN43NPath: _FileCN43NPath,
+                        fileBudgetPath: fileBudgetPath,
+                        fileCN43NPath: fileCN43NPath,
+                        fileForecastPath: fleForecastPath,
+                        fileRunRatePath: fileRunRatePath,
+                        fileSuperDettagliPath: fileSuperDettagliPath,
                         //
-                        powerPointTemplateFilePath: _PowerPointTemplateFilePath,
+                        powerPointTemplateFilePath: powerPointTemplateFilePath,
+                        //
                         appendCurrentYear_FileSuperDettagli: _AppendCurrentYear_FileSuperDettagli,
                         periodDate: _PeriodDate,
                         applicablefilters: _Applicablefilters
@@ -85,8 +84,13 @@ namespace FilesEditor.Tests
             return Editor.UpdataDataSourceAndBuildPresentation(input);
         }
 
-        private void CheckResults(UpdataDataSourceAndBuildPresentationOutput output, string dataSourceFilePath, string tmpFolder, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroRigheCN43N, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate, int numeroRigheAnnoCorrente)
+        private void CheckResults(UpdataDataSourceAndBuildPresentationOutput output, int numeroRigheBudget, int numeroRigheForecast, int numeroRigheSuperdettagli, int numeroRigheRunRate, int numeroRigheCN43N, int numeroFilesFotoInTmpFolder, int numeroWarnings, int numeroPresentazioniGenerate, int numeroRigheAnnoCorrente)
         {
+            var destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
+            var tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
+            var dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
+            var dataSourceFilePath = Path.Combine(dataSourceFolder, TestPaths.DATASOURCE_TEST_FILENAME);
+
             // test base
             Assert.IsNotNull(output);
             Assert.IsNull(output.ManagedException);
@@ -156,12 +160,10 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                dataSourceFilePath: _DataSourceFilePath,
-                tmpFolder: _TmpFolder,
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 34,
                 numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 1000,
+                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
                 numeroRigheRunRate: 1,
                 numeroRigheCN43N: 12,
                 //
@@ -169,7 +171,7 @@ namespace FilesEditor.Tests
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 1000
+                numeroRigheAnnoCorrente: 12
                 );
         }
 
@@ -179,17 +181,15 @@ namespace FilesEditor.Tests
             SettaDefaults();
 
             // Personalizzazione parametri
-            _AppendCurrentYear_FileSuperDettagli = true;
+            _AppendCurrentYear_FileSuperDettagli = false;
 
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                dataSourceFilePath: _DataSourceFilePath,
-                tmpFolder: _TmpFolder,
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 34,
                 numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 1000 + 5, // 4 righe con anni diversi dal 2025
+                numeroRigheSuperdettagli: 0 + 12, // 0 stay from different years + 12 added by appending current year
                 numeroRigheRunRate: 1,
                 numeroRigheCN43N: 12,
                 //
@@ -197,12 +197,12 @@ namespace FilesEditor.Tests
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 1000
+                numeroRigheAnnoCorrente: 12
                 );
         }
 
         [TestMethod]
-        public void Scenario_OK_003()
+        public void Scenario_OK_WithFileds_001()
         {
             SettaDefaults();
 
@@ -235,12 +235,10 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                dataSourceFilePath: _DataSourceFilePath,
-                tmpFolder: _TmpFolder,
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 1,
                 numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 1000,
+                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
                 numeroRigheRunRate: 1,
                 numeroRigheCN43N: 12,
                 //
@@ -248,12 +246,12 @@ namespace FilesEditor.Tests
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 1000
+                numeroRigheAnnoCorrente: 12
                 );
         }
 
         [TestMethod]
-        public void Scenario_OK_004()
+        public void Scenario_OK_WithFileds_002()
         {
             SettaDefaults();
 
@@ -285,12 +283,10 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                dataSourceFilePath: _DataSourceFilePath,
-                tmpFolder: _TmpFolder,
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 1,
                 numeroRigheForecast: 7,
-                numeroRigheSuperdettagli: 1000,
+                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
                 numeroRigheRunRate: 1,
                 numeroRigheCN43N: 12,
                 //
@@ -298,12 +294,12 @@ namespace FilesEditor.Tests
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 1000
+                numeroRigheAnnoCorrente: 12
                 );
         }
 
         [TestMethod]
-        public void Scenario_OK_005()
+        public void Scenario_OK_WithFileds_003()
         {
             SettaDefaults();
 
@@ -335,12 +331,10 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                dataSourceFilePath: _DataSourceFilePath,
-                tmpFolder: _TmpFolder,
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 1,
                 numeroRigheForecast: 4,
-                numeroRigheSuperdettagli: 1000,
+                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
                 numeroRigheRunRate: 1,
                 numeroRigheCN43N: 12,
                 //
@@ -348,13 +342,12 @@ namespace FilesEditor.Tests
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 1000
+                numeroRigheAnnoCorrente: 12
                 );
         }
 
-
         [TestMethod]
-        public void Scenario_OK_006()
+        public void Scenario_OK_WithFileds_004()
         {
             SettaDefaults();
 
@@ -386,12 +379,10 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                dataSourceFilePath: _DataSourceFilePath,
-                tmpFolder: _TmpFolder,
                 // solo le righe effettiva, senza considerare le intestazine e le righe in alto
                 numeroRigheBudget: 1,
                 numeroRigheForecast: 1,
-                numeroRigheSuperdettagli: 1000,
+                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
                 numeroRigheRunRate: 1,
                 numeroRigheCN43N: 12,
                 //
@@ -399,7 +390,7 @@ namespace FilesEditor.Tests
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 1000
+                numeroRigheAnnoCorrente: 12
                 );
         }
     }

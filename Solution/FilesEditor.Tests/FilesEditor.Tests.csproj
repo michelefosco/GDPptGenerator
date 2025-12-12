@@ -84,13 +84,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="TestFiles\DataSourceFolder\DataSource_005Stay_002Go.xlsx" />
-    <None Include="TestFiles\InputFiles\Budget.xlsx" />
-    <None Include="TestFiles\InputFiles\CN43N.xlsx" />
-    <None Include="TestFiles\InputFiles\Forecast.xlsx" />
-    <None Include="TestFiles\InputFiles\RunRate.xlsx" />
-    <None Include="TestFiles\InputFiles\Superdettagli_012.xlsx" />
-    <None Include="TestFiles\InputFiles\Superdettagli_023.xlsx" />
+    <None Include="TestFiles\DataSourceFolder\DataSource_005Stay_002Go.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\Budget.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\CN43N.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\Forecast.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\RunRate.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\Superdettagli_012.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\Superdettagli_023.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
