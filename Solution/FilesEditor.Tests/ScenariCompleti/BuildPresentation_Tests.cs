@@ -151,11 +151,13 @@ namespace FilesEditor.Tests
 
 
         [TestMethod]
-        public void Scenario_OK_001()
+        public void Scenario_OK_001_Importo_PIU_RigheDiQuelleCancellate()
         {
             SettaDefaults();
 
             // Personalizzazione parametri
+
+            // 2 righe vanno e 12 se ne aggiungono
 
             var output = EseguiMetodo();
             CheckResults(
@@ -176,7 +178,34 @@ namespace FilesEditor.Tests
         }
 
         [TestMethod]
-        public void Scenario_OK_002()
+        public void Scenario_OK_001_Importo_MENO_RigheDiQuelleCancellate()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _fileDataSourceName = TestPaths.DATASOURCE_010Stay_020Go_FILENAME;
+
+            // 20 righe vanno e 12 se ne aggiungono
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 34,
+                numeroRigheForecast: 34,
+                numeroRigheSuperdettagli: 10 + 12, // 10 stay from different years + 12 added by appending current year
+                numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 12
+                );
+        }
+
+        [TestMethod]
+        public void Scenario_OK_001_Append()
         {
             SettaDefaults();
 
@@ -391,6 +420,34 @@ namespace FilesEditor.Tests
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
+                );
+        }
+
+        [TestMethod]
+        public void Scenario_OK_Big_Files_001()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            //_fileDataSourceName = TestPaths.DATASOURCE_k230Stay_k40Go_FILENAME;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_F40;
+
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
+                numeroRigheBudget: 34,
+                numeroRigheForecast: 34,
+                numeroRigheSuperdettagli: 5 + 40000, // 5 stay from different years + 12 added by appending current year
+                numeroRigheRunRate: 1,
+                numeroRigheCN43N: 12,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 40000
                 );
         }
     }

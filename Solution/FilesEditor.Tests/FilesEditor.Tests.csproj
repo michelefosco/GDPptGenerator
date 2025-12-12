@@ -87,6 +87,7 @@
     <None Include="TestFiles\DataSourceFolder\DataSource_005Stay_002Go.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_230kStay_40kGo.xlsx" />
     <None Include="TestFiles\InputFiles\Budget.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

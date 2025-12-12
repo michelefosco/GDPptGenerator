@@ -493,23 +493,23 @@ namespace FilesEditor.Steps.BuildPresentation
             var numeroRighePrevistoDopoLaCancellazione = destWorksheet.Dimension.End.Row - numberOfRowsToBeDeleted;
 
             // Numero di righe ancora da cancellare
-            var stillToBeDeleted = numberOfRowsToBeDeleted;
-            const int NUMERO_MASSIMO_RIGHE_PER_TENTATIVO = 1000;
-            var numeroTentativiDisponibili = 5 + (numberOfRowsToBeDeleted / NUMERO_MASSIMO_RIGHE_PER_TENTATIVO);
-            while (numeroTentativiDisponibili >= 1)
+            var toBeDeleted = numberOfRowsToBeDeleted;
+            const int NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA = 1000;
+            var ExceptionsToBeIgnored = 5 + (numberOfRowsToBeDeleted / NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA);
+            while (toBeDeleted > 0)
             {
-                if (stillToBeDeleted > NUMERO_MASSIMO_RIGHE_PER_TENTATIVO)
+                if (toBeDeleted > NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA)
                 {
-                    stillToBeDeleted = NUMERO_MASSIMO_RIGHE_PER_TENTATIVO;
+                    toBeDeleted = NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA;
                 }
                 try
                 {
-                    numeroTentativiDisponibili--;
-                    destWorksheet.DeleteRow(indexFirstRowOfTheBlock, stillToBeDeleted);
+                    destWorksheet.DeleteRow(indexFirstRowOfTheBlock, toBeDeleted);
                 }
                 catch (Exception ex)
                 {
-                    if (numeroTentativiDisponibili >= 1)
+                    ExceptionsToBeIgnored--;
+                    if (ExceptionsToBeIgnored >= 1)
                     {
                         // Riprovo dopo una pausa
                         Thread.Sleep(1000);
@@ -526,7 +526,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     // Obiettivo raggiunto
                     break;
                 }
-                stillToBeDeleted = destWorksheet.Dimension.End.Row - numeroRighePrevistoDopoLaCancellazione;
+                toBeDeleted = destWorksheet.Dimension.End.Row - numeroRighePrevistoDopoLaCancellazione;
             }
         }
 
@@ -551,7 +551,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 {
                     numeroTentativiDisponibili--;
                     if (numeroTentativiDisponibili >= 1)
-                    {                        
+                    {
                         // Riprovo dopo una pausa
                         Thread.Sleep(1000);
                         continue;
