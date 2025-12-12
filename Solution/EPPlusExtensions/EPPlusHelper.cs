@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -662,6 +663,47 @@ namespace EPPlusExtensions
             }
             _excelPackage = null;
             FilePathInUse = null;
+        }
+
+        public bool IsValidAddress(string address)
+        {
+            try
+            {
+                ExcelAddress excelAddress = new ExcelAddress(address);
+                // Se l'indirizzo non è valido l'accesso alle proprietà Start e End genera un'eccezione
+                var check = excelAddress.End.Row - excelAddress.Start.Row;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Riduce l'area indicata nell'indirizzo Excel in modo che non superi i limiti della dimensione effettiva del foglio di lavoro
+        /// </summary>
+        /// <param name="worksheetName"></param>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public string ReduceAreaToDimensionEnd(string worksheetName, string address)
+        {
+            var currentWorksheet = GetWorksheet(worksheetName);
+
+            var excelAddress = new ExcelAddress(address);
+            //
+            var toRow = excelAddress.End.Row;
+            var toColumn = excelAddress.End.Column;
+            var fromRow = excelAddress.Start.Row;
+            var fromCol = excelAddress.Start.Column;
+
+            if (toRow > currentWorksheet.Dimension.End.Row)
+            { toRow = Math.Max(currentWorksheet.Dimension.End.Row, fromRow); }
+
+            if (toColumn > currentWorksheet.Dimension.End.Column)
+            { toColumn = Math.Max(currentWorksheet.Dimension.End.Column, fromCol); }
+
+            return new ExcelAddress(fromRow, fromCol, toRow, toColumn).Address;
         }
     }
 }

@@ -2,7 +2,6 @@
 Build events:				powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force
 -----
 Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
-1.0.0.8
 -----
 Dimensioni slide: 			29,691 cm X 16,713 cm
 Dimensioni box immagini:	27,400 cm X 14.500 cm	Ratio (1 : 2,192)
@@ -39,6 +38,7 @@ Librerie usate
 
 
 -------------------- Domande/Todo per Francesco
+- Il ridimensionamento della print area non funziona con i grafici in quanto l'end non segue la dimensione del grafico come per le pivot tables
 - Rivedere anche formule Budget e Forecast
 - Predisporre ulteriori colonne per formule intermedie (da riutilizzare)?
 - Valutare usto della formula LET()
@@ -47,6 +47,9 @@ Librerie usate
 
 
 -------------------- Todo
+- Ridurre area di stampa orizzontale e vertiale in base alla Dimension.end
+-Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
+registare nuovo bancomat lefo
 - investigate on memory leak
 - Rinominare "pivot di appoggio" in qualcosa tipo "Pivot Anno Prima Marcatura"
 - Improve memory with usinng and other things
