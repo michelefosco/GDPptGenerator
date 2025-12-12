@@ -521,11 +521,6 @@ namespace FilesEditor.Steps.BuildPresentation
 
                 }
 
-                if (destWorksheet.Dimension.End.Row == numeroRighePrevistoDopoLaCancellazione)
-                {
-                    // Obiettivo raggiunto
-                    break;
-                }
                 toBeDeleted = destWorksheet.Dimension.End.Row - numeroRighePrevistoDopoLaCancellazione;
             }
         }
