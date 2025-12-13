@@ -50,7 +50,7 @@ Librerie usate
 - Ridurre area di stampa orizzontale e vertiale in base alla Dimension.end
 - Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
 - investigate on memory leak
-- Suddividere blocchi in numero massimo righe?
+- Suddividere blocchi da copiare in numero massimo righe?
 - Rinominare "pivot di appoggio" in qualcosa tipo "Pivot Anno Prima Marcatura"
 - Improve memory with usinng and other things
 - Miminimizzare e massimizzare finestra dopo il lascio e fine esecuzione
