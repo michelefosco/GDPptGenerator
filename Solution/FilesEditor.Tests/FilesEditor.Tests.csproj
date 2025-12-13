@@ -84,13 +84,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="TestFiles\DataSourceFolder\DataSource_005Stay_002Go.xlsx">
+    <None Include="TestFiles\DataSourceFolder\DataSource_000005_Stay_000002_Go.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\DataSourceFolder\DataSource_010Stay_020Go.xlsx">
+    <None Include="TestFiles\DataSourceFolder\DataSource_000010_Stay_000020_Go.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\DataSourceFolder\DataSource_k230Stay_k40Go.xlsx">
+    <None Include="TestFiles\DataSourceFolder\DataSource_190000_Stay_020000_Go.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_200000_Stay_020000_Go.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_Scenario_GD.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_230000_Stay_040000_Go.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_ConBlocchiAnniFrammentati.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\InputFiles\Budget.xlsx">
@@ -105,17 +117,20 @@
     <None Include="TestFiles\InputFiles\RunRate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\Superdettagli_012.xlsx">
+    <None Include="TestFiles\InputFiles\Superdettagli_00012.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\Superdettagli_023.xlsx">
+    <None Include="TestFiles\InputFiles\Superdettagli_00023.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\InputFiles\Superdettagli_K040.xlsx">
+    <None Include="TestFiles\InputFiles\Superdettagli_Scenario_GD.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\InputFiles\Superdettagli_20002.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

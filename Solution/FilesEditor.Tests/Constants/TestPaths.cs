@@ -3,19 +3,25 @@
     internal class TestPaths
     {
         public const string DATASOURCE_TEST_FILENAME = "DataSourceTest.xlsx";
-        public const string DATASOURCE_005Stay_002Go_FILENAME = "DataSource_005Stay_002Go.xlsx";
-        public const string DATASOURCE_010Stay_020Go_FILENAME = "DataSource_010Stay_020Go.xlsx";
-        public const string DATASOURCE_k230Stay_k40Go_FILENAME = "DataSource_k230Stay_k40Go.xlsx";
+        public const string DataSource_000005_Stay_000002_Go = "DataSource_000005_Stay_000002_Go.xlsx";
+        public const string DataSource_000010_Stay_000020_Go = "DataSource_000010_Stay_000020_Go.xlsx";
+        public const string DataSource_190000_Stay_020000_Go = "DataSource_190000_Stay_020000_Go.xlsx";
+        public const string DataSource_200000_Stay_020000_Go = "DataSource_200000_Stay_020000_Go.xlsx";
+        public const string DataSource_230000_Stay_040000_Go = "DataSource_230000_Stay_040000_Go.xlsx";
+        public const string DataSource_Scenario_GD = "DataSource_Scenario_GD.xlsx";
         
+        public const string DataSource_ConBlocchiAnniFrammentati = "DataSource_ConBlocchiAnniFrammentati.xlsx";
 
         public const string DATASOURCE_FOLDER = "DataSourceFolder";
         public const string INPUTFILES_FOLDER = "InputFiles";
         //
         public const string INPUT_BUDGET_FILE = "Budget.xlsx";
         public const string INPUT_FORECAST_FILE = "Forecast.xlsx";
-        public const string INPUT_SUPERDETTAGLI_FILE_012 = "Superdettagli_012.xlsx";
-        public const string INPUT_SUPERDETTAGLI_FILE_023 = "Superdettagli_023.xlsx";
-        public const string INPUT_SUPERDETTAGLI_FILE_F40 = "Superdettagli_K040.xlsx";
+        public const string INPUT_SUPERDETTAGLI_FILE_00012 = "Superdettagli_00012.xlsx";
+        public const string INPUT_SUPERDETTAGLI_FILE_00023 = "Superdettagli_00023.xlsx";
+        public const string INPUT_SUPERDETTAGLI_FILE_20002 = "Superdettagli_20002.xlsx";
+        public const string INPUT_SUPERDETTAGLI_FILE_Scenario_GD = "Superdettagli_Scenario_GD.xlsx";
+        
         public const string INPUT_RUNRATE_FILE = "RunRate.xlsx";
         public const string INPUT_CN43N_FILE = "CN43N.xlsx";
 

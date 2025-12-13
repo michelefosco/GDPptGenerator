@@ -29,13 +29,13 @@ namespace FilesEditor.Tests
 
         private void SettaDefaults()
         {
-            _fileDataSourceName = TestPaths.DATASOURCE_005Stay_002Go_FILENAME;
+            _fileDataSourceName = TestPaths.DataSource_000005_Stay_000002_Go;
             //
             _fileBudgetName = TestPaths.INPUT_BUDGET_FILE;
             _fileCN43NtName = TestPaths.INPUT_CN43N_FILE;
             _fileForecasttName = TestPaths.INPUT_FORECAST_FILE;
             _fileRunRatetName = TestPaths.INPUT_RUNRATE_FILE;
-            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_012;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_00012;
             //
             _AppendCurrentYear_FileSuperDettagli = true;
             _PeriodDate = new DateTime(2025, 11, 2);
@@ -93,7 +93,7 @@ namespace FilesEditor.Tests
 
             // test base
             Assert.IsNotNull(output);
-            Assert.IsNull(output.ManagedException);
+            Assert.IsNull(output.ManagedException, output.ManagedException?.UserMessage);
             Assert.AreEqual(EsitiFinali.Success, output.Esito);
 
 
@@ -112,28 +112,20 @@ namespace FilesEditor.Tests
             var ePPlusHelper = new EPPlusExtensions.EPPlusHelper();
             ePPlusHelper.Open(dataSourceFilePath);
 
-
-
-            const int offSetIntestazioneBudget = 2;
-            Assert.AreEqual(offSetIntestazioneBudget + numeroRigheBudget + 1,   // expected
-                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_BUDGET_DATA, offSetIntestazioneBudget, 1));
+            Assert.AreEqual(numeroRigheBudget,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_BUDGET_DATA, 2, 1) - 1);
             //
-            const int offSetIntestazioneForecast = 2;
-            Assert.AreEqual(offSetIntestazioneForecast + numeroRigheForecast + 1,   // expected
-                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_FORECAST_DATA, offSetIntestazioneForecast, 1));
+            Assert.AreEqual(numeroRigheForecast,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_FORECAST_DATA, 2, 1) - 1);
             //
-            const int offSetIntestazioneRunRate = 1;
-            Assert.AreEqual(offSetIntestazioneRunRate + numeroRigheRunRate + 1,   // expected
-                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_RUN_RATE_DATA, offSetIntestazioneRunRate, 1));
+            Assert.AreEqual(numeroRigheRunRate,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_RUN_RATE_DATA, 2, 1) - 1);
             //
-            const int offSetIntestazioneSuperdettagli = 2;
-            var numeroRigheInSuperdettagliInput = ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, offSetIntestazioneSuperdettagli, 1);
-            Assert.AreEqual(offSetIntestazioneSuperdettagli + numeroRigheSuperdettagli + 1,   // expected
-                            numeroRigheInSuperdettagliInput);
+            Assert.AreEqual(numeroRigheSuperdettagli,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA, 2, 1) - 1);
             //
-            const int offSetIntestazioneRigheCN43N = 1;
-            Assert.AreEqual(offSetIntestazioneRigheCN43N + numeroRigheCN43N + 1,   // expected
-                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_CN43N_DATA, offSetIntestazioneRigheCN43N, 1));
+            Assert.AreEqual(numeroRigheCN43N,   // expected
+                            ePPlusHelper.GetFirstEmptyRow(WorksheetNames.DATASOURCE_CN43N_DATA, 2, 1) -1);
 
             // verifico il numero di righe con l'anno corrispondente al periodo selezionato
             var ws = ePPlusHelper.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA];
@@ -162,12 +154,11 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 34,
-                numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 5 + 12, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -183,18 +174,16 @@ namespace FilesEditor.Tests
             SettaDefaults();
 
             // Personalizzazione parametri
-            _fileDataSourceName = TestPaths.DATASOURCE_010Stay_020Go_FILENAME;
+            _fileDataSourceName = TestPaths.DataSource_000010_Stay_000020_Go;
 
-            // 20 righe vanno e 12 se ne aggiungono
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 34,
-                numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 10 + 12, // 10 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 10 + 12, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -215,12 +204,11 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 34,
-                numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 0 + 12, // 0 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 0 + 12,  // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -264,12 +252,11 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 1,
-                numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 1,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 5 + 12,  // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -312,12 +299,11 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 1,
-                numeroRigheForecast: 7,
-                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 1,
+                numeroRigheForecast: 2 + 7,
+                numeroRigheSuperdettagli: 2 + 5 + 12, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -360,12 +346,11 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 1,
-                numeroRigheForecast: 4,
-                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 1,
+                numeroRigheForecast: 2 + 4,
+                numeroRigheSuperdettagli: 2 + 5 + 12, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -408,12 +393,11 @@ namespace FilesEditor.Tests
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 1,
-                numeroRigheForecast: 1,
-                numeroRigheSuperdettagli: 5 + 12, // 5 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 1,
+                numeroRigheForecast: 2 + 1,
+                numeroRigheSuperdettagli: 2 + 5 + 12, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
@@ -429,26 +413,81 @@ namespace FilesEditor.Tests
             SettaDefaults();
 
             // Personalizzazione parametri
-            _fileDataSourceName = TestPaths.DATASOURCE_k230Stay_k40Go_FILENAME;
-            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_F40;
+            _fileDataSourceName = TestPaths.DataSource_230000_Stay_040000_Go;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_20002;
 
 
             var output = EseguiMetodo();
             CheckResults(
                 output: output,
-                // solo le righe effettiva, senza considerare le intestazine e le righe in alto
-                numeroRigheBudget: 34,
-                numeroRigheForecast: 34,
-                numeroRigheSuperdettagli: 5 + 40000, // 5 stay from different years + 12 added by appending current year
-                numeroRigheRunRate: 1,
-                numeroRigheCN43N: 12,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 230000 + 20000, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
                 numeroWarnings: 0,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 40000
+                numeroRigheAnnoCorrente: 20010
                 );
         }
+
+
+        [TestMethod]
+        public void Scenario_OK_GD()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _fileDataSourceName = TestPaths.DataSource_Scenario_GD;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_Scenario_GD;
+
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 230000 + 20000, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 20010
+                );
+        }
+
+        [TestMethod]
+        public void Scenario_OK_DataSource_ConBlocchiAnniFrammentati()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _fileDataSourceName = TestPaths.DataSource_ConBlocchiAnniFrammentati;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_00023;
+
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 70 + 23, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 12,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 0,
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 23
+                );
+        }
+
     }
 }

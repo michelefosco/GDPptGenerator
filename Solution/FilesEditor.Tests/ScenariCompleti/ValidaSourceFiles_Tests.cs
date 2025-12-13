@@ -28,13 +28,13 @@ namespace FilesEditor.Tests
 
         private void SettaDefaults()
         {
-            _fileDataSourceName = TestPaths.DATASOURCE_005Stay_002Go_FILENAME;
+            _fileDataSourceName = TestPaths.DataSource_000005_Stay_000002_Go;
             //
             _fileBudgetName = TestPaths.INPUT_BUDGET_FILE;
             _fileCN43NtName = TestPaths.INPUT_CN43N_FILE;
             _fileForecasttName = TestPaths.INPUT_FORECAST_FILE;
             _fileRunRatetName = TestPaths.INPUT_RUNRATE_FILE;
-            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_012;
+            _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_00012;
             //
             _AppendCurrentYear_FileSuperDettagli = true;
             _PeriodDate = new DateTime(2025, 11, 2);
