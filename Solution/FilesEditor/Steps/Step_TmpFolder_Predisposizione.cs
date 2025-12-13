@@ -11,22 +11,8 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_TmpFolder_Predisposizione : StepBase
     {
-        public override string StepName => "Step_TmpFolder_Predisposizione";
+        internal override string StepName => "Step_TmpFolder_Predisposizione";
 
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
         public Step_TmpFolder_Predisposizione(StepContext context) : base(context)
         { }
 

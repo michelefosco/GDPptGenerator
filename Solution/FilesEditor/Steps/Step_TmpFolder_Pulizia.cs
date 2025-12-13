@@ -11,22 +11,7 @@ namespace FilesEditor.Steps
     /// <param name="context"></param>
     internal class Step_TmpFolder_Pulizia : StepBase
     {
-        public override string StepName => "Step_TmpFolder_Pulizia";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
+        internal override string StepName => "Step_TmpFolder_Pulizia";
 
         public Step_TmpFolder_Pulizia(StepContext context) : base(context)
         { }

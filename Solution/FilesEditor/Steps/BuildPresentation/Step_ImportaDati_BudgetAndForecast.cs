@@ -14,22 +14,8 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_ImportaDati_BudgetAndForecast : StepBase
     {
-        public override string StepName => "Step_ImportaDati_BudgetAndForecast";
+        internal override string StepName => "Step_ImportaDati_BudgetAndForecast";
 
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
         public Step_ImportaDati_BudgetAndForecast(StepContext context) : base(context)
         { }
 

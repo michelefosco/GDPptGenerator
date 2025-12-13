@@ -9,22 +9,7 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_DataSource_Editing_Stop : StepBase
     {
-        public override string StepName => "Step_DataSource_Editing_Stop";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
+        internal override string StepName => "Step_DataSource_Editing_Stop";
 
         public Step_DataSource_Editing_Stop(StepContext context) : base(context)
         { }

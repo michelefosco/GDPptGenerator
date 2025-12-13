@@ -13,30 +13,35 @@ namespace FilesEditor.Steps
             Context = context;
         }
 
-        public abstract string StepName { get; }
-
-        internal abstract void BeforeTask();
+        internal abstract string StepName { get; }
         internal abstract EsitiFinali DoSpecificStepTask();
-        internal abstract void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent);
 
-        internal abstract void AfterTask();
+        internal virtual void BeforeTask() { }
+
+        internal virtual void AfterTask() { }
+
 
         internal EsitiFinali DoStepTask()
         {
+            // Log della informazini di contesto prima dell'esecuzione del task
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
+
             // Operazioni da farsi prima dell'esecuzione del task (esempio log delle info prima dell'esecuzione del task)
             BeforeTask();
 
             // Monitoro il tempo impiegato ad eseguire il task
             var startTime = DateTime.UtcNow;
             var result = DoSpecificStepTask();
-            var endTime = DateTime.UtcNow;
 
-            // Passo le info sul tempo impiegato al task
-            var timeSpent = endTime - startTime;
-            ManageInfoAboutPerformedStepTask(timeSpent);
+            // Calcolo e loggo il tempo impiegato per eseguire il task
+            var timeSpent = DateTime.UtcNow - startTime;
+            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
 
             // Operazioni da farsi dopo l'esecuzione del task (esempio log delle info dopo l'esecuzione del task)
             AfterTask();
+
+            // Log della informazini di contesto dopo l'esecuzione del task
+            Context.DebugInfoLogger.LogStepContext(StepName, Context);
 
             return result;
         }
@@ -48,7 +53,5 @@ namespace FilesEditor.Steps
             return imagePath;
         }
         #endregion
-
-
     }
 }

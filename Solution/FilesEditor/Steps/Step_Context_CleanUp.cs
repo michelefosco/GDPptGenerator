@@ -1,6 +1,6 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System;
+
 
 namespace FilesEditor.Steps
 {
@@ -9,23 +9,7 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_Context_CleanUp : StepBase
     {
-        public override string StepName => "Step_Context_CleanUp";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
+        internal override string StepName => "Step_Context_CleanUp";
         public Step_Context_CleanUp(StepContext context) : base(context)
         { }
 
@@ -41,6 +25,8 @@ namespace FilesEditor.Steps
             if (!string.IsNullOrEmpty(Context.FileCN43NPath))
             { Context.CN43NFileEPPlusHelper.Close(); }
 
+            Serilog.Log.Information("CloseAndFlush...");
+            Serilog.Log.CloseAndFlush();
 
             return EsitiFinali.Undefined;
         }

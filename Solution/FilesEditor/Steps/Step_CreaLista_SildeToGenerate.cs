@@ -15,22 +15,8 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_CreaLista_SildeToGenerate : StepBase
     {
-        public override string StepName => "Step_CreaLista_SildeToGenerate";
+        internal override string StepName => "Step_CreaLista_SildeToGenerate";
 
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
         public Step_CreaLista_SildeToGenerate(StepContext context) : base(context)
         { }
 

@@ -15,22 +15,7 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_CreaFiles_Presentazioni : StepBase
     {
-        public override string StepName => "Step_CreaFiles_Presentazioni";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
+        internal override string StepName => "Step_CreaFiles_Presentazioni";
 
         public Step_CreaFiles_Presentazioni(StepContext context) : base(context)
         { }

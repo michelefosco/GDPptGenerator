@@ -14,22 +14,8 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_ImportaDati_SuperDettagli : StepBase
     {
-        public override string StepName => "Step_ImportaDati_SuperDettagli";
+        internal override string StepName => "Step_ImportaDati_SuperDettagli";
 
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
         public Step_ImportaDati_SuperDettagli(StepContext context) : base(context)
         { }
 
@@ -42,6 +28,9 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void ImportaFile_Superdettagli()
         {
+
+            Context.Logger.Information("ImportaFile_Superdettagli");
+
             var sourceFilePath = Context.FileSuperDettagliPath;
             var sourceWorksheetName = WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA;
             var sourceHeadersRow = Context.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW;

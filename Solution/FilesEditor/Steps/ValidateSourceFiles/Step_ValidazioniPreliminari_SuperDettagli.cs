@@ -13,23 +13,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
     /// </summary>
     internal class Step_ValidazioniPreliminari_SuperDettagli : StepBase
     {
-        public override string StepName => "Step_ValidazioniPreliminari_SuperDettagli";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
+        internal override string StepName => "Step_ValidazioniPreliminari_SuperDettagli";
         public Step_ValidazioniPreliminari_SuperDettagli(StepContext context) : base(context)
         { }
 

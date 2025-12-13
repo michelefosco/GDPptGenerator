@@ -34,16 +34,20 @@ namespace FilesEditor
                 var stepContext = new StepContext(configurazione);
                 stepContext.SetContextFromInput(validateSourceFilesInput);
                 var stepsSequence = new List<StepBase>
-                {
+                {                    
+                    new Step_Start_Logger(stepContext),
                     new Step_Start_DebugInfoLogger(stepContext),
+
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
                     new Step_ValidazioniPreliminari_SuperDettagli(stepContext),
                     new Step_CreaListe_Alias(stepContext),
                     new Step_CreaLista_Applicablefilters(stepContext),
                     new Step_CreaLista_SildeToGenerate(stepContext),
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
+
                     new Step_TmpFolder_Pulizia(stepContext),
                     new Step_Context_CleanUp(stepContext),
+
                     new Step_EsitoFinale_Success(stepContext)
                  };
                 RunStepSequence(stepsSequence, stepContext);
@@ -83,6 +87,7 @@ namespace FilesEditor
                 stepContext.SetContextFromInput(buildPresentationInput);
                 var stepsSequence = new List<StepBase>
                 {
+                    new Step_Start_Logger(stepContext),
                     new Step_Start_DebugInfoLogger(stepContext),
 
                     new Step_VerificaEditabilita_DataSource_File(stepContext),
@@ -114,6 +119,7 @@ namespace FilesEditor
                     new Step_TmpFolder_Predisposizione(stepContext),
                     new Step_EsportaFileImmaginiDaExcel(stepContext),
                     new Step_CreaFiles_Presentazioni(stepContext),
+
                     new Step_TmpFolder_Pulizia(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                  };

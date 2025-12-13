@@ -10,22 +10,7 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_Start_DebugInfoLogger : StepBase
     {
-        public override string StepName => "Step_Start_DebugInfoLogger";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
+        internal override string StepName => "Step_Start_DebugInfoLogger";
 
         public Step_Start_DebugInfoLogger(StepContext context) : base(context)
         { }

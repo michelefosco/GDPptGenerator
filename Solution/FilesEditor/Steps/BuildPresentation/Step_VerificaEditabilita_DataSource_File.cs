@@ -12,17 +12,13 @@ namespace FilesEditor.Steps.BuildPresentation
     /// </summary>
     internal class Step_VerificaEditabilita_DataSource_File : StepBase
     {
-        public override string StepName => "Step_VerificaEditabilita_DataSource_File";
+        internal override string StepName => "Step_VerificaEditabilita_DataSource_File";
 
         internal override void BeforeTask()
         {
             Context.DebugInfoLogger.LogStepContext(StepName, Context);
         }
 
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
 
         internal override void AfterTask()
         {

@@ -12,22 +12,7 @@ namespace FilesEditor.Steps
     /// </summary>
     internal class Step_CreaLista_ItemsToExportAsImage : StepBase
     {
-        public override string StepName => "Step_CreaLista_ItemsToExportAsImage";
-
-        internal override void BeforeTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
-
-        internal override void ManageInfoAboutPerformedStepTask(TimeSpan timeSpent)
-        {
-            Context.DebugInfoLogger.LogPerformance(StepName, timeSpent);
-        }
-
-        internal override void AfterTask()
-        {
-            Context.DebugInfoLogger.LogStepContext(StepName, Context);
-        }
+        internal override string StepName => "Step_CreaLista_ItemsToExportAsImage";
 
         public Step_CreaLista_ItemsToExportAsImage(StepContext context) : base(context)
         { }
