@@ -479,10 +479,6 @@
             this.wbExecutionResult.WebBrowserShortcutsEnabled = false;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating);
             // 
-            // buildPresentationBackgroundWorker
-            // 
-            this.buildPresentationBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.buildPresentationBackgroundWorker_DoWork);
-            this.buildPresentationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.buildPresentationBackgroundWorker_RunWorkerCompleted);
             // 
             // btnCopyError
             // 
