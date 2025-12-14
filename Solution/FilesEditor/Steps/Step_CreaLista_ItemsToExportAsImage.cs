@@ -27,7 +27,7 @@ namespace FilesEditor.Steps
 
         private void CreaListaImmaginiDaEsportare()
         {
-            var imageIds = Context.SildeToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
+            var imageIds = Context.SlidesToGenerate.SelectMany(_ => _.Contents).Distinct().ToList();
             foreach (var imageId in imageIds)
             {
                 EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.DataSourceEPPlusHelper, imageId, FileTypes.DataSource);

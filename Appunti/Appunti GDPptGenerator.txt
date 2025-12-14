@@ -47,6 +47,10 @@ Librerie usate
 
 
 -------------------- Todo
+- Info import dati terminato
+- Provare cancellazione righe mega blocco con check finale per rivalutare il numero di righe da eliminare
+
+- Valutare se dividire import data in datasource and build presentation 2 step separatai o comunque avere un pulsate try build presentation
 - Ridurre area di stampa orizzontale e vertiale in base alla Dimension.end
 - Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
 - investigate on memory leak

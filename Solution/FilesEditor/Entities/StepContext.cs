@@ -139,13 +139,16 @@ namespace FilesEditor.Entities
 
         public TimeSpan ElapsedTime { get; set; }
 
+        public bool DatasourceStatus_ImportDatiCompletato { get; private set; }
+        public bool DatasourceStatus_RefreshAllCompletato { get; private set; }
+
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
         public List<AliasDefinition> AliasDefinitions_Business { get; private set; }
 
         public List<AliasDefinition> AliasDefinitions_Categoria { get; private set; }
 
-        public List<SlideToGenerate> SildeToGenerate { get; private set; }
+        public List<SlideToGenerate> SlidesToGenerate { get; private set; }
 
         public List<ItemToExport> ItemsToExportAsImage { get; private set; }
 
@@ -161,11 +164,24 @@ namespace FilesEditor.Entities
             ApplicableFilters = new List<InputDataFilters_Item>();
             AliasDefinitions_Business = new List<AliasDefinition>();
             AliasDefinitions_Categoria = new List<AliasDefinition>();
-            SildeToGenerate = new List<SlideToGenerate>();
+            SlidesToGenerate = new List<SlideToGenerate>();
             ItemsToExportAsImage = new List<ItemToExport>();
             OutputFilePathLists = new List<string>();
         }
 
+
+
+
+
+        public void SetDatasourceStatus_ImportDatiCompletato()
+        {
+            DatasourceStatus_ImportDatiCompletato = true;
+        }
+
+        public void SetDatasourceStatus_RefreshAllCompletato()
+        {
+            DatasourceStatus_RefreshAllCompletato = true;
+        }
 
         public void SettaEsitoFinale(EsitiFinali esito)
         {

@@ -15,16 +15,18 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificStepTask()
         {
+            // Chiudo tutti gli helper EPPlus aperti
+            // Datasouce file
             Context.DataSourceEPPlusHelper.Close();
+            
+            // Input source files
             Context.BudgetFileEPPlusHelper.Close();
             Context.ForecastFileEPPlusHelper.Close();
             Context.RunRateFileEPPlusHelper.Close();
             Context.SuperdettagliFileEPPlusHelper.Close();
-
             // Essendo un file opzionale, verifico che l'helper non sia null prima di chiuderlo
             if (!string.IsNullOrEmpty(Context.FileCN43NPath))
             { Context.CN43NFileEPPlusHelper.Close(); }
-
 
             return EsitiFinali.Undefined;
         }

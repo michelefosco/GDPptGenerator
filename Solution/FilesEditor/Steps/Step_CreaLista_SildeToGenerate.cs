@@ -33,7 +33,7 @@ namespace FilesEditor.Steps
             var worksheetName = WorksheetNames.DATASOURCE_CONFIGURATION;
             EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(Context.DataSourceEPPlusHelper, worksheetName, FileTypes.DataSource);
 
-            Fill_SildeToGenerate_FromConfiguration(Context.DataSourceEPPlusHelper, Context.SildeToGenerate);
+            Fill_SildeToGenerate_FromConfiguration(Context.DataSourceEPPlusHelper, Context.SlidesToGenerate);
         }
 
         private void Fill_SildeToGenerate_FromConfiguration(EPPlusHelper ePPlusHelper, List<SlideToGenerate> sildeToGenerate)

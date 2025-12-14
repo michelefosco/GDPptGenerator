@@ -68,10 +68,9 @@ namespace FilesEditor.Helpers
 
             var worksheetName = WorkSheetNames.StepContext;
 
-            const string STRINGA_SEPARATORE = "--------------------";
-
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Time stamp", TimeStampString);
-            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Esito", context.Esito);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ElapsedTime", context.ElapsedTime.ToString());
+            //
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DestinationFolder", context.DestinationFolder);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "TmpFolder", context.TmpFolder);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DataSourceFilePath", context.DataSourceFilePath);
@@ -88,10 +87,14 @@ namespace FilesEditor.Helpers
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Applicablefilters (count)", context.ApplicableFilters.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_Business (count)", context.AliasDefinitions_Business.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "AliasDefinitions_Categoria (count)", context.AliasDefinitions_Categoria.Count);
-            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "SildeToGenerate (count)", context.SildeToGenerate.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "SildeToGenerate (count)", context.SlidesToGenerate.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "ItemsToExportAsImage (count)", context.ItemsToExportAsImage.Count);
             _epPlusHelper.AddNewContentRow(worksheetName, stepName, "OutputFilePathLists (count)", context.OutputFilePathLists.Count);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DatasourceStatus_ImportDatiCompletato", context.DatasourceStatus_ImportDatiCompletato);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "DatasourceStatus_RefreshAllCompletato", context.DatasourceStatus_RefreshAllCompletato);
+            _epPlusHelper.AddNewContentRow(worksheetName, stepName, "Esito", context.Esito);
 
+            const string STRINGA_SEPARATORE = "--------------------";
             _epPlusHelper.AddNewContentRow(worksheetName, STRINGA_SEPARATORE, STRINGA_SEPARATORE, STRINGA_SEPARATORE);
 
             RunAutoSave();

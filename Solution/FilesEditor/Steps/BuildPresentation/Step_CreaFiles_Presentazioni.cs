@@ -30,11 +30,11 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void BuildPresentations()
         {
-            var outputFileNames = Context.SildeToGenerate.Select(s => s.OutputFileName).Distinct().ToList();
+            var outputFileNames = Context.SlidesToGenerate.Select(s => s.OutputFileName).Distinct().ToList();
 
             foreach (var outputFileName in outputFileNames)
             {
-                var slideToGenerateList = Context.SildeToGenerate.Where(s => s.OutputFileName == outputFileName).ToList();
+                var slideToGenerateList = Context.SlidesToGenerate.Where(s => s.OutputFileName == outputFileName).ToList();
                 BuildPresentation(outputFileName, slideToGenerateList);
             }
         }

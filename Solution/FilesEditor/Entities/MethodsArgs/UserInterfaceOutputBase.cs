@@ -10,20 +10,24 @@ namespace FilesEditor.Entities.MethodsArgs
         public ManagedException ManagedException { get; private set; }
         public EsitiFinali Esito { get; private set; }
         public string DebugFilePath { get; set; }
-        public List<string> Warnings { get; set; }        
+        public List<string> Warnings { get; set; }
         public TimeSpan ElapsedTime { get; set; }
 
-        internal UserInterfaceOutputBase(StepContext context)
+        internal UserInterfaceOutputBase(StepContext context, ManagedException managedException = null)
         {
-            Esito = context.Esito;
+            if (managedException != null)
+            {
+                Esito = EsitiFinali.Failure;
+                ManagedException = managedException;
+            }
+            else
+            {
+                Esito = context.Esito;
+            }
+
             DebugFilePath = context.DebugFilePath;
             Warnings = context.Warnings;
             ElapsedTime = context.ElapsedTime;
-        }
-        internal UserInterfaceOutputBase(ManagedException managedException)
-        {
-            Esito = EsitiFinali.Failure;
-            ManagedException = managedException;
         }
     }
 }

@@ -217,7 +217,7 @@
     <Compile Include="Steps\BuildPresentation\Step_ImportaDati_SuperDettagli.cs" />
     <Compile Include="Steps\BuildPresentation\Step_ImpostaVarabiliInNameManager.cs" />
     <Compile Include="Steps\BuildPresentation\Step_DataSource_Editing_Start.cs" />
-    <Compile Include="Steps\BuildPresentation\Step_DataSource_Editing_Stop.cs" />
+    <Compile Include="Steps\BuildPresentation\Step_DataSource_Save.cs" />
     <Compile Include="Steps\Step_CreaListe_Alias.cs" />
     <Compile Include="Steps\BuildPresentation\Step_VerificaEditabilita_DataSource_File.cs" />
     <Compile Include="Steps\Step_Close_EPPlusHelpers.cs" />

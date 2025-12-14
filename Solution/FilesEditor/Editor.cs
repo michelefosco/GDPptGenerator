@@ -29,10 +29,10 @@ namespace FilesEditor
 
         private static ValidateSourceFilesOutput validateSourceFiles(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         {
+            var stepContext = new StepContext(configurazione);
+            stepContext.SetContextFromInput(validateSourceFilesInput);
             try
             {
-                var stepContext = new StepContext(configurazione);
-                stepContext.SetContextFromInput(validateSourceFilesInput);
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_Logger(stepContext),
@@ -56,11 +56,11 @@ namespace FilesEditor
             }
             catch (ManagedException managedException)
             {
-                return new ValidateSourceFilesOutput(managedException);
+                return new ValidateSourceFilesOutput(stepContext,managedException);
             }
             catch (Exception ex)
             {
-                return new ValidateSourceFilesOutput(new ManagedException(ex));
+                return new ValidateSourceFilesOutput(stepContext,new ManagedException(ex));
             }
         }
         #endregion
@@ -82,10 +82,10 @@ namespace FilesEditor
 
         private static UpdataDataSourceAndBuildPresentationOutput updataDataSourceAndBuildPresentation(UpdataDataSourceAndBuildPresentationInput buildPresentationInput, Configurazione configurazione)
         {
+            var stepContext = new StepContext(configurazione);
+            stepContext.SetContextFromInput(buildPresentationInput);
             try
             {
-                var stepContext = new StepContext(configurazione);
-                stepContext.SetContextFromInput(buildPresentationInput);
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_Logger(stepContext),
@@ -112,7 +112,7 @@ namespace FilesEditor
                     new Step_ImportaDati_SuperDettagli(stepContext),
                     new Step_ImpostaVarabiliInNameManager(stepContext),
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
-                    new Step_DataSource_Editing_Stop(stepContext),                    
+                    new Step_DataSource_Save(stepContext),                    
                     #endregion
 
                     // fine operazioni fatte tramite libreria EPPlus
@@ -134,11 +134,11 @@ namespace FilesEditor
             }
             catch (ManagedException managedException)
             {
-                return new UpdataDataSourceAndBuildPresentationOutput(managedException);
+                return new UpdataDataSourceAndBuildPresentationOutput(stepContext, managedException);
             }
             catch (Exception ex)
             {
-                return new UpdataDataSourceAndBuildPresentationOutput(new ManagedException(ex));
+                return new UpdataDataSourceAndBuildPresentationOutput(stepContext, new ManagedException(ex));
             }
         }
         #endregion

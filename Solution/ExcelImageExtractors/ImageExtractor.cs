@@ -15,22 +15,29 @@ namespace ExcelImageExtractors
         Workbook workbook = null;
         Worksheet worksheet = null;
 
-        public ImageExtractor(string excelFilePath)
+        public ImageExtractor(string excelFilePath, bool runRefreshAll = true)
         {
             excelApp = new Microsoft.Office.Interop.Excel.Application
             {
                 Visible = false,
                 DisplayAlerts = false,
-                //ScreenUpdating = false, //non usare, disabilita la creazione delle immagini
-                //Calculation = XlCalculation.xlCalculationManual
             };
+
+            // Aspetto che Excel sia pronto
             InteropServices_Helper.WaitForExcelReady(excelApp);
 
+            // Aumento la priorità del processso Excel
             InteropServices_Helper.PrioritizeExcelProcess();
 
+            // Apro il file Excel
             InteropServices_Helper.RetryComCall(() => workbook = excelApp.Workbooks.Open(excelFilePath));
-            InteropServices_Helper.RetryComCall(() => workbook.RefreshAll());
-            InteropServices_Helper.RetryComCall(() => excelApp.CalculateUntilAsyncQueriesDone());
+
+            // Eseguo il RefreshAll se richiesto
+            if (runRefreshAll)
+            {
+                InteropServices_Helper.RetryComCall(() => workbook.RefreshAll());
+                InteropServices_Helper.RetryComCall(() => excelApp.CalculateUntilAsyncQueriesDone());
+            }
         }
 
         public void ExportToImageFileOnFileSystem(string workSheetName, string rangeAddress, string destinationPath)
@@ -46,7 +53,7 @@ namespace ExcelImageExtractors
 
                 // copio il range come immmagine nella Clipboard
                 InteropServices_Helper.RetryComCall(() => range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap));
-               
+
                 // A volta l'immagine non è immediatamente disponibile nella Clipboard, quindi asppeto qualche millisecondo e riprovo
                 for (int attemptNumber = 1; attemptNumber <= 5; attemptNumber++)
                 {
@@ -61,10 +68,7 @@ namespace ExcelImageExtractors
                             break;
                         }
                     }
-                    else
-                    {
-                        Thread.Sleep(attemptNumber * 50);
-                    }
+                    Thread.Sleep(attemptNumber * 50);
                 }
             }
             catch (Exception ex)

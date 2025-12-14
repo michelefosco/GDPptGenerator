@@ -1,17 +1,16 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_DataSource_Editing_Stop : StepBase
+    internal class Step_DataSource_Save : StepBase
     {
-        internal override string StepName => "Step_DataSource_Editing_Stop";
+        internal override string StepName => "Step_DataSource_Save";
 
-        public Step_DataSource_Editing_Stop(StepContext context) : base(context)
+        public Step_DataSource_Save(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificStepTask()
@@ -21,6 +20,8 @@ namespace FilesEditor.Steps.BuildPresentation
 
             Context.DataSourceEPPlusHelper.Save();
             Context.DataSourceEPPlusHelper.Close();
+
+            Context.SetDatasourceStatus_ImportDatiCompletato();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

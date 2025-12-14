@@ -7,12 +7,9 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public List<InputDataFilters_Item> Applicablefilters;
 
-        internal ValidateSourceFilesOutput(StepContext context) : base(context)
+        internal ValidateSourceFilesOutput(StepContext context, ManagedException managedException= null) : base(context)
         {
             Applicablefilters = new List<InputDataFilters_Item>(context.ApplicableFilters);
         }
-
-        internal ValidateSourceFilesOutput(ManagedException managedException) : base(managedException)
-        { }
     }
 }

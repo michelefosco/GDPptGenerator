@@ -858,6 +858,11 @@ namespace PptGeneratorGUI
                 }
                 else //FAIL
                 {
+                    if (output.DatasourceStatus_ImportDatiCompletato)
+                    {
+                        //Todo: attivare pulsate per ripetere solo la creazione della presentazione
+                    }
+
                     //Mostrare eventuali dati nel fail
                     SetStatusLabel("Processing completed with errors");
                     SetOutputMessage(output.ManagedException);
@@ -876,39 +881,6 @@ namespace PptGeneratorGUI
 
                 showExpetion(ex);
             }
-        }
-
-        private void buildPresentationBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            //var buildPresentationInput = e.Argument as BuildPresentationInput;
-            //var output = Editor.BuildPresentation(buildPresentationInput);
-            //e.Result = new object[] { buildPresentationInput, output };
-        }
-
-        private void buildPresentationBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //toolStripProgressBar.Visible = false;
-            //btnBuildPresentation.Enabled = true;
-
-            //// recupero input e output
-            //var outputAndInput = e.Result as object[];
-            //var input = outputAndInput[0] as BuildPresentationInput;
-            //var output = outputAndInput[1] as BuildPresentationOutput;
-
-            //if (output.Esito == EsitiFinali.Success)
-            //{
-            //    string message = CreateOutputMessageSuccessHTML(output.DebugFilePath, output.OutputFilePathLists, output.Warnings);
-            //    SetOutputMessage(message);
-            //    SetStatusLabel("Processing completed successfully");
-            //    btnCopyError.Visible = false;
-            //}
-            //else //FAIL
-            //{
-            //    //Mostrare eventuali dati nel fail
-            //    SetStatusLabel("Processing completed with errors");
-            //    SetOutputMessage(output.ManagedException);
-            //    btnCopyError.Visible = true;
-            //}
         }
         #endregion
 
@@ -1002,6 +974,13 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper.GetHTMLHyperLink(debugFilePath, debugFilePath);
             }
 
+            // ElapsedTime
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += HTML_Message_Helper.GetHTMLBold($"ElapsedTime:");
+            outputMessage += HTML_Message_Helper._newlineHTML;
+            outputMessage += $"{elapsedTime.ToString(@"hh\:mm\:ss")}";
+
             // Warnings
             if (warnings.Count > 0)
             {
@@ -1009,13 +988,6 @@ namespace PptGeneratorGUI
                 outputMessage += HTML_Message_Helper._newlineHTML;
                 outputMessage += HTML_Message_Helper.GeneraHtmlPerWarning(warnings);
             }
-
-            // ElapsedTime
-            outputMessage += HTML_Message_Helper._newlineHTML;
-            outputMessage += HTML_Message_Helper._newlineHTML;
-            outputMessage += HTML_Message_Helper.GetHTMLBold($"ElapsedTime:");
-            outputMessage += HTML_Message_Helper._newlineHTML;
-            outputMessage += $"{elapsedTime.ToString(@"hh\:mm\:ss")}";
 
             return outputMessage;
         }
