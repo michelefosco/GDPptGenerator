@@ -34,7 +34,7 @@ namespace FilesEditor
                 var stepContext = new StepContext(configurazione);
                 stepContext.SetContextFromInput(validateSourceFilesInput);
                 var stepsSequence = new List<StepBase>
-                {                    
+                {
                     new Step_Start_Logger(stepContext),
                     new Step_Start_DebugInfoLogger(stepContext),
 
@@ -46,8 +46,9 @@ namespace FilesEditor
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
 
                     new Step_TmpFolder_Pulizia(stepContext),
-                    new Step_Context_CleanUp(stepContext),
+                    new Step_Close_EPPlusHelpers(stepContext),
 
+                    new Step_Stop_Logger(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                  };
                 RunStepSequence(stepsSequence, stepContext);
@@ -96,13 +97,14 @@ namespace FilesEditor
                                        
 
                     #region Lettura info da DataSource
-                    new Step_BackupFile_DataSource(stepContext),
                     new Step_CreaListe_Alias(stepContext),
                     new Step_CreaLista_SildeToGenerate(stepContext),
                     new Step_CreaLista_ItemsToExportAsImage(stepContext),
                     #endregion
 
-                    #region Steps che modificano il file DataSource
+                    new Step_BackupFile_DataSource(stepContext),
+
+                    #region Steps che modificano il file DataSource                  
                     new Step_DataSource_Editing_Start(stepContext),
                     new Step_ImportaDati_CN43N(stepContext),
                     new Step_ImportaDati_RunRate(stepContext),
@@ -114,13 +116,17 @@ namespace FilesEditor
                     #endregion
 
                     // fine operazioni fatte tramite libreria EPPlus
-                    new Step_Context_CleanUp(stepContext),
+                    new Step_Close_EPPlusHelpers(stepContext),
 
+                    #region Esportazione immagini da inserire nelle presentazioni
                     new Step_TmpFolder_Predisposizione(stepContext),
                     new Step_EsportaFileImmaginiDaExcel(stepContext),
-                    new Step_CreaFiles_Presentazioni(stepContext),
+                    #endregion
 
+                    new Step_CreaFiles_Presentazioni(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),
+
+                    new Step_Stop_Logger(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                  };
                 RunStepSequence(stepsSequence, stepContext);
@@ -136,6 +142,7 @@ namespace FilesEditor
             }
         }
         #endregion
+
 
         private static void RunStepSequence(List<StepBase> stepsSequence, StepContext stepContext)
         {

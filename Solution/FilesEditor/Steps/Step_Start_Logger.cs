@@ -24,13 +24,6 @@ namespace FilesEditor.Steps
 
         private void Start_Logger()
         {
-            //Context.Logger = new LoggerConfiguration()
-            //    .MinimumLevel.Information()
-            //    .WriteTo.File(
-            //        "PptGeneratorGUI.log",
-            //        rollingInterval: RollingInterval.Day,
-            //        buffered: true)
-            //    .CreateLogger();
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .WriteTo.File("PptGeneratorGUI.log",

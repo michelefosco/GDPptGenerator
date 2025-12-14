@@ -7,10 +7,10 @@ namespace FilesEditor.Steps
     /// <summary>
     /// Step che se raggiunto indica l'esito Success dell'intero processo
     /// </summary>
-    internal class Step_Context_CleanUp : StepBase
+    internal class Step_Close_EPPlusHelpers : StepBase
     {
-        internal override string StepName => "Step_Context_CleanUp";
-        public Step_Context_CleanUp(StepContext context) : base(context)
+        internal override string StepName => "Step_Close_EPPlusHelpers";
+        public Step_Close_EPPlusHelpers(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificStepTask()
@@ -25,8 +25,6 @@ namespace FilesEditor.Steps
             if (!string.IsNullOrEmpty(Context.FileCN43NPath))
             { Context.CN43NFileEPPlusHelper.Close(); }
 
-            Serilog.Log.Information("CloseAndFlush...");
-            Serilog.Log.CloseAndFlush();
 
             return EsitiFinali.Undefined;
         }
