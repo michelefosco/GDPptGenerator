@@ -2,6 +2,7 @@
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
+using OfficeOpenXml;
 using System;
 using System.Linq;
 
@@ -33,6 +34,7 @@ namespace FilesEditor.Steps
 
                 // ImageId coincide con WorksheetName
                 var printArea = Context.DataSourceEPPlusHelper.GetString(imageId, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_ROW, Context.Configurazione.DATASOURCE_PRINTABLE_ITEMS_PRINT_AREA_COL);
+                
                 // check sul campo "Print Area"
                 if (string.IsNullOrWhiteSpace(printArea))
                 {
@@ -65,6 +67,11 @@ namespace FilesEditor.Steps
                         errorType: ErrorTypes.InvalidValue,
                         userMessage: $"Print area '{printArea}' is not a valid address"
                         );
+                }
+
+                if(Context.DataSourceEPPlusHelper.IsAreaOutsideOfDimensionEnd(imageId, printArea))
+                {
+                    Context.Warnings.Add ($"Print area '{printArea}' for sheet '{imageId}' is outside of worksheet dimension end.");
                 }
 
                 //todo: confermare comportamento i grafici...

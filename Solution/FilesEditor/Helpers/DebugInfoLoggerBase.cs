@@ -108,9 +108,9 @@ namespace FilesEditor.Helpers
             var worksheetName = WORKSHEET_NAME_PERFORMANCE;
 
             _epPlusHelper.AddNewContentRow(worksheetName, taskReference,
-                "Totale seconds:", spentTime.TotalSeconds,
-                "Total milliseconds:", spentTime.TotalMilliseconds);
-
+                "Seconds:", spentTime.TotalSeconds.ToString("F0"),
+                "Milliseconds:", spentTime.TotalMilliseconds.ToString("F0")
+                );
             RunAutoSave();
         }
 

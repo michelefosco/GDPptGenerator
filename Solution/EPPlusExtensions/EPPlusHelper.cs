@@ -705,5 +705,23 @@ namespace EPPlusExtensions
 
             return new ExcelAddress(fromRow, fromCol, toRow, toColumn).Address;
         }
+
+        public bool IsAreaOutsideOfDimensionEnd(string worksheetName, string address)
+        {
+            var currentWorksheet = GetWorksheet(worksheetName);
+
+            var excelAddress = new ExcelAddress(address);
+            //
+            var toRow = excelAddress.End.Row;
+            var toColumn = excelAddress.End.Column;
+
+            if (toRow > currentWorksheet.Dimension.End.Row)
+            { return true; }
+
+            if (toColumn > currentWorksheet.Dimension.End.Column)
+            { return true; }
+
+            { return false; }
+        }
     }
 }
