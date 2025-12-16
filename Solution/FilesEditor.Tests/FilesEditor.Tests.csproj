@@ -85,25 +85,31 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="TestFiles\DataSourceFolder\DataSource_000005_Stay_000002_Go.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_000010_Stay_000020_Go.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_190000_Stay_020000_Go.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_200000_Stay_020000_Go.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_360000_Stay_000000_Go.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\DataSourceFolder\DataSource_440000_Stay_000000_Go.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_Scenario_GD.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_230000_Stay_040000_Go.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_ConBlocchiAnniFrammentati.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\InputFiles\Budget.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

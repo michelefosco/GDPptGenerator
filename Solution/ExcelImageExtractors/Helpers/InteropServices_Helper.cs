@@ -14,29 +14,61 @@ namespace ExcelImageExtractors.Helpers
         {
             var excelProcess = System.Diagnostics.Process.GetProcessesByName("EXCEL").FirstOrDefault();
             if (excelProcess != null)
-            { 
-                excelProcess.PriorityClass = System.Diagnostics.ProcessPriorityClass.High; 
+            {
+                excelProcess.PriorityClass = System.Diagnostics.ProcessPriorityClass.High;
             }
         }
 
-        static internal  void WaitForExcelReady(Microsoft.Office.Interop.Excel.Application excelApp)
+        //static internal void WaitForExcelReady(Microsoft.Office.Interop.Excel.Application excelApp)
+        //{
+        //    int waitingTimeMs = 100;
+
+        //    int availableAttempts = 200;  // max 20 seconds
+        //    while (availableAttempts-- > 0)
+        //    {
+        //        try
+        //        {
+        //            // Attempt a harmless call to check if Excel is responsive
+        //            var test = excelApp.Hwnd;
+        //            return; // no exception → Excel is ready
+        //        }
+        //        catch (COMException ex)
+        //        {
+        //            // Excel is temporarily busy (edit mode, dialog, recalculating)
+        //            if ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
+        //            {
+        //                Thread.Sleep(waitingTimeMs += 100);
+        //                continue;
+        //            }
+
+        //            // If it's not RPC_E_CALL_REJECTED → rethrow
+        //            throw;
+        //        }
+        //    }
+
+        //    throw new TimeoutException("Excel did not become ready in time.");
+        //}
+
+        static internal void RetryComCall(Action action)
         {
-            int maxWait = 200;  // max 20 seconds
+            const int ADDED_WAITING_TIME_MS = 50;
             int waitingTimeMs = 100;
-            while (maxWait-- > 0)
+
+            int availableAttempts = 25;
+
+            while (availableAttempts-- > 0)
             {
                 try
                 {
-                    // Attempt a harmless call to check if Excel is responsive
-                    var test = excelApp.Hwnd;
-                    return; // no exception → Excel is ready
+                    action();
+                    return; //or break;
                 }
-                catch (COMException ex)
+                catch (COMException ex)// when ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
                 {
                     // Excel is temporarily busy (edit mode, dialog, recalculating)
-                    if ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
+                    if ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED && availableAttempts > 1)
                     {
-                        Thread.Sleep(waitingTimeMs += 100);
+                        Thread.Sleep(waitingTimeMs += ADDED_WAITING_TIME_MS);
                         continue;
                     }
 
@@ -46,30 +78,6 @@ namespace ExcelImageExtractors.Helpers
             }
 
             throw new TimeoutException("Excel did not become ready in time.");
-        }
-
-        static internal void RetryComCall(System.Action action)
-        {
-
-            int retries = 15;
-
-            int waitingTimeMs = 100;
-
-            while (true)
-            {
-                try
-                {
-                    action();
-                    return;
-                }
-                catch (COMException ex) when ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
-                {
-                    if (--retries == 0)
-                    { throw; }
-
-                    Thread.Sleep(waitingTimeMs += 100);
-                }
-            }
         }
     }
 }

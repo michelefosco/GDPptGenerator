@@ -476,18 +476,40 @@ namespace FilesEditor.Steps.BuildPresentation
         }
         private void AggiungiRigheInFondoAllaTabella(ExcelWorksheet destWorksheet, int numberOfRowsToBeAdded)
         {
-            const int NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA = 5000;
+            //const int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 5000;
+            int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 2000;
 
             // Numero iniziale di righe previsto dopo la cancellazione
             var numeroRighePrevistoDopoInserimento = destWorksheet.Dimension.End.Row + numberOfRowsToBeAdded;
 
             // Numero di righe ancora da cancellare
             var toBeAdded = numberOfRowsToBeAdded;
-            var numberOfExceptionsToIgnore = 5 + (numberOfRowsToBeAdded / NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA);
+            var numberOfExceptionsToIgnore = 5 + (numberOfRowsToBeAdded / NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA);
             while (toBeAdded > 0)
             {
-                if (toBeAdded > NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA)
-                { toBeAdded = NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA; }
+                if (toBeAdded > NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA)
+                {
+                    toBeAdded = NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA;
+
+                    #region Logica di adattamento del numero di righe da aggiungere per volta
+                    if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 2000)
+                    {
+                        NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 4000;
+                    }
+                    else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 4000)
+                    {
+                        NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 6000;
+                    }
+                    else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 6000)
+                    {
+                        NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 8000;
+                    }
+                    else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 8000)
+                    {
+                        NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 2000;
+                    }
+                    #endregion
+                }
 
                 try
                 {
@@ -555,7 +577,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 }
 
                 stillToBeDeleted = destWorksheet.Dimension.End.Row - numeroRighePrevistoDopoLaCancellazione;
-            }            
+            }
         }
 
         private void IncollaRange(ExcelRange sourceRange, ExcelRange destRange)

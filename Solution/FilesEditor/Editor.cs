@@ -36,7 +36,6 @@ namespace FilesEditor
                 var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_Logger(stepContext),
-                    new Step_Start_DebugInfoLogger(stepContext),
 
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
                     new Step_ValidazioniPreliminari_SuperDettagli(stepContext),
@@ -56,11 +55,11 @@ namespace FilesEditor
             }
             catch (ManagedException managedException)
             {
-                return new ValidateSourceFilesOutput(stepContext,managedException);
+                return new ValidateSourceFilesOutput(stepContext, managedException);
             }
             catch (Exception ex)
             {
-                return new ValidateSourceFilesOutput(stepContext,new ManagedException(ex));
+                return new ValidateSourceFilesOutput(stepContext, new ManagedException(ex));
             }
         }
         #endregion
@@ -82,14 +81,49 @@ namespace FilesEditor
 
         private static UpdataDataSourceAndBuildPresentationOutput updataDataSourceAndBuildPresentation(UpdataDataSourceAndBuildPresentationInput buildPresentationInput, Configurazione configurazione)
         {
+            #region Preparazione StepContext
             var stepContext = new StepContext(configurazione);
             stepContext.SetContextFromInput(buildPresentationInput);
-            try
+            if (buildPresentationInput.BuildPresentationOnly)
             {
-                var stepsSequence = new List<StepBase>
-                {
+                stepContext.SetDatasourceStatus_ImportDatiCompletato();
+            }
+            #endregion
+
+            #region Preparazione Steps Sequence
+            List<StepBase> stepsSequence;
+
+            // L'import dei dati viete saltato quindi setto il flag per mantenere le logiche dell'interfaccia intatte
+            if (buildPresentationInput.BuildPresentationOnly)
+            {
+                stepsSequence = new List<StepBase>{
+                    new Step_Start_Logger(stepContext),                              
+
+                    #region Lettura info da DataSource
+                    new Step_CreaLista_SildeToGenerate(stepContext),
+                    new Step_CreaLista_ItemsToExportAsImage(stepContext),
+                    #endregion
+
+
+                    // fine operazioni fatte tramite libreria EPPlus
+                    new Step_Close_EPPlusHelpers(stepContext),
+
+                    #region Esportazione immagini da inserire nelle presentazioni
+                    new Step_TmpFolder_Predisposizione(stepContext),
+                    new Step_EsportaFileImmaginiDaExcel(stepContext),
+                    #endregion
+
+                    new Step_CreaFiles_Presentazioni(stepContext),
+                    new Step_TmpFolder_Pulizia(stepContext),
+
+                    new Step_Stop_Logger(stepContext),
+                    new Step_EsitoFinale_Success(stepContext)
+                    };
+            }
+            else
+            {
+                stepsSequence = new List<StepBase>{
                     new Step_Start_Logger(stepContext),
-                    new Step_Start_DebugInfoLogger(stepContext),
 
                     new Step_VerificaEditabilita_DataSource_File(stepContext),
                     new Step_ValidazioniPreliminari_SourceFiles(stepContext),
@@ -128,7 +162,12 @@ namespace FilesEditor
 
                     new Step_Stop_Logger(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
-                 };
+                    };
+            }
+            #endregion
+
+            try
+            {
                 RunStepSequence(stepsSequence, stepContext);
                 return new UpdataDataSourceAndBuildPresentationOutput(stepContext);
             }
@@ -156,7 +195,6 @@ namespace FilesEditor
                 {
                     stepContext.ElapsedTime = DateTime.Now - startTime;
                     stepContext.SettaEsitoFinale(esitoStep);
-                    stepContext.DebugInfoLogger.Beautify();
                     return;
                 }
             }

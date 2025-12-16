@@ -4,10 +4,7 @@ using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using FilesEditor.Tests.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace FilesEditor.Tests
 {
@@ -21,10 +18,6 @@ namespace FilesEditor.Tests
         string _fileForecasttName;
         string _fileRunRatetName;
         string _fileSuperDettaglitName;
-        //
-        bool _AppendCurrentYear_FileSuperDettagli;
-        DateTime _PeriodDate;
-        List<InputDataFilters_Item> _Applicablefilters;
 
         private void SettaDefaults()
         {
@@ -35,10 +28,6 @@ namespace FilesEditor.Tests
             _fileForecasttName = TestPaths.INPUT_FORECAST_FILE;
             _fileRunRatetName = TestPaths.INPUT_RUNRATE_FILE;
             _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_00012;
-            //
-            _AppendCurrentYear_FileSuperDettagli = true;
-            _PeriodDate = new DateTime(2025, 11, 2);
-            _Applicablefilters = new List<InputDataFilters_Item>();
         }
 
         private ValidateSourceFilesOutput EseguiMetodo()
@@ -60,7 +49,7 @@ namespace FilesEditor.Tests
             var fileRunRatePath = Path.Combine(inputFilesFolder, _fileRunRatetName);
             var fileSuperDettagliPath = Path.Combine(inputFilesFolder, _fileSuperDettaglitName);
             //
-            var powerPointTemplateFilePath = Path.Combine(BinFolderPath, FileNames.POWERPOINT_TEMPLATE_FILENAME);
+            //var powerPointTemplateFilePath = Path.Combine(BinFolderPath, FileNames.POWERPOINT_TEMPLATE_FILENAME);
 
             var input = new ValidateSourceFilesInput(
                         dataSourceFilePath: dataSourceFilePath,
@@ -79,38 +68,9 @@ namespace FilesEditor.Tests
         }
 
 
-
-
         [TestMethod]
         public void Scenario_OK_01()
         {
-            //// properties base class
-            //string dataSourceFolder = Path.Combine(TestFileFolderPath, TestPaths.DATASOURCE_FOLDER);
-            //string dataSourceFilePath = Path.Combine(dataSourceFolder, FilesEditor.Constants.FileNames.DATASOURCE_FILENAME);
-            //string destinationFolder = Path.Combine(TestFileFolderPath, TestPaths.OUTPUT_FOLDER);
-            //string tmpFolder = Path.Combine(destinationFolder, TestPaths.TMP_FOLDER);
-            //string debugFilePath = Path.Combine(destinationFolder, TestPaths.OUTPUT_DEBUGFILE);
-
-            //// properties specifiche di questo oggetto di input
-            //string fileBudgetPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_BUDGET_FILE);
-            //string fileForecastPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_FORECAST_FILE);
-            //string fileSuperDettagliPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_SUPERDETTAGLI_FILE_012);
-            //string fileRunRatePath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_RUNRATE_FILE);
-            //string fileCN43NPath = Path.Combine(TestFileFolderPath, TestPaths.INPUT_CN43N_FILE);
-
-            //var input = new ValidateSourceFilesInput(
-            //        dataSourceFilePath: dataSourceFilePath,
-            //        destinationFolder: destinationFolder,
-            //        tmpFolder: tmpFolder,
-            //        debugFilePath: debugFilePath,
-            //        //
-            //        fileBudgetPath: fileBudgetPath,
-            //        fileForecastPath: fileForecastPath,
-            //        fileSuperDettagliPath: fileSuperDettagliPath,
-            //        fileRunRatePath: fileRunRatePath,
-            //        fileCN43NPath: fileCN43NPath
-            //        );
-
             //var output = Editor.ValidateSourceFiles(input);
             SettaDefaults();
             var output = EseguiMetodo();

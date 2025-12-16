@@ -26,6 +26,7 @@ namespace FilesEditor.Tests
         bool _AppendCurrentYear_FileSuperDettagli;
         DateTime _PeriodDate;
         List<InputDataFilters_Item> _Applicablefilters;
+        bool _buildPresentationOnly;
 
         private void SettaDefaults()
         {
@@ -40,6 +41,7 @@ namespace FilesEditor.Tests
             _AppendCurrentYear_FileSuperDettagli = true;
             _PeriodDate = new DateTime(2025, 11, 2);
             _Applicablefilters = new List<InputDataFilters_Item>();
+            _buildPresentationOnly = false;
         }
 
         private UpdataDataSourceAndBuildPresentationOutput EseguiMetodo()
@@ -79,7 +81,8 @@ namespace FilesEditor.Tests
                         //
                         appendCurrentYear_FileSuperDettagli: _AppendCurrentYear_FileSuperDettagli,
                         periodDate: _PeriodDate,
-                        applicablefilters: _Applicablefilters
+                        applicablefilters: _Applicablefilters,
+                        buildPresentationOnly: _buildPresentationOnly
                         );
             return Editor.UpdataDataSourceAndBuildPresentation(input);
         }
@@ -161,7 +164,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -186,7 +189,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -211,7 +214,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -259,7 +262,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -306,7 +309,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -353,7 +356,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -400,7 +403,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 12
@@ -427,7 +430,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 20010
@@ -455,10 +458,38 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 20010
+                );
+        }
+
+
+
+        [TestMethod]
+        public void Scenario_Presentation_Only_01()
+        {
+            SettaDefaults();
+
+            // Personalizzazione parametri
+            _fileDataSourceName = TestPaths.DataSource_440000_Stay_000000_Go;
+            _buildPresentationOnly = true;
+
+            var output = EseguiMetodo();
+            CheckResults(
+                output: output,
+                numeroRigheBudget: 2 + 34,
+                numeroRigheForecast: 2 + 34,
+                numeroRigheSuperdettagli: 2 + 360000, // Headers + stay from different years + added by appending current year
+                numeroRigheRunRate: 1 + 1,
+                numeroRigheCN43N: 1 + 48,
+                //
+                numeroFilesFotoInTmpFolder: 14,
+                numeroWarnings: 14,
+                numeroPresentazioniGenerate: 2,
+                //
+                numeroRigheAnnoCorrente: 0
                 );
         }
 
@@ -482,7 +513,7 @@ namespace FilesEditor.Tests
                 numeroRigheCN43N: 1 + 12,
                 //
                 numeroFilesFotoInTmpFolder: 14,
-                numeroWarnings: 0,
+                numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
                 numeroRigheAnnoCorrente: 23

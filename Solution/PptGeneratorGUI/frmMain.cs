@@ -6,7 +6,6 @@ using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -760,47 +759,23 @@ namespace PptGeneratorGUI
             }
         }
 
-        private void validaInputBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            //var input = e.Argument as ValidateSourceFilesInput;
-            //var output = Editor.ValidateSourceFiles(input);
-            //e.Result = new object[] { input, output };
-        }
-
-        private void validaInputBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //var outputAndInput = e.Result as object[];
-            //var input = outputAndInput[0] as ValidateSourceFilesInput;
-            //var output = outputAndInput[1] as ValidateSourceFilesOutput;
-
-            //_inputValidato = output.Esito == EsitiFinali.Success;
-
-            //if (_inputValidato)
-            //{
-            //    _applicablefilters = output.Applicablefilters;
-            //    SetStatusLabel("Input validated successfully");
-            //}
-            //else
-            //{
-            //    SetStatusLabel("Input validated with errors");
-            //    SetOutputMessage(output.ManagedException);
-            //    btnCopyError.Visible = true;
-            //}
-
-            //lblElaborazioneInCorso.Visible = false;
-            //RefreshUI(false);
-        }
         #endregion
 
 
         #region CreaPresentazione
         private void btnBuildPresentation_Click(object sender, EventArgs e)
         {
-            buildPresentation();
+            importDataAndBuildPresentation();
+        }
+
+        private void btnTryBuildPresentationOnly_Click(object sender, EventArgs e)
+        {
+            btnTryBuildPresentationOnly.Visible = false;
+            importDataAndBuildPresentation(buildPresentationOnly: true);
         }
 
         const string AppTitle = "PowerPoint Generator";
-        private void buildPresentation()
+        private void importDataAndBuildPresentation(bool buildPresentationOnly = false)
         {
             ClearOutputArea();
 
@@ -834,7 +809,8 @@ namespace PptGeneratorGUI
                 powerPointTemplateFilePath: PowerPointTemplateFilePath,
                 appendCurrentYear_FileSuperDettagli: cbAppendCurrentYearSuperDettagli.Checked,
                 periodDate: _selectedDatePeriodo,
-                applicablefilters: _applicablefilters
+                applicablefilters: _applicablefilters,
+                buildPresentationOnly: buildPresentationOnly
                 );
 
             try
@@ -861,6 +837,7 @@ namespace PptGeneratorGUI
                     if (output.DatasourceStatus_ImportDatiCompletato)
                     {
                         //Todo: attivare pulsate per ripetere solo la creazione della presentazione
+                        btnTryBuildPresentationOnly.Visible = true;
                     }
 
                     //Mostrare eventuali dati nel fail
@@ -1180,5 +1157,7 @@ namespace PptGeneratorGUI
 
         }
         #endregion
+
+
     }
 }

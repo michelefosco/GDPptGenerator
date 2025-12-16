@@ -29,6 +29,8 @@ namespace FilesEditor.Steps.BuildPresentation
         /// </summary>
         private void CreaFilesImmaginiDaEsportare()
         {
+      //      throw new Exception("Fake exception to test retries logic.");
+
             ThrowExceptionIn_AnImageAlreadyExists();
 
             // monitora se il salvataggio del file Excel è già stato fatto almeno una volta

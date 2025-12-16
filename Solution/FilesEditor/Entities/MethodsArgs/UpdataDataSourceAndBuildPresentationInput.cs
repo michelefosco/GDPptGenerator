@@ -10,6 +10,8 @@ namespace FilesEditor.Entities.MethodsArgs
         public DateTime PeriodDate { get; private set; }
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
+        public bool BuildPresentationOnly { get; private set; }
+
         public UpdataDataSourceAndBuildPresentationInput(
                 string dataSourceFilePath,
                 string destinationFolder,
@@ -25,7 +27,8 @@ namespace FilesEditor.Entities.MethodsArgs
                 string powerPointTemplateFilePath,
                 bool appendCurrentYear_FileSuperDettagli,
                 DateTime periodDate,
-                List<InputDataFilters_Item> applicablefilters
+                List<InputDataFilters_Item> applicablefilters,
+                bool buildPresentationOnly
             )
         {
             // Properties from the base class
@@ -64,6 +67,7 @@ namespace FilesEditor.Entities.MethodsArgs
             AppendCurrentYear_FileSuperDettagli = appendCurrentYear_FileSuperDettagli;
             PeriodDate = periodDate;
             ApplicableFilters = applicablefilters ?? new List<InputDataFilters_Item>();
+            BuildPresentationOnly = buildPresentationOnly;
         }
     }
 }

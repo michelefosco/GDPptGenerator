@@ -24,7 +24,12 @@ namespace ExcelImageExtractors
             };
 
             // Aspetto che Excel sia pronto
-            InteropServices_Helper.WaitForExcelReady(excelApp);
+            //InteropServices_Helper.WaitForExcelReady(excelApp);
+
+            // Attempt a harmless call to check if Excel is responsive
+            int justToWaitForExcelReady = 0;
+            InteropServices_Helper.RetryComCall(() => justToWaitForExcelReady = excelApp.Hwnd);
+
 
             // Aumento la priorità del processso Excel
             InteropServices_Helper.PrioritizeExcelProcess();

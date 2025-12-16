@@ -228,7 +228,6 @@
     <Compile Include="Steps\BuildPresentation\Step_CreaFiles_Presentazioni.cs" />
     <Compile Include="Steps\Step_CreaLista_ItemsToExportAsImage.cs" />
     <Compile Include="Steps\Step_EsitoFinale_Success.cs" />
-    <Compile Include="Steps\Step_Start_FileDebugHelper.cs" />
     <Compile Include="Entities\MethodsArgs\ValidateSourceFilesOutput.cs" />
     <Compile Include="Steps\ValidateSourceFiles\Step_CreaLista_Applicablefilters.cs" />
     <Compile Include="Steps\Step_CreaLista_SildeToGenerate.cs" />

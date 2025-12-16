@@ -22,6 +22,7 @@ namespace FilesEditor.Steps
 
         private void Stop_Logger()
         {
+            Context.DebugInfoLogger.Beautify();
 
             Serilog.Log.Information("CloseAndFlush...");
             Serilog.Log.CloseAndFlush();
