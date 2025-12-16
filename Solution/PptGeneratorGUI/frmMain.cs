@@ -157,6 +157,7 @@ namespace PptGeneratorGUI
             gbPaths.Enabled = !_inputValidato;
             gbOptions.Enabled = _inputValidato;
             btnBuildPresentation.Enabled = _inputValidato;
+            lblDataPeriodo.Text = _selectedDatePeriodo.ToShortDateString();
 
             var isBudgetPathValid = IsBudgetPathValid();
             var isForecastPathValid = IsForecastPathValid();
@@ -1119,10 +1120,10 @@ namespace PptGeneratorGUI
             _applicablefilters = new List<InputDataFilters_Item>();
             _selectedDatePeriodo = DateTime.Today;
             cbAppendCurrentYearSuperDettagli.Checked = true;
+            SetDefaultDatePeriodo();
 
             ClearOutputArea();
             SvuotaComboBoxSelectedPaths();
-            //gbPaths.Enabled = true;
 
             RefreshUI(true);
         }
