@@ -400,15 +400,11 @@ FodyWeavers.xsd
 /PptGeneratorGUI.zip
 /PptGeneratorGUI/app.publish
 /PptGeneratorGUI
-/AAA Files for demo/Datasource/Big ones
 /AAA Files for demo/Output
 /Solution/FilesEditor.Tests/TestFiles/DataSourceFolder/DataSource_k230Stay_k40Go.xlsx
 /Solution/FilesEditor.Tests/TestFiles/DataSourceFolder/DataSource_190000_Stay_020000_Go.xlsx
 /Solution/FilesEditor.Tests/TestFiles/DataSourceFolder/DataSource_230000_Stay_040000_Go.xlsx
 /Solution/FilesEditor.Tests/TestFiles/DataSourceFolder/DataSource_200000_Stay_020000_Go.xlsx
-/AAA Files for demo/Input files/Output
-/AAA Test/Release Blocchi variabili/app.publish
-/AAA Test
 /Solution/FilesEditor.Tests/TestFiles/DataSourceFolder/DataSource_360000_Stay_000000_Go.xlsx
 /Solution/FilesEditor.Tests/TestFiles/DataSourceFolder/DataSource_440000_Stay_000000_Go.xlsx
 /AAA Files for demo/Input files/Superdettagli_030000.xlsx
@@ -428,3 +424,4 @@ FodyWeavers.xsd
 /AAA Files for demo/Datasources/DataSource_400000_Stay_000000_Go.xlsx
 /AAA Files for demo/Datasources/DataSource_440000_Stay_000000_Go.xlsx
 /AAA Files for demo/Datasources/DataSource_Scenario_GD.xlsx
+/_AAA Test

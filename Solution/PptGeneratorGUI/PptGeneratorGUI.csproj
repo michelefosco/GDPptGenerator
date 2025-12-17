@@ -195,6 +195,7 @@
     <None Include="DataSourceFolder\DataSource.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="DataSourceFolder\Info.xlsx" />
     <None Include="PowerPoint_Template - ConAreaRossaSegnaposto.pptx" />
     <None Include="PowerPoint_Template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -691,11 +691,13 @@ namespace EPPlusExtensions
             var currentWorksheet = GetWorksheet(worksheetName);
 
             var excelAddress = new ExcelAddress(address);
-            //
-            var toRow = excelAddress.End.Row;
-            var toColumn = excelAddress.End.Column;
+            // Angolo in alto a sx
             var fromRow = excelAddress.Start.Row;
             var fromCol = excelAddress.Start.Column;
+            // Angolo in basso a dx
+            var toRow = excelAddress.End.Row;
+            var toColumn = excelAddress.End.Column;
+
 
             if (toRow > currentWorksheet.Dimension.End.Row)
             { toRow = Math.Max(currentWorksheet.Dimension.End.Row, fromRow); }
