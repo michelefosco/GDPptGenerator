@@ -1,6 +1,5 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System;
 
 namespace FilesEditor.Steps
 {
@@ -18,8 +17,7 @@ namespace FilesEditor.Steps
         {
             Context.DebugInfoLogger.Beautify();
 
-            Serilog.Log.Information("CloseAndFlush...");
-            Serilog.Log.CloseAndFlush();
+            //Serilog.Log.CloseAndFlush();
 
             return EsitiFinali.Success;
         }

@@ -1,7 +1,7 @@
 ﻿using FilesEditor.Entities;
 using FilesEditor.Enums;
 using FilesEditor.Helpers;
-using Serilog;
+//using Serilog;
 
 
 namespace FilesEditor.Steps
@@ -18,22 +18,22 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            Start_Serilog_Logger();
+            //Start_Serilog_Logger();
             Start_DebugInfoLogger();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void Start_Serilog_Logger()
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .WriteTo.File("PptGeneratorGUI.log",
-                                rollingInterval: RollingInterval.Day,
-                                buffered: true)
-                        .CreateLogger();
-            Log.Information("Log started");
-        }
+        //private void Start_Serilog_Logger()
+        //{
+        //    Log.Logger = new LoggerConfiguration()
+        //        .MinimumLevel.Information()
+        //        .WriteTo.File("PptGeneratorGUI.log",
+        //                        rollingInterval: RollingInterval.Day,
+        //                        buffered: true)
+        //                .CreateLogger();
+        //    Log.Information("Log started");
+        //}
 
         private void Start_DebugInfoLogger()
         {
