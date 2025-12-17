@@ -11,6 +11,8 @@ namespace ExcelImageExtractors
 {
     public class ImageExtractor
     {
+        private const string MESSAGGIO_ERRORE_COPY_PICTURE = "CopyPicture method of Range class failed";
+
         readonly Microsoft.Office.Interop.Excel.Application excelApp = null;
         Workbook workbook = null;
         Worksheet worksheet = null;
@@ -57,32 +59,20 @@ namespace ExcelImageExtractors
                 InteropServices_Helper.RetryComCall(() => range = worksheet.Range[rangeAddress]);
 
                 // copio il range come immmagine nella Clipboard
-                InteropServices_Helper.RetryComCall(() => range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap));
+                InteropServices_Helper.RetryComCall(
+                                    action: () => range.CopyPicture(XlPictureAppearance.xlScreen, XlCopyPictureFormat.xlBitmap),
+                                    errorMessageToIgnore: MESSAGGIO_ERRORE_COPY_PICTURE);
 
-                // A volta l'immagine non è immediatamente disponibile nella Clipboard, quindi asppeto qualche millisecondo e riprovo
-                for (int attemptNumber = 1; attemptNumber <= 5; attemptNumber++)
-                {
-                    // Per funzionare questo codice deve essere eseguito nel thread principale dell'applicazione
-                    if (Clipboard.ContainsImage())
-                    {
-                        // Recupera l'immagine dagli appunti
-                        var clipboardImage = Clipboard.GetImage();
-                        if (clipboardImage != null)
-                        {
-                            clipboardImage.Save(destinationPath, ImageFormat.Png);
-                            break;
-                        }
-                    }
-                    Thread.Sleep(attemptNumber * 50);
-                }
+                // salvo l'immagine dagli appunti sul file system
+                SaveImageFromClipboardOnFile(destinationPath);
             }
             catch (Exception ex)
             {
+                
                 // Ignoro questa eccezione in quanto può capitare di tanto in tanto, quindi la ignoro in modo di poter tentare un altro tentativo
-                if (!ex.Message.Equals("CopyPicture method of Range class failed"))
+                //if (// !ex.Message.Equals("CopyPicture method of Range class failed"))
+                if (!ex.Message.Equals(MESSAGGIO_ERRORE_COPY_PICTURE, StringComparison.Ordinal))
                 {
-                    Close();
-
                     throw ex;
                 }
             }
@@ -95,6 +85,7 @@ namespace ExcelImageExtractors
                 { Marshal.ReleaseComObject(worksheet); }
             }
         }
+
 
         public void Save()
         {
@@ -118,6 +109,28 @@ namespace ExcelImageExtractors
             {
                 excelApp.Quit();
                 Marshal.ReleaseComObject(excelApp);
+            }
+        }
+
+        private static void SaveImageFromClipboardOnFile(string destinationPath)
+        {
+            const int NUMERO_MASSIMO_TENTATIVI = 8;
+
+            // A volta l'immagine non è immediatamente disponibile nella Clipboard, quindi asppeto qualche millisecondo e riprovo
+            for (int attemptNumber = 1; attemptNumber <= NUMERO_MASSIMO_TENTATIVI; attemptNumber++)
+            {
+                // Per funzionare questo codice deve essere eseguito nel thread principale dell'applicazione
+                if (Clipboard.ContainsImage())
+                {
+                    // Recupera l'immagine dagli appunti
+                    var clipboardImage = Clipboard.GetImage();
+                    if (clipboardImage != null)
+                    {
+                        clipboardImage.Save(destinationPath, ImageFormat.Png);
+                        break;
+                    }
+                }
+                Thread.Sleep(attemptNumber * 50);
             }
         }
     }

@@ -4,6 +4,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -61,13 +62,13 @@ namespace FilesEditor.Steps.BuildPresentation
                         // tento di generare il file, alcune volte potrebbe non funzionare al primo tentativo
                         imageExtractor.ExportToImageFileOnFileSystem(itemToExportAsImage.WorkSheetName, itemToExportAsImage.PrintArea, itemToExportAsImage.ImageFilePath);
                         var timeSpent = DateTime.UtcNow - startTime;
-                        Context.DebugInfoLogger.LogPerformance(StepName + $" ExportToImageFileOnFileSystem {itemToExportAsImage.WorkSheetName}  {itemToExportAsImage.PrintArea}", DateTime.UtcNow - startTime);
 
                         // verifico la sua presenza su file system ed eventualmente lo marco come "Presente"
                         if (File.Exists(itemToExportAsImage.ImageFilePath))
                         { itemToExportAsImage.MarkAsPresentOnFileSistem(); }
 
                         // loggo il risultato del tentativo
+                        Context.DebugInfoLogger.LogPerformance(StepName + $" ExportToImageFileOnFileSystem {itemToExportAsImage.WorkSheetName}  {itemToExportAsImage.PrintArea}", timeSpent);
                         Context.DebugInfoLogger.LogInfoExportImages(
                             attemptNumber, //imageExtractionAttemptNumber,
                             itemToExportAsImage.ImageId,
@@ -82,6 +83,8 @@ namespace FilesEditor.Steps.BuildPresentation
                     // se tutti i file sono presenti interrompo i tentativi 
                     if (!Context.ItemsToExportAsImage.Any(_ => !_.IsPresentOnFileSistem))
                     { break; }
+
+                    Thread.Sleep(500); // aspetto mezzo secondo prima di un nuovo tentativo
                 }
 
                 // salvo le modifiche al file Excel solo la prima volta (in quanto modificao dal RefreshAll durante il caricamento)
@@ -101,6 +104,8 @@ namespace FilesEditor.Steps.BuildPresentation
                 // se tutti i file sono presenti interrompo i tentativi 
                 if (!Context.ItemsToExportAsImage.Any(_ => !_.IsPresentOnFileSistem))
                 { break; }
+
+                Thread.Sleep(500); // aspetto mezzo secondo prima di un nuovo tentativo
             }
 
             ThrowExceptionIf_AnImageIsMissing();
@@ -123,7 +128,7 @@ namespace FilesEditor.Steps.BuildPresentation
             {
                 if (!File.Exists(itemsToExportAsImage.ImageFilePath))
                 {
-                    throw new System.Exception($"The file '{itemsToExportAsImage.ImageFilePath}' has not been extracted.");
+                    throw new System.Exception($"The data source was updated successfully, but the presentation could not be built.\r\nOne required image was not extracted successfully.\r\nPlease click Build Presentation Only to try again.");
                 }
             }
         }

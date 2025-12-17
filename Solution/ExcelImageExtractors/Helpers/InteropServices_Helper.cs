@@ -8,7 +8,7 @@ namespace ExcelImageExtractors.Helpers
 {
     internal class InteropServices_Helper
     {
-        const uint RPC_E_CALL_REJECTED = 0x80010001;
+        private const uint RPC_E_CALL_REJECTED = 0x80010001;
 
         static internal void PrioritizeExcelProcess()
         {
@@ -19,42 +19,13 @@ namespace ExcelImageExtractors.Helpers
             }
         }
 
-        //static internal void WaitForExcelReady(Microsoft.Office.Interop.Excel.Application excelApp)
-        //{
-        //    int waitingTimeMs = 100;
-
-        //    int availableAttempts = 200;  // max 20 seconds
-        //    while (availableAttempts-- > 0)
-        //    {
-        //        try
-        //        {
-        //            // Attempt a harmless call to check if Excel is responsive
-        //            var test = excelApp.Hwnd;
-        //            return; // no exception → Excel is ready
-        //        }
-        //        catch (COMException ex)
-        //        {
-        //            // Excel is temporarily busy (edit mode, dialog, recalculating)
-        //            if ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
-        //            {
-        //                Thread.Sleep(waitingTimeMs += 100);
-        //                continue;
-        //            }
-
-        //            // If it's not RPC_E_CALL_REJECTED → rethrow
-        //            throw;
-        //        }
-        //    }
-
-        //    throw new TimeoutException("Excel did not become ready in time.");
-        //}
-
-        static internal void RetryComCall(Action action)
+        static internal void RetryComCall(Action action, string errorMessageToIgnore = null)
         {
-            const int ADDED_WAITING_TIME_MS = 50;
-            int waitingTimeMs = 100;
+            const int ADDED_WAITING_TIME_MS = 100;
+            const int MIMINUM_WAITING_TIME_MS = 300;
 
-            int availableAttempts = 25;
+            var waitingTimeMs = MIMINUM_WAITING_TIME_MS;
+            var availableAttempts = 20;
 
             while (availableAttempts-- > 0)
             {
@@ -65,14 +36,25 @@ namespace ExcelImageExtractors.Helpers
                 }
                 catch (COMException ex)// when ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
                 {
-                    // Excel is temporarily busy (edit mode, dialog, recalculating)
-                    if ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED && availableAttempts > 1)
+                    if (availableAttempts > 1)
                     {
-                        Thread.Sleep(waitingTimeMs += ADDED_WAITING_TIME_MS);
-                        continue;
+                        // 1) condizione da ignorare
+                        if ((uint)ex.ErrorCode == RPC_E_CALL_REJECTED)
+                        {
+                            // Excel is  busy, attendo per qualche millisecondo
+                            Thread.Sleep(waitingTimeMs += ADDED_WAITING_TIME_MS);
+                            continue;
+                        }
+
+                        // 2° condizione da ignorare
+                        if (!string.IsNullOrEmpty(errorMessageToIgnore) && ex.Message.Equals(errorMessageToIgnore, StringComparison.Ordinal))
+                        {
+                            // Per gli errori da ignorare applico il tempo minimo di delay
+                            Thread.Sleep(MIMINUM_WAITING_TIME_MS);
+                            continue;
+                        }
                     }
 
-                    // If it's not RPC_E_CALL_REJECTED → rethrow
                     throw;
                 }
             }

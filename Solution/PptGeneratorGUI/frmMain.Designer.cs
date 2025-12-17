@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -114,10 +114,10 @@
             this.toolStripStatusLabel1,
             this.txtStatusLabel,
             this.lblVersion});
-            this.statusStrip.Location = new System.Drawing.Point(0, 1399);
+            this.statusStrip.Location = new System.Drawing.Point(0, 902);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Padding = new System.Windows.Forms.Padding(3, 0, 21, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1785, 22);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
+            this.statusStrip.Size = new System.Drawing.Size(1190, 22);
             this.statusStrip.TabIndex = 21;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -125,7 +125,7 @@
             // 
             this.toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripProgressBar.Name = "toolStripProgressBar";
-            this.toolStripProgressBar.Size = new System.Drawing.Size(150, 25);
+            this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.toolStripProgressBar.Visible = false;
             // 
@@ -144,7 +144,7 @@
             // lblVersion
             // 
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(1664, 17);
+            this.lblVersion.Size = new System.Drawing.Size(1077, 17);
             this.lblVersion.Spring = true;
             this.lblVersion.Text = "[VERSIONE]";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -152,10 +152,9 @@
             // btnSelectFileBudget
             // 
             this.btnSelectFileBudget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileBudget.Location = new System.Drawing.Point(1614, 22);
-            this.btnSelectFileBudget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectFileBudget.Location = new System.Drawing.Point(1076, 14);
             this.btnSelectFileBudget.Name = "btnSelectFileBudget";
-            this.btnSelectFileBudget.Size = new System.Drawing.Size(44, 35);
+            this.btnSelectFileBudget.Size = new System.Drawing.Size(29, 23);
             this.btnSelectFileBudget.TabIndex = 1;
             this.btnSelectFileBudget.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectFileBudget, "Open the window to select a file");
@@ -165,10 +164,9 @@
             // btnSelectDestinationFolder
             // 
             this.btnSelectDestinationFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectDestinationFolder.Location = new System.Drawing.Point(1614, 228);
-            this.btnSelectDestinationFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectDestinationFolder.Location = new System.Drawing.Point(1076, 148);
             this.btnSelectDestinationFolder.Name = "btnSelectDestinationFolder";
-            this.btnSelectDestinationFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnSelectDestinationFolder.Size = new System.Drawing.Size(29, 23);
             this.btnSelectDestinationFolder.TabIndex = 18;
             this.btnSelectDestinationFolder.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectDestinationFolder, "Open the window to select a file");
@@ -178,10 +176,9 @@
             // lblCartellaOutputPath
             // 
             this.lblCartellaOutputPath.AutoSize = true;
-            this.lblCartellaOutputPath.Location = new System.Drawing.Point(6, 232);
-            this.lblCartellaOutputPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCartellaOutputPath.Location = new System.Drawing.Point(4, 151);
             this.lblCartellaOutputPath.Name = "lblCartellaOutputPath";
-            this.lblCartellaOutputPath.Size = new System.Drawing.Size(106, 20);
+            this.lblCartellaOutputPath.Size = new System.Drawing.Size(71, 13);
             this.lblCartellaOutputPath.TabIndex = 11;
             this.lblCartellaOutputPath.Text = "Output folder:";
             this.toolTipDefault.SetToolTip(this.lblCartellaOutputPath, "Folder where the output files will be saved into");
@@ -189,10 +186,9 @@
             // btnSelectForecastFile
             // 
             this.btnSelectForecastFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectForecastFile.Location = new System.Drawing.Point(1614, 62);
-            this.btnSelectForecastFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectForecastFile.Location = new System.Drawing.Point(1076, 40);
             this.btnSelectForecastFile.Name = "btnSelectForecastFile";
-            this.btnSelectForecastFile.Size = new System.Drawing.Size(44, 35);
+            this.btnSelectForecastFile.Size = new System.Drawing.Size(29, 23);
             this.btnSelectForecastFile.TabIndex = 5;
             this.btnSelectForecastFile.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectForecastFile, "Open the window to select a file");
@@ -202,10 +198,9 @@
             // btnSelectFileSuperDettagli
             // 
             this.btnSelectFileSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileSuperDettagli.Location = new System.Drawing.Point(1614, 145);
-            this.btnSelectFileSuperDettagli.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectFileSuperDettagli.Location = new System.Drawing.Point(1076, 94);
             this.btnSelectFileSuperDettagli.Name = "btnSelectFileSuperDettagli";
-            this.btnSelectFileSuperDettagli.Size = new System.Drawing.Size(44, 35);
+            this.btnSelectFileSuperDettagli.Size = new System.Drawing.Size(29, 23);
             this.btnSelectFileSuperDettagli.TabIndex = 14;
             this.btnSelectFileSuperDettagli.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectFileSuperDettagli, "Open the window to select a file");
@@ -215,10 +210,9 @@
             // btnSelectFileRunRate
             // 
             this.btnSelectFileRunRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileRunRate.Location = new System.Drawing.Point(1614, 103);
-            this.btnSelectFileRunRate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectFileRunRate.Location = new System.Drawing.Point(1076, 67);
             this.btnSelectFileRunRate.Name = "btnSelectFileRunRate";
-            this.btnSelectFileRunRate.Size = new System.Drawing.Size(44, 35);
+            this.btnSelectFileRunRate.Size = new System.Drawing.Size(29, 23);
             this.btnSelectFileRunRate.TabIndex = 9;
             this.btnSelectFileRunRate.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectFileRunRate, "Open the window to select a file");
@@ -229,10 +223,9 @@
             // 
             this.btnOpenFileRunRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileRunRate.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileRunRate.Image")));
-            this.btnOpenFileRunRate.Location = new System.Drawing.Point(1720, 102);
-            this.btnOpenFileRunRate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileRunRate.Location = new System.Drawing.Point(1147, 66);
             this.btnOpenFileRunRate.Name = "btnOpenFileRunRate";
-            this.btnOpenFileRunRate.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileRunRate.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileRunRate.TabIndex = 11;
             this.toolTipDefault.SetToolTip(this.btnOpenFileRunRate, "Open the file with Excel");
             this.btnOpenFileRunRate.UseVisualStyleBackColor = true;
@@ -242,10 +235,9 @@
             // 
             this.btnOpenFileRunRateFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileRunRateFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileRunRateFolder.Image")));
-            this.btnOpenFileRunRateFolder.Location = new System.Drawing.Point(1666, 102);
-            this.btnOpenFileRunRateFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileRunRateFolder.Location = new System.Drawing.Point(1111, 66);
             this.btnOpenFileRunRateFolder.Name = "btnOpenFileRunRateFolder";
-            this.btnOpenFileRunRateFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileRunRateFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileRunRateFolder.TabIndex = 10;
             this.toolTipDefault.SetToolTip(this.btnOpenFileRunRateFolder, "Open the folder where the selected file is located");
             this.btnOpenFileRunRateFolder.UseVisualStyleBackColor = true;
@@ -255,10 +247,9 @@
             // 
             this.btnOpenFileSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileSuperDettagli.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileSuperDettagli.Image")));
-            this.btnOpenFileSuperDettagli.Location = new System.Drawing.Point(1719, 143);
-            this.btnOpenFileSuperDettagli.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileSuperDettagli.Location = new System.Drawing.Point(1146, 93);
             this.btnOpenFileSuperDettagli.Name = "btnOpenFileSuperDettagli";
-            this.btnOpenFileSuperDettagli.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileSuperDettagli.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileSuperDettagli.TabIndex = 16;
             this.toolTipDefault.SetToolTip(this.btnOpenFileSuperDettagli, "Open the file with Excel");
             this.btnOpenFileSuperDettagli.UseVisualStyleBackColor = true;
@@ -268,10 +259,9 @@
             // 
             this.btnOpenFileSuperDettagliFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileSuperDettagliFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileSuperDettagliFolder.Image")));
-            this.btnOpenFileSuperDettagliFolder.Location = new System.Drawing.Point(1666, 145);
-            this.btnOpenFileSuperDettagliFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileSuperDettagliFolder.Location = new System.Drawing.Point(1111, 94);
             this.btnOpenFileSuperDettagliFolder.Name = "btnOpenFileSuperDettagliFolder";
-            this.btnOpenFileSuperDettagliFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileSuperDettagliFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileSuperDettagliFolder.TabIndex = 15;
             this.toolTipDefault.SetToolTip(this.btnOpenFileSuperDettagliFolder, "Open the folder where the selected file is located");
             this.btnOpenFileSuperDettagliFolder.UseVisualStyleBackColor = true;
@@ -281,10 +271,9 @@
             // 
             this.btnOpenFileForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileForecast.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileForecast.Image")));
-            this.btnOpenFileForecast.Location = new System.Drawing.Point(1720, 62);
-            this.btnOpenFileForecast.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileForecast.Location = new System.Drawing.Point(1147, 40);
             this.btnOpenFileForecast.Name = "btnOpenFileForecast";
-            this.btnOpenFileForecast.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileForecast.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileForecast.TabIndex = 7;
             this.toolTipDefault.SetToolTip(this.btnOpenFileForecast, "Open the file with Excel");
             this.btnOpenFileForecast.UseVisualStyleBackColor = true;
@@ -294,10 +283,9 @@
             // 
             this.btnOpenFileForecastFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileForecastFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileForecastFolder.Image")));
-            this.btnOpenFileForecastFolder.Location = new System.Drawing.Point(1666, 62);
-            this.btnOpenFileForecastFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileForecastFolder.Location = new System.Drawing.Point(1111, 40);
             this.btnOpenFileForecastFolder.Name = "btnOpenFileForecastFolder";
-            this.btnOpenFileForecastFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileForecastFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileForecastFolder.TabIndex = 6;
             this.toolTipDefault.SetToolTip(this.btnOpenFileForecastFolder, "Open the folder where the selected file is located");
             this.btnOpenFileForecastFolder.UseVisualStyleBackColor = true;
@@ -307,10 +295,9 @@
             // 
             this.btnOpenFileBudget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileBudget.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileBudget.Image")));
-            this.btnOpenFileBudget.Location = new System.Drawing.Point(1720, 22);
-            this.btnOpenFileBudget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileBudget.Location = new System.Drawing.Point(1147, 14);
             this.btnOpenFileBudget.Name = "btnOpenFileBudget";
-            this.btnOpenFileBudget.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileBudget.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileBudget.TabIndex = 3;
             this.toolTipDefault.SetToolTip(this.btnOpenFileBudget, "Open the file with Excel");
             this.btnOpenFileBudget.UseVisualStyleBackColor = true;
@@ -320,10 +307,9 @@
             // 
             this.btnOpenDestFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenDestFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenDestFolder.Image")));
-            this.btnOpenDestFolder.Location = new System.Drawing.Point(1666, 229);
-            this.btnOpenDestFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenDestFolder.Location = new System.Drawing.Point(1111, 149);
             this.btnOpenDestFolder.Name = "btnOpenDestFolder";
-            this.btnOpenDestFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenDestFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenDestFolder.TabIndex = 19;
             this.toolTipDefault.SetToolTip(this.btnOpenDestFolder, "Open the destination folder");
             this.btnOpenDestFolder.UseVisualStyleBackColor = true;
@@ -333,10 +319,9 @@
             // 
             this.btnOpenFileBudgetFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileBudgetFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileBudgetFolder.Image")));
-            this.btnOpenFileBudgetFolder.Location = new System.Drawing.Point(1666, 22);
-            this.btnOpenFileBudgetFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileBudgetFolder.Location = new System.Drawing.Point(1111, 14);
             this.btnOpenFileBudgetFolder.Name = "btnOpenFileBudgetFolder";
-            this.btnOpenFileBudgetFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileBudgetFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileBudgetFolder.TabIndex = 2;
             this.toolTipDefault.SetToolTip(this.btnOpenFileBudgetFolder, "Open the folder where the selected file is located");
             this.btnOpenFileBudgetFolder.UseVisualStyleBackColor = true;
@@ -345,10 +330,9 @@
             // btnBuildPresentation
             // 
             this.btnBuildPresentation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBuildPresentation.Location = new System.Drawing.Point(1604, 885);
-            this.btnBuildPresentation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnBuildPresentation.Location = new System.Drawing.Point(1069, 575);
             this.btnBuildPresentation.Name = "btnBuildPresentation";
-            this.btnBuildPresentation.Size = new System.Drawing.Size(160, 55);
+            this.btnBuildPresentation.Size = new System.Drawing.Size(107, 36);
             this.btnBuildPresentation.TabIndex = 25;
             this.btnBuildPresentation.Text = "&Import data and build presentation";
             this.toolTipDefault.SetToolTip(this.btnBuildPresentation, "Start building the presentation");
@@ -358,10 +342,9 @@
             // btnValidaInput
             // 
             this.btnValidaInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnValidaInput.Location = new System.Drawing.Point(1590, 331);
-            this.btnValidaInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnValidaInput.Location = new System.Drawing.Point(1060, 215);
             this.btnValidaInput.Name = "btnValidaInput";
-            this.btnValidaInput.Size = new System.Drawing.Size(180, 46);
+            this.btnValidaInput.Size = new System.Drawing.Size(120, 30);
             this.btnValidaInput.TabIndex = 20;
             this.btnValidaInput.Text = "&Validate input files";
             this.toolTipDefault.SetToolTip(this.btnValidaInput, "Validate input files and load filters information");
@@ -372,10 +355,9 @@
             // 
             this.btnOpenFileCN43N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileCN43N.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileCN43N.Image")));
-            this.btnOpenFileCN43N.Location = new System.Drawing.Point(1720, 183);
-            this.btnOpenFileCN43N.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileCN43N.Location = new System.Drawing.Point(1147, 119);
             this.btnOpenFileCN43N.Name = "btnOpenFileCN43N";
-            this.btnOpenFileCN43N.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileCN43N.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileCN43N.TabIndex = 40;
             this.toolTipDefault.SetToolTip(this.btnOpenFileCN43N, "Open the file with Excel");
             this.btnOpenFileCN43N.UseVisualStyleBackColor = true;
@@ -385,10 +367,9 @@
             // 
             this.btnOpenFileCN43NFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenFileCN43NFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFileCN43NFolder.Image")));
-            this.btnOpenFileCN43NFolder.Location = new System.Drawing.Point(1666, 183);
-            this.btnOpenFileCN43NFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenFileCN43NFolder.Location = new System.Drawing.Point(1111, 119);
             this.btnOpenFileCN43NFolder.Name = "btnOpenFileCN43NFolder";
-            this.btnOpenFileCN43NFolder.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenFileCN43NFolder.Size = new System.Drawing.Size(29, 23);
             this.btnOpenFileCN43NFolder.TabIndex = 39;
             this.toolTipDefault.SetToolTip(this.btnOpenFileCN43NFolder, "Open the folder where the selected file is located");
             this.btnOpenFileCN43NFolder.UseVisualStyleBackColor = true;
@@ -397,10 +378,9 @@
             // btnSelectFileCN43N
             // 
             this.btnSelectFileCN43N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFileCN43N.Location = new System.Drawing.Point(1614, 185);
-            this.btnSelectFileCN43N.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectFileCN43N.Location = new System.Drawing.Point(1076, 120);
             this.btnSelectFileCN43N.Name = "btnSelectFileCN43N";
-            this.btnSelectFileCN43N.Size = new System.Drawing.Size(44, 35);
+            this.btnSelectFileCN43N.Size = new System.Drawing.Size(29, 23);
             this.btnSelectFileCN43N.TabIndex = 38;
             this.btnSelectFileCN43N.Text = "...";
             this.toolTipDefault.SetToolTip(this.btnSelectFileCN43N, "Open the window to select a file");
@@ -411,8 +391,7 @@
             // 
             this.lblDataPeriodo.AutoSize = true;
             this.lblDataPeriodo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDataPeriodo.Location = new System.Drawing.Point(154, 40);
-            this.lblDataPeriodo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDataPeriodo.Location = new System.Drawing.Point(103, 26);
             this.lblDataPeriodo.Name = "lblDataPeriodo";
             this.lblDataPeriodo.Size = new System.Drawing.Size(75, 13);
             this.lblDataPeriodo.TabIndex = 21;
@@ -421,20 +400,18 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 35);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(4, 23);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 20);
+            this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 47;
             this.label4.Text = "Period:";
             // 
             // btnOpenCalendar
             // 
             this.btnOpenCalendar.Image = global::PptGeneratorGUI.Properties.Resources.CalendarIcon;
-            this.btnOpenCalendar.Location = new System.Drawing.Point(276, 32);
-            this.btnOpenCalendar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOpenCalendar.Location = new System.Drawing.Point(184, 21);
             this.btnOpenCalendar.Name = "btnOpenCalendar";
-            this.btnOpenCalendar.Size = new System.Drawing.Size(44, 35);
+            this.btnOpenCalendar.Size = new System.Drawing.Size(29, 23);
             this.btnOpenCalendar.TabIndex = 22;
             this.btnOpenCalendar.UseVisualStyleBackColor = true;
             this.btnOpenCalendar.Click += new System.EventHandler(this.btnOpenCalendar_Click);
@@ -446,10 +423,9 @@
             this.cmbFileBudgetPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbFileBudgetPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbFileBudgetPath.FormattingEnabled = true;
-            this.cmbFileBudgetPath.Location = new System.Drawing.Point(158, 25);
-            this.cmbFileBudgetPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbFileBudgetPath.Location = new System.Drawing.Point(105, 16);
             this.cmbFileBudgetPath.Name = "cmbFileBudgetPath";
-            this.cmbFileBudgetPath.Size = new System.Drawing.Size(1446, 28);
+            this.cmbFileBudgetPath.Size = new System.Drawing.Size(965, 21);
             this.cmbFileBudgetPath.TabIndex = 0;
             this.cmbFileBudgetPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileBudgetPath_SelectedIndexChanged);
             this.cmbFileBudgetPath.TextUpdate += new System.EventHandler(this.cmbFileBudgetPath_TextUpdate);
@@ -457,20 +433,18 @@
             // lblFileBudgetPath
             // 
             this.lblFileBudgetPath.AutoSize = true;
-            this.lblFileBudgetPath.Location = new System.Drawing.Point(6, 29);
-            this.lblFileBudgetPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFileBudgetPath.Location = new System.Drawing.Point(4, 19);
             this.lblFileBudgetPath.Name = "lblFileBudgetPath";
-            this.lblFileBudgetPath.Size = new System.Drawing.Size(89, 20);
+            this.lblFileBudgetPath.Size = new System.Drawing.Size(60, 13);
             this.lblFileBudgetPath.TabIndex = 6;
             this.lblFileBudgetPath.Text = "Budget file:";
             // 
             // lblResults
             // 
             this.lblResults.AutoSize = true;
-            this.lblResults.Location = new System.Drawing.Point(18, 915);
-            this.lblResults.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblResults.Location = new System.Drawing.Point(12, 595);
             this.lblResults.Name = "lblResults";
-            this.lblResults.Size = new System.Drawing.Size(67, 20);
+            this.lblResults.Size = new System.Drawing.Size(45, 13);
             this.lblResults.TabIndex = 20;
             this.lblResults.Text = "Results:";
             // 
@@ -481,10 +455,9 @@
             this.cmbDestinationFolderPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbDestinationFolderPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbDestinationFolderPath.FormattingEnabled = true;
-            this.cmbDestinationFolderPath.Location = new System.Drawing.Point(158, 228);
-            this.cmbDestinationFolderPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbDestinationFolderPath.Location = new System.Drawing.Point(105, 148);
             this.cmbDestinationFolderPath.Name = "cmbDestinationFolderPath";
-            this.cmbDestinationFolderPath.Size = new System.Drawing.Size(1446, 28);
+            this.cmbDestinationFolderPath.Size = new System.Drawing.Size(965, 21);
             this.cmbDestinationFolderPath.TabIndex = 17;
             this.cmbDestinationFolderPath.SelectedIndexChanged += new System.EventHandler(this.cmbDestinationFolderPath_SelectedIndexChanged);
             this.cmbDestinationFolderPath.TextUpdate += new System.EventHandler(this.cmbDestinationFolderPath_TextUpdate);
@@ -497,11 +470,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.wbExecutionResult.CausesValidation = false;
             this.wbExecutionResult.IsWebBrowserContextMenuEnabled = false;
-            this.wbExecutionResult.Location = new System.Drawing.Point(14, 945);
-            this.wbExecutionResult.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.wbExecutionResult.MinimumSize = new System.Drawing.Size(30, 31);
+            this.wbExecutionResult.Location = new System.Drawing.Point(9, 614);
+            this.wbExecutionResult.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbExecutionResult.Name = "wbExecutionResult";
-            this.wbExecutionResult.Size = new System.Drawing.Size(1749, 665);
+            this.wbExecutionResult.Size = new System.Drawing.Size(1166, 432);
             this.wbExecutionResult.TabIndex = 25;
             this.wbExecutionResult.WebBrowserShortcutsEnabled = false;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating);
@@ -510,10 +482,9 @@
             // 
             this.btnCopyError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyError.AutoSize = true;
-            this.btnCopyError.Location = new System.Drawing.Point(1494, 1575);
-            this.btnCopyError.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.btnCopyError.Location = new System.Drawing.Point(996, 1024);
             this.btnCopyError.Name = "btnCopyError";
-            this.btnCopyError.Size = new System.Drawing.Size(220, 20);
+            this.btnCopyError.Size = new System.Drawing.Size(148, 13);
             this.btnCopyError.TabIndex = 25;
             this.btnCopyError.TabStop = true;
             this.btnCopyError.Text = "Copy the error in the clipboard";
@@ -532,10 +503,9 @@
             this.cmbFileForecastPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbFileForecastPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbFileForecastPath.FormattingEnabled = true;
-            this.cmbFileForecastPath.Location = new System.Drawing.Point(158, 65);
-            this.cmbFileForecastPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbFileForecastPath.Location = new System.Drawing.Point(105, 42);
             this.cmbFileForecastPath.Name = "cmbFileForecastPath";
-            this.cmbFileForecastPath.Size = new System.Drawing.Size(1446, 28);
+            this.cmbFileForecastPath.Size = new System.Drawing.Size(965, 21);
             this.cmbFileForecastPath.TabIndex = 4;
             this.cmbFileForecastPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileForecastPath_SelectedIndexChanged);
             this.cmbFileForecastPath.TextUpdate += new System.EventHandler(this.cmbFileForecastPath_TextUpdate);
@@ -543,10 +513,9 @@
             // lblFileForecastPath
             // 
             this.lblFileForecastPath.AutoSize = true;
-            this.lblFileForecastPath.Location = new System.Drawing.Point(6, 69);
-            this.lblFileForecastPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFileForecastPath.Location = new System.Drawing.Point(4, 45);
             this.lblFileForecastPath.Name = "lblFileForecastPath";
-            this.lblFileForecastPath.Size = new System.Drawing.Size(100, 20);
+            this.lblFileForecastPath.Size = new System.Drawing.Size(67, 13);
             this.lblFileForecastPath.TabIndex = 26;
             this.lblFileForecastPath.Text = "Forecast file:";
             // 
@@ -557,10 +526,9 @@
             this.cmbFileSuperDettagliPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbFileSuperDettagliPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbFileSuperDettagliPath.FormattingEnabled = true;
-            this.cmbFileSuperDettagliPath.Location = new System.Drawing.Point(158, 145);
-            this.cmbFileSuperDettagliPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbFileSuperDettagliPath.Location = new System.Drawing.Point(105, 94);
             this.cmbFileSuperDettagliPath.Name = "cmbFileSuperDettagliPath";
-            this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(1249, 28);
+            this.cmbFileSuperDettagliPath.Size = new System.Drawing.Size(834, 21);
             this.cmbFileSuperDettagliPath.TabIndex = 12;
             this.cmbFileSuperDettagliPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileSuperDettagliPath_SelectedIndexChanged);
             this.cmbFileSuperDettagliPath.TextUpdate += new System.EventHandler(this.cmbFileSuperDettagliPath_TextUpdate);
@@ -568,10 +536,9 @@
             // lblFileSuperDettagliPath
             // 
             this.lblFileSuperDettagliPath.AutoSize = true;
-            this.lblFileSuperDettagliPath.Location = new System.Drawing.Point(6, 149);
-            this.lblFileSuperDettagliPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFileSuperDettagliPath.Location = new System.Drawing.Point(4, 97);
             this.lblFileSuperDettagliPath.Name = "lblFileSuperDettagliPath";
-            this.lblFileSuperDettagliPath.Size = new System.Drawing.Size(136, 20);
+            this.lblFileSuperDettagliPath.Size = new System.Drawing.Size(91, 13);
             this.lblFileSuperDettagliPath.TabIndex = 31;
             this.lblFileSuperDettagliPath.Text = "Super dettagli file:";
             // 
@@ -582,10 +549,9 @@
             this.cmbFileRunRatePath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbFileRunRatePath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbFileRunRatePath.FormattingEnabled = true;
-            this.cmbFileRunRatePath.Location = new System.Drawing.Point(158, 105);
-            this.cmbFileRunRatePath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbFileRunRatePath.Location = new System.Drawing.Point(105, 68);
             this.cmbFileRunRatePath.Name = "cmbFileRunRatePath";
-            this.cmbFileRunRatePath.Size = new System.Drawing.Size(1446, 28);
+            this.cmbFileRunRatePath.Size = new System.Drawing.Size(965, 21);
             this.cmbFileRunRatePath.TabIndex = 8;
             this.cmbFileRunRatePath.SelectedIndexChanged += new System.EventHandler(this.cmbFileRunRatePath_SelectedIndexChanged);
             this.cmbFileRunRatePath.TextUpdate += new System.EventHandler(this.cmbFileRunRatePath_TextUpdate);
@@ -593,20 +559,18 @@
             // lblFileRunRatePath
             // 
             this.lblFileRunRatePath.AutoSize = true;
-            this.lblFileRunRatePath.Location = new System.Drawing.Point(6, 109);
-            this.lblFileRunRatePath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFileRunRatePath.Location = new System.Drawing.Point(4, 71);
             this.lblFileRunRatePath.Name = "lblFileRunRatePath";
-            this.lblFileRunRatePath.Size = new System.Drawing.Size(99, 20);
+            this.lblFileRunRatePath.Size = new System.Drawing.Size(67, 13);
             this.lblFileRunRatePath.TabIndex = 36;
             this.lblFileRunRatePath.Text = "Run rate file:";
             // 
             // lblFiltriApplicabili
             // 
             this.lblFiltriApplicabili.AutoSize = true;
-            this.lblFiltriApplicabili.Location = new System.Drawing.Point(6, 88);
-            this.lblFiltriApplicabili.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFiltriApplicabili.Location = new System.Drawing.Point(4, 57);
             this.lblFiltriApplicabili.Name = "lblFiltriApplicabili";
-            this.lblFiltriApplicabili.Size = new System.Drawing.Size(56, 20);
+            this.lblFiltriApplicabili.Size = new System.Drawing.Size(37, 13);
             this.lblFiltriApplicabili.TabIndex = 39;
             this.lblFiltriApplicabili.Text = "Filters:";
             // 
@@ -620,14 +584,14 @@
             this.dgvFiltri.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFiltri.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFiltri.CausesValidation = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Table,
@@ -635,13 +599,12 @@
             this.OpenFiltersSelection,
             this.SelectedValues});
             this.dgvFiltri.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvFiltri.Location = new System.Drawing.Point(158, 72);
-            this.dgvFiltri.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvFiltri.Location = new System.Drawing.Point(105, 47);
             this.dgvFiltri.Name = "dgvFiltri";
             this.dgvFiltri.RowHeadersVisible = false;
             this.dgvFiltri.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFiltri.ShowEditingIcon = false;
-            this.dgvFiltri.Size = new System.Drawing.Size(1598, 412);
+            this.dgvFiltri.Size = new System.Drawing.Size(1065, 268);
             this.dgvFiltri.TabIndex = 23;
             this.dgvFiltri.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFiltri_CellContentClick);
             // 
@@ -677,7 +640,6 @@
             // calendarPeriodo
             // 
             this.calendarPeriodo.Location = new System.Drawing.Point(0, 0);
-            this.calendarPeriodo.Margin = new System.Windows.Forms.Padding(14);
             this.calendarPeriodo.Name = "calendarPeriodo";
             this.calendarPeriodo.TabIndex = 20;
             this.calendarPeriodo.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendarPeriodo_DateSelected);
@@ -685,10 +647,9 @@
             // pnlCalendar
             // 
             this.pnlCalendar.Controls.Add(this.calendarPeriodo);
-            this.pnlCalendar.Location = new System.Drawing.Point(328, 35);
-            this.pnlCalendar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlCalendar.Location = new System.Drawing.Point(219, 23);
             this.pnlCalendar.Name = "pnlCalendar";
-            this.pnlCalendar.Size = new System.Drawing.Size(339, 248);
+            this.pnlCalendar.Size = new System.Drawing.Size(226, 161);
             this.pnlCalendar.TabIndex = 49;
             this.pnlCalendar.Visible = false;
             // 
@@ -726,11 +687,9 @@
             this.gbPaths.Controls.Add(this.lblFileSuperDettagliPath);
             this.gbPaths.Controls.Add(this.cmbFileSuperDettagliPath);
             this.gbPaths.Controls.Add(this.btnSelectFileSuperDettagli);
-            this.gbPaths.Location = new System.Drawing.Point(6, 42);
-            this.gbPaths.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbPaths.Location = new System.Drawing.Point(4, 27);
             this.gbPaths.Name = "gbPaths";
-            this.gbPaths.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbPaths.Size = new System.Drawing.Size(1762, 280);
+            this.gbPaths.Size = new System.Drawing.Size(1175, 182);
             this.gbPaths.TabIndex = 50;
             this.gbPaths.TabStop = false;
             this.gbPaths.Text = "Paths";
@@ -742,10 +701,9 @@
             this.cmbFileCN43NPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbFileCN43NPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.cmbFileCN43NPath.FormattingEnabled = true;
-            this.cmbFileCN43NPath.Location = new System.Drawing.Point(158, 186);
-            this.cmbFileCN43NPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbFileCN43NPath.Location = new System.Drawing.Point(105, 121);
             this.cmbFileCN43NPath.Name = "cmbFileCN43NPath";
-            this.cmbFileCN43NPath.Size = new System.Drawing.Size(1446, 28);
+            this.cmbFileCN43NPath.Size = new System.Drawing.Size(965, 21);
             this.cmbFileCN43NPath.TabIndex = 37;
             this.cmbFileCN43NPath.SelectedIndexChanged += new System.EventHandler(this.cmbFileCN43NPath_SelectedIndexChanged);
             this.cmbFileCN43NPath.TextUpdate += new System.EventHandler(this.cmbFileCN43NPath_TextUpdate);
@@ -753,10 +711,9 @@
             // lblFileCN43NPath
             // 
             this.lblFileCN43NPath.AutoSize = true;
-            this.lblFileCN43NPath.Location = new System.Drawing.Point(6, 191);
-            this.lblFileCN43NPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFileCN43NPath.Location = new System.Drawing.Point(4, 124);
             this.lblFileCN43NPath.Name = "lblFileCN43NPath";
-            this.lblFileCN43NPath.Size = new System.Drawing.Size(88, 20);
+            this.lblFileCN43NPath.Size = new System.Drawing.Size(61, 13);
             this.lblFileCN43NPath.TabIndex = 41;
             this.lblFileCN43NPath.Text = "CN43N file:";
             // 
@@ -766,10 +723,9 @@
             this.cbAppendCurrentYearSuperDettagli.AutoSize = true;
             this.cbAppendCurrentYearSuperDettagli.Checked = true;
             this.cbAppendCurrentYearSuperDettagli.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbAppendCurrentYearSuperDettagli.Location = new System.Drawing.Point(1429, 149);
-            this.cbAppendCurrentYearSuperDettagli.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbAppendCurrentYearSuperDettagli.Location = new System.Drawing.Point(945, 97);
             this.cbAppendCurrentYearSuperDettagli.Name = "cbAppendCurrentYearSuperDettagli";
-            this.cbAppendCurrentYearSuperDettagli.Size = new System.Drawing.Size(176, 24);
+            this.cbAppendCurrentYearSuperDettagli.Size = new System.Drawing.Size(125, 17);
             this.cbAppendCurrentYearSuperDettagli.TabIndex = 13;
             this.cbAppendCurrentYearSuperDettagli.Text = "Append current year:";
             this.cbAppendCurrentYearSuperDettagli.UseVisualStyleBackColor = true;
@@ -784,11 +740,9 @@
             this.gbOptions.Controls.Add(this.label4);
             this.gbOptions.Controls.Add(this.btnOpenCalendar);
             this.gbOptions.Controls.Add(this.dgvFiltri);
-            this.gbOptions.Location = new System.Drawing.Point(8, 386);
-            this.gbOptions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbOptions.Location = new System.Drawing.Point(5, 251);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbOptions.Size = new System.Drawing.Size(1762, 494);
+            this.gbOptions.Size = new System.Drawing.Size(1175, 321);
             this.gbOptions.TabIndex = 51;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Options";
@@ -800,8 +754,7 @@
             this.sessionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1785, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1190, 24);
             this.menuStrip1.TabIndex = 53;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -811,7 +764,7 @@
             this.openDataSouceExcelFileToolStripMenuItem,
             this.openSouceFilesFolderToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(79, 19);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(79, 20);
             this.toolStripMenuItem1.Text = "Data&Source";
             // 
             // openDataSouceExcelFileToolStripMenuItem
@@ -835,7 +788,7 @@
             this.cleanCurrentsessionToolStripMenuItem,
             this.deletePathsHistoryToolStripMenuItem});
             this.sessionToolStripMenuItem.Name = "sessionToolStripMenuItem";
-            this.sessionToolStripMenuItem.Size = new System.Drawing.Size(58, 19);
+            this.sessionToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.sessionToolStripMenuItem.Text = "Session";
             // 
             // loadLastSessionPathsToolStripMenuItem
@@ -867,10 +820,9 @@
             this.lblElaborazioneInCorso.BackColor = System.Drawing.SystemColors.ControlDark;
             this.lblElaborazioneInCorso.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblElaborazioneInCorso.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(130, 72);
-            this.lblElaborazioneInCorso.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblElaborazioneInCorso.Location = new System.Drawing.Point(63, 27);
             this.lblElaborazioneInCorso.Name = "lblElaborazioneInCorso";
-            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1520, 1263);
+            this.lblElaborazioneInCorso.Size = new System.Drawing.Size(1071, 862);
             this.lblElaborazioneInCorso.TabIndex = 54;
             this.lblElaborazioneInCorso.Text = "Working in progress...this might take several minutes.";
             this.lblElaborazioneInCorso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -884,20 +836,21 @@
             // 
             // btnTryBuildPresentationOnly
             // 
-            this.btnTryBuildPresentationOnly.Location = new System.Drawing.Point(1435, 885);
+            this.btnTryBuildPresentationOnly.Location = new System.Drawing.Point(957, 575);
+            this.btnTryBuildPresentationOnly.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnTryBuildPresentationOnly.Name = "btnTryBuildPresentationOnly";
-            this.btnTryBuildPresentationOnly.Size = new System.Drawing.Size(160, 55);
+            this.btnTryBuildPresentationOnly.Size = new System.Drawing.Size(107, 36);
             this.btnTryBuildPresentationOnly.TabIndex = 24;
-            this.btnTryBuildPresentationOnly.Text = "Try again build presentation ONLY";
+            this.btnTryBuildPresentationOnly.Text = "Build presentation ONLY";
             this.btnTryBuildPresentationOnly.UseVisualStyleBackColor = true;
             this.btnTryBuildPresentationOnly.Visible = false;
             this.btnTryBuildPresentationOnly.Click += new System.EventHandler(this.btnTryBuildPresentationOnly_Click);
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1785, 1421);
+            this.ClientSize = new System.Drawing.Size(1190, 924);
             this.Controls.Add(this.lblElaborazioneInCorso);
             this.Controls.Add(this.wbExecutionResult);
             this.Controls.Add(this.btnTryBuildPresentationOnly);
@@ -910,8 +863,7 @@
             this.Controls.Add(this.gbPaths);
             this.Controls.Add(this.gbOptions);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(1492, 1133);
+            this.MinimumSize = new System.Drawing.Size(1000, 750);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PowerPoint Generator";
