@@ -29,11 +29,13 @@ namespace FilesEditor
 
         private static ValidateSourceFilesOutput validateSourceFiles(ValidateSourceFilesInput validateSourceFilesInput, Configurazione configurazione)
         {
+            #region Preparazione StepContext
             var stepContext = new StepContext(configurazione);
             stepContext.SetContextFromInput(validateSourceFilesInput);
-            try
-            {
-                var stepsSequence = new List<StepBase>
+            #endregion
+
+            #region Preparazione Steps Sequence
+            var stepsSequence = new List<StepBase>
                 {
                     new Step_Start_Logger(stepContext),
 
@@ -47,9 +49,13 @@ namespace FilesEditor
                     new Step_TmpFolder_Pulizia(stepContext),
                     new Step_Close_EPPlusHelpers(stepContext),
 
-                    new Step_Stop_Logger(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                  };
+            #endregion
+
+            try
+            {
+
                 RunStepSequence(stepsSequence, stepContext);
                 return new ValidateSourceFilesOutput(stepContext);
             }
@@ -116,7 +122,6 @@ namespace FilesEditor
                     new Step_CreaFiles_Presentazioni(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),
 
-                    new Step_Stop_Logger(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                     };
             }
@@ -160,7 +165,6 @@ namespace FilesEditor
                     new Step_CreaFiles_Presentazioni(stepContext),
                     new Step_TmpFolder_Pulizia(stepContext),
 
-                    new Step_Stop_Logger(stepContext),
                     new Step_EsitoFinale_Success(stepContext)
                     };
             }

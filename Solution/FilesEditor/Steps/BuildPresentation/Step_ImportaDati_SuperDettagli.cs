@@ -476,8 +476,8 @@ namespace FilesEditor.Steps.BuildPresentation
         }
         private void AggiungiRigheInFondoAllaTabella(ExcelWorksheet destWorksheet, int numberOfRowsToBeAdded)
         {
-            const int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 5000;
-            //int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 2000;
+            const int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
+            //int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
 
             // Numero iniziale di righe previsto dopo la cancellazione
             var numeroRighePrevistoDopoInserimento = destWorksheet.Dimension.End.Row + numberOfRowsToBeAdded;
@@ -492,22 +492,19 @@ namespace FilesEditor.Steps.BuildPresentation
                     toBeAdded = NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA;
 
                     //#region Logica di adattamento del numero di righe da aggiungere per volta
-                    //if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 2000)
-                    //{
-                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 4000;
-                    //}
-                    //else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 4000)
-                    //{
-                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 6000;
-                    //}
-                    //else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 6000)
+                    //if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 6000)
                     //{
                     //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 8000;
                     //}
                     //else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 8000)
                     //{
-                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 2000;
+                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
                     //}
+                    //else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 10000)
+                    //{
+                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 6000;
+                    //}
+
                     //#endregion
                 }
 

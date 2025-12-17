@@ -16,6 +16,11 @@ namespace FilesEditor.Steps
 
         internal override EsitiFinali DoSpecificStepTask()
         {
+            Context.DebugInfoLogger.Beautify();
+
+            Serilog.Log.Information("CloseAndFlush...");
+            Serilog.Log.CloseAndFlush();
+
             return EsitiFinali.Success;
         }
     }
