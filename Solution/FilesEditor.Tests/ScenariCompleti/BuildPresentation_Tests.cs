@@ -416,7 +416,7 @@ namespace FilesEditor.Tests
             SettaDefaults();
 
             // Personalizzazione parametri
-            _fileDataSourceName = TestPaths.DataSource_230000_Stay_040000_Go;
+            _fileDataSourceName = TestPaths.DataSource_230000_Stay_040010_Go;
             _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_20002;
 
 
@@ -425,7 +425,7 @@ namespace FilesEditor.Tests
                 output: output,
                 numeroRigheBudget: 2 + 34,
                 numeroRigheForecast: 2 + 34,
-                numeroRigheSuperdettagli: 2 + 230000 + 20000, // Headers + stay from different years + added by appending current year
+                numeroRigheSuperdettagli: 2 + 230000 + 20002, // Headers + stay from different years + added by appending current year
                 numeroRigheRunRate: 1 + 1,
                 numeroRigheCN43N: 1 + 12,
                 //
@@ -433,7 +433,7 @@ namespace FilesEditor.Tests
                 numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 20010
+                numeroRigheAnnoCorrente: 20002  // as in superdettagli file
                 );
         }
 
@@ -453,7 +453,7 @@ namespace FilesEditor.Tests
                 output: output,
                 numeroRigheBudget: 2 + 34,
                 numeroRigheForecast: 2 + 34,
-                numeroRigheSuperdettagli: 2 + 230000 + 20000, // Headers + stay from different years + added by appending current year
+                numeroRigheSuperdettagli: 2 + 178605, // Headers + stay from different years + added by appending current year
                 numeroRigheRunRate: 1 + 1,
                 numeroRigheCN43N: 1 + 12,
                 //
@@ -461,7 +461,7 @@ namespace FilesEditor.Tests
                 numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 20010
+                numeroRigheAnnoCorrente: 17460
                 );
         }
 
@@ -481,7 +481,7 @@ namespace FilesEditor.Tests
                 output: output,
                 numeroRigheBudget: 2 + 34,
                 numeroRigheForecast: 2 + 34,
-                numeroRigheSuperdettagli: 2 + 360000, // Headers + stay from different years + added by appending current year
+                numeroRigheSuperdettagli: 2 + 440000, // Headers + stay from different years + added by appending current year
                 numeroRigheRunRate: 1 + 1,
                 numeroRigheCN43N: 1 + 48,
                 //
@@ -489,7 +489,7 @@ namespace FilesEditor.Tests
                 numeroWarnings: 14,
                 numeroPresentazioniGenerate: 2,
                 //
-                numeroRigheAnnoCorrente: 0
+                numeroRigheAnnoCorrente: 40000
                 );
         }
 

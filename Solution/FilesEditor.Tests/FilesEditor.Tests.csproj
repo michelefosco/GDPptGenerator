@@ -105,7 +105,7 @@
     <None Include="TestFiles\DataSourceFolder\DataSource_Scenario_GD.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\DataSourceFolder\DataSource_230000_Stay_040000_Go.xlsx">
+    <None Include="TestFiles\DataSourceFolder\DataSource_230000_Stay_040010_Go.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestFiles\DataSourceFolder\DataSource_ConBlocchiAnniFrammentati.xlsx">

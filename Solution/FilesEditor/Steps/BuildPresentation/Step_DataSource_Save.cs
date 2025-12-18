@@ -19,6 +19,7 @@ namespace FilesEditor.Steps.BuildPresentation
             Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.FullCalcOnLoad = true; // true è comunque il default
 
             Context.DataSourceEPPlusHelper.Save();
+            //Context.DataSourceEPPlusHelper.SaveAs(Context.DataSourceFilePath);
             Context.DataSourceEPPlusHelper.Close();
 
             Context.SetDatasourceStatus_ImportDatiCompletato();

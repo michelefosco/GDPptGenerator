@@ -1,5 +1,6 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
+using FilesEditor.Entities.Exceptions;
 using FilesEditor.Enums;
 using OfficeOpenXml;
 using System;
@@ -203,6 +204,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
             Context.SuperdettagliFileEPPlusHelper.Close();
         }
+
 
         private List<InfoBloccoDaCopiare> GetBlocchiRigheDaRiempire(List<string> valoriColonnaAnnoRigheDaValutare, string periodYearString)
         {
@@ -439,85 +441,38 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
         }
 
-        private void AggiungiRigheInFondoAllaTabella_BK(ExcelWorksheet destWorksheet, int numeroRigheDaAccodare)
-        {
-            var numeroRighePrevistoAllaFineDellaAccodamento = destWorksheet.Dimension.End.Row + numeroRigheDaAccodare;
-
-            int numeroTentativiDisponibili = 5;
-            while (numeroTentativiDisponibili >= 1)
-            {
-                try
-                {
-                    numeroTentativiDisponibili--;
-                    destWorksheet.InsertRow(destWorksheet.Dimension.End.Row, numeroRigheDaAccodare);
-                }
-                catch (Exception ex)
-                {
-                    if (numeroTentativiDisponibili >= 1)
-                    {
-                        // Riprovo dopo una pausa
-                        Thread.Sleep(1000);
-                        continue;
-                    }
-
-                    // ho finito il numero di tentativi
-                    throw new Exception($"Unable to append {numeroRigheDaAccodare} rows to the 'Superdettagli' data sheet after multiple attempts.\n{ex.Message}");
-
-                }
-
-                if (destWorksheet.Dimension.End.Row == numeroRighePrevistoAllaFineDellaAccodamento)
-                {
-                    // Obiettivo raggiunto
-                    break;
-                }
-                numeroRigheDaAccodare = numeroRighePrevistoAllaFineDellaAccodamento - destWorksheet.Dimension.End.Row;
-            }
-        }
         private void AggiungiRigheInFondoAllaTabella(ExcelWorksheet destWorksheet, int numberOfRowsToBeAdded)
         {
-            const int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
-            //int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
+            int NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
 
             // Numero iniziale di righe previsto dopo la cancellazione
             var numeroRighePrevistoDopoInserimento = destWorksheet.Dimension.End.Row + numberOfRowsToBeAdded;
 
             // Numero di righe ancora da cancellare
-            var toBeAdded = numberOfRowsToBeAdded;
+            var stillToBeAdded = numberOfRowsToBeAdded;
             var numberOfExceptionsToIgnore = 5 + (numberOfRowsToBeAdded / NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA);
-            while (toBeAdded > 0)
+            while (stillToBeAdded > 0)
             {
-                if (toBeAdded > NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA)
-                {
-                    toBeAdded = NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA;
-
-                    //#region Logica di adattamento del numero di righe da aggiungere per volta
-                    //if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 6000)
-                    //{
-                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 8000;
-                    //}
-                    //else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 8000)
-                    //{
-                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 10000;
-                    //}
-                    //else if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA == 10000)
-                    //{
-                    //    NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA = 6000;
-                    //}
-
-                    //#endregion
-                }
+                var numberOfRowsToBeAddedInThisLoop = (stillToBeAdded > NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA)
+                        ? NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA
+                        : stillToBeAdded;
 
                 try
                 {
                     var startTime = DateTime.UtcNow;
-                    destWorksheet.InsertRow(destWorksheet.Dimension.End.Row, toBeAdded);
-                    Context.DebugInfoLogger.LogPerformance(StepName + $" destWorksheet.InsertRow({destWorksheet.Dimension.End.Row}, {toBeAdded});", DateTime.UtcNow - startTime);
+                    destWorksheet.InsertRow(destWorksheet.Dimension.End.Row, numberOfRowsToBeAddedInThisLoop);
+                    Context.DebugInfoLogger.LogPerformance(StepName + $" destWorksheet.InsertRow({destWorksheet.Dimension.End.Row}, {numberOfRowsToBeAddedInThisLoop});", DateTime.UtcNow - startTime);
                 }
                 catch (Exception ex)
                 {
                     numberOfExceptionsToIgnore--;
                     if (numberOfExceptionsToIgnore >= 1)
                     {
+                        if (NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA >= 2000)
+                        {
+                            NUMERO_MASSIMO_RIGHE_DA_AGGIUNGERE_PER_VOLTA -= 1000;
+                        }
+
                         // Riprovo dopo una pausa
                         Thread.Sleep(1000);
                         continue;
@@ -528,34 +483,146 @@ namespace FilesEditor.Steps.BuildPresentation
 
                 }
 
-                toBeAdded = numeroRighePrevistoDopoInserimento - destWorksheet.Dimension.End.Row;
+                stillToBeAdded = numeroRighePrevistoDopoInserimento - destWorksheet.Dimension.End.Row;
             }
         }
 
-        private void CancellaBloccoDiRighe(ExcelWorksheet destWorksheet, int indexFirstRowOfTheBlock, int numberOfRowsToBeDeleted)
+        private void CancellaBloccoDiRighe(ExcelWorksheet destWorksheet, int indexFirstRowOfTheBlock, int numberOfRowsToBeDeleted, string rowBelogingToSpecifiPeriodYear = null)
         {
-            const int NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA = 10000;
+            //var rangeToDelete = destWorksheet.Cells[
+            //        indexFirstRowOfTheBlock,                                                // row start
+            //        1,    // col start 
+            //        indexFirstRowOfTheBlock+numberOfRowsToBeDeleted-1,                                               // row end
+            //        destWorksheet.Dimension.End.Column // col end
+            //        ];
+            //rangeToDelete.Value = null;
+            //rangeToDelete.Clear();
+
+            const int NUMERO_MASSIMO_ASSOLUTO_DI_RIGHE_CANCELLABILI_PER_VOLTA = 8192;
+            const int NUMERO_MASSIMO_DI_RIGHE_CANCELLABILI_IN_CASO_DI_ECCEZIONE = 4096;
+
+            int dimensioneMassimaBlocchiDaCancellare = NUMERO_MASSIMO_ASSOLUTO_DI_RIGHE_CANCELLABILI_PER_VOLTA;
+            var dimensioneBloccoDaUsarsiInCasoDiEccezione = NUMERO_MASSIMO_DI_RIGHE_CANCELLABILI_IN_CASO_DI_ECCEZIONE;
+
 
             // Numero iniziale di righe previsto dopo la cancellazione
             var numeroRighePrevistoDopoLaCancellazione = destWorksheet.Dimension.End.Row - numberOfRowsToBeDeleted;
+            var numeroRigheIniziali = destWorksheet.Dimension.End.Row;
+
+            bool eccezioneAvvenuta = false;
 
             // Numero di righe ancora da cancellare
             var stillToBeDeleted = numberOfRowsToBeDeleted;
-            var numberOfExceptionsToIgnore = 5 + (numberOfRowsToBeDeleted / NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA);
+            var numberOfExceptionsToIgnore = 200;
+            var numeroRigheCancellatoFinora = 0;
             while (stillToBeDeleted > 0)
             {
-                var numberOfRowsToBeDeletedInThisLoop = (stillToBeDeleted > NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA)
-                                        ? NUMERO_MASSIMO_RIGHE_CANCELLABILI_PER_VOLTA
+                var numberOfRowsToBeDeletedInThisLoop = (stillToBeDeleted > dimensioneMassimaBlocchiDaCancellare)
+                                        ? dimensioneMassimaBlocchiDaCancellare
                                         : stillToBeDeleted;
 
                 // Cancello prima l'ultima parte del blocco in modo da avere meno shift delle righe
                 var indiceFirstRowToBeDeletedInThisLoop = indexFirstRowOfTheBlock + stillToBeDeleted - numberOfRowsToBeDeletedInThisLoop;
 
+                DateTime startTime = DateTime.UtcNow;
+                try
+                {
+                    // inizio il conteggio del tempo per la cancellazione
+                    startTime = DateTime.UtcNow;
+                    Context.DebugInfoLogger.LogPerformance(StepName + $"- CancellaBloccoDiRighe() -  Provo destWorksheet.DeleteRow({indiceFirstRowToBeDeletedInThisLoop}, {numberOfRowsToBeDeletedInThisLoop});", DateTime.UtcNow - startTime);
+                    destWorksheet.DeleteRow(indiceFirstRowToBeDeletedInThisLoop, numberOfRowsToBeDeletedInThisLoop);// Cancellaziione della parte in basso del blocco
+                    //destWorksheet.DeleteRow(indexFirstRowOfTheBlock, numberOfRowsToBeDeletedInThisLoop); // Cancellaziione della parte in alto del blocco
+                    Context.DebugInfoLogger.LogPerformance(StepName + $"- CancellaBloccoDiRighe() - OK;", DateTime.UtcNow - startTime);
+
+                    // rivedo la dimensione massima del blocco da cancellare
+                    if (eccezioneAvvenuta)
+                    {
+                        // riporto la dimensione massima del blocco da cancellare ad un valore più alto
+                        dimensioneMassimaBlocchiDaCancellare = NUMERO_MASSIMO_DI_RIGHE_CANCELLABILI_IN_CASO_DI_ECCEZIONE;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (numberOfExceptionsToIgnore <= 0)
+                    {
+                        // Ho finito il numero di eccezioni da ignorare, sollevo l'eccezione
+                        // preparo il messaggio per l'utente con o senza il riferimento all'anno specifico
+                        var userMEssage = string.IsNullOrEmpty(rowBelogingToSpecifiPeriodYear)
+                                ? $"Unable to delete {numberOfRowsToBeDeleted} rows from the “Superdettagli” data sheet.\r\nPlease open the DataSource file by clicking the “Data Source” menu and manually delete as many as possible deleteble rows."
+                                : $"Unable to delete rows beloging to the year {rowBelogingToSpecifiPeriodYear} from the “Superdettagli” data sheet.\r\nPlease open the DataSource file by clicking on the “DataSource” menu and manually delete the rows belonging to the year {rowBelogingToSpecifiPeriodYear}.";
+                        throw new ManagedException(
+                            filePath: Context.DataSourceFilePath,
+                            fileType: FileTypes.DataSource,
+                            worksheetName: WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA,
+                            cellRow: null,
+                            cellColumn: null,
+                            valueHeader: ValueHeaders.None,
+                            value: null,
+                            errorType: ErrorTypes.UnhandledException,
+                            userMessage: userMEssage);
+                    }
+                    else
+                    {
+                        // ignoro l'eccezione e riprovo
+                        numberOfExceptionsToIgnore--;
+                        Context.DebugInfoLogger.LogPerformance(StepName + $"- CancellaBloccoDiRighe() - Exception (rimangono ancora {numberOfExceptionsToIgnore} tentativi) durante destWorksheet.DeleteRow({indiceFirstRowToBeDeletedInThisLoop}, {numberOfRowsToBeDeletedInThisLoop});", DateTime.UtcNow - startTime);
+                    }
+
+                    // Gestisco il caso specifico dell'eccezione "Index was outside the bounds of the array."
+                    if (ex.Message.Equals("Index was outside the bounds of the array.", StringComparison.Ordinal))
+                    {
+                        eccezioneAvvenuta = true;
+                        // rivedo la dimensione massima del blocco da cancellare
+                        dimensioneMassimaBlocchiDaCancellare = _getNuovaDimensioneMassimaDaUsare();
+
+                        Context.DebugInfoLogger.LogPerformance(StepName + $"- CancellaBloccoDiRighe() - Imposto la dimensione dei blocchi da cancellare a {dimensioneMassimaBlocchiDaCancellare}", DateTime.UtcNow - startTime);
+
+                        // Riprovo dopo una pausa
+                        Thread.Sleep(500);
+                    }
+                }
+                finally
+                {
+                    // ricarico il numero di righe cancellate e ancora da cancellare, ci potrebbe essere stato una parziale cancellazione delle righe
+                    stillToBeDeleted = destWorksheet.Dimension.End.Row - numeroRighePrevistoDopoLaCancellazione;
+                    numeroRigheCancellatoFinora = numeroRigheIniziali - destWorksheet.Dimension.End.Row;
+                    Context.DebugInfoLogger.LogPerformance(StepName + $"- CancellaBloccoDiRighe() - Situazione: stillToBeDeleted={stillToBeDeleted} numeroRigheCancellatoFinora={numeroRigheCancellatoFinora}", DateTime.UtcNow - startTime);
+                }
+            }
+
+
+            int _getNuovaDimensioneMassimaDaUsare()
+            {
+                // ripristina numero di dimensione massima
+                if (dimensioneBloccoDaUsarsiInCasoDiEccezione > 1)
+                {
+                    dimensioneMassimaBlocchiDaCancellare = dimensioneBloccoDaUsarsiInCasoDiEccezione;
+                    // dimezzo il valore per il prossimo tentativo
+                    dimensioneBloccoDaUsarsiInCasoDiEccezione /= 2;
+                }
+
+                return dimensioneMassimaBlocchiDaCancellare;
+            }
+        }
+
+
+
+        private void CancellaBloccoDiRighe_Bis(ExcelWorksheet destWorksheet, int indexFirstRowOfTheBlock, int numberOfRowsToBeDeleted)
+        {
+            // Numero iniziale di righe previsto dopo la cancellazione
+            var numeroRighePrevistoDopoLaCancellazione = destWorksheet.Dimension.End.Row - numberOfRowsToBeDeleted;
+
+            // Numero di righe ancora da cancellare
+            var stillToBeDeleted = numberOfRowsToBeDeleted;
+            var numberOfExceptionsToIgnore = 10;
+
+            while (stillToBeDeleted > 0)
+            {
                 try
                 {
                     var startTime = DateTime.UtcNow;
-                    destWorksheet.DeleteRow(indiceFirstRowToBeDeletedInThisLoop, numberOfRowsToBeDeletedInThisLoop);
-                    Context.DebugInfoLogger.LogPerformance(StepName + $" destWorksheet.DeleteRow({indiceFirstRowToBeDeletedInThisLoop}, {numberOfRowsToBeDeletedInThisLoop});", DateTime.UtcNow - startTime);
+                    destWorksheet.DeleteRow(indexFirstRowOfTheBlock, stillToBeDeleted);
+                    Context.DebugInfoLogger.LogPerformance(StepName + $" destWorksheet.DeleteRow({indexFirstRowOfTheBlock}, {stillToBeDeleted});", DateTime.UtcNow - startTime);
                 }
                 catch (Exception ex)
                 {
@@ -564,6 +631,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     {
                         // Riprovo dopo una pausa
                         Thread.Sleep(1000);
+
                         continue;
                     }
 

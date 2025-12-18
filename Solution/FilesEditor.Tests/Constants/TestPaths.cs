@@ -9,7 +9,7 @@
         public const string DataSource_000010_Stay_000020_Go = "DataSource_000010_Stay_000020_Go.xlsx";
         public const string DataSource_190000_Stay_020000_Go = "DataSource_190000_Stay_020000_Go.xlsx";
         public const string DataSource_200000_Stay_020000_Go = "DataSource_200000_Stay_020000_Go.xlsx";
-        public const string DataSource_230000_Stay_040000_Go = "DataSource_230000_Stay_040000_Go.xlsx";
+        public const string DataSource_230000_Stay_040010_Go = "DataSource_230000_Stay_040010_Go.xlsx";
         public const string DataSource_360000_Stay_000000_Go = "DataSource_360000_Stay_000000_Go.xlsx";
         public const string DataSource_440000_Stay_000000_Go = "DataSource_440000_Stay_000000_Go.xlsx";
         public const string DataSource_Scenario_GD = "DataSource_Scenario_GD.xlsx";
