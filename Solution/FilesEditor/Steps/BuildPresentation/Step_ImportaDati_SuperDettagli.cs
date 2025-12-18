@@ -489,15 +489,6 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void CancellaBloccoDiRighe(ExcelWorksheet destWorksheet, int indexFirstRowOfTheBlock, int numberOfRowsToBeDeleted, string rowBelogingToSpecifiPeriodYear = null)
         {
-            //var rangeToDelete = destWorksheet.Cells[
-            //        indexFirstRowOfTheBlock,                                                // row start
-            //        1,    // col start 
-            //        indexFirstRowOfTheBlock+numberOfRowsToBeDeleted-1,                                               // row end
-            //        destWorksheet.Dimension.End.Column // col end
-            //        ];
-            //rangeToDelete.Value = null;
-            //rangeToDelete.Clear();
-
             const int NUMERO_MASSIMO_ASSOLUTO_DI_RIGHE_CANCELLABILI_PER_VOLTA = 8192;
             const int NUMERO_MASSIMO_DI_RIGHE_CANCELLABILI_IN_CASO_DI_ECCEZIONE = 4096;
 
@@ -548,7 +539,7 @@ namespace FilesEditor.Steps.BuildPresentation
                         // Ho finito il numero di eccezioni da ignorare, sollevo l'eccezione
                         // preparo il messaggio per l'utente con o senza il riferimento all'anno specifico
                         var userMEssage = string.IsNullOrEmpty(rowBelogingToSpecifiPeriodYear)
-                                ? $"Unable to delete {numberOfRowsToBeDeleted} rows from the “Superdettagli” data sheet.\r\nPlease open the DataSource file by clicking the “Data Source” menu and manually delete as many as possible deleteble rows."
+                                ? $"Unable to delete {numberOfRowsToBeDeleted} rows from the “Superdettagli” data sheet.\r\nPlease open the DataSource file by clicking the “DataSource” menu and manually delete as many rows as possible."
                                 : $"Unable to delete rows beloging to the year {rowBelogingToSpecifiPeriodYear} from the “Superdettagli” data sheet.\r\nPlease open the DataSource file by clicking on the “DataSource” menu and manually delete the rows belonging to the year {rowBelogingToSpecifiPeriodYear}.";
                         throw new ManagedException(
                             filePath: Context.DataSourceFilePath,
