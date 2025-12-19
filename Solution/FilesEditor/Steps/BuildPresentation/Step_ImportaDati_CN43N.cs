@@ -1,8 +1,6 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
-using System;
-
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -35,15 +33,21 @@ namespace FilesEditor.Steps.BuildPresentation
             // Foglio destinazione
             var destWorksheet = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[WorksheetNames.DATASOURCE_CN43N_DATA];
             var destHeadersRow = Context.Configurazione.DATASOURCE_CN43N_HEADERS_ROW;
+            var numeroRigheIniziali = destWorksheet.Dimension.End.Row - destHeadersRow;
 
-            // Variabili per il conteggio delle righe elaborate
-            var infoRowsDestinazione = new InfoRows();
-            infoRowsDestinazione.Iniziali = destWorksheet.Dimension.End.Row - destHeadersRow;
 
-            // Elimino le righe esistenti (tranne l'intestazione)
-            var numeroRigheDaEliminare = destWorksheet.Dimension.End.Row - destHeadersRow;
-            destWorksheet.DeleteRow(destHeadersRow + 1, numeroRigheDaEliminare, true);
-            infoRowsDestinazione.Eliminate = numeroRigheDaEliminare;
+
+            // Cleanup del foglio destinazione
+            // Questo foglio (ad eccezione degli altri, non ha un oggetto "Table" per la gestione dei dati. E' sufficiente quindi eseguire il .Clear() sulle celle per eliminare le righe
+            var destRangeForCleanUp = destWorksheet.Cells[
+                            destHeadersRow + 1,                                         // row start,
+                            Context.Configurazione.DATASOURCE_CN43N_HEADERS_FIRST_COL,  // col start
+                            destWorksheet.Dimension.End.Row,                            // row end
+                            destWorksheet.Dimension.End.Column                          // col end
+                            ];
+            destRangeForCleanUp.Clear();
+
+
 
             // Range sorgente
             var sourceRange = sourceWorksheet.Cells[
@@ -52,6 +56,7 @@ namespace FilesEditor.Steps.BuildPresentation
                             sourceWorksheet.Dimension.End.Row,                              // row end
                             sourceWorksheet.Dimension.End.Column                            // col end
                             ];
+
 
             // Range destinazione
             var destRange = destWorksheet.Cells[
@@ -65,15 +70,22 @@ namespace FilesEditor.Steps.BuildPresentation
             destRange.Value = sourceRange.Value;
 
 
+
             // Log delle informazioni
-            infoRowsDestinazione.Aggiunte = sourceRange.Rows;
-            infoRowsDestinazione.Preservate = 0;
-            infoRowsDestinazione.Riutilizzate = 0;
-            infoRowsDestinazione.Finali = destWorksheet.Dimension.End.Row - destHeadersRow;
+            // Variabili per il conteggio delle righe elaborate
+            var infoRowsDestinazione = new InfoRows
+            {
+                Iniziali = numeroRigheIniziali,
+                Eliminate = numeroRigheIniziali,
+                Preservate = 0,
+                Riutilizzate = 0,
+                Aggiunte = sourceRange.Rows,
+                Finali = sourceRange.Rows,                
+            };
             infoRowsDestinazione.VerificaCoerenzaValori();
             Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.CN43N, infoRowsDestinazione);
 
-            destWorksheet.Select(destWorksheet.Cells[1, 1]);
+            //destWorksheet.Select(destWorksheet.Cells[1, 1]);
             Context.CN43NFileEPPlusHelper.Close();
         }
     }

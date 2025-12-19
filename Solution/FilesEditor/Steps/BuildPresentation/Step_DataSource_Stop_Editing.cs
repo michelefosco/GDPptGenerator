@@ -6,11 +6,11 @@ namespace FilesEditor.Steps.BuildPresentation
     /// <summary>
     /// 
     /// </summary>
-    internal class Step_DataSource_Save : StepBase
+    internal class Step_DataSource_Stop_Editing : StepBase
     {
         internal override string StepName => "Step_DataSource_Save";
 
-        public Step_DataSource_Save(StepContext context) : base(context)
+        public Step_DataSource_Stop_Editing(StepContext context) : base(context)
         { }
 
         internal override EsitiFinali DoSpecificStepTask()
@@ -18,8 +18,9 @@ namespace FilesEditor.Steps.BuildPresentation
             Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.CalcMode = OfficeOpenXml.ExcelCalcMode.Automatic;
             Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.FullCalcOnLoad = true; // true è comunque il default
 
+            Context.DataSourceEPPlusHelper.SelezioneLaPrimaCellaSuOgniFoglio();
+
             Context.DataSourceEPPlusHelper.Save();
-            //Context.DataSourceEPPlusHelper.SaveAs(Context.DataSourceFilePath);
             Context.DataSourceEPPlusHelper.Close();
 
             Context.SetDatasourceStatus_ImportDatiCompletato();

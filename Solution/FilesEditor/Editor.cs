@@ -151,7 +151,7 @@ namespace FilesEditor
                     new Step_ImportaDati_SuperDettagli(stepContext),
                     new Step_ImpostaVarabiliInNameManager(stepContext),
                     new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
-                    new Step_DataSource_Save(stepContext),                    
+                    new Step_DataSource_Stop_Editing(stepContext),                    
                     #endregion
 
                     // fine operazioni fatte tramite libreria EPPlus

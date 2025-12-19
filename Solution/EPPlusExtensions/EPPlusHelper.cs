@@ -655,6 +655,14 @@ namespace EPPlusExtensions
             }
         }
 
+        public void SelezioneLaPrimaCellaSuOgniFoglio()
+        {
+            foreach (var worksheet in _excelPackage.Workbook.Worksheets)
+            {
+                worksheet.Select(worksheet.Cells[1, 1]);
+            }
+        }
+
         public void Close()
         {
             if (_excelPackage != null)

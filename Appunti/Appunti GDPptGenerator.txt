@@ -51,7 +51,9 @@ tabSuperdettagli	Superdetails
 
 
 -------------------- Todo
+- per CN43N sostitutire l'intero foglio in modo performate 55k righe (Clear all, copy range)
 - In output avere anche info su dimensioni SuperDettagli
+- Follow-up Elementi in foglio Excel
 - Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
 - Miminimizzare e massimizzare finestra dopo il lascio e fine esecuzione
 - Progress bar o hide
