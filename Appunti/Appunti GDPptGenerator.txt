@@ -43,10 +43,6 @@ tabSuperdettagli	Superdetails
 
 -------------------- Domande/Todo per Francesco
 - Il ridimensionamento della print area non funziona con i grafici in quanto l'end non segue la dimensione del grafico come per le pivot tables
-- Ridurre area di stampa orizzontale e vertiale in base alla Dimension.end
-- Rivedere anche formule Budget e Forecast
-- Predisporre ulteriori colonne per formule intermedie (da riutilizzare)?
-- Valutare usto della formula LET()
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 
 
@@ -55,22 +51,14 @@ tabSuperdettagli	Superdetails
 
 
 -------------------- Todo
-- Provare cancellazione righe mega blocco con check finale per rivalutare il numero di righe da eliminare
 - In output avere anche info su dimensioni SuperDettagli
 - Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
-- investigate on memory leak
-- Suddividere blocchi da copiare in numero massimo righe?
-- Rinominare "pivot di appoggio" in qualcosa tipo "Pivot Anno Prima Marcatura"
-- Improve memory with usinng and other things
 - Miminimizzare e massimizzare finestra dopo il lascio e fine esecuzione
 - Progress bar o hide
 - Testare applicazione filtri
-- More tests
-- Add unit tests per più combinazioni di input (append or not)
+- More tests (es. per più combinazioni di input (append or not))
 - Rivedere logica per i filtri...
 - Aggiungere elementi grafici e pivot tables
-- Creazione items nel datasource
-- Test con formule
 - Test con filtri
 - Creazione di un file HTML con le informazioni sulle formule
 - Rivedere nomi steps e aggiungere commento in cima alla classe

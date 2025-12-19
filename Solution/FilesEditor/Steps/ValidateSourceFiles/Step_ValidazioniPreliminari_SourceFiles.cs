@@ -71,7 +71,10 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFileHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_RUNRATE_HEADERS_FIRST_COL
                 );
 
-            ValidazioniPreliminari_Comuni(
+            if (!string.IsNullOrEmpty(Context.FileCN43NPath))
+            {
+                // CN43N è un file opzionale
+                ValidazioniPreliminari_Comuni(
                      datasourceWorksheetName: WorksheetNames.DATASOURCE_CN43N_DATA,
                      datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_CN43N_HEADERS_ROW,
                      datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_CN43N_HEADERS_FIRST_COL,
@@ -84,6 +87,9 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                      sourceFileHeadersRow: Context.Configurazione.SOURCE_FILES_CN43N_HEADERS_ROW,
                      sourceFileHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_CN43N_HEADERS_FIRST_COL
                     );
+            }
+
+
 
             //ValidazioniPreliminari_Comuni(
             //     datasourceWorksheetName: WorksheetNames.DATASOURCE_SUPERDETTAGLI_DATA,
