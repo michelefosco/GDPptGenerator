@@ -36,8 +36,7 @@ namespace FilesEditor.Steps.BuildPresentation
             var numeroRigheIniziali = destWorksheet.Dimension.End.Row - destHeadersRow;
 
 
-
-            // Cleanup del foglio destinazione
+            #region Cleanup del foglio destinazione
             // Questo foglio (ad eccezione degli altri, non ha un oggetto "Table" per la gestione dei dati. E' sufficiente quindi eseguire il .Clear() sulle celle per eliminare le righe
             var destRangeForCleanUp = destWorksheet.Cells[
                             destHeadersRow + 1,                                         // row start,
@@ -46,9 +45,10 @@ namespace FilesEditor.Steps.BuildPresentation
                             destWorksheet.Dimension.End.Column                          // col end
                             ];
             destRangeForCleanUp.Clear();
+            #endregion
 
 
-
+            #region Copia e incolla del range dalla sorgente alla destinazione
             // Range sorgente
             var sourceRange = sourceWorksheet.Cells[
                             Context.Configurazione.SOURCE_FILES_CN43N_HEADERS_ROW + 1,      // row start,
@@ -68,10 +68,10 @@ namespace FilesEditor.Steps.BuildPresentation
 
             // Incollo nel range destinazione
             destRange.Value = sourceRange.Value;
+            #endregion
 
 
-
-            // Log delle informazioni
+            #region Log delle informazioni
             // Variabili per il conteggio delle righe elaborate
             var infoRowsDestinazione = new InfoRows
             {
@@ -80,12 +80,13 @@ namespace FilesEditor.Steps.BuildPresentation
                 Preservate = 0,
                 Riutilizzate = 0,
                 Aggiunte = sourceRange.Rows,
-                Finali = sourceRange.Rows,                
+                Finali = sourceRange.Rows,
             };
             infoRowsDestinazione.VerificaCoerenzaValori();
             Context.DebugInfoLogger.LogRigheSourceFiles(FileTypes.CN43N, infoRowsDestinazione);
+            #endregion
 
-            //destWorksheet.Select(destWorksheet.Cells[1, 1]);
+
             Context.CN43NFileEPPlusHelper.Close();
         }
     }

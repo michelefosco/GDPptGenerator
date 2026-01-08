@@ -56,7 +56,6 @@ namespace FilesEditor.Steps.BuildPresentation
             // Foglio destinazione
             var destWorksheet = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[destWorksheetName];
             infoRowsDestinazione.Iniziali = destWorksheet.Dimension.Rows - destHeadersRow;
-            //destWorksheet.Select(destWorksheet.Cells[1, 1]);
             #endregion
 
 

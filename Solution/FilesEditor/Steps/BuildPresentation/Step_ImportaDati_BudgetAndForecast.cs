@@ -213,7 +213,6 @@ namespace FilesEditor.Steps.BuildPresentation
             infoRowsDestinazione.VerificaCoerenzaValori();
             Context.DebugInfoLogger.LogRigheSourceFiles(sourceFileType, infoRowsDestinazione);
 
-            //destWorksheet.Select(destWorksheet.Cells[1, 1]);
             sourceFileEPPlusHelper.Close();
         }
     }

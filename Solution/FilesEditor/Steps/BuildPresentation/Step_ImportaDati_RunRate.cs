@@ -41,7 +41,6 @@ namespace FilesEditor.Steps.BuildPresentation
                     ];
             destRange.Value = sourceRange.Value;
 
-            //destWorksheet.Select(destWorksheet.Cells[1, 1]);
             Context.RunRateFileEPPlusHelper.Close();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
