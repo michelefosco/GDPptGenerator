@@ -94,6 +94,7 @@ namespace FilesEditor.Steps.BuildPresentation
                     imageExtractor.Save();
                     Context.DebugInfoLogger.LogPerformance(StepName + $" imageExtractor.Save()", DateTime.UtcNow - startTime);
 
+                    // marco che il RefreshAll dei dati è stato completato e salvato
                     Context.SetDatasourceStatus_RefreshAllCompletato();
                     alreadySavedOnce = true;
                 }

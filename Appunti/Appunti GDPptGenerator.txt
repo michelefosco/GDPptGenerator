@@ -51,28 +51,27 @@ tabSuperdettagli	Superdetails
 
 
 -------------------- Todo
-- per CN43N sostitutire l'intero foglio in modo performate 55k righe (Clear all, copy range)
-- In output avere anche info su dimensioni SuperDettagli
 - Follow-up Elementi in foglio Excel
-- Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
+
+- Se la configurazione non ha neanche una presentazione come output non parto
+- Rivedere nomi steps e aggiungere commento in cima alla classe
+
+- More tests (es. per più combinazioni di input (append or not))
 - Miminimizzare e massimizzare finestra dopo il lascio e fine esecuzione
 - Progress bar o hide
+
+- In output avere anche info su dimensioni SuperDettagli
+- Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
+
 - Testare applicazione filtri
-- More tests (es. per più combinazioni di input (append or not))
 - Rivedere logica per i filtri...
-- Aggiungere elementi grafici e pivot tables
 - Test con filtri
-- Creazione di un file HTML con le informazioni sulle formule
-- Rivedere nomi steps e aggiungere commento in cima alla classe
+- Applicare stessa logica del campo anno anche per i filtri sulle colonne?
+
+- Creazione di una guida (forse un file HTML) con le informazioni sulle formule
+
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
-- Se la configurazione non ha neanche una presentazione come output non parto
-()
-- Applicare stessa logica del campo anno anche per i filtri sulle colonne?
-- suddividre il copia e incolla di superdettagli in blocchi da 10.000 elementi?
-
-
-
 
 
 (Opzionali o per proposte successive)

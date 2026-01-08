@@ -96,80 +96,63 @@ namespace FilesEditor
             }
             #endregion
 
+
             #region Preparazione Steps Sequence
-            List<StepBase> stepsSequence;
+            var stepsSequence = new List<StepBase> { new Step_Start_Logger(stepContext) };
 
-            // L'import dei dati viete saltato quindi setto il flag per mantenere le logiche dell'interfaccia intatte
-            if (buildPresentationInput.BuildPresentationOnly)
+            if (!buildPresentationInput.BuildPresentationOnly)
             {
-                stepsSequence = new List<StepBase>{
-                    new Step_Start_Logger(stepContext),                              
+                // Verifica che il file DataSource sia apribile in modalità editabile
+                stepsSequence.Add(new Step_VerificaEditabilita_DataSource_File(stepContext));
 
-                    #region Lettura info da DataSource
-                    new Step_CreaLista_SildeToGenerate(stepContext),
-                    new Step_CreaLista_ItemsToExportAsImage(stepContext),
-                    #endregion
+                // Validazioni preliminari sui file di origine
+                stepsSequence.Add(new Step_ValidazioniPreliminari_SourceFiles(stepContext));
+                stepsSequence.Add(new Step_ValidazioniPreliminari_SuperDettagli(stepContext));
 
-
-                    // fine operazioni fatte tramite libreria EPPlus
-                    new Step_Close_EPPlusHelpers(stepContext),
-
-                    #region Esportazione immagini da inserire nelle presentazioni
-                    new Step_TmpFolder_Predisposizione(stepContext),
-                    new Step_EsportaFileImmaginiDaExcel(stepContext),
-                    #endregion
-
-                    new Step_CreaFiles_Presentazioni(stepContext),
-                    new Step_TmpFolder_Pulizia(stepContext),
-
-                    new Step_EsitoFinale_Success(stepContext)
-                    };
+                // Lettura alias necessario per le importazioni
+                stepsSequence.Add(new Step_CreaListe_Alias(stepContext));
             }
-            else
+
+            // Lettura info da DataSource
+            stepsSequence.Add(new Step_CreaLista_SildeToGenerate(stepContext));
+            stepsSequence.Add(new Step_CreaLista_ItemsToExportAsImage(stepContext));
+            
+
+            if (!buildPresentationInput.BuildPresentationOnly)
             {
-                stepsSequence = new List<StepBase>{
-                    new Step_Start_Logger(stepContext),
+                // Backup del file DataSource
+                stepsSequence.Add(new Step_BackupFile_DataSource(stepContext));
 
-                    new Step_VerificaEditabilita_DataSource_File(stepContext),
-                    new Step_ValidazioniPreliminari_SourceFiles(stepContext),
-                    new Step_ValidazioniPreliminari_SuperDettagli(stepContext),
-                                       
-
-                    #region Lettura info da DataSource
-                    new Step_CreaListe_Alias(stepContext),
-                    new Step_CreaLista_SildeToGenerate(stepContext),
-                    new Step_CreaLista_ItemsToExportAsImage(stepContext),
-                    #endregion
-
-                    new Step_BackupFile_DataSource(stepContext),
-
-                    #region Steps che modificano il file DataSource                  
-                    new Step_DataSource_Editing_Start(stepContext),
-                    new Step_ImportaDati_CN43N(stepContext),
-                    new Step_ImportaDati_RunRate(stepContext),
-                    new Step_ImportaDati_BudgetAndForecast(stepContext),
-                    new Step_ImportaDati_SuperDettagli(stepContext),
-                    new Step_ImpostaVarabiliInNameManager(stepContext),
-                    new Step_AttivazioneOpzioneRefreshOnLoad(stepContext),
-                    new Step_DataSource_Stop_Editing(stepContext),                    
-                    #endregion
-
-                    // fine operazioni fatte tramite libreria EPPlus
-                    new Step_Close_EPPlusHelpers(stepContext),
-
-                    #region Esportazione immagini da inserire nelle presentazioni
-                    new Step_TmpFolder_Predisposizione(stepContext),
-                    new Step_EsportaFileImmaginiDaExcel(stepContext),
-                    #endregion
-
-                    new Step_CreaFiles_Presentazioni(stepContext),
-                    new Step_TmpFolder_Pulizia(stepContext),
-
-                    new Step_EsitoFinale_Success(stepContext)
-                    };
+               // Steps che modificano il file DataSource                  
+                stepsSequence.Add(new Step_DataSource_Editing_Start(stepContext));
+                stepsSequence.Add(new Step_ImportaDati_CN43N(stepContext));
+                stepsSequence.Add(new Step_ImportaDati_RunRate(stepContext));
+                stepsSequence.Add(new Step_ImportaDati_BudgetAndForecast(stepContext));
+                stepsSequence.Add(new Step_ImportaDati_SuperDettagli(stepContext));
+                stepsSequence.Add(new Step_ImpostaVarabiliInNameManager(stepContext));
+                stepsSequence.Add(new Step_AttivazioneOpzioneRefreshOnLoad(stepContext));
+                stepsSequence.Add(new Step_DataSource_Stop_Editing(stepContext));
             }
+
+            // fine operazioni fatte tramite libreria EPPlus
+            stepsSequence.Add(new Step_Close_EPPlusHelpers(stepContext));
+
+            // Esportazione immagini da inserire nelle presentazioni
+            stepsSequence.Add(new Step_TmpFolder_Predisposizione(stepContext));
+            stepsSequence.Add(new Step_EsportaFileImmaginiDaExcel(stepContext));
+
+            // Creazione file presentazioni
+            stepsSequence.Add(new Step_CreaFiles_Presentazioni(stepContext));
+
+            // Pulizia cartella temporanea
+            stepsSequence.Add(new Step_TmpFolder_Pulizia(stepContext));
+
+            // Esito finale positivo
+            stepsSequence.Add(new Step_EsitoFinale_Success(stepContext));
             #endregion
 
+
+            #region Esecuzione Steps Sequence
             try
             {
                 RunStepSequence(stepsSequence, stepContext);
@@ -183,6 +166,7 @@ namespace FilesEditor
             {
                 return new UpdataDataSourceAndBuildPresentationOutput(stepContext, new ManagedException(ex));
             }
+            #endregion
         }
         #endregion
 

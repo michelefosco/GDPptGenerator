@@ -139,7 +139,15 @@ namespace FilesEditor.Entities
 
         public TimeSpan ElapsedTime { get; set; }
 
+        /// <summary>
+        /// Se a TRUE indica l'avvenuto completamento dell'importazione dati nel datasource
+        /// In questa situazione (flag a TRUE) si possono eseguire operazioni di build della presentazione senza dover rieseguire l'import dei dati.
+        /// </summary>
         public bool DatasourceStatus_ImportDatiCompletato { get; private set; }
+
+        /// <summary>
+        /// Se a TRUE indica che il RefreshAll dei dati è stato completato e il file salvato
+        /// </summary>
         public bool DatasourceStatus_RefreshAllCompletato { get; private set; }
 
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
