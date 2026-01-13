@@ -778,6 +778,11 @@ namespace PptGeneratorGUI
         const string AppTitle = "PowerPoint Generator";
         private void importDataAndBuildPresentation(bool buildPresentationOnly = false)
         {
+            this.Hide();
+            frmWaiting frmWaiting = new frmWaiting();
+            frmWaiting.Show();
+
+
             ClearOutputArea();
 
             btnBuildPresentation.Enabled = false;
@@ -858,6 +863,12 @@ namespace PptGeneratorGUI
                 //
 
                 showExpetion(ex);
+            }
+            finally
+            {
+                frmWaiting.Close();
+                frmWaiting.Dispose();
+                this.Show();
             }
         }
         #endregion
