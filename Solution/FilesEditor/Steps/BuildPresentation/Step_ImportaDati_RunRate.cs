@@ -41,6 +41,17 @@ namespace FilesEditor.Steps.BuildPresentation
                     ];
             destRange.Value = sourceRange.Value;
 
+
+            #region Lettura del valore per la variabile "cell_valore_RR"
+            var valore_cell_perc_RR = (double?) Context.DataSourceEPPlusHelper.GetValue(WorksheetNames.DATASOURCE_RUN_RATE_DATA, Context.Configurazione.DATASOURCE_RUNRATE_HEADERS_ROW + 1, Context.PeriodMont);
+            if (valore_cell_perc_RR.HasValue)
+            {
+                const string VARIABLE_NAME_CELL_PERC_RR = "cell_perc_RR";
+                Context.DataSourceEPPlusHelper.SetVariableInNameManager(VARIABLE_NAME_CELL_PERC_RR, valore_cell_perc_RR);
+            }
+            #endregion
+
+
             Context.RunRateFileEPPlusHelper.Close();
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
