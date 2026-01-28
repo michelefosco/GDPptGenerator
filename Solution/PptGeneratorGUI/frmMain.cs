@@ -412,6 +412,9 @@ namespace PptGeneratorGUI
 
         private void AutoFillDestinationFolderPath()
         {
+            if (string.IsNullOrEmpty(SelectedFileSuperDettagliPath))
+            { return; }
+
             if (string.IsNullOrEmpty(cmbDestinationFolderPath.Text))
             {
                 var superDettagliFolder = Path.GetDirectoryName(SelectedFileSuperDettagliPath);
@@ -766,7 +769,7 @@ namespace PptGeneratorGUI
         #region CreaPresentazione
         private void btnBuildPresentation_Click(object sender, EventArgs e)
         {
-            importDataAndBuildPresentation();
+            importDataAndBuildPresentation(buildPresentationOnly: false);
         }
 
         private void btnTryBuildPresentationOnly_Click(object sender, EventArgs e)
@@ -785,10 +788,16 @@ namespace PptGeneratorGUI
 
             ClearOutputArea();
 
+
+            var restorebtnBuildPresentationStatus = btnBuildPresentation.Enabled;
             btnBuildPresentation.Enabled = false;
 
-            // Salvataggio dei percorsi selezionati
-            AddPathsInXmlFileHistory();
+            if (!buildPresentationOnly)
+            {
+                // Salvataggio dei percorsi selezionati
+                AddPathsInXmlFileHistory();
+            }
+
             // Ricaricamento delle combobox
             FillComboBoxes();
 
@@ -825,7 +834,7 @@ namespace PptGeneratorGUI
                 var output = Editor.UpdataDataSourceAndBuildPresentation(buildPresentationInput);
 
                 //
-                btnBuildPresentation.Enabled = true;
+                btnBuildPresentation.Enabled = restorebtnBuildPresentationStatus;
                 lblElaborazioneInCorso.Visible = false;
                 lblResults.Visible = true;
                 this.Text = AppTitle;
@@ -855,7 +864,7 @@ namespace PptGeneratorGUI
             catch (Exception ex)
             {
                 //
-                btnBuildPresentation.Enabled = true;
+                btnBuildPresentation.Enabled = restorebtnBuildPresentationStatus;
                 lblElaborazioneInCorso.Visible = false;
                 lblResults.Visible = true;
                 this.Text = AppTitle;
@@ -1164,12 +1173,17 @@ namespace PptGeneratorGUI
             SelectedDestinationFolderPath = string.Empty;
         }
 
-        private void buildPresentationFromCurrentDataSourceFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
+        private void updatePresentationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(SelectedDestinationFolderPath))
+            {
+                cmbDestinationFolderPath.Focus();
+                MessageBox.Show("Please select output folder path before updating the presentation.");
+                return;
+            }
+            importDataAndBuildPresentation(buildPresentationOnly: true);
         }
         #endregion
-
-
     }
 }

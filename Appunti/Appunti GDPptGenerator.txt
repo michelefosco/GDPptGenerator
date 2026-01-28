@@ -35,18 +35,10 @@ Librerie usate
 - ShapeCrawler - Versione 0.74.0	(Manipolazione file PowerPoint)
 - Microsoft.Office.Interop.Excel - Versione 16.0.18925.20022	(Estrazione immagini da Excel)
 
-tblBudget			Budget
-???					Forecast
-???					RunRate
-tabSuperdettagli	Superdetails
-
 
 -------------------- Domande/Todo per Francesco
 - Il ridimensionamento della print area non funziona con i grafici in quanto l'end non segue la dimensione del grafico come per le pivot tables
 - Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
-
-
-
 
 
 

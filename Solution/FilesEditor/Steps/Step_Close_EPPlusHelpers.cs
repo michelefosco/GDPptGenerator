@@ -18,13 +18,20 @@ namespace FilesEditor.Steps
             // Chiudo tutti gli helper EPPlus aperti
             // Datasouce file
             Context.DataSourceEPPlusHelper.Close();
-            
+
             // Input source files
-            Context.BudgetFileEPPlusHelper.Close();
-            Context.ForecastFileEPPlusHelper.Close();
-            Context.RunRateFileEPPlusHelper.Close();
-            Context.SuperdettagliFileEPPlusHelper.Close();
-            // Essendo un file opzionale, verifico che l'helper non sia null prima di chiuderlo
+            if (!string.IsNullOrEmpty(Context.FileBudgetPath))
+            { Context.BudgetFileEPPlusHelper.Close(); }
+
+            if (!string.IsNullOrEmpty(Context.FileForecastPath))
+            { Context.ForecastFileEPPlusHelper.Close(); }
+
+            if (!string.IsNullOrEmpty(Context.FileRunRatePath))
+            { Context.RunRateFileEPPlusHelper.Close(); }
+
+            if (!string.IsNullOrEmpty(Context.FileSuperDettagliPath))
+            { Context.SuperdettagliFileEPPlusHelper.Close(); }
+
             if (!string.IsNullOrEmpty(Context.FileCN43NPath))
             { Context.CN43NFileEPPlusHelper.Close(); }
 

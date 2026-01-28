@@ -41,14 +41,14 @@ namespace FilesEditor.Entities.MethodsArgs
             if (string.IsNullOrWhiteSpace(debugFilePath))
                 throw new ArgumentNullException(nameof(debugFilePath));
             // 
-            if (string.IsNullOrWhiteSpace(fileBudgetPath))
-                throw new ArgumentNullException(nameof(fileBudgetPath));
-            if (string.IsNullOrWhiteSpace(fileForecastPath))
-                throw new ArgumentNullException(nameof(fileForecastPath));
-            if (string.IsNullOrWhiteSpace(fileSuperDettagliPath))
-                throw new ArgumentNullException(nameof(fileSuperDettagliPath));
-            if (string.IsNullOrWhiteSpace(fileRunRatePath))
-                throw new ArgumentNullException(nameof(fileRunRatePath));
+            //if (string.IsNullOrWhiteSpace(fileBudgetPath))
+            //    throw new ArgumentNullException(nameof(fileBudgetPath));
+            //if (string.IsNullOrWhiteSpace(fileForecastPath))
+            //    throw new ArgumentNullException(nameof(fileForecastPath));
+            //if (string.IsNullOrWhiteSpace(fileSuperDettagliPath))
+            //    throw new ArgumentNullException(nameof(fileSuperDettagliPath));
+            //if (string.IsNullOrWhiteSpace(fileRunRatePath))
+            //    throw new ArgumentNullException(nameof(fileRunRatePath));
 
             // Properties from the base class
             base.DataSourceFilePath = dataSourceFilePath;
