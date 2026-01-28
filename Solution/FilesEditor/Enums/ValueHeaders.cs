@@ -15,6 +15,9 @@ namespace FilesEditor.Enums
         [Description("Slide title")]
         SlideTitle,
 
+        [Description("Slide content")]
+        SlideContent,
+
         [Description("Slide layout")]
         SlideLayout,
     }

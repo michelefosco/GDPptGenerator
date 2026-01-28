@@ -68,7 +68,7 @@ namespace FilesEditor.Steps
                 // check sul campo "Content 1"
                 ManagedException.ThrowIfMissingMandatoryValue(content1, ePPlusHelper.FilePathInUse, FileTypes.DataSource, worksheetName, rigaCorrente,
                     Context.Configurazione.DATASOURCE_CONFIG_SLIDES_CONTENT_1_COL,
-                    ValueHeaders.SlideTitle);
+                    ValueHeaders.SlideContent);
 
                 var contents = new List<string>() { content1 };
                 if (!string.IsNullOrWhiteSpace(content2)) { contents.Add(content2); }
