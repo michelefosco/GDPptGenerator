@@ -1176,7 +1176,7 @@ namespace PptGeneratorGUI
 
         private void updatePresentationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(SelectedDestinationFolderPath))
+            if (!IsDestFolderValid())
             {
                 cmbDestinationFolderPath.Focus();
                 MessageBox.Show("Please select output folder path before updating the presentation.");
