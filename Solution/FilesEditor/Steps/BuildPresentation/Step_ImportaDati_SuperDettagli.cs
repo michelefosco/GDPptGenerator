@@ -43,6 +43,10 @@ namespace FilesEditor.Steps.BuildPresentation
             var infoRowsDestinazione = new InfoRows();  // Variabili per il conteggio delle righe elaborate
 
 
+
+
+
+
             #region Lettura degli headers del foglio sorgente e foglio destinazione
             var destHeaders = Context.DataSourceEPPlusHelper.GetHeadersFromRow(destWorksheetName, destHeadersRow, destHeadersFirstColumn, true).Select(_ => _.ToLower()).ToList();
             var numeroDiColonneDaCopiare = destHeaders.Count;
@@ -55,8 +59,26 @@ namespace FilesEditor.Steps.BuildPresentation
 
             // Foglio destinazione
             var destWorksheet = Context.DataSourceEPPlusHelper.ExcelPackage.Workbook.Worksheets[destWorksheetName];
-            infoRowsDestinazione.Iniziali = destWorksheet.Dimension.Rows - destHeadersRow;
             #endregion
+
+
+            #region  Elimino le eventuali righe vuote in eccesso che non fanno parte della tabella
+            var table = destWorksheet.Tables.FirstOrDefault();
+            if (table != null)
+            {
+                var lastRowInTable = table.Address.End.Row;
+                var lastRowInSheet = destWorksheet.Dimension.End.Row;
+                var extraEmptyRows = lastRowInSheet - lastRowInTable;
+                if (extraEmptyRows > 0)
+                {
+                    // elimino le righe vuote in eccesso che non fanno parte della tabella
+                    destWorksheet.DeleteRow(lastRowInTable + 1, extraEmptyRows, true);
+                }
+            }
+            #endregion
+
+
+            infoRowsDestinazione.Iniziali = destWorksheet.Dimension.Rows - destHeadersRow;
 
 
             #region Applico gli eventuali filtri al file sorgente
@@ -72,6 +94,7 @@ namespace FilesEditor.Steps.BuildPresentation
             #endregion
 
 
+
             #region Calcolo il numero di righe da riusare o cancellare nella tabella di destinazione
             int numeroRigheDestinazione_DaRiusareOppureCancellare = 0;
             if (Context.AppendCurrentYear_FileSuperDettagli)
@@ -85,6 +108,8 @@ namespace FilesEditor.Steps.BuildPresentation
             }
             infoRowsDestinazione.Preservate = infoRowsDestinazione.Iniziali - numeroRigheDestinazione_DaRiusareOppureCancellare;
             #endregion
+
+
 
 
             #region Aggiungo o elimino righe nella tabella di destinazione per fare spazio alle righe da importare (o evenutalmente rimuovere quelle non più necessarie in quanto ho meno righe da importare di quelle da sostituire)
