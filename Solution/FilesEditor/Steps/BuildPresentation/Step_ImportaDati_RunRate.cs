@@ -47,7 +47,7 @@ namespace FilesEditor.Steps.BuildPresentation
             if (valore_cell_perc_RR.HasValue)
             {
                 const string VARIABLE_NAME_CELL_PERC_RR = "cell_perc_RR";
-                Context.DataSourceEPPlusHelper.SetVariableInNameManager(VARIABLE_NAME_CELL_PERC_RR, valore_cell_perc_RR);
+                Context.DataSourceEPPlusHelper.SetVariableInNameManager(VARIABLE_NAME_CELL_PERC_RR, valore_cell_perc_RR.Value);
             }
             #endregion
 

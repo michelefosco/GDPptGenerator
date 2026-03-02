@@ -114,17 +114,44 @@ namespace EPPlusExtensions
             if (value_10 != null) { currentWorksheet.Cells[row, firstColumnToBeUsed + 9].Value = value_10; }
         }
 
-        public void SetVariableInNameManager(string variableName, object value)
+        public void SetVariableInNameManager(string variableName, double value)
         {
             if (_excelPackage.Workbook.Names.ContainsKey(variableName))
             {
                 // Aggiorna la variabile esistente
-                _excelPackage.Workbook.Names[variableName].Value = value.ToString();
+                _excelPackage.Workbook.Names[variableName].Value = value;
             }
             else
             {
                 // Crea una variabile (di tipo "Named Formula") con valore costante
-                _excelPackage.Workbook.Names.AddValue(variableName, value.ToString());
+                _excelPackage.Workbook.Names.AddValue(variableName, value);
+            }
+        }
+
+        public void SetVariableInNameManager(string variableName, int value)
+        {
+            if (_excelPackage.Workbook.Names.ContainsKey(variableName))
+            {
+                // Aggiorna la variabile esistente
+                _excelPackage.Workbook.Names[variableName].Value = value;
+            }
+            else
+            {
+                // Crea una variabile (di tipo "Named Formula") con valore costante
+                _excelPackage.Workbook.Names.AddValue(variableName, value);
+            }
+        }
+        public void SetVariableInNameManager(string variableName, string value)
+        {
+            if (_excelPackage.Workbook.Names.ContainsKey(variableName))
+            {
+                // Aggiorna la variabile esistente
+                _excelPackage.Workbook.Names[variableName].Value = value;
+            }
+            else
+            {
+                // Crea una variabile (di tipo "Named Formula") con valore costante
+                _excelPackage.Workbook.Names.AddValue(variableName, value);
             }
         }
 
