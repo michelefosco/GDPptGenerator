@@ -46,8 +46,10 @@ namespace FilesEditor.Steps.BuildPresentation
             for (int fullAttemptNumber = 1; fullAttemptNumber <= MAX_NUMBER_OF_fullAttempts; fullAttemptNumber++)
             {
                 var startTime = DateTime.UtcNow;
-                // alla prima esecuzione apro il file Excel e faccio il "Refresh All" dei dati collegati
-                var imageExtractor = new ExcelImageExtractors.ImageExtractor(Context.DataSourceFilePath, !alreadySavedOnce);  // Interop
+
+                // Alla prima esecuzione apro il file Excel facendo anche il "Refresh All" dei dati, lo evito nelle esecuzioni successive
+                var refreshAllAttivo = !alreadySavedOnce; 
+                var imageExtractor = new ExcelImageExtractors.ImageExtractor(Context.DataSourceFilePath, refreshAllAttivo);  // Interop
                 Context.DebugInfoLogger.LogPerformance(StepName + $" Istanziamento ImageExtractor (apertura Excel e refresh data)", DateTime.UtcNow - startTime);
 
                 // eseguo più tentativi di estrazione immagini

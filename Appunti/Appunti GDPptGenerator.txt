@@ -1,7 +1,8 @@
 -----
 Build events:				powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force
 -----
-Downolad:					http://www.lefo.it/tmp/PptGeneratorGUI.zip
+Downolad build:				http://www.lefo.it/tmp/PptGeneratorGUI.zip
+Downolad solution:			http://www.lefo.it/tmp/Solution.zip
 -----
 Dimensioni slide: 			29,691 cm X 16,713 cm
 Dimensioni box immagini:	27,400 cm X 14.500 cm	Ratio (1 : 2,192)
@@ -43,6 +44,9 @@ Librerie usate
 
 
 -------------------- Todo
+- Verificare la possibilità di renddere "Budget e Forecast" opzionali
+- Controllare tempi del backup del file
+
 - Follow-up Elementi in foglio Excel
 
 - Se la configurazione non ha neanche una presentazione come output non parto
