@@ -68,6 +68,19 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                         userMessage: string.Format(UserErrorMessages.InvalidValue, table)
                         );
                 }
+
+                // passo alla riga successiva
+                rigaCorrente++;
+
+                // Verranno esclusi i filtri per cui non è stato specificato un file di riferimento in quanto opzionale (es. Budget e/o Forecast)
+                if (
+                    (parsedTable == InputDataFilters_Tables.BUDGET && string.IsNullOrEmpty(Context.FileBudgetPath))
+                    ||
+                       (parsedTable == InputDataFilters_Tables.FORECAST && string.IsNullOrEmpty(Context.FileForecastPath))
+                    )
+                { continue; }
+
+
                 applicablefilters.Add(new InputDataFilters_Item
                 {
                     Table = parsedTable,
@@ -75,9 +88,6 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                     PossibleValues = new List<string>(),
                     SelectedValues = new List<string>(),
                 });
-
-                // passo alla riga successiva
-                rigaCorrente++;
             }
         }
 

@@ -168,23 +168,29 @@ namespace PptGeneratorGUI
             var isDestFolderValid = IsDestFolderValid();
             var allValid = isBudgetPathValid && isForecastPathValid && isSuperDettagliPathValid && isRunRatePathValid && isCN43NPathValid && isDestFolderValid;
 
-            btnOpenFileBudgetFolder.Enabled = isBudgetPathValid;
-            btnOpenFileBudget.Enabled = isBudgetPathValid;
+            // ----- File opzionali, se il percorso è valorizzato devono essere validi per poter procedere con la validazione e l'abilitazione dell'apertura cartella/file, altrimenti se vuoti sono considerati validi e non viene abilitata l'apertura cartella/file
+            var enableBottonsFor_Budget_File = !string.IsNullOrEmpty(SelectedFileBudgetPath) && isBudgetPathValid;
+            btnOpenFileBudgetFolder.Enabled = enableBottonsFor_Budget_File;
+            btnOpenFileBudget.Enabled = enableBottonsFor_Budget_File;
             //
-            btnOpenFileForecastFolder.Enabled = isForecastPathValid;
-            btnOpenFileForecast.Enabled = isForecastPathValid;
+            var enableBottonsFor_Forecast_File = !string.IsNullOrEmpty(SelectedFileForecastPath) && isForecastPathValid;
+            btnOpenFileForecastFolder.Enabled = enableBottonsFor_Forecast_File;
+            btnOpenFileForecast.Enabled = enableBottonsFor_Forecast_File;
             //
+            var enableBottonsFor_CN43N_File = !string.IsNullOrEmpty(SelectedFileCN43NPath) && isCN43NPathValid;
+            btnOpenFileCN43NFolder.Enabled = enableBottonsFor_CN43N_File;
+            btnOpenFileCN43N.Enabled = enableBottonsFor_CN43N_File;
+
+            // ----- Campi obbligatori, devono essere validi per poter procedere con la validazione e l'abilitazione dell'apertura cartella/file
             btnOpenFileSuperDettagliFolder.Enabled = isSuperDettagliPathValid;
             btnOpenFileSuperDettagli.Enabled = isSuperDettagliPathValid;
             //
             btnOpenFileRunRateFolder.Enabled = isRunRatePathValid;
             btnOpenFileRunRate.Enabled = isRunRatePathValid;
             //
-            btnOpenFileCN43NFolder.Enabled = !string.IsNullOrEmpty(SelectedFileCN43NPath) && isCN43NPathValid;
-            btnOpenFileCN43N.Enabled = !string.IsNullOrEmpty(SelectedFileCN43NPath) && isCN43NPathValid;
-            //
             btnOpenDestFolder.Enabled = isDestFolderValid;
-            //
+                        
+            // Attivazione del pulsate "Valida input"
             btnValidaInput.Enabled = allValid && !_inputValidato;
 
             RefreshFiltersArea();
@@ -260,8 +266,11 @@ namespace PptGeneratorGUI
 
 
         #region Check "IsValid" su file e cartella
+        
         private bool IsBudgetPathValid()
         {
+            return isPathValid_ForOptionalFiles(SelectedFileBudgetPath);
+
             bool isValid = !string.IsNullOrEmpty(SelectedFileBudgetPath);
 
             if (isValid)
@@ -274,6 +283,7 @@ namespace PptGeneratorGUI
 
         private bool IsForecastPathValid()
         {
+            return isPathValid_ForOptionalFiles(SelectedFileForecastPath);
             bool isValid = !string.IsNullOrEmpty(SelectedFileForecastPath);
 
             if (isValid)
@@ -284,8 +294,22 @@ namespace PptGeneratorGUI
             return isValid;
         }
 
+        private bool IsCN43NPathValid()
+        {
+            return isPathValid_ForOptionalFiles(SelectedFileCN43NPath);
+
+            // se vuoto , è valido (file opzionale)
+            if (string.IsNullOrEmpty(SelectedFileCN43NPath))
+            { return true; }
+
+            return File.Exists(SelectedFileCN43NPath);
+        }
+
+
         private bool IsSuperDettagliPathValid()
         {
+            return isPathValid_ForMandatoryFiles(SelectedFileSuperDettagliPath);
+
             bool isValid = !string.IsNullOrEmpty(SelectedFileSuperDettagliPath);
 
             if (isValid)
@@ -298,6 +322,8 @@ namespace PptGeneratorGUI
 
         private bool IsRunRatePathValid()
         {
+            return isPathValid_ForMandatoryFiles(SelectedFileRunRatePath);
+
             bool isValid = !string.IsNullOrEmpty(SelectedFileRunRatePath);
 
             if (isValid)
@@ -307,15 +333,29 @@ namespace PptGeneratorGUI
 
             return isValid;
         }
-        private bool IsCN43NPathValid()
-        {
-            // se vuoto , è valido (file opzionale)
-            if (string.IsNullOrEmpty(SelectedFileCN43NPath))
-            { return true; }
+        
 
-            return File.Exists(SelectedFileCN43NPath);
+
+
+        private bool isPathValid_ForMandatoryFiles(string filePath)
+        {
+            bool isValid = !string.IsNullOrEmpty(filePath);
+            if (isValid)
+            {
+                isValid = File.Exists(filePath);
+            }
+            return isValid;
         }
 
+
+        private bool isPathValid_ForOptionalFiles(string filePath)
+        {
+            // se vuoto , è valido (file opzionale)
+            if (string.IsNullOrEmpty(filePath))
+            { return true; }
+
+            return File.Exists(filePath);
+        }
 
         private bool IsDestFolderValid()
         {

@@ -1,3 +1,10 @@
+- Dopo aver fatto la lista WBS renderla disponibile nella clipboard
+- Modifiche come richieste da Francesco
+- "WBS" fa da chiave
+- CN43N ha circa 5-6000 righe (provare a riutilizzare righe in aggiornamento)
+
+
+
 -----
 Build events:				powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force
 -----
@@ -44,40 +51,23 @@ Librerie usate
 
 
 -------------------- Todo
-- Verificare la possibilità di renddere "Budget e Forecast" opzionali
-- Controllare tempi del backup del file
-
-- Follow-up Elementi in foglio Excel
-
+- Indagare sul perchè la lettura dei file Budget e forecast è così lenta
+- Verificare la possibilità di renddere "Budget e Forecast" opzionali. Complicazione nella logica dovuta ai potenziali filtri sui campi Business e Forecast. Al momento legge i valori dal file sorgente
 - Se la configurazione non ha neanche una presentazione come output non parto
-- Rivedere nomi steps e aggiungere commento in cima alla classe
-
-- More tests (es. per più combinazioni di input (append or not))
-- Miminimizzare e massimizzare finestra dopo il lascio e fine esecuzione
-- Progress bar o hide
-
-- In output avere anche info su dimensioni SuperDettagli
 - Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
-
-- Testare applicazione filtri
 - Rivedere logica per i filtri...
-- Test con filtri
-- Applicare stessa logica del campo anno anche per i filtri sulle colonne?
-
 - Creazione di una guida (forse un file HTML) con le informazioni sulle formule
-
-- Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
 - Aggiungere istruzioni per la compilazione della tabella Alias in excel
 
 
 (Opzionali o per proposte successive)
-- Aggiungere testo "Possibile soluzione" come properties di ManagedExpetion?
+- Aggiungere testo "Possibile soluzione al problema" come properties di ManagedExpetion?
 - Unit tests per Aliases
 - Inidividuare prima riga e colonna di Budget e Forecast basato sulla posizione delle 2 celle
 - Feedback dopo la validazione dei file (tipo dimensione dei file?)
 
 
-(in più)
-- File CN43N
-- Append/sostiutisci di superdettagli
+(Cose fatte in più rispetto ai piani iniziali)
+- Gestione File CN43N
+- Append/sostiutisci nel file Super dettagli
 - Anno

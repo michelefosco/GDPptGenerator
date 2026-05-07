@@ -21,34 +21,38 @@ namespace FilesEditor.Steps.BuildPresentation
 
         internal override EsitiFinali DoSpecificStepTask()
         {
-            ImportaSourceFile(
-                    sourceFileType: FileTypes.Budget,
-                    sourceFileEPPlusHelper: Context.BudgetFileEPPlusHelper,
-                    // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
-                    sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
-                    souceHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
-                    sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_FIRST_COL,
-                    //
-                    destWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
-                    destHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
-                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
-                );
+            if (!string.IsNullOrEmpty(Context.FileBudgetPath))
+            {
+                ImportaSourceFile(
+                        sourceFileType: FileTypes.Budget,
+                        sourceFileEPPlusHelper: Context.BudgetFileEPPlusHelper,
+                        // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                        sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_BUDGET_DATA,
+                        souceHeadersRow: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_ROW,
+                        sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_FIRST_COL,
+                        //
+                        destWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
+                        destHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
+                        destHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL
+                    );
+            }
 
-            ImportaSourceFile(
-                    sourceFileType: FileTypes.Forecast,
-                    sourceFileEPPlusHelper: Context.ForecastFileEPPlusHelper,
-                    // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
-                    sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_FORECAST_DATA,
-                    souceHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
-                    sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_FIRST_COL,
-                    //
-                    destWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
-                    destHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
-                    destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
-                );
 
-            //Context.BudgetFileEPPlusHelper.Close();
-            //Context.ForecastFileEPPlusHelper.Close();
+            if (!string.IsNullOrEmpty(Context.FileForecastPath))
+            {
+                ImportaSourceFile(
+                        sourceFileType: FileTypes.Forecast,
+                        sourceFileEPPlusHelper: Context.ForecastFileEPPlusHelper,
+                        // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
+                        sourceWorksheetName: null, // WorksheetNames.SOURCEFILE_FORECAST_DATA,
+                        souceHeadersRow: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_ROW,
+                        sourceHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_FIRST_COL,
+                        //
+                        destWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
+                        destHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
+                        destHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL
+                    );
+            }
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }

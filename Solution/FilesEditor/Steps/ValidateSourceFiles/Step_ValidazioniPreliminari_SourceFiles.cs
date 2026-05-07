@@ -27,7 +27,9 @@ namespace FilesEditor.Steps.ValidateSourceFiles
 
         internal void ValidazioniPreliminari_SourceFiles()
         {
-            ValidazioniPreliminari_Comuni(
+            if (!string.IsNullOrEmpty(Context.FileBudgetPath))
+            {
+                ValidazioniPreliminari_Comuni(
                  datasourceWorksheetName: WorksheetNames.DATASOURCE_BUDGET_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_BUDGET_HEADERS_FIRST_COL,
@@ -41,8 +43,11 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFileHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_BUDGET_HEADERS_FIRST_COL,
                  ovverideExpectedHeadersColumns: new List<string>() { "Business", "Categoria" }
                 );
+            }
 
-            ValidazioniPreliminari_Comuni(
+            if (!string.IsNullOrEmpty(Context.FileForecastPath))
+            {
+                ValidazioniPreliminari_Comuni(
                  datasourceWorksheetName: WorksheetNames.DATASOURCE_FORECAST_DATA,
                  datasourceWorksheetHeadersRow: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_ROW,
                  datasourceWorksheetHeadersFirstColumn: Context.Configurazione.DATASOURCE_FORECAST_HEADERS_FIRST_COL,
@@ -56,6 +61,7 @@ namespace FilesEditor.Steps.ValidateSourceFiles
                  sourceFileHeadersFirstColumn: Context.Configurazione.SOURCE_FILES_FORECAST_HEADERS_FIRST_COL,
                  ovverideExpectedHeadersColumns: new List<string>() { "Business", "Categoria" }
                 );
+            }
 
             ValidazioniPreliminari_Comuni(
                  datasourceWorksheetName: WorksheetNames.DATASOURCE_RUN_RATE_DATA,
