@@ -6,7 +6,7 @@ namespace FilesEditor.Entities.MethodsArgs
     public class UpdataDataSourceAndBuildPresentationInput : UserInterfaceInputBase
     {
         public string PowerPointTemplateFilePath { get; private set; }
-        public bool AppendCurrentYear_FileSuperDettagli { get; private set; }
+        public bool FileSuperDettagli_ReplaceCurrentYearRows { get; private set; }
         public DateTime PeriodDate { get; private set; }
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
@@ -64,7 +64,7 @@ namespace FilesEditor.Entities.MethodsArgs
 
             // Properties of the derived class 
             PowerPointTemplateFilePath = powerPointTemplateFilePath;
-            AppendCurrentYear_FileSuperDettagli = appendCurrentYear_FileSuperDettagli;
+            FileSuperDettagli_ReplaceCurrentYearRows = appendCurrentYear_FileSuperDettagli;
             PeriodDate = periodDate;
             ApplicableFilters = applicablefilters ?? new List<InputDataFilters_Item>();
             BuildPresentationOnly = buildPresentationOnly;

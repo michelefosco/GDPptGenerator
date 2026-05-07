@@ -31,7 +31,7 @@ namespace FilesEditor.Entities
         // FileCN43NPath
 
         // Input specifico di uno o più metodi
-        public bool AppendCurrentYear_FileSuperDettagli { get; private set; }
+        public bool FileSuperDettagli_ReplaceCurrentYearRows { get; private set; }
         public string PowerPointTemplateFilePath { get; private set; }
 
         #region Period
@@ -216,7 +216,7 @@ namespace FilesEditor.Entities
 
             //
             PowerPointTemplateFilePath = input.PowerPointTemplateFilePath;
-            AppendCurrentYear_FileSuperDettagli = input.AppendCurrentYear_FileSuperDettagli;
+            FileSuperDettagli_ReplaceCurrentYearRows = input.FileSuperDettagli_ReplaceCurrentYearRows;
             PeriodDate = input.PeriodDate;
             ApplicableFilters = new List<InputDataFilters_Item>(input.ApplicableFilters)
                              ?? new List<InputDataFilters_Item>();

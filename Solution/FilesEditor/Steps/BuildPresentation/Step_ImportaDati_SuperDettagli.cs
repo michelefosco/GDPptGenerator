@@ -97,7 +97,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
             #region Calcolo il numero di righe da riusare o cancellare nella tabella di destinazione
             int numeroRigheDestinazione_DaRiusareOppureCancellare = 0;
-            if (Context.AppendCurrentYear_FileSuperDettagli)
+            if (Context.FileSuperDettagli_ReplaceCurrentYearRows)
             {
                 valoriColonnaAnnoRigheDaValutare = GetListaValoriAnno(destWorksheet);
                 numeroRigheDestinazione_DaRiusareOppureCancellare = valoriColonnaAnnoRigheDaValutare.Count(_ => string.Equals(_, periodYearString, StringComparison.Ordinal));
@@ -137,7 +137,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 //aggiungo anche elementi vuoti alla lista in modo da rispecchiare l'allineamento con le righe del foglio di destinazione
                 valoriColonnaAnnoRigheDaValutare.AddRange(Enumerable.Repeat(string.Empty, numeroRigheDaAggiungere));
 
-                if (Context.AppendCurrentYear_FileSuperDettagli)
+                if (Context.FileSuperDettagli_ReplaceCurrentYearRows)
                 {
                     // Sposto il contenuto dell'ultima riga nella sua posizione originale. Qesto è necessario solo in caso di appendo su Superdettagli per preservare il contenuto dei dati
                     SpostaRiga(destWorksheet, destWorksheet.Dimension.End.Row, indiceUltimaRigaConDatiPrimaDellaImportazione, numeroDiColonneDaCopiare);
@@ -149,7 +149,7 @@ namespace FilesEditor.Steps.BuildPresentation
                 // Le righe "DaRiusareOppureCancellare" sono più di quellle necessarie ai dati da importare. Non le userò tutte. Alcune verranno cancellate
                 var numeroRigheDaEliminare = numeroRigheDestinazione_DaRiusareOppureCancellare - numeroRigheDaImportareDaSorgente;
 
-                if (Context.AppendCurrentYear_FileSuperDettagli)
+                if (Context.FileSuperDettagli_ReplaceCurrentYearRows)
                 {
                     // cancellazione di <numeroRigheDaEliminare> righe a partire dalla fine di solo quelle con anno corrente)
                     CancellaTotRigheConAnnoCorrenteDalFondoDellaTabella(destWorksheet, numeroRigheDaEliminare, valoriColonnaAnnoRigheDaValutare, periodYearString, destHeadersRow);
@@ -174,7 +174,7 @@ namespace FilesEditor.Steps.BuildPresentation
             // Deterimo i blocchi da riempire nella tabella di destinazione
             var blocchiDaRiempire = new List<InfoBloccoDaCopiare>();
 
-            if (Context.AppendCurrentYear_FileSuperDettagli)
+            if (Context.FileSuperDettagli_ReplaceCurrentYearRows)
             {
                 blocchiDaRiempire = GetBlocchiRigheDaRiempire(valoriColonnaAnnoRigheDaValutare, periodYearString);
             }
