@@ -862,7 +862,7 @@ namespace PptGeneratorGUI
                 fileCN43NPath: SelectedFileCN43NPath,
                 //
                 powerPointTemplateFilePath: PowerPointTemplateFilePath,
-                appendCurrentYear_FileSuperDettagli: cbAppendCurrentYearSuperDettagli.Checked,
+                appendCurrentYear_FileSuperDettagli: rbSuperDettagli_ReplaceCurrentYear.Checked,
                 periodDate: _selectedDatePeriodo,
                 applicablefilters: _applicablefilters,
                 buildPresentationOnly: buildPresentationOnly
@@ -1179,7 +1179,7 @@ namespace PptGeneratorGUI
             _inputValidato = false;
             _applicablefilters = new List<InputDataFilters_Item>();
             _selectedDatePeriodo = DateTime.Today;
-            cbAppendCurrentYearSuperDettagli.Checked = true;
+            rbSuperDettagli_ReplaceCurrentYear.Checked = true;
             SetDefaultDatePeriodo();
 
             ClearOutputArea();
