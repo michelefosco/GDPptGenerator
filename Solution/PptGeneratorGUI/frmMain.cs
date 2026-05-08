@@ -788,7 +788,7 @@ namespace PptGeneratorGUI
                 {
                     SetStatusLabel("Input validated with errors");
                     SetOutputMessage(output.ManagedException);
-                    btnCopyError.Visible = true;
+                    btnCopyOutput.Visible = true;
                 }
 
                 lblElaborazioneInCorso.Visible = false;
@@ -898,7 +898,7 @@ namespace PptGeneratorGUI
                     //Mostrare eventuali dati nel fail
                     SetStatusLabel("Processing completed with errors");
                     SetOutputMessage(output.ManagedException);
-                    btnCopyError.Visible = true;
+                    btnCopyOutput.Visible = true;
                 }
             }
             catch (Exception ex)
@@ -933,7 +933,7 @@ namespace PptGeneratorGUI
             else
             { SetOutputMessage(ex); }
 
-            btnCopyError.Visible = true;
+            btnCopyOutput.Visible = true;
         }
 
         private void SetOutputMessage(Exception ex)
@@ -1121,7 +1121,7 @@ namespace PptGeneratorGUI
             }
         }
 
-        private void btnCopyError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnCopyOutput_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
             MessageBox.Show("Error copied to clipboard", "Error copied to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1225,5 +1225,7 @@ namespace PptGeneratorGUI
             importDataAndBuildPresentation(buildPresentationOnly: true);
         }
         #endregion
+
+
     }
 }

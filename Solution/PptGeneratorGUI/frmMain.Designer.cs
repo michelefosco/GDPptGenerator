@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -66,7 +66,7 @@
             this.lblResults = new System.Windows.Forms.Label();
             this.cmbDestinationFolderPath = new System.Windows.Forms.ComboBox();
             this.wbExecutionResult = new System.Windows.Forms.WebBrowser();
-            this.btnCopyError = new System.Windows.Forms.LinkLabel();
+            this.btnCopyOutput = new System.Windows.Forms.LinkLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.cmbFileForecastPath = new System.Windows.Forms.ComboBox();
             this.lblFileForecastPath = new System.Windows.Forms.Label();
@@ -83,6 +83,9 @@
             this.calendarPeriodo = new System.Windows.Forms.MonthCalendar();
             this.pnlCalendar = new System.Windows.Forms.Panel();
             this.gbPaths = new System.Windows.Forms.GroupBox();
+            this.gbSuperDettagli = new System.Windows.Forms.GroupBox();
+            this.rbSuperDettagli_Add = new System.Windows.Forms.RadioButton();
+            this.rbSuperDettagli_ReplaceCurrentYear = new System.Windows.Forms.RadioButton();
             this.cmbFileCN43NPath = new System.Windows.Forms.ComboBox();
             this.lblFileCN43NPath = new System.Windows.Forms.Label();
             this.gbOptions = new System.Windows.Forms.GroupBox();
@@ -99,16 +102,13 @@
             this.lblElaborazioneInCorso = new System.Windows.Forms.Label();
             this.btnTryBuildPresentationOnly = new System.Windows.Forms.Button();
             this.bfbDestFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
-            this.rbSuperDettagli_ReplaceCurrentYear = new System.Windows.Forms.RadioButton();
-            this.rbSuperDettagli_Add = new System.Windows.Forms.RadioButton();
-            this.gbSuperDettagli = new System.Windows.Forms.GroupBox();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiltri)).BeginInit();
             this.pnlCalendar.SuspendLayout();
             this.gbPaths.SuspendLayout();
+            this.gbSuperDettagli.SuspendLayout();
             this.gbOptions.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.gbSuperDettagli.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -483,18 +483,18 @@
             this.wbExecutionResult.WebBrowserShortcutsEnabled = false;
             this.wbExecutionResult.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbExecutionResult_Navigating);
             // 
-            // btnCopyError
+            // btnCopyOutput
             // 
-            this.btnCopyError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopyError.AutoSize = true;
-            this.btnCopyError.Location = new System.Drawing.Point(1007, 887);
-            this.btnCopyError.Name = "btnCopyError";
-            this.btnCopyError.Size = new System.Drawing.Size(148, 13);
-            this.btnCopyError.TabIndex = 25;
-            this.btnCopyError.TabStop = true;
-            this.btnCopyError.Text = "Copy the error in the clipboard";
-            this.btnCopyError.Visible = false;
-            this.btnCopyError.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnCopyError_LinkClicked);
+            this.btnCopyOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopyOutput.AutoSize = true;
+            this.btnCopyOutput.Location = new System.Drawing.Point(1007, 885);
+            this.btnCopyOutput.Name = "btnCopyOutput";
+            this.btnCopyOutput.Size = new System.Drawing.Size(148, 13);
+            this.btnCopyOutput.TabIndex = 25;
+            this.btnCopyOutput.TabStop = true;
+            this.btnCopyOutput.Text = "Copy the error in the clipboard";
+            this.btnCopyOutput.Visible = false;
+            this.btnCopyOutput.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnCopyOutput_LinkClicked);
             // 
             // toolStripStatusLabel2
             // 
@@ -589,14 +589,14 @@
             this.dgvFiltri.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFiltri.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFiltri.CausesValidation = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFiltri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvFiltri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFiltri.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Table,
@@ -698,6 +698,41 @@
             this.gbPaths.TabIndex = 50;
             this.gbPaths.TabStop = false;
             this.gbPaths.Text = "Paths";
+            // 
+            // gbSuperDettagli
+            // 
+            this.gbSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSuperDettagli.Controls.Add(this.rbSuperDettagli_Add);
+            this.gbSuperDettagli.Controls.Add(this.rbSuperDettagli_ReplaceCurrentYear);
+            this.gbSuperDettagli.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gbSuperDettagli.Location = new System.Drawing.Point(869, 92);
+            this.gbSuperDettagli.Margin = new System.Windows.Forms.Padding(0);
+            this.gbSuperDettagli.Name = "gbSuperDettagli";
+            this.gbSuperDettagli.Size = new System.Drawing.Size(196, 26);
+            this.gbSuperDettagli.TabIndex = 44;
+            this.gbSuperDettagli.TabStop = false;
+            // 
+            // rbSuperDettagli_Add
+            // 
+            this.rbSuperDettagli_Add.AutoSize = true;
+            this.rbSuperDettagli_Add.Location = new System.Drawing.Point(146, 4);
+            this.rbSuperDettagli_Add.Name = "rbSuperDettagli_Add";
+            this.rbSuperDettagli_Add.Size = new System.Drawing.Size(44, 17);
+            this.rbSuperDettagli_Add.TabIndex = 43;
+            this.rbSuperDettagli_Add.Text = "Add";
+            this.rbSuperDettagli_Add.UseVisualStyleBackColor = true;
+            // 
+            // rbSuperDettagli_ReplaceCurrentYear
+            // 
+            this.rbSuperDettagli_ReplaceCurrentYear.AutoSize = true;
+            this.rbSuperDettagli_ReplaceCurrentYear.Checked = true;
+            this.rbSuperDettagli_ReplaceCurrentYear.Location = new System.Drawing.Point(6, 4);
+            this.rbSuperDettagli_ReplaceCurrentYear.Name = "rbSuperDettagli_ReplaceCurrentYear";
+            this.rbSuperDettagli_ReplaceCurrentYear.Size = new System.Drawing.Size(124, 17);
+            this.rbSuperDettagli_ReplaceCurrentYear.TabIndex = 42;
+            this.rbSuperDettagli_ReplaceCurrentYear.TabStop = true;
+            this.rbSuperDettagli_ReplaceCurrentYear.Text = "Replace current year";
+            this.rbSuperDettagli_ReplaceCurrentYear.UseVisualStyleBackColor = true;
             // 
             // cmbFileCN43NPath
             // 
@@ -840,7 +875,7 @@
             // 
             this.btnTryBuildPresentationOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTryBuildPresentationOnly.Location = new System.Drawing.Point(948, 575);
-            this.btnTryBuildPresentationOnly.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTryBuildPresentationOnly.Margin = new System.Windows.Forms.Padding(2);
             this.btnTryBuildPresentationOnly.Name = "btnTryBuildPresentationOnly";
             this.btnTryBuildPresentationOnly.Size = new System.Drawing.Size(107, 36);
             this.btnTryBuildPresentationOnly.TabIndex = 24;
@@ -855,57 +890,22 @@
             this.bfbDestFolder.RootFolder = "C:\\Users\\miche\\Desktop";
             this.bfbDestFolder.Title = "Please select a folder...";
             // 
-            // rbSuperDettagli_ReplaceCurrentYear
-            // 
-            this.rbSuperDettagli_ReplaceCurrentYear.AutoSize = true;
-            this.rbSuperDettagli_ReplaceCurrentYear.Checked = true;
-            this.rbSuperDettagli_ReplaceCurrentYear.Location = new System.Drawing.Point(6, 4);
-            this.rbSuperDettagli_ReplaceCurrentYear.Name = "rbSuperDettagli_ReplaceCurrentYear";
-            this.rbSuperDettagli_ReplaceCurrentYear.Size = new System.Drawing.Size(124, 17);
-            this.rbSuperDettagli_ReplaceCurrentYear.TabIndex = 42;
-            this.rbSuperDettagli_ReplaceCurrentYear.TabStop = true;
-            this.rbSuperDettagli_ReplaceCurrentYear.Text = "Replace current year";
-            this.rbSuperDettagli_ReplaceCurrentYear.UseVisualStyleBackColor = true;
-            // 
-            // rbSuperDettagli_Add
-            // 
-            this.rbSuperDettagli_Add.AutoSize = true;
-            this.rbSuperDettagli_Add.Location = new System.Drawing.Point(146, 4);
-            this.rbSuperDettagli_Add.Name = "rbSuperDettagli_Add";
-            this.rbSuperDettagli_Add.Size = new System.Drawing.Size(44, 17);
-            this.rbSuperDettagli_Add.TabIndex = 43;
-            this.rbSuperDettagli_Add.Text = "Add";
-            this.rbSuperDettagli_Add.UseVisualStyleBackColor = true;
-            // 
-            // gbSuperDettagli
-            // 
-            this.gbSuperDettagli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbSuperDettagli.Controls.Add(this.rbSuperDettagli_Add);
-            this.gbSuperDettagli.Controls.Add(this.rbSuperDettagli_ReplaceCurrentYear);
-            this.gbSuperDettagli.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.gbSuperDettagli.Location = new System.Drawing.Point(869, 92);
-            this.gbSuperDettagli.Margin = new System.Windows.Forms.Padding(0);
-            this.gbSuperDettagli.Name = "gbSuperDettagli";
-            this.gbSuperDettagli.Size = new System.Drawing.Size(196, 26);
-            this.gbSuperDettagli.TabIndex = 44;
-            this.gbSuperDettagli.TabStop = false;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 924);
+            this.Controls.Add(this.lblElaborazioneInCorso);
             this.Controls.Add(this.btnTryBuildPresentationOnly);
             this.Controls.Add(this.btnValidaInput);
             this.Controls.Add(this.btnBuildPresentation);
-            this.Controls.Add(this.btnCopyError);
+            this.Controls.Add(this.btnCopyOutput);
             this.Controls.Add(this.lblResults);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.gbPaths);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.wbExecutionResult);
-            this.Controls.Add(this.lblElaborazioneInCorso);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1000, 750);
             this.Name = "frmMain";
@@ -918,12 +918,12 @@
             this.pnlCalendar.ResumeLayout(false);
             this.gbPaths.ResumeLayout(false);
             this.gbPaths.PerformLayout();
+            this.gbSuperDettagli.ResumeLayout(false);
+            this.gbSuperDettagli.PerformLayout();
             this.gbOptions.ResumeLayout(false);
             this.gbOptions.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.gbSuperDettagli.ResumeLayout(false);
-            this.gbSuperDettagli.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -946,7 +946,7 @@
         private System.Windows.Forms.Button btnOpenDestFolder;
         private System.Windows.Forms.Button btnOpenFileBudget;
         private System.Windows.Forms.WebBrowser wbExecutionResult;
-        private System.Windows.Forms.LinkLabel btnCopyError;
+        private System.Windows.Forms.LinkLabel btnCopyOutput;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser bfbDestFolder;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
