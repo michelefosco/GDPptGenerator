@@ -72,6 +72,8 @@ namespace FilesEditor.Helpers
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.A;
             configurazione.DATASOURCE_SUPERDETTAGLI_YEAR_COL = (int)ColumnIDS.B;
+            configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADER_FOR_WBSLIST = "WBS Element";
+                        
 
             // Foglio CN43N
             configurazione.SOURCE_FILES_CN43N_HEADERS_ROW = 1;

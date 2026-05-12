@@ -236,6 +236,24 @@ namespace FilesEditor.Entities
             base.FileRunRatePath = input.FileRunRatePath;
             base.FileCN43NPath = input.FileCN43NPath;
         }
+
+        public void SetContextFromInput(GetWbsListFromSuperDettagliInput input)
+        {
+            if (input == null) { throw new ArgumentNullException("input"); }
+
+            base.DestinationFolder = input.DestinationFolder;
+            base.TmpFolder = input.TmpFolder;
+            base.DataSourceFilePath = input.DataSourceFilePath;
+            base.DebugFilePath = input.DebugFilePath;
+            //
+            base.FileBudgetPath = input.FileBudgetPath;
+            base.FileForecastPath = input.FileForecastPath;
+            base.FileSuperDettagliPath = input.FileSuperDettagliPath;
+            base.FileRunRatePath = input.FileRunRatePath;
+            base.FileCN43NPath = input.FileCN43NPath;
+        }
+
+
         internal void AddWarning(string warningMessage)
         {
             Warnings.Add(warningMessage);

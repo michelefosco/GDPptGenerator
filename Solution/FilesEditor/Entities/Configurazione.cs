@@ -104,6 +104,7 @@
         #region Superdettagli
         public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
         public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
+        public string SOURCE_FILES_SUPERDETTAGLI_HEADER_FOR_WBSLIST { get; set; }        
         #endregion
     }
 }

@@ -183,6 +183,8 @@
     <Compile Include="Entities\InfoRows.cs" />
     <Compile Include="Entities\InputDataFilters_Item.cs" />
     <Compile Include="Entities\IntSetOnce.cs" />
+    <Compile Include="Entities\MethodsArgs\GetWbsListFromSuperDettagliInput.cs" />
+    <Compile Include="Entities\MethodsArgs\GetWbsListFromSuperDettagliOutput.cs" />
     <Compile Include="Entities\MethodsArgs\UserInterfaceInputBase.cs" />
     <Compile Include="Enums\InputDataFilters_Tables.cs" />
     <Compile Include="Entities\ItemToExport.cs" />

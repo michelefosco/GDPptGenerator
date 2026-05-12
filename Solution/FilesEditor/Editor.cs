@@ -1,4 +1,5 @@
-﻿using FilesEditor.Entities;
+﻿using FilesEditor.Constants;
+using FilesEditor.Entities;
 using FilesEditor.Entities.Exceptions;
 using FilesEditor.Entities.MethodsArgs;
 using FilesEditor.Enums;
@@ -116,14 +117,14 @@ namespace FilesEditor
             // Lettura info da DataSource
             stepsSequence.Add(new Step_CreaLista_SildeToGenerate(stepContext));
             stepsSequence.Add(new Step_CreaLista_ItemsToExportAsImage(stepContext));
-            
+
 
             if (!buildPresentationInput.BuildPresentationOnly)
             {
                 // Backup del file DataSource
                 stepsSequence.Add(new Step_BackupFile_DataSource(stepContext));
 
-               // Steps che modificano il file DataSource                  
+                // Steps che modificano il file DataSource                  
                 stepsSequence.Add(new Step_DataSource_Editing_Start(stepContext));
                 stepsSequence.Add(new Step_ImportaDati_CN43N(stepContext));
                 stepsSequence.Add(new Step_ImportaDati_RunRate(stepContext));
@@ -169,6 +170,45 @@ namespace FilesEditor
             #endregion
         }
         #endregion
+
+
+        public static GetWbsListFromSuperDettagliOutput GetWbsListFromSuperDettagli(GetWbsListFromSuperDettagliInput getWbsListFromSuperDettagliInput)
+        {
+            var configurazione = ConfigurazioneHelper.GetConfigurazioneDefault();
+            return getWbsListFromSuperDettagli(getWbsListFromSuperDettagliInput, configurazione);
+        }
+        public static GetWbsListFromSuperDettagliOutput GetWbsListFromSuperDettagli(GetWbsListFromSuperDettagliInput getWbsListFromSuperDettagliInput, Configurazione configurazione)
+        {
+            if (configurazione == null)
+            { throw new ArgumentNullException(nameof(configurazione)); }
+            return getWbsListFromSuperDettagli(getWbsListFromSuperDettagliInput, configurazione);
+        }
+        private static GetWbsListFromSuperDettagliOutput getWbsListFromSuperDettagli(GetWbsListFromSuperDettagliInput getWbsListFromSuperDettagliInput, Configurazione configurazione)
+        {
+            var output = new GetWbsListFromSuperDettagliOutput();
+
+            // Preparo il context
+            var stepContext = new StepContext(configurazione);
+            stepContext.SetContextFromInput(getWbsListFromSuperDettagliInput);
+
+            // Recupero i parametri necessari per leggere i dati da SuperDettagli
+            var sourceFilePath = stepContext.FileSuperDettagliPath;
+            var sourceWorksheetName = WorksheetNames.SOURCEFILE_SUPERDETTAGLI_DATA;
+            var souceHeadersRow = stepContext.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW;
+            var sourceHeadersFirstColumn = stepContext.Configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL;
+
+
+            // Controllo che ci sia il foglio da cui leggere i dati
+            EPPlusHelperUtilities.ThrowExpetionsForMissingWorksheet(stepContext.SuperdettagliFileEPPlusHelper, sourceWorksheetName, FileTypes.SuperDettagli);
+
+            // Leggo la lista univoca dei valori presenti nella colonna di SuperDettagli da cui ricavare la WBSList
+            output.WbsList = stepContext.SuperdettagliFileEPPlusHelper.GetValuesFromColumnsWithHeader(sourceWorksheetName, souceHeadersRow, configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADER_FOR_WBSLIST, true, 1, true);
+            return output;
+        }
+
+
+
+
 
 
         private static void RunStepSequence(List<StepBase> stepsSequence, StepContext stepContext)
