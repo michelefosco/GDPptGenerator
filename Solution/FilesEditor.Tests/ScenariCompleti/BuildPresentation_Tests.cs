@@ -23,7 +23,8 @@ namespace FilesEditor.Tests
         string _fileRunRatetName;
         string _fileSuperDettaglitName;
         //
-        bool _AppendCurrentYear_FileSuperDettagli;
+        bool _fileSuperDettagli_ReplaceCurrentYearRows;
+        bool _fileCN43_OverwriteAll;
         DateTime _PeriodDate;
         List<InputDataFilters_Item> _Applicablefilters;
         bool _buildPresentationOnly;
@@ -38,7 +39,8 @@ namespace FilesEditor.Tests
             _fileRunRatetName = TestPaths.INPUT_RUNRATE_FILE;
             _fileSuperDettaglitName = TestPaths.INPUT_SUPERDETTAGLI_FILE_00012;
             //
-            _AppendCurrentYear_FileSuperDettagli = true;
+            _fileSuperDettagli_ReplaceCurrentYearRows = true;
+            _fileCN43_OverwriteAll = false;
             _PeriodDate = new DateTime(2025, 11, 2);
             _Applicablefilters = new List<InputDataFilters_Item>();
             _buildPresentationOnly = false;
@@ -79,7 +81,8 @@ namespace FilesEditor.Tests
                         //
                         powerPointTemplateFilePath: powerPointTemplateFilePath,
                         //
-                        appendCurrentYear_FileSuperDettagli: _AppendCurrentYear_FileSuperDettagli,
+                        fileSuperDettagli_ReplaceCurrentYearRows: _fileSuperDettagli_ReplaceCurrentYearRows,
+                        fileCN43_OverwriteAll: _fileCN43_OverwriteAll,
                         periodDate: _PeriodDate,
                         applicablefilters: _Applicablefilters,
                         buildPresentationOnly: _buildPresentationOnly
@@ -202,7 +205,7 @@ namespace FilesEditor.Tests
             SettaDefaults();
 
             // Personalizzazione parametri
-            _AppendCurrentYear_FileSuperDettagli = false;
+            _fileSuperDettagli_ReplaceCurrentYearRows = false;
 
             var output = EseguiMetodo();
             CheckResults(

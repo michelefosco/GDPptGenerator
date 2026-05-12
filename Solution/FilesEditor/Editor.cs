@@ -207,10 +207,6 @@ namespace FilesEditor
         }
 
 
-
-
-
-
         private static void RunStepSequence(List<StepBase> stepsSequence, StepContext stepContext)
         {
             var startTime = DateTime.Now;

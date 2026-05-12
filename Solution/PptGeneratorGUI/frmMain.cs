@@ -180,16 +180,19 @@ namespace PptGeneratorGUI
             var enableBottonsFor_CN43N_File = !string.IsNullOrEmpty(SelectedFileCN43NPath) && isCN43NPathValid;
             btnOpenFileCN43NFolder.Enabled = enableBottonsFor_CN43N_File;
             btnOpenFileCN43N.Enabled = enableBottonsFor_CN43N_File;
+            gbCN43N.Enabled = enableBottonsFor_CN43N_File;
+
 
             // ----- Campi obbligatori, devono essere validi per poter procedere con la validazione e l'abilitazione dell'apertura cartella/file
             btnOpenFileSuperDettagliFolder.Enabled = isSuperDettagliPathValid;
             btnOpenFileSuperDettagli.Enabled = isSuperDettagliPathValid;
+            gbSuperDettagli.Enabled = isSuperDettagliPathValid;
             //
             btnOpenFileRunRateFolder.Enabled = isRunRatePathValid;
             btnOpenFileRunRate.Enabled = isRunRatePathValid;
             //
             btnOpenDestFolder.Enabled = isDestFolderValid;
-                        
+
             // Attivazione del pulsate "Valida input"
             btnValidaInput.Enabled = allValid && !_inputValidato;
 
@@ -266,7 +269,7 @@ namespace PptGeneratorGUI
 
 
         #region Check "IsValid" su file e cartella
-        
+
         private bool IsBudgetPathValid()
         {
             return isPathValid_ForOptionalFiles(SelectedFileBudgetPath);
@@ -333,7 +336,7 @@ namespace PptGeneratorGUI
 
             return isValid;
         }
-        
+
 
 
 
@@ -862,7 +865,10 @@ namespace PptGeneratorGUI
                 fileCN43NPath: SelectedFileCN43NPath,
                 //
                 powerPointTemplateFilePath: PowerPointTemplateFilePath,
-                appendCurrentYear_FileSuperDettagli: rbSuperDettagli_ReplaceCurrentYear.Checked,
+                fileSuperDettagli_ReplaceCurrentYearRows: rbSuperDettagli_ReplaceCurrentYear.Checked,
+                fileCN43_OverwriteAll: rbCN43N_OverwriteAll.Checked,
+
+
                 periodDate: _selectedDatePeriodo,
                 applicablefilters: _applicablefilters,
                 buildPresentationOnly: buildPresentationOnly
@@ -1124,7 +1130,7 @@ namespace PptGeneratorGUI
         private void btnCopyOutput_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Clipboard.SetText(wbExecutionResult.Document.Body.InnerText);
-            MessageBox.Show("Error copied to clipboard", "Error copied to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Text copied to clipboard", "Text copied to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
 
@@ -1224,8 +1230,45 @@ namespace PptGeneratorGUI
             }
             importDataAndBuildPresentation(buildPresentationOnly: true);
         }
+
         #endregion
 
+        private void btnGetWbsList_Click(object sender, EventArgs e)
+        {
+            txtStatusLabel.Text = "";
+            if (!IsSuperDettagliPathValid())
+            {
+                MessageBox.Show("Please select a valid Superdettagli file path to get the WBS list.", "Invalid Superdettagli file path", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            getWbsListFromSuperDettagli();
+        }
+
+        private void getWbsListFromSuperDettagli()
+        {
+            lblElaborazioneInCorso.Visible = true;
+            try
+            {
+                var input = new GetWbsListFromSuperDettagliInput();
+                input.FileSuperDettagliPath = SelectedFileSuperDettagliPath;
+
+                var  output = Editor.GetWbsListFromSuperDettagli(input);
+
+                var wbsListText = string.Join("<br>", output.WbsList);
+                SetOutputMessage(wbsListText);
+                btnCopyOutput.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                showExpetion(ex);
+                SetStatusLabel("Error retrieving WBS list.");
+
+            }
+            finally
+            {
+                lblElaborazioneInCorso.Visible = false;
+            }
+        }
     }
 }

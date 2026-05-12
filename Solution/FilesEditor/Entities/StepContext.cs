@@ -32,6 +32,8 @@ namespace FilesEditor.Entities
 
         // Input specifico di uno o più metodi
         public bool FileSuperDettagli_ReplaceCurrentYearRows { get; private set; }
+        public bool FileCN43_OverwriteAll { get; private set; }
+        
         public string PowerPointTemplateFilePath { get; private set; }
 
         #region Period
@@ -217,6 +219,7 @@ namespace FilesEditor.Entities
             //
             PowerPointTemplateFilePath = input.PowerPointTemplateFilePath;
             FileSuperDettagli_ReplaceCurrentYearRows = input.FileSuperDettagli_ReplaceCurrentYearRows;
+            FileCN43_OverwriteAll = input.FileCN43_OverwriteAll;
             PeriodDate = input.PeriodDate;
             ApplicableFilters = new List<InputDataFilters_Item>(input.ApplicableFilters)
                              ?? new List<InputDataFilters_Item>();

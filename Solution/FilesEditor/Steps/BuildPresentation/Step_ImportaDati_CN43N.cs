@@ -1,6 +1,7 @@
 ﻿using FilesEditor.Constants;
 using FilesEditor.Entities;
 using FilesEditor.Enums;
+using System;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -19,13 +20,20 @@ namespace FilesEditor.Steps.BuildPresentation
         {
             if (!string.IsNullOrEmpty(Context.FileCN43NPath))
             {
-                ImportDataFrom_CN43NFile();
+                if (Context.FileCN43_OverwriteAll)
+                {
+                    ImportDataFrom_CN43NFile_OverwriteAll();
+                }
+                else
+                {
+                    ImportDataFrom_CN43NFile_UpdateDuplicates();
+                }
             }
 
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
-        private void ImportDataFrom_CN43NFile()
+        private void ImportDataFrom_CN43NFile_OverwriteAll()
         {
             // Foglio sorgente            
             var sourceWorksheet = Context.CN43NFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1]; // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
@@ -88,6 +96,13 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             Context.CN43NFileEPPlusHelper.Close();
+        }
+
+
+        private void ImportDataFrom_CN43NFile_UpdateDuplicates()
+        {
+            throw new Exception("UpdateDuplicates");
+            // UpdateDuplicates     
         }
     }
 }

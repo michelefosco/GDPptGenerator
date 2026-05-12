@@ -7,6 +7,7 @@ namespace FilesEditor.Entities.MethodsArgs
     {
         public string PowerPointTemplateFilePath { get; private set; }
         public bool FileSuperDettagli_ReplaceCurrentYearRows { get; private set; }
+        public bool FileCN43_OverwriteAll { get; private set; }
         public DateTime PeriodDate { get; private set; }
         public List<InputDataFilters_Item> ApplicableFilters { get; private set; }
 
@@ -25,7 +26,8 @@ namespace FilesEditor.Entities.MethodsArgs
                 string fileCN43NPath,
                 //
                 string powerPointTemplateFilePath,
-                bool appendCurrentYear_FileSuperDettagli,
+                bool fileSuperDettagli_ReplaceCurrentYearRows,
+                bool fileCN43_OverwriteAll,
                 DateTime periodDate,
                 List<InputDataFilters_Item> applicablefilters,
                 bool buildPresentationOnly
@@ -64,7 +66,8 @@ namespace FilesEditor.Entities.MethodsArgs
 
             // Properties of the derived class 
             PowerPointTemplateFilePath = powerPointTemplateFilePath;
-            FileSuperDettagli_ReplaceCurrentYearRows = appendCurrentYear_FileSuperDettagli;
+            FileSuperDettagli_ReplaceCurrentYearRows = fileSuperDettagli_ReplaceCurrentYearRows;
+            FileCN43_OverwriteAll = fileCN43_OverwriteAll;
             PeriodDate = periodDate;
             ApplicableFilters = applicablefilters ?? new List<InputDataFilters_Item>();
             BuildPresentationOnly = buildPresentationOnly;
