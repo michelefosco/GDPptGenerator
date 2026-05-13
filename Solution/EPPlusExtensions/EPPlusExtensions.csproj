@@ -80,6 +80,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ValoreNumeroRigaMarked.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -406,11 +406,10 @@ namespace EPPlusExtensions
         }
 
 
-        public Dictionary<string, int> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
+        public List<ValoreNumeroRigaMarked> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
-            Dictionary<string, int> columnValues = null;
-
+            List<ValoreNumeroRigaMarked> columnValues = null;
             for (int colonnaCorrente = startHearderSearchFromColumn; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
             {
                 var currentHeader = currentWorksheet.Cells[headersRow, colonnaCorrente].Value;
@@ -422,7 +421,7 @@ namespace EPPlusExtensions
                 if (currentHeader.ToString().Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
                 {
                     // ho trovato la colonna che mi interessa, leggo i valori
-                    columnValues = new Dictionary<string, int>();
+                    columnValues = new List<ValoreNumeroRigaMarked>();
 
                     var lastRow = currentWorksheet.Dimension.End.Row;
                     // Distinct values non richiesto
@@ -431,7 +430,7 @@ namespace EPPlusExtensions
                         var cellValue = currentWorksheet.Cells[rigaCorrente, colonnaCorrente].Value;
                         if (cellValue != null)
                         {
-                            columnValues.Add(cellValue.ToString().Trim(), rigaCorrente);
+                            columnValues.Add(new ValoreNumeroRigaMarked() { Valore = cellValue.ToString(), NumeroRiga = rigaCorrente, Marked = false });
                         }
                     }
                 }

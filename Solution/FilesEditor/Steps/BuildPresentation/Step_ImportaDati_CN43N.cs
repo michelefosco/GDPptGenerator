@@ -3,6 +3,7 @@ using FilesEditor.Entities;
 using FilesEditor.Enums;
 using OfficeOpenXml;
 using System;
+using System.Linq;
 
 namespace FilesEditor.Steps.BuildPresentation
 {
@@ -123,7 +124,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             // Prendo tutti gli elementi della colonna WBSElement dal foglio destinazione (sorted list (nome + indice riga)
-            var destElements = Context.CN43NFileEPPlusHelper.GetValuesFromColumnsWithHeader(
+            var destElements = Context.DataSourceEPPlusHelper.GetValuesFromColumnsWithHeader(
                     worksheetName: WorksheetNames.DATASOURCE_CN43N_DATA,
                     headersRow: destHeadersRow,
                     headerValue: Context.Configurazione.DATASOURCE_FILES_CN43N_HEADER_FOR_WBSLIST,
@@ -135,23 +136,33 @@ namespace FilesEditor.Steps.BuildPresentation
 
             // Per ogni elemento del foglio sorgente, verifico se è presente nel foglio destinazione:
             // se presente aggiorno la riga destinazione e cancello la riga sorgente
+
             foreach (var sourceItem in sourceElements)
             {
-                if(destElements.ContainsKey(sourceItem.Key))
+                var itemsAlreadyExistsInDest = destElements.Where(x => x.Valore == sourceItem.Valore).ToList();
+
+                foreach (var itemAlreadyExistsInDest in itemsAlreadyExistsInDest)
                 {
                     // Aggiorno la riga destinazione con i dati della riga sorgente (copia e incolla del range)
-                    copyRowFromTo(sourceWorksheet, sourceItem.Value, destWorksheet, destElements[sourceItem.Key]);
+                    copyRowFromTo(sourceWorksheet, sourceItem.NumeroRiga, destWorksheet, itemAlreadyExistsInDest.NumeroRiga);
 
+                    // Questa riga è giù stata usata, non la aggiungerò successivametne
+                    sourceItem.Marked = true;
                     numeroRigheRiutilizzate++;
-
-                    // Cancello la riga sorgente appena copiata, in modo da avere alla fine solo le righe che non hanno trovato corrispondenza nella destinazione (quelle che andranno aggiunte in coda alla fine del processo)
-                    sourceElements.Remove(sourceItem.Key);                   
-                }                
+                }
             }
 
             // Aggiungo in coda alla destinazione le eventuali righe rimanenti nel foglio sorgente (quelle che non hanno trovato corrispondenza nella destinazione)
             int righeAggiunte = 0;
-            //todo: aggiungere righe in coda alla destinazione, invece che incollarle tutte insieme (come fatto ora) per tenere traccia del numero di righe aggiunte
+            var righeDaAggiungere = sourceElements.Where(x => !x.Marked).ToList();
+            foreach (var sourceItem in righeDaAggiungere)
+            {
+                // Copio la riga sorgente in coda alla destinazione
+                copyRowFromTo(sourceWorksheet, sourceItem.NumeroRiga, destWorksheet, destWorksheet.Dimension.End.Row + 1);
+
+                righeAggiunte++;
+            }
+
 
             #region Log delle informazioni
             // Variabili per il conteggio delle righe elaborate
