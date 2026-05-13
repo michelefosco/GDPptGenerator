@@ -48,10 +48,12 @@ namespace FilesEditor.Helpers
             // Foglio Superdettagli
             configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_ROW = 2;
             configurazione.DATASOURCE_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.AE;
+            configurazione.DATASOURCE_SUPERDETTAGLI_YEAR_COL = (int)ColumnIDS.B;
 
             // Foglio CN43N
             configurazione.DATASOURCE_CN43N_HEADERS_ROW = 1;
             configurazione.DATASOURCE_CN43N_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+            configurazione.DATASOURCE_FILES_CN43N_HEADER_FOR_WBSLIST = "WBS element";
             #endregion
 
 
@@ -71,13 +73,13 @@ namespace FilesEditor.Helpers
             // Input file Superdettagli
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW = 1;
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL = (int)ColumnIDS.A;
-            configurazione.DATASOURCE_SUPERDETTAGLI_YEAR_COL = (int)ColumnIDS.B;
             configurazione.SOURCE_FILES_SUPERDETTAGLI_HEADER_FOR_WBSLIST = "WBS Element";
                         
 
             // Foglio CN43N
             configurazione.SOURCE_FILES_CN43N_HEADERS_ROW = 1;
             configurazione.SOURCE_FILES_CN43N_HEADERS_FIRST_COL = (int)ColumnIDS.A;
+            configurazione.SOURCE_FILES_CN43N_HEADER_FOR_WBSLIST = "WBS element";
             #endregion
 
 

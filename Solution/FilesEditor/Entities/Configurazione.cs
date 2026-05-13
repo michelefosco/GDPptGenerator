@@ -61,6 +61,7 @@
         #region Run rate
         public int DATASOURCE_CN43N_HEADERS_ROW { get; set; }
         public int DATASOURCE_CN43N_HEADERS_FIRST_COL { get; set; }
+        public string DATASOURCE_FILES_CN43N_HEADER_FOR_WBSLIST { get; set; }
         #endregion
 
         #endregion
@@ -98,13 +99,14 @@
         #region Run rate
         public int SOURCE_FILES_CN43N_HEADERS_ROW { get; set; }
         public int SOURCE_FILES_CN43N_HEADERS_FIRST_COL { get; set; }
+        public string SOURCE_FILES_CN43N_HEADER_FOR_WBSLIST { get; set; }
         #endregion
 
 
         #region Superdettagli
         public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_ROW { get; set; }
         public int SOURCE_FILES_SUPERDETTAGLI_HEADERS_FIRST_COL { get; set; }
-        public string SOURCE_FILES_SUPERDETTAGLI_HEADER_FOR_WBSLIST { get; set; }        
+        public string SOURCE_FILES_SUPERDETTAGLI_HEADER_FOR_WBSLIST { get; set; }
         #endregion
     }
 }

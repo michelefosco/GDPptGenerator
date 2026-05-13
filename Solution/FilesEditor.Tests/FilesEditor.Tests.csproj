@@ -117,6 +117,11 @@
     <None Include="TestFiles\InputFiles\CN43N.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestFiles\InputFiles\CN43N_Stage_01.xlsx" />
+    <None Include="TestFiles\InputFiles\CN43N_Stage_02.xlsx" />
+    <None Include="TestFiles\InputFiles\CN43N_Stage_03.xlsx" />
+    <None Include="TestFiles\InputFiles\CN43N_Stage_04.xlsx" />
+    <None Include="TestFiles\InputFiles\CN43N_Stage_05.xlsx" />
     <None Include="TestFiles\InputFiles\Forecast.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

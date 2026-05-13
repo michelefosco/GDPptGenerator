@@ -405,6 +405,47 @@ namespace EPPlusExtensions
             return columnValues;
         }
 
+
+        public Dictionary<string, int> GetValuesFromColumnsWithHeader(string worksheetName, int headersRow, string headerValue, bool throwExceptionForMissingHeaders = true, int startHearderSearchFromColumn = 1)
+        {
+            var currentWorksheet = GetWorksheet(worksheetName);
+            Dictionary<string, int> columnValues = null;
+
+            for (int colonnaCorrente = startHearderSearchFromColumn; colonnaCorrente <= currentWorksheet.Dimension.Columns; colonnaCorrente++)
+            {
+                var currentHeader = currentWorksheet.Cells[headersRow, colonnaCorrente].Value;
+
+                // Salto eventuali colonne senza headers per gestire anche fogli con strutture più elaborate
+                if (currentHeader == null)
+                { continue; }
+
+                if (currentHeader.ToString().Equals(headerValue, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // ho trovato la colonna che mi interessa, leggo i valori
+                    columnValues = new Dictionary<string, int>();
+
+                    var lastRow = currentWorksheet.Dimension.End.Row;
+                    // Distinct values non richiesto
+                    for (int rigaCorrente = headersRow + 1; rigaCorrente <= lastRow; rigaCorrente++)
+                    {
+                        var cellValue = currentWorksheet.Cells[rigaCorrente, colonnaCorrente].Value;
+                        if (cellValue != null)
+                        {
+                            columnValues.Add(cellValue.ToString().Trim(), rigaCorrente);
+                        }
+                    }
+                }
+            }
+
+            // Se non ho trovato la colonna con l'header richiesto, comumnValues sarà rimasto a null, lancio un'eccezione
+            if (columnValues == null & throwExceptionForMissingHeaders)
+            {
+                throw new Exception($"Header '{headerValue}' not found in worksheet '{worksheetName}'");
+            }
+
+            return columnValues;
+        }
+
         public string GetFormula(string worksheetName, int row, int col)
         {
             var currentWorksheet = GetWorksheet(worksheetName);
