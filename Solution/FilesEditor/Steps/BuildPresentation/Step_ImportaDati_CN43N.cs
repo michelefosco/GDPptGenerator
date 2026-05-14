@@ -35,6 +35,9 @@ namespace FilesEditor.Steps.BuildPresentation
             return EsitiFinali.Undefined; // Step intermedio, non ritorna alcun esito
         }
 
+        /// <summary>
+        /// Aggiornamento completo dei dati: vengono eliminate tutte le righe esistenti nel foglio di destinazione e vengono copiate tutte le righe dal foglio sorgente al foglio di destinazione
+        /// </summary>
         private void ImportDataFrom_CN43NFile_OverwriteAll()
         {
             // Foglio sorgente            
@@ -101,11 +104,11 @@ namespace FilesEditor.Steps.BuildPresentation
         }
 
 
+        /// <summary>
+        /// Aggiornamento qualitativo dei dati: per ogni riga del foglio sorgente, verifico se è già presente una riga corrispondente nel foglio destinazione (corrispondenza basata sul valore della colonna "WBSElement"). Se la riga è già presente, viene aggiornata con i dati della riga sorgente (copia e incolla del range), altrimenti viene aggiunta in coda alla destinazione. In questo modo vengono preservate tutte le righe esistenti che non trovano corrispondenza nel foglio sorgente e vengono aggiornate solo le righe che trovano corrispondenza.
+        /// </summary>
         private void ImportDataFrom_CN43NFile_UpdateDuplicates()
         {
-
-            //todo: tenere traccia delle righe modificate
-
             // Foglio sorgente
             var sourceWorksheet = Context.CN43NFileEPPlusHelper.ExcelPackage.Workbook.Worksheets[1]; // 06/11/2025, Francesco chiede di usare sempre il 1° foglio presente nel file, indipendentemente dal nome
 
@@ -132,11 +135,10 @@ namespace FilesEditor.Steps.BuildPresentation
                     startHearderSearchFromColumn: 1);
 
 
-            int numeroRigheRiutilizzate = 0;
-
+            #region Aggiornamento delle righe esistenti nella destinazione e conteggio delle righe riutilizzate
             // Per ogni elemento del foglio sorgente, verifico se è presente nel foglio destinazione:
             // se presente aggiorno la riga destinazione e cancello la riga sorgente
-
+            int numeroRigheRiutilizzate = 0;
             foreach (var sourceItem in sourceElements)
             {
                 var itemsAlreadyExistsInDest = destElements.Where(x => x.Valore == sourceItem.Valore).ToList();
@@ -151,7 +153,10 @@ namespace FilesEditor.Steps.BuildPresentation
                     numeroRigheRiutilizzate++;
                 }
             }
+            #endregion
 
+
+            #region Aggiunta delle righe non ancora presenti nella destinazione
             // Aggiungo in coda alla destinazione le eventuali righe rimanenti nel foglio sorgente (quelle che non hanno trovato corrispondenza nella destinazione)
             int righeAggiunte = 0;
             var righeDaAggiungere = sourceElements.Where(x => !x.Marked).ToList();
@@ -162,6 +167,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
                 righeAggiunte++;
             }
+            #endregion
 
 
             #region Log delle informazioni
