@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace PptGeneratorGUI
@@ -398,21 +399,24 @@ namespace PptGeneratorGUI
         #region Eventi Selezione file/cartella - RefreshUI
         private void cmbFileBudgetPath_SelectedIndexChanged(object sender, EventArgs e)
         {
+            notificaUtenteInCasoDiPercorsoNonValido((ComboBox)sender, "Budget");
             RefreshUI(true);
         }
         private void cmbFileForecastPath_SelectedIndexChanged(object sender, EventArgs e)
         {
+            notificaUtenteInCasoDiPercorsoNonValido((ComboBox)sender, "Forecast");
             RefreshUI(true);
         }
         private void cmbFileSuperDettagliPath_SelectedIndexChanged(object sender, EventArgs e)
         {
+            notificaUtenteInCasoDiPercorsoNonValido((ComboBox)sender, "Super dettagli");
             AutoFillDestinationFolderPath();
             RefreshUI(true);
         }
 
-
         private void cmbFileRunRatePath_SelectedIndexChanged(object sender, EventArgs e)
         {
+            notificaUtenteInCasoDiPercorsoNonValido((ComboBox)sender, "Run rate");
             RefreshUI(true);
         }
         private void cmbDestinationFolderPath_SelectedIndexChanged(object sender, EventArgs e)
@@ -421,10 +425,21 @@ namespace PptGeneratorGUI
         }
         private void cmbFileCN43NPath_SelectedIndexChanged(object sender, EventArgs e)
         {
+            notificaUtenteInCasoDiPercorsoNonValido((ComboBox)sender, "CN43N");
             RefreshUI(true);
         }
 
-
+        private void notificaUtenteInCasoDiPercorsoNonValido(ComboBox dropDownList, string fileDescription)
+        {
+            var path = dropDownList.Text;
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                if (!File.Exists(path))
+                {
+                    MessageBox.Show($"The selected path for the file '{fileDescription}' is no longer valid");
+                }
+            }
+        }
 
         private void cmbFileBudgetPath_TextUpdate(object sender, EventArgs e)
         {
@@ -897,7 +912,7 @@ namespace PptGeneratorGUI
                 {
                     if (output.DatasourceStatus_ImportDatiCompletato)
                     {
-                        //Todo: attivare pulsate per ripetere solo la creazione della presentazione
+                        // Attivazione pulsate per ripetere solo la creazione della presentazione
                         btnTryBuildPresentationOnly.Visible = true;
                     }
 
@@ -1253,7 +1268,7 @@ namespace PptGeneratorGUI
                 var input = new GetWbsListFromSuperDettagliInput();
                 input.FileSuperDettagliPath = SelectedFileSuperDettagliPath;
 
-                var  output = Editor.GetWbsListFromSuperDettagli(input);
+                var output = Editor.GetWbsListFromSuperDettagli(input);
 
                 var wbsListText = string.Join("<br>", output.WbsList);
                 SetOutputMessage(wbsListText);

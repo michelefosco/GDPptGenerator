@@ -1,10 +1,4 @@
-- Dopo aver fatto la lista WBS renderla disponibile nella clipboard
-- Modifiche come richieste da Francesco
-- "WBS" fa da chiave
-- CN43N ha circa 5-6000 righe (provare a riutilizzare righe in aggiornamento)
-
-
-
+-------------------- Variabili, paths, etc
 -----
 Build events:				powershell Compress-Archive -Path '$(ProjectDir)$(OutDir)*.*' -DestinationPath '$(SolutionDir)\..\$(ProjectName).zip' -Force
 -----
@@ -36,7 +30,6 @@ C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE /regserver
 
 
 
-
 -------------------- Info
 Librerie usate
 - EPPlus - Versione 4.5.3.3	(Manipolazione file Excel)
@@ -44,30 +37,26 @@ Librerie usate
 - Microsoft.Office.Interop.Excel - Versione 16.0.18925.20022	(Estrazione immagini da Excel)
 
 
+
 -------------------- Domande/Todo per Francesco
-- Il ridimensionamento della print area non funziona con i grafici in quanto l'end non segue la dimensione del grafico come per le pivot tables
-- Nel template della presentazione sostituire lo sfondo della slide Index con quella usata da GD
+- ...
 
 
 
 -------------------- Todo
-- Indagare sul perchè la lettura dei file Budget e forecast è così lenta
-- Verificare la possibilità di renddere "Budget e Forecast" opzionali. Complicazione nella logica dovuta ai potenziali filtri sui campi Business e Forecast. Al momento legge i valori dal file sorgente
+- CN43N Aggiungere copia bulk delle righe non aggiornate e da accodare ai dati esistenti
 - Se la configurazione non ha neanche una presentazione come output non parto
 - Warning in caso in cui il dimensione.end sia maggiore dell'area di stampa
-- Rivedere logica per i filtri...
-- Creazione di una guida (forse un file HTML) con le informazioni sulle formule
-- Aggiungere istruzioni per la compilazione della tabella Alias in excel
-
 
 (Opzionali o per proposte successive)
 - Aggiungere testo "Possibile soluzione al problema" come properties di ManagedExpetion?
 - Unit tests per Aliases
 - Inidividuare prima riga e colonna di Budget e Forecast basato sulla posizione delle 2 celle
-- Feedback dopo la validazione dei file (tipo dimensione dei file?)
 
 
-(Cose fatte in più rispetto ai piani iniziali)
+
+-------------------- Cose fatte in più rispetto ai piani iniziali
+- Resi opzionali Budget e forecast
 - Gestione File CN43N
 - Append/sostiutisci nel file Super dettagli
 - Anno

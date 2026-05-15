@@ -157,6 +157,7 @@ namespace FilesEditor.Steps.BuildPresentation
 
 
             #region Aggiunta delle righe non ancora presenti nella destinazione
+            //todo: si potrebbe ottimizzare questo passaggio evitando di ciclare tutte le righe da aggiungere e copiando direttamente i range continui (ad esempio se le righe da aggiungere sono 10, invece di copiare una riga alla volta, copio un range di 10 righe in una sola operazione)
             // Aggiungo in coda alla destinazione le eventuali righe rimanenti nel foglio sorgente (quelle che non hanno trovato corrispondenza nella destinazione)
             int righeAggiunte = 0;
             var righeDaAggiungere = sourceElements.Where(x => !x.Marked).ToList();

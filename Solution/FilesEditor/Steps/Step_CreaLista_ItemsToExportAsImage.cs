@@ -74,7 +74,6 @@ namespace FilesEditor.Steps
                     Context.Warnings.Add ($"Print area '{printArea}' for sheet '{imageId}' is outside of worksheet dimension end.");
                 }
 
-                //todo: confermare comportamento i grafici...
                 printArea = Context.DataSourceEPPlusHelper.ReduceAreaToDimensionEnd(imageId, printArea);
 
                 Context.ItemsToExportAsImage.Add(

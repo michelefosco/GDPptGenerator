@@ -427,7 +427,6 @@ namespace FilesEditor.Steps.BuildPresentation
 
         private void ApplicaFiltriAllaSorgenteDati(ExcelWorksheet sourceWorksheet)
         {
-            //todo: applicare filtri usando gli array come per il campo anno
             #region Sfoltisco le righe della sorgente in base ai filtri impostati
             var activeFilters = Context.ApplicableFilters.Where(_ => _.Table == InputDataFilters_Tables.SUPERDETTAGLI && _.SelectedValues.Any()).ToList();
             if (activeFilters.Any())
